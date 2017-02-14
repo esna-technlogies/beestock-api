@@ -1,6 +1,7 @@
 FROM alpine:3.5
 
 RUN apk --update add \
+        curl \
         php7 \
         php7-bcmath \
         php7-dom \
@@ -34,12 +35,12 @@ COPY php-fpm.conf /etc/php7/php-fpm.conf
 RUN ln -s /usr/bin/php7 /usr/bin/php
 
 
+## addin bash access to the image
+RUN apk add --update bash && rm -rf /var/cache/apk/*
 
-#RUN apk update &&  apk add ca-certificates &&  update-ca-certificates
-#RUN wget -O composer https://getcomposer.org/installer  &&  chmod +x /composer
-#RUN chmod +x /composer &&  sudo mv composer /usr/local/bin/composer
-#RUN cd /var/www/html/service/application  && composer install
-
+## Post install and running compose
+RUN apk update && apk add ca-certificates && update-ca-certificates && apk add openssl
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 
 # ensure www-data user exists
 RUN set -x \
