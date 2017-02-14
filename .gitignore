@@ -1,4 +1,4 @@
 .idea/
 phpunit.xml.dist
-service/logs
+service/logs/*/*
 service/application/var/
