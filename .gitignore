@@ -1,0 +1,4 @@
+.idea/
+phpunit.xml.dist
+service/logs
+service/application/var/
