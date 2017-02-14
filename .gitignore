@@ -1,5 +1,3 @@
 .idea/
 service/application/var/
-service/logs/nginx/*
-service/logs/symfony/*
 
