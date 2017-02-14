@@ -1,6 +1,4 @@
 .idea/
 phpunit.xml.dist
 service/application/var/
-service/logs/nginx/*
-service/logs/symfony/*
 
