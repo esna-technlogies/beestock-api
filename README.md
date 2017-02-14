@@ -25,7 +25,7 @@ To get your hands dirty with the code :
     
         cd symfony-template-microservice 
 
--Install the necessary vagrant lugins 
+- Install the necessary vagrant lugins 
 
         vagrant plugin install vagrant-docker-compose
         
