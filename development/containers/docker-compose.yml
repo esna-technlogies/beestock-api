@@ -1,0 +1,15 @@
+version: '2.0'
+services:
+  server:
+      build: ./nginx/
+      ports:
+          - "80:80"
+      volumes:
+          - ../../service:/var/www/html
+          - ./nginx/site.conf:/etc/nginx/conf.d/site.conf
+  php-fpm:
+      build: ./php-fpm/
+      ports:
+          - "9000:9000"
+      volumes:
+          - ../../service:/var/www/html

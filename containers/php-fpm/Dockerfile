@@ -33,6 +33,14 @@ COPY php-fpm.conf /etc/php7/php-fpm.conf
 
 RUN ln -s /usr/bin/php7 /usr/bin/php
 
+
+
+#RUN apk update &&  apk add ca-certificates &&  update-ca-certificates
+#RUN wget -O composer https://getcomposer.org/installer  &&  chmod +x /composer
+#RUN chmod +x /composer &&  sudo mv composer /usr/local/bin/composer
+#RUN cd /var/www/html/service/application  && composer install
+
+
 # ensure www-data user exists
 RUN set -x \
 	&& addgroup -g 82 -S www-data \

@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
-cd /vagrant/docker
+## moving into the Service directory
+cd /service
 
-#docker-compose up
+docker-compose up
+
+
+

@@ -17,7 +17,14 @@ To stop the containers :
 
     docker-compose down 
 
+### Killing all running containers    
 
+    docker-compose kill 
+
+### Delete all running containers and their images (clean up the mess )
+
+    docker rm -f $(docker ps -aq )  && docker rmi -f $(docker images -aq)
+    
 ## General guideline and cheat-sheet for using docker  
 
 ### Build an image for the first time (given you have a dockerfile of the image)
