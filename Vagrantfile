@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
   ## Docker compose provider https://github.com/leighmcculloch/vagrant-docker-compose
   config.vm.provision :docker_compose,
     yml: [
-      "/vagrant/service/containers/docker-compose.yml"
+      "/vagrant/development/containers/docker-compose.yml"
     ],
     rebuild: true,
     run: "always"
@@ -87,6 +87,6 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
 
-  config.vm.provision "shell", path: "development/bootstrap.sh"
+  # config.vm.provision "shell", path: "development/bootstrap.sh"
 
 end

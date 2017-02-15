@@ -1,8 +1,6 @@
 Symfony template micro-service 
 =============================
 
-## About this project  
-
 This is a template PHP microservice that can be used for running and managing symfony-based stand-alone services. This project template follows 
 a number of the best practices of designing microservices and PHP standards but is not a one-size-fits tool. 
 
@@ -18,11 +16,13 @@ The microservice template comes with 2  separate yet dependent docker images :
 * nginx 
 * PHP7.0-fpm
     
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.0.0-8892BF.svg?style=flat-square)](https://php.net/)
 
-Project Structure   
-=================
+
+## Project Structure   
     
-
+    
+    
 Development Environment  
 =========================
 
