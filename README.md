@@ -76,7 +76,25 @@ To get your hands dirty with the code, please install  :
      
         cd development/containers
         
-        composer up 
+        docker-compose up 
+
+
+- In your development/containers/nginx/site.conf specify the server_name directive and other configuration of the web server.
+
+- In your local /etc/hosts  file, add the domain names mapping to the IP address of the Vagrant Box :
+ 
+        sudo vim /etc/hosts 
+        
+    find out the docker machine IP address and add it your /etc/hosts file  :
+        
+        docker-machine  ip default 
+        
+        192.100.100.100  sample-micro-service.dev 
+        
+    You may change the vale of the IP address 192.168.99.100 any other value that doesn't conflict with other devices on your local network.
+        
+-    Visit the domain name you specified in the previous line (in the /etc/hosts) to browse the micro-service you'e developing.  
+
 
     
 ## Working with the vagrant box 
@@ -96,10 +114,6 @@ To get your hands dirty with the code, please install  :
 
         vagrant halt 
 
-
-
-## Preparing the web server 
-
 - In your development/containers/nginx/site.conf specify the server_name directive and other configuration of the web server.
 
 - In your local /etc/hosts  file, add the domain names mapping to the IP address of the Vagrant Box :
@@ -110,9 +124,9 @@ To get your hands dirty with the code, please install  :
         
         192.100.100.100  sample-micro-service.dev 
         
-    You may change the vale of the IP address 192.100.100.100 to any other value that doesn't conflict with other devices on your local network.
+    You may change the vale of the IP address 192.168.99.100 any other value that doesn't conflict with other devices on your local network.
      
-    If you change it, you should also change the IP set for the vagrant box in the Vagrantfile :
+    If you change it, you should also change the IP set for the vagrant box in the Vagrantfile (if you use Vagrant):
      
         config.vm.network "private_network", ip: "192.100.100.100"
         
