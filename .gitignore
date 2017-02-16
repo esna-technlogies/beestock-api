@@ -1,5 +1,4 @@
 .idea/
 .vagrant/
-service/application/var/
-*.log
 .DS_Store/
+*.log
