@@ -1,8 +1,11 @@
 Symfony template micro-service 
 =============================
+   
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.0-8892BF.svg?style=flat-square)](https://php.net/)
 
-This is a template PHP microservice that can be used for running and managing symfony-based stand-alone services. This project template follows 
-a number of the best practices of designing microservices and PHP standards but is not a one-size-fits tool. 
+
+> This is an archetype PHP microservice that can be used for running and building symfony-based stand-alone web services. This project follows 
+a number of the best practices of designing microservices and PHP standards but is not a one-size-fits tool for all php projects. 
 
 This template or archetype can be used to quickly bootstrap a PHP project without a lot of infrastructure hassle, and it utilizes :
 
@@ -15,12 +18,8 @@ The microservice template comes with 2  separate yet dependent docker images :
     
 * nginx 
 * PHP7.0-fpm
-    
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.0.0-8892BF.svg?style=flat-square)](https://php.net/)
-
 
 ## Project Structure   
-    
     
     
 Development Environment  
@@ -33,6 +32,8 @@ To get your hands dirty with the code, please install  :
 - VirtualBox (the current version is tested with VirtualBox 5.1.14) :  https://virtualbox.org 
 
 - Vagrant (the current version is tested with Vagrant 1.9.1) : https://vagrantup.com
+
+- Docker  
 
 
 ## Getting started  
@@ -47,8 +48,37 @@ To get your hands dirty with the code, please install  :
 
         vagrant plugin install vagrant-docker-compose
         
-    
 
+## Preparing the docker Environment   
+
+- Create a docker machine 
+
+        docker-machine create --driver virtualbox default
+    
+    Make sure the mahine is created 
+    
+        docker-machine ls
+        
+        
+        # You are supposed to get a result similar to the following L
+        NAME      ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER    ERRORS
+        default   -        virtualbox   Running   tcp://192.168.99.100:2376           v1.13.1
+        
+    Check the machine environment variables (you will need them later to configure your IDE) 
+    
+        docker-machine env default
+        
+     Run this command to configure your shell:
+     
+        eval "$(docker-machine env default)"
+        
+     Start the docker compose to build all the images and containers : 
+     
+        cd development/containers
+        
+        composer up 
+
+    
 ## Working with the vagrant box 
 
 - Provision and boot the machine :
@@ -99,8 +129,15 @@ To get your hands dirty with the code, please install  :
 
 ## Testing the microservice   
 
-- Unit testing: To be added.
+- Unit testing: Running the unit tests can be as simple as : 
 
+        docker exec -it php_fpm /bin/sh -c "cd /var/www/html/application  && ./vendor/bin/simple-phpunit"
+
+    This will run the unit tests in the ./application/tests directory.
+    
+    For further tweaks please check the [unit testing guide for symfony](http://symfony.com/doc/current/create_framework/unit_testing.html) and the tweaks of [running PHPunit tests with Symfony 3.2](http://symfony.com/blog/how-to-solve-phpunit-issues-in-symfony-3-2-applications) 
+    
+    
 - Functional testing: To be added.
 
 - Integration testing: To be added.
