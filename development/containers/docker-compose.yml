@@ -15,4 +15,4 @@ services:
       container_name: symfony-php-fpm
       volumes:
           - ../../service:/service
-      ##command: /bin/sh -c "cd /service/application && composer install --prefer-dist &"
+      ## command: /bin/sh -c "cd /service/application && composer install --prefer-dist"

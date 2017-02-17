@@ -18,8 +18,6 @@ RUN curl -sSL https://phar.phpunit.de/phpunit.phar -o phpunit.phar \
     && chmod +x phpunit.phar \
     && mv phpunit.phar /usr/local/bin/phpunit
 
-RUN echo 'alias symfony="php bin/console"' >> ~/.bashrc
-
 EXPOSE 9000
 
 CMD ["php-fpm7", "-F"]

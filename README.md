@@ -49,53 +49,6 @@ To get your hands dirty with the code, please install  :
         vagrant plugin install vagrant-docker-compose
         
 
-## Preparing the docker Environment   
-
-- Create a docker machine 
-
-        docker-machine create --driver virtualbox default
-    
-    Make sure the mahine is created 
-    
-        docker-machine ls
-        
-        
-        # You are supposed to get a result similar to the following L
-        NAME      ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER    ERRORS
-        default   -        virtualbox   Running   tcp://192.168.99.100:2376           v1.13.1
-        
-    Check the machine environment variables (you will need them later to configure your IDE) 
-    
-        docker-machine env default
-        
-     Run this command to configure your shell:
-     
-        eval "$(docker-machine env default)"
-        
-     Start the docker compose to build all the images and containers : 
-     
-        cd development/containers
-        
-        docker-compose up 
-
-
-- In your development/containers/nginx/site.conf specify the server_name directive and other configuration of the web server.
-
-- In your local /etc/hosts  file, add the domain names mapping to the IP address of the Vagrant Box :
- 
-        sudo vim /etc/hosts 
-        
-    find out the docker machine IP address and add it your /etc/hosts file  :
-        
-        docker-machine  ip default 
-        
-        192.100.100.100  sample-micro-service.dev 
-        
-    You may change the vale of the IP address 192.168.99.100 any other value that doesn't conflict with other devices on your local network.
-        
--    Visit the domain name you specified in the previous line (in the /etc/hosts) to browse the micro-service you'e developing.  
-
-
     
 ## Working with the vagrant box 
 
@@ -138,14 +91,18 @@ To get your hands dirty with the code, please install  :
 
 -    Install composer dependencies :
      
-            docker exec -it php_fpm /bin/sh -c "cd /var/www/html/application && composer install --prefer-dist"
+            vagrant ssh 
+            
+            docker exec -it symfony-php-fpm /bin/sh -c "cd /service/application && composer install --prefer-dist"
 
 
 ## Testing the microservice   
 
 - Unit testing: Running the unit tests can be as simple as : 
 
-        docker exec -it php_fpm /bin/sh -c "cd /var/www/html/application  && ./vendor/bin/simple-phpunit"
+        vagrant ssh 
+            
+        docker exec -it symfony-php-fpm /bin/sh -c "cd /var/www/html/application  && ./vendor/bin/simple-phpunit"
 
     This will run the unit tests in the ./application/tests directory.
     
