@@ -40,7 +40,7 @@ To get your hands dirty with the code, please install  :
 
 - Clone the microservice template into your local work directory 
   
-        git clone git@github.com:almasry/symfony-template-microservice.git
+        git clone git@github.com:almasry/symfony-archetype-microservice.git
         
         cd symfony-template-microservice 
 

@@ -40,7 +40,7 @@ class AppKernel extends Kernel
 
     public function getLogDir()
     {
-        return dirname(__DIR__).'/var/logs';
+        return dirname(__DIR__).'/../logs/symfony';
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
