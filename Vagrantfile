@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
   ## Docker compose provider https://github.com/leighmcculloch/vagrant-docker-compose
   config.vm.provision :docker_compose,
     yml: [
-      "/vagrant/development/containers/docker-compose.yml"
+      "/vagrant/development/docker/docker-compose.yml"
     ],
     rebuild: true,
     run: "always"
