@@ -13,6 +13,19 @@ services:
       ports:
           - "9000:9000"
       container_name: symfony-php-fpm
+      mem_limit: 2048M
       volumes:
           - ../../service:/service
-      ## command: /bin/sh -c "cd /service/application && composer install --prefer-dist"
+#  gulp-watch:
+#      build: ./nodejs/gulp
+#      #volumes:
+#      #    - ./:/app
+#      #working_dir: /app
+#      command: gulp watch
+#
+#  gulp-build:
+#      build: ./nodejs/gulp
+#      #volumes:
+#      #    - ./:/app
+#      #working_dir: /app
+#      command: gulp build

@@ -7,13 +7,9 @@ RUN echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/re
     apk update && apk upgrade && apk --no-cache add bash git ca-certificates curl openssh
 
 
-ADD ./build.sh /build.sh
-RUN sh /build.sh && rm -fr /build.sh
-
-
-
 RUN apk --update add \
         php7-xdebug \
+        php7-opcache \
         php7-mongodb@testing \
     && rm -rf /var/cache/apk/*
 
