@@ -17,7 +17,7 @@
         }
     },
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=7.0",
         "symfony/symfony": "3.2.*",
         "doctrine/orm": "^2.5",
         "doctrine/doctrine-bundle": "^1.6",
@@ -27,11 +27,19 @@
         "symfony/polyfill-apcu": "^1.0",
         "sensio/distribution-bundle": "^5.0",
         "sensio/framework-extra-bundle": "^3.0.2",
-        "incenteev/composer-parameter-handler": "^2.0"
+        "incenteev/composer-parameter-handler": "^2.0",
+        "doctrine/mongodb": "^1.4",
+        "lexik/jwt-authentication-bundle": "^2.1",
+        "namshi/jose": "7.2.*",
+        "friendsofsymfony/rest-bundle": "^2.1",
+        "nelmio/cors-bundle": "^1.5",
+        "aws/aws-sdk-php-symfony": "^1.2",
+        "jms/serializer-bundle": "^1.1",
+        "willdurand/hateoas-bundle": "^1.2"
     },
     "require-dev": {
-        "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0"
+        "symfony/phpunit-bridge": "^3.0",
+        "sensio/generator-bundle": "^3.1"
     },
     "scripts": {
         "symfony-scripts": [
@@ -60,5 +68,8 @@
             "file": "app/config/parameters.yml"
         },
         "branch-alias": null
+    },
+    "provide": {
+        "ext-mongo": "1.6.13"
     }
 }

@@ -67,7 +67,7 @@ To get your hands dirty with the code, please install  :
 
         vagrant halt 
 
-- In your development/containers/nginx/site.conf specify the server_name directive and other configuration of the web server.
+- In your development/docker/nginx/site.conf specify the server_name directive and other configuration of the web server.
 
 - In your local /etc/hosts  file, add the domain names mapping to the IP address of the Vagrant Box :
  
