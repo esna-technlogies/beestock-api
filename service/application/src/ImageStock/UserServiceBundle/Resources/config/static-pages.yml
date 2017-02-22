@@ -1,0 +1,4 @@
+user_service_sign_in_user:
+    methods: [GET]
+    path:     /signin
+    defaults: { _controller: UserServiceBundle:User:signUp }

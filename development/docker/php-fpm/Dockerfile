@@ -1,17 +1,26 @@
-FROM almasry/php7.0-fpm
+FROM php:7.1.0-fpm
 
+MAINTAINER Abed Halawi <abed.halawi@vinelab.com>
 
-RUN echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
-    echo '@community http://nl.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories && \
-    # DEPENDENCIES #############################################################
-    apk update && apk upgrade && apk --no-cache add bash git ca-certificates curl openssh
+RUN apt-get update
+RUN apt-get install -y autoconf pkg-config libssl-dev
+RUN pecl install mongodb-1.6.14 xdebug opcache
+RUN docker-php-ext-install bcmath
+RUN echo "extension=mongodb.so" >> /usr/local/etc/php/conf.d/mongodb.ini
 
-
-RUN apk --update add \
-        php7-xdebug \
-        php7-opcache \
-        php7-mongodb@testing \
+# Install Laravel dependencies
+RUN apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libmcrypt-dev \
+        libpng12-dev \
     && rm -rf /var/cache/apk/*
+
+RUN docker-php-ext-install iconv mcrypt mbstring \
+    && docker-php-ext-install zip \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install gd
+
 
 COPY php.ini /etc/php7/conf.d/50-setting.ini
 COPY php-fpm.conf /etc/php7/php-fpm.conf
