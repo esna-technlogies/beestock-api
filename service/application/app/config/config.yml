@@ -11,6 +11,7 @@ parameters:
 framework:
     #esi:             ~
     #translator:      { fallbacks: ["%locale%"] }
+    translator: ~
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -18,7 +19,7 @@ framework:
     form:            ~
     csrf_protection: ~
     validation:      { enable_annotations: true }
-    #serializer:      { enable_annotations: true }
+    serializer:      { enable_annotations: true }
     templating:
         engines: ['twig']
     default_locale:  "%locale%"
@@ -33,6 +34,7 @@ framework:
     assets: ~
     php_errors:
         log: true
+    ##ide: 'phpstorm://open?file=%f&line=%l'
 
 # Twig Configuration
 twig:
@@ -49,6 +51,8 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
+        types:
+            uuid:  Ramsey\Uuid\Doctrine\UuidType
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/../var/data/data.sqlite"
@@ -60,6 +64,25 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        #metadata_cache_driver: apc
+
+doctrine_mongodb:
+    connections:
+        default:
+            server: "%mongodb_server%"
+            options: {}
+    default_database: user_service
+    document_managers:
+        default:
+            auto_mapping: true
+            #metadata_cache_driver: apc
+
+stof_doctrine_extensions:
+    default_locale: en_US
+    mongodb:
+        default:
+            timestampable: true
+            tree: true
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -68,3 +91,57 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+jms_serializer:
+    handlers:
+        datetime:
+            default_format: "c" # ISO8601
+            default_timezone: "UTC" # defaults to whatever timezone set in php.ini or via date_default_ti
+
+
+
+# settings of the user service
+user_service:
+    api_settings:
+        api_url: '/api/'
+        api_format: json
+    social_login:
+        facebook:
+            app_id:     108749902985918
+            app_secret: 46ee1ff99d49bb0567751fe551198525
+            sdk_version: 'v2.8'
+        google:
+            app_id:     108749902985918
+            app_secret: 46ee1ff99d49bb0567751fe551198525
+
+sensio_framework_extra:
+    request:
+        converters: true
+        auto_convert: true
+
+fos_rest:
+    disable_csrf_role: ROLE_API
+    param_fetcher_listener: force
+    view:
+        view_response_listener: 'force'
+        formats:
+            json: true
+        templating_formats:
+            html: true
+    format_listener:
+        rules:
+            - { path: ^/api, priorities: [ json ], fallback_format: json }
+            - { path: ^/, priorities: [ html, json, xml ], fallback_format: ~, prefer_extension: true }
+    exception:
+        codes:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+        messages:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+    allowed_methods_listener: true
+    access_denied_listener:
+        json: true
+    body_listener: true
+    body_converter:
+      enabled: true
+      validate: true
+      validation_errors_argument: violations

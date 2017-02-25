@@ -1,0 +1,38 @@
+user_service_list_users:
+    methods: [GET]
+    path:     /user
+    defaults: {
+        _controller: UserServiceBundle:User:listUsers
+        #_security:
+        #  expression: (has_customer_type('TYPE_ADMIN') or has_customer_type('TYPE_PARTNER')) and has_role('ROLE_INSTANCE_READ')
+        #_view:
+        #    serializerGroups: [list]
+        #_params:
+        #    type:
+        #        strict: true
+        #        nullable: false
+        #        default: active
+        #        requirements: "active|all"
+        #schemes: [https]
+      }
+
+user_service_get_user:
+    methods: [GET]
+    path:     /user
+    defaults: { _controller: UserServiceBundle:User:getUser }
+
+user_service_post_user:
+    methods: [POST]
+    path:     /user
+    defaults:
+      _controller: UserServiceBundle:User:newUser
+
+user_service_put_user:
+    methods: [PUT]
+    path:     /user/{userId}
+    defaults: { _controller: UserServiceBundle:User:putUser }
+
+user_service_patch_user:
+    methods: [PATCH]
+    path:     /user/{userId}
+    defaults: { _controller: UserServiceBundle:User:patchUser }

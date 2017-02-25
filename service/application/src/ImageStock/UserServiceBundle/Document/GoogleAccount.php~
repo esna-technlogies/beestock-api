@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: almasry
  * Date: 28/02/2017
- * Time: 9:30 AM
+ * Time: 9:31 AM
  */
 
 namespace ImageStock\UserServiceBundle\Document;
@@ -14,8 +14,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @package UserServiceBundle\Document
  * @MongoDB\EmbeddedDocument
+ * @MongoDB\Document(
+ *     repositoryClass="ImageStock\UserServiceBundle\Repository\UserRepository"
+ * )
  */
-class FacebookAccount
+class GoogleAccount
 {
 
 }

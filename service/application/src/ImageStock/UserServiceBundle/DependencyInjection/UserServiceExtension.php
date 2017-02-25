@@ -22,6 +22,12 @@ class UserServiceExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter('api_format', $config['api_settings']['api_format']);
+        $container->setParameter('api_url', $config['api_settings']['api_url']);
+
+        $container->setParameter('facebook_settings', $config['social_login']['facebook']);
+        $container->setParameter('google_settings', $config['social_login']['google']);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

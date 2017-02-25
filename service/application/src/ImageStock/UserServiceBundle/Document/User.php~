@@ -22,7 +22,7 @@ class User
 {
     public function __construct()
     {
-        //TODO: create a custom UUID Type provider
+        //TODO: create a custom UUID provider
         $this->uuid = Uuid::uuid4()->toString();
     }
 
@@ -66,6 +66,7 @@ class User
 
     /**
      * @MongoDB\Field(type="string")
+     * @Assert\NotBlank()
      */
     protected $fullName;
 
@@ -347,7 +348,7 @@ class User
     /**
      * Set facebookAccount
      *
-     * @param FacebookAccount $facebookAccount
+     * @param \ImageStock\UserServiceBundle\Document\FacebookAccount $facebookAccount
      * @return $this
      */
     public function setFacebookAccount(FacebookAccount $facebookAccount)
@@ -359,7 +360,7 @@ class User
     /**
      * Get facebookAccount
      *
-     * @return FacebookAccount $facebookAccount
+     * @return \ImageStock\UserServiceBundle\Document\FacebookAccount $facebookAccount
      */
     public function getFacebookAccount()
     {
@@ -369,7 +370,7 @@ class User
     /**
      * Set googleAccount
      *
-     * @param GoogleAccount $googleAccount
+     * @param \ImageStock\UserServiceBundle\Document\GoogleAccount $googleAccount
      * @return $this
      */
     public function setGoogleAccount(GoogleAccount $googleAccount)
@@ -381,7 +382,7 @@ class User
     /**
      * Get googleAccount
      *
-     * @return GoogleAccount $googleAccount
+     * @return \ImageStock\UserServiceBundle\Document\GoogleAccount $googleAccount
      */
     public function getGoogleAccount()
     {
@@ -391,10 +392,10 @@ class User
     /**
      * Set phoneNumber
      *
-     * @param PhoneNumber $phoneNumber
+     * @param ImageStock\UserServiceBundle\Document\PhoneNumber $phoneNumber
      * @return $this
      */
-    public function setPhoneNumber(PhoneNumber $phoneNumber)
+    public function setPhoneNumber(\ImageStock\UserServiceBundle\Document\PhoneNumber $phoneNumber)
     {
         $this->phoneNumber = $phoneNumber;
         return $this;
@@ -403,7 +404,7 @@ class User
     /**
      * Get phoneNumber
      *
-     * @return PhoneNumber $phoneNumber
+     * @return ImageStock\UserServiceBundle\Document\PhoneNumber $phoneNumber
      */
     public function getPhoneNumber()
     {

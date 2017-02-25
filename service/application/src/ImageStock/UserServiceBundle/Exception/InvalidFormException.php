@@ -1,6 +1,6 @@
 <?php
 
-namespace MailBoxBundle\Exception;
+namespace ImageStock\UserServiceBundle\Exception;
 
 use Symfony\Component\Form\Form;
 

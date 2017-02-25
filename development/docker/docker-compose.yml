@@ -1,6 +1,6 @@
 version: '2.0'
 services:
-  server:
+  nginx-server:
       build: ./nginx/
       container_name: nginx-server
       ports:
@@ -8,6 +8,11 @@ services:
       volumes:
           - ../../service:/service
           - ./nginx/site.conf:/etc/nginx/conf.d/site.conf
+  mongodb:
+      build: ./mongodb/
+      container_name: mongodb
+      ports:
+          - "27017:27017"
   php-fpm:
       build: ./php-fpm/
       ports:

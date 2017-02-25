@@ -9,7 +9,7 @@
 namespace ImageStock\UserServiceBundle\lib\SocialAccounts;
 
 
-class CompleteRegistration
+class CompleteRegistrationProcess
 {
 
 }

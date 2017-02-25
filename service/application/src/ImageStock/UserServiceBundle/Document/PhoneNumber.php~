@@ -21,13 +21,41 @@ class PhoneNumber
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
      */
+    protected $country;
+
+    /**
+     * @MongoDB\Field(type="string")
+     * @Assert\NotBlank()
+     */
     protected $countryCode;
 
     /**
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
      */
-    protected $number;
+    protected $phoneNumber;
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     * @return $this
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string $country
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
 
     /**
      * Set countryCode
@@ -54,22 +82,22 @@ class PhoneNumber
     /**
      * Set phoneNumber
      *
-     * @param string $number
+     * @param string $phoneNumber
      * @return $this
      */
-    public function setPhoneNumber($number)
+    public function setPhoneNumber($phoneNumber)
     {
-        $this->number = $number;
+        $this->phoneNumber = $phoneNumber;
         return $this;
     }
 
     /**
      * Get phoneNumber
      *
-     * @return string $number
+     * @return string $phoneNumber
      */
     public function getPhoneNumber()
     {
-        return $this->number;
+        return $this->phoneNumber;
     }
 }

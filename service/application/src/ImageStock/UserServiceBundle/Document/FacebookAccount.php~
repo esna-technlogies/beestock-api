@@ -14,6 +14,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @package UserServiceBundle\Document
  * @MongoDB\EmbeddedDocument
+ * @MongoDB\Document(
+ *     repositoryClass="ImageStock\UserServiceBundle\Repository\UserRepository"
+ * )
  */
 class FacebookAccount
 {

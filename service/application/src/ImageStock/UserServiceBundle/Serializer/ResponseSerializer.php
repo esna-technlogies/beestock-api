@@ -1,13 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: almasry
- * Date: 26/02/2017
- * Time: 2:26 PM
- */
 
 namespace ImageStock\UserServiceBundle\Serializer;
 use JMS\Serializer\SerializerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class ResponseSerializer
@@ -16,18 +11,23 @@ use JMS\Serializer\SerializerInterface;
 class ResponseSerializer
 {
     /**
+     * @var ContainerInterface
+     */
+    private $serviceContainer;
+
+    /**
      * @var SerializerInterface
      */
     private $serializer;
 
     /**
      * ResponseSerializer constructor.
+     * @param ContainerInterface $serviceContainer
      * @param SerializerInterface $serializer
-     * @param string $format
      */
-    public function __construct(SerializerInterface $serializer, $format)
+    public function __construct(ContainerInterface $serviceContainer, SerializerInterface $serializer)
     {
-        $this->format = $format;
+        $this->serviceContainer = $serviceContainer;
         $this->serializer = $serializer;
     }
 
@@ -36,8 +36,8 @@ class ResponseSerializer
      * @param $data
      * @return string
      */
-    public function success($data)
+    public function serialize($data)
     {
-        return $this->serializer->serialize(['response' => $data], $this->format);
+        return $this->serializer->serialize(['response' => $data], $this->serviceContainer->getParameter("api_format"));
     }
 }

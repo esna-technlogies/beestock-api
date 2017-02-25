@@ -18,7 +18,34 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('user_service');
+
+        $treeBuilder
+            ->root('user_service')
+            ->children()
+                ->arrayNode('api_settings')
+                    ->children()
+                        ->scalarNode('api_format')->isRequired()->end()
+                        ->scalarNode('api_url')->isRequired()->end()
+                    ->end()
+                ->end()
+                ->arrayNode('social_login')
+                    ->children()
+                        ->arrayNode('facebook')->isRequired()
+                            ->children()
+                            ->scalarNode('app_id')->isRequired()->end()
+                            ->scalarNode('app_secret')->isRequired()->end()
+                            ->scalarNode('sdk_version')->isRequired()->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('google')->isRequired()
+                            ->children()
+                                ->scalarNode('app_id')->isRequired()->end()
+                                ->scalarNode('app_secret')->isRequired()->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

@@ -1,8 +1,9 @@
 <?php
 
-namespace ImageStock\UserServiceBundle\EventListener;
+namespace ImageStock\UserServiceBundle\Event\EventListener;
 
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class ResponseListener
@@ -11,31 +12,24 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 class ResponseListener
 {
     /**
-     * @var String
+     * @var ContainerInterface
      */
-    private $apiHeaders;
-
-    /**
-     * @var String
-     */
-    private $documentationPage;
+    private $serviceContainer;
 
     /**
      * ResponseListener constructor.
-     * @param String $apiHeaders
-     * @param String $documentationPage
+     * @param ContainerInterface $serviceContainer
      */
-    public function __construct(String $apiHeaders, String $documentationPage)
+    public function __construct(ContainerInterface $serviceContainer)
     {
-        $this->documentationPage = $documentationPage;
-        $this->apiHeaders = $apiHeaders;
+        $this->serviceContainer = $serviceContainer;
     }
 
     public function onKernelResponse(FilterResponseEvent $event)
     {
-        if($event->getRequest()->getPathInfo() === $this->documentationPage){
-            return;
+        if(preg_match($this->serviceContainer->getParameter("api_url"), $event->getRequest()->getRequestUri(), $matches, PREG_OFFSET_CAPTURE))
+        {
+            $event->getResponse()->headers->set('Content-Type', 'application/'.$this->serviceContainer->getParameter("api_format"));
         }
-        $event->getResponse()->headers->set('Content-Type', 'application/xml');
     }
 }

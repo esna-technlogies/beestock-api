@@ -10,25 +10,27 @@ namespace ImageStock\UserServiceBundle\Form\Type;
 
 
 use ImageStock\UserServiceBundle\Document\AccessInfo;
+use ImageStock\UserServiceBundle\Document\PhoneNumber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PhoneNumber extends AbstractType
+class PhoneNumberType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('password', TextType::class);
-        $builder->add('lastChange', DateTimeType::class);
+        $builder->add('countryCode', TextType::class);
+        $builder->add('number', TextType::class);
 
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => AccessInfo::class,
+            'data_class' => PhoneNumber::class,
+            'csrf_protection' => false,
         ));
     }
 

@@ -2,35 +2,41 @@
 namespace ImageStock\UserServiceBundle\Event\EventHandler;
 
 use JMS\Serializer\SerializerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
-class HTTPExceptionHandler
+class ApiExceptionHandler
 {
-    /**
-     * @var string
-     */
-    private $format;
-
     /**
      * @var SerializerInterface
      */
     private $serializer;
 
     /**
+     * @var ContainerInterface
+     */
+    private $serviceContainer;
+
+    /**
      * ResponseSerializer constructor.
      * @param SerializerInterface $serializer
-     * @param string $format
+     * @param ContainerInterface $serviceContainer
      */
-    public function __construct(SerializerInterface $serializer, String $format)
+    public function __construct(ContainerInterface $serviceContainer, SerializerInterface $serializer)
     {
-        $this->format = $format;
+        $this->serviceContainer = $serviceContainer;
         $this->serializer = $serializer;
     }
 
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
+        if(!preg_match($this->serviceContainer->getParameter("api_url"), $event->getRequest()->getRequestUri(), $matches, PREG_OFFSET_CAPTURE))
+        {
+            return;
+        }
+
         // get the exception object from the received event
         $exception = $event->getException();
         $message = sprintf(
@@ -45,12 +51,12 @@ class HTTPExceptionHandler
                     'code' => $exception->getCode()
                 ]
             ],
-            $this->format
+            $this->serviceContainer->getParameter("api_format")
         );
 
         $response = new Response();
         $response->setContent($message);
-        $response->headers->set('Content-Type', 'application/'.$this->format);
+
 
         if ($exception instanceof HttpExceptionInterface) {
             $response->setStatusCode($exception->getStatusCode());
