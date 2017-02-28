@@ -7,7 +7,7 @@ use Symfony\Component\Form\Form;
 
 /**
  * Class InvalidFormException
- * @package MailBoxBundle\Exception
+ * @package CommonServices\UserServiceBundle\Exception
  */
 class InvalidFormException extends \Exception
 {

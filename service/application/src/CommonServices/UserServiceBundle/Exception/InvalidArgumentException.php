@@ -1,11 +1,11 @@
 <?php
 
-namespace MailBoxBundle\Exception;
+namespace CommonServices\UserServiceBundle\Exception;
 
 
 /**
  * Class InvalidArgumentException
- * @package MailBoxBundle\Exception
+ * @package CommonServices\UserServiceBundle\Exception
  */
 class InvalidArgumentException extends \Exception
 {

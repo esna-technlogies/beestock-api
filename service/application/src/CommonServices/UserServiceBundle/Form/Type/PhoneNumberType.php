@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: almasry
- * Date: 28/02/2017
- * Time: 9:26 PM
- */
 
 namespace CommonServices\UserServiceBundle\Form\Type;
 

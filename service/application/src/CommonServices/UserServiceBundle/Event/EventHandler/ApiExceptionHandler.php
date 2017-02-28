@@ -1,4 +1,5 @@
 <?php
+
 namespace CommonServices\UserServiceBundle\Event\EventHandler;
 
 use JMS\Serializer\SerializerInterface;

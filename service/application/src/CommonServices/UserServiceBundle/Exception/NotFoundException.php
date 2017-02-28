@@ -1,11 +1,11 @@
 <?php
 
-namespace MailBoxBundle\Exception;
+namespace CommonServices\UserServiceBundle\Exception;
 
 
 /**
  * Class NotFoundException
- * @package MailBoxBundle\Exception
+ * @package CommonServices\UserServiceBundle\Exception
  */
 class NotFoundException extends \Exception
 {
