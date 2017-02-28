@@ -1,17 +1,17 @@
 <?php
 
-namespace MailBoxBundle\Processor;
+namespace CommonServices\UserServiceBundle\Processor;
 
 use Symfony\Component\Form\FormFactoryInterface;
 
 /**
  * Class AbstractProcessor
- * @package MailBoxBundle\Processor
+ * @package CommonServices\UserServiceBundle\Processor
  */
 class AbstractProcessor
 {
     const MSG_INVALID_SUBMITTED_DATA = 'Invalid submitted data';
-    const MSG_INVALID_ARGUMENT_METHOD = 'Invalid Argument $method.';
+    const MSG_INVALID_ARGUMENT_METHOD = 'Invalid argument $method.';
 
     /**
      * @var FormFactoryInterface
