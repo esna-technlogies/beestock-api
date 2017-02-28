@@ -22,7 +22,7 @@ class AppKernel extends Kernel
             new Aws\Symfony\AwsBundle(),
             new AppBundle\AppBundle(),
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
-            new ImageStock\UserServiceBundle\UserServiceBundle(),
+            new CommonServices\UserServiceBundle\UserServiceBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new FOS\RestBundle\FOSRestBundle(),
