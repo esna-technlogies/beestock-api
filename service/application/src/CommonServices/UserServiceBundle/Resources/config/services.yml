@@ -1,0 +1,21 @@
+services:
+    user_service.core:
+        class: CommonServices\UserServiceBundle\lib\UserService
+        arguments: ["@service_container",
+                    "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:User')"]
+
+    user_service.response_serializer:
+        class: CommonServices\UserServiceBundle\Serializer\ResponseSerializer
+        arguments: ["@service_container", "@jms_serializer.serializer"]
+
+    user_service.exception_handler:
+        class: CommonServices\UserServiceBundle\Event\EventHandler\ApiExceptionHandler
+        arguments: ["@service_container", "@jms_serializer.serializer"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+    user_service.response_listener:
+        class: CommonServices\UserServiceBundle\Event\EventListener\ResponseListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.response }
