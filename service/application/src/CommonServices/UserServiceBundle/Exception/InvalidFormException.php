@@ -16,7 +16,7 @@ class InvalidFormException extends \Exception
     /**
      * @var Form
      */
-    private $formErrors;
+    static public $formErrors =[];
 
     /**
      * InvalidFormException constructor.
@@ -25,17 +25,22 @@ class InvalidFormException extends \Exception
      */
     public function __construct(String $message, FormErrorIterator $formErrors)
     {
-        $this->formErrors = $formErrors;
+        $errors =[];
+
+        foreach ($formErrors as $form){
+            $errors[$form->getForm()->getName()]= $form->getChildren();
+        }
+
+        self::$formErrors = $errors;
+
         parent::__construct($message);
     }
 
     /**
      * @return Form
      */
-    public function getForm()
+    public function getFormErrors()
     {
-        return $this->formErrors;
+        return self::$formErrors;
     }
-
-
 }

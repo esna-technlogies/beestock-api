@@ -18,10 +18,10 @@ final class UserProcessor extends AbstractProcessor
      *
      * @param User $user
      * @param array $parameters
-     * @return mixed
+     * @return User
      * @throws InvalidFormException
      */
-    public function processForm(User $user, array $parameters)
+    public function processForm(User $user, array $parameters) : User
     {
         $form =  $this->formFactory
                         ->createBuilder(UserType::class, $user)
@@ -31,7 +31,8 @@ final class UserProcessor extends AbstractProcessor
 
 
         if(false === $form->isValid()){
-            throw new InvalidFormException('Something went wrong !', $form->getErrors());
+
+            throw new InvalidFormException('Something went wrong !', $form->getErrors(true, false));
         }
 
         return $form->getData();

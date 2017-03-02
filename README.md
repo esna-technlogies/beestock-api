@@ -1,10 +1,10 @@
-Symfony template micro-service 
-=============================
+CommonServices \ UserServiceBundle 
+==================================
    
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.0-8892BF.svg?style=flat-square)](https://php.net/)
 
 
-> This is an archetype PHP microservice that can be used for running and building symfony-based stand-alone web services. This project follows 
+> This is a user microservice that can be used for running and building symfony-based stand-alone web services. This project follows 
 a number of the best practices of designing microservices and PHP standards but is not a one-size-fits tool for all php projects. 
 
 This template or archetype can be used to quickly bootstrap a PHP project without a lot of infrastructure hassle, and it utilizes :

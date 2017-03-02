@@ -18,7 +18,7 @@ user_service_list_users:
 
 user_service_get_user:
     methods: [GET]
-    path:     /user
+    path:     /user/{uuid}
     defaults: { _controller: UserServiceBundle:User:getUser }
 
 user_service_post_user:
@@ -36,3 +36,20 @@ user_service_patch_user:
     methods: [PATCH]
     path:     /user/{userId}
     defaults: { _controller: UserServiceBundle:User:patchUser }
+
+
+## User related resources
+user_service_get_user_phone_number:
+    methods: [GET]
+    path:     /user/{uuid}/phoneNumber
+    defaults: { _controller: UserServiceBundle:User:getUserPhoneNumber }
+
+user_service_get_user_facebook_account:
+    methods: [GET]
+    path:     /user/{uuid}/facebookAccount
+    defaults: { _controller: UserServiceBundle:User:getUserPhoneNumber }
+
+user_service_get_user_google_account:
+    methods: [GET]
+    path:     /user/{uuid}/googleAccount
+    defaults: { _controller: UserServiceBundle:User:getUserPhoneNumber }
