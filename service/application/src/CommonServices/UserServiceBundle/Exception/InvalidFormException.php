@@ -3,6 +3,7 @@
 namespace CommonServices\UserServiceBundle\Exception;
 
 use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormErrorIterator;
 
 
 /**
@@ -15,26 +16,31 @@ class InvalidFormException extends \Exception
     /**
      * @var Form
      */
-    private $form;
+    static public $formErrors =[];
 
     /**
      * InvalidFormException constructor.
-     * @param $message
-     * @param $form
+     * @param String $message
+     * @param FormErrorIterator $formErrors
      */
-    public function __construct($message, $form)
+    public function __construct(String $message, FormErrorIterator $formErrors)
     {
-        $this->form = $form;
+        $errors =[];
+
+        foreach ($formErrors as $form){
+            $errors[$form->getForm()->getName()]= $form->getChildren();
+        }
+
+        self::$formErrors = $errors;
+
         parent::__construct($message);
     }
 
     /**
      * @return Form
      */
-    public function getForm()
+    public function getFormErrors()
     {
-        return $this->form;
+        return self::$formErrors;
     }
-
-
 }

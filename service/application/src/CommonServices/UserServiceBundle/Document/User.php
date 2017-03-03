@@ -6,10 +6,38 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Exclude as Exclude;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * @package UserServiceBundle\Document
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *      href = @Hateoas\Route(
+ *          "user_service_get_user",
+ *          parameters = { "uuid" = "expr(object.getUuid())" }
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "facebookAccount",
+ *      href = @Hateoas\Route(
+ *          "user_service_get_user_facebook_account",
+ *          parameters = { "uuid" = "expr(object.getUuid())" }
+ *     ),
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(object === null)")
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "googleAccount",
+ *      href = @Hateoas\Route(
+ *          "user_service_get_user_google_account",
+ *          parameters = { "uuid" = "expr(object.getUuid())" }
+ *     ),
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(object === null)")
+ * )
+ *
  * @MongoDB\Document(
  *     collection="users",
  *     repositoryClass="CommonServices\UserServiceBundle\Repository\UserRepository",
@@ -20,12 +48,6 @@ use JMS\Serializer\Annotation\Exclude;
  */
 class User
 {
-    public function __construct()
-    {
-        //TODO: create a custom UUID Type provider
-        $this->uuid = Uuid::uuid4()->toString();
-    }
-
     /**
      * @MongoDB\Id(strategy="AUTO", type="string")
      */

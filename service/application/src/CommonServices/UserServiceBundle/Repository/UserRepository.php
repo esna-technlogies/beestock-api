@@ -59,7 +59,6 @@ class UserRepository extends DocumentRepository
 
             throw new Exception($errorMessage, Response::HTTP_NOT_FOUND);
         }
-
         return $user;
     }
 
@@ -79,7 +78,25 @@ class UserRepository extends DocumentRepository
 
             throw new Exception($errorMessage, Response::HTTP_NOT_FOUND);
         }
+        return $user;
+    }
 
+    /**
+     * @param $uuid
+     * @return null|object
+     */
+    public function findByUUID($uuid)
+    {
+        $user = parent::findOneBy(['uuid' => $uuid]);
+
+        if(is_null($user)){
+            $errorMessage = sprintf(
+                'No user was found with uuid: %s ',
+                $uuid
+            );
+
+            throw new Exception($errorMessage, Response::HTTP_NOT_FOUND);
+        }
         return $user;
     }
 

@@ -2,10 +2,16 @@
 
 namespace CommonServices\UserServiceBundle\Controller;
 
+use CommonServices\UserServiceBundle\Document\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
+/**
+ * Class UserController
+ * @package CommonServices\UserServiceBundle\Controller
+ */
 class UserController extends Controller
 {
     /**
@@ -43,14 +49,29 @@ class UserController extends Controller
     }
 
     /**
-     * @param Request $request
-     *
+     * @param User $user
+     * @ParamConverter()
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getUserAction(Request $request)
+    public function getUserAction(User $user)
     {
-        $result=[];
-        return $this->render('UserServiceBundle:Default:index.html.twig', $result);
+        return new Response(
+            $this->get('user_service.response_serializer')->serialize(['user' => $user]),
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @param User $user
+     * @ParamConverter()
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getUserPhoneNumberAction(User $user)
+    {
+        return new Response(
+            $this->get('user_service.response_serializer')->serialize(['userPhone' => $user->getPhoneNumber()]),
+            Response::HTTP_OK
+        );
     }
 
     /**

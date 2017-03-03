@@ -2,6 +2,7 @@
 
 namespace CommonServices\UserServiceBundle\Event\EventHandler;
 
+use CommonServices\UserServiceBundle\Exception\InvalidFormException;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
@@ -45,18 +46,25 @@ class ApiExceptionHandler
             $exception->getMessage()
         );
 
-        $message = $this->serializer->serialize(
-            ['error' =>
-                [
-                    'message' => $message,
-                    'code' => $exception->getCode()
-                ]
-            ],
+        $errorResponse = [
+                  'message' => $message,
+                  'code' => $exception->getCode(),
+                  'details' => []
+         ];
+
+        if ($exception instanceOf InvalidFormException )
+        {
+            $errorResponse['details'] = InvalidFormException::$formErrors;
+        }
+
+        $responseContent = $this->serializer->serialize(
+            ['error' => $errorResponse],
             $this->serviceContainer->getParameter("api_format")
         );
 
+
         $response = new Response();
-        $response->setContent($message);
+        $response->setContent($responseContent);
 
 
         if ($exception instanceof HttpExceptionInterface) {

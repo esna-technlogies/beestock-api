@@ -4,7 +4,7 @@ namespace CommonServices\UserServiceBundle\lib;
 
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Exception\InvalidFormException;
-use CommonServices\UserServiceBundle\Form\Type\UserType;
+use CommonServices\UserServiceBundle\Processor\UserProcessor;
 use CommonServices\UserServiceBundle\Repository\UserRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -39,17 +39,8 @@ class UserService
      */
     public function addNewUser(array $userData)
     {
-        $user  = new User();
-        $form =  $this->serviceContainer
-                    ->get('form.factory')
-                    ->createBuilder(UserType::class, $user)
-                    ->getForm();
-
-        $form->submit($userData);
-
-        if(false === $form->isValid()){
-            throw new InvalidFormException('Something went wrong !', $form);
-        }
+        $userProcessor = new UserProcessor($this->serviceContainer->get('form.factory'));
+        $user = $userProcessor->processForm(new User(), $userData);
 
         $this->userRepository->save($user);
 
