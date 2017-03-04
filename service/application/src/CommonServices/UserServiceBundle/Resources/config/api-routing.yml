@@ -1,20 +1,15 @@
+api_login_check:
+    path: /api/login_check
+
+api_user_authenticate:
+    methods: [POST]
+    path: /user/authenticate
+    defaults: { _controller: UserServiceBundle:Authentication:userLogin }
+
 user_service_list_users:
     methods: [GET]
     path:     /user
-    defaults: {
-        _controller: UserServiceBundle:User:listUsers
-        #_security:
-        #  expression: (has_customer_type('TYPE_ADMIN') or has_customer_type('TYPE_PARTNER')) and has_role('ROLE_INSTANCE_READ')
-        #_view:
-        #    serializerGroups: [list]
-        #_params:
-        #    type:
-        #        strict: true
-        #        nullable: false
-        #        default: active
-        #        requirements: "active|all"
-        #schemes: [https]
-      }
+    defaults: { _controller: UserServiceBundle:User:listUsers}
 
 user_service_get_user:
     methods: [GET]
@@ -23,7 +18,7 @@ user_service_get_user:
 
 user_service_post_user:
     methods: [POST]
-    path:     /user
+    path:     /user/registration
     defaults:
       _controller: UserServiceBundle:User:newUser
 
@@ -36,7 +31,6 @@ user_service_patch_user:
     methods: [PATCH]
     path:     /user/{userId}
     defaults: { _controller: UserServiceBundle:User:patchUser }
-
 
 ## User related resources
 user_service_get_user_phone_number:

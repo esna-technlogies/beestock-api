@@ -21,6 +21,7 @@ class UserType extends AbstractType
         $builder->add('email', EmailType::class);
         $builder->add('country', TextType::class);
         $builder->add('termsAccepted', TextType::class);
+        $builder->remove('userRoles');
         $builder->add('password', TextType::class,[
             'property_path' => 'accessInfo'
         ]);

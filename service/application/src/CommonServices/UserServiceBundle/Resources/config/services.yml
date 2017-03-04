@@ -30,3 +30,11 @@ services:
         class:   CommonServices\UserServiceBundle\Event\EventListener\Document\DocumentPrePersistListener
         tags:
             -  { name: doctrine_mongodb.odm.event_listener, event: prePersist }
+
+    user_service.mongodb_user_provider:
+        class: CommonServices\UserServiceBundle\Security\User\MongoDBUserProvider
+        arguments: ["@user_service.core"]
+
+    jwt_token_authenticator:
+        class: CommonServices\UserServiceBundle\Security\User\JwtTokenAuthenticator
+        autowire: true

@@ -1,28 +1,21 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: almasry
- * Date: 28/02/2017
- * Time: 9:48 AM
- */
 
-namespace ImageStock\UserServiceBundle\Document;
+namespace CommonServices\UserServiceBundle\Document;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @Hateoas\Relation(
+ *      "phone"
+ * )
+ *
  * @package UserServiceBundle\Document
  * @MongoDB\EmbeddedDocument
  */
 class PhoneNumber
 {
-    /**
-     * @MongoDB\Field(type="string")
-     * @Assert\NotBlank()
-     */
-    protected $country;
-
     /**
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
@@ -33,29 +26,7 @@ class PhoneNumber
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
      */
-    protected $phoneNumber;
-
-    /**
-     * Set country
-     *
-     * @param string $country
-     * @return $this
-     */
-    public function setCountry($country)
-    {
-        $this->country = $country;
-        return $this;
-    }
-
-    /**
-     * Get country
-     *
-     * @return string $country
-     */
-    public function getCountry()
-    {
-        return $this->country;
-    }
+    protected $number;
 
     /**
      * Set countryCode
@@ -82,22 +53,44 @@ class PhoneNumber
     /**
      * Set phoneNumber
      *
-     * @param string $phoneNumber
+     * @param string $number
      * @return $this
      */
-    public function setPhoneNumber($phoneNumber)
+    public function setPhoneNumber($number)
     {
-        $this->phoneNumber = $phoneNumber;
+        $this->number = $number;
         return $this;
     }
 
     /**
      * Get phoneNumber
      *
-     * @return string $phoneNumber
+     * @return string $number
      */
     public function getPhoneNumber()
     {
-        return $this->phoneNumber;
+        return $this->number;
+    }
+
+    /**
+     * Set number
+     *
+     * @param string $number
+     * @return $this
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+        return $this;
+    }
+
+    /**
+     * Get number
+     *
+     * @return string $number
+     */
+    public function getNumber()
+    {
+        return $this->number;
     }
 }

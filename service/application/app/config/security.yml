@@ -4,51 +4,38 @@ security:
 
     # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        in_memory:
-            memory: ~
+        #in_memory:
+        #    memory: ~
+        jwt:
+            lexik_jwt: ~
+        database: # optional
+            id: user_service.mongodb_user_provider
+
+    encoders:
+        CommonServices\UserServiceBundle\Document\AccessInfo:
+            algorithm: bcrypt
+            cost: 12
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
-        main:
-            anonymous: ~
-            # activate different ways to authenticate
-
-            # http_basic: ~
-            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-
-        # ...
-
-    role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
-
-    firewalls:
-        dev:
-            pattern:  ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        security:
-            pattern: ^/api/security/(reset-password|request-password)/
-            security: false
-        common:
-            pattern: ^/api/common/
-            security: false
-        doc:
-            pattern: ^/api/doc
-            security: false
-        jwt_token:
-            pattern: ^/api/security/login
-            stateless: true
-            gfreeau_get_jwt:
-                username_parameter: email
-                #failure_handler:
-        main:
+        default:
             pattern: ^/
             stateless: true
-            lexik_jwt: ~
+            anonymous: ~
+
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            stateless: true
+            security: false
+
+        api:
+            pattern:   ^/api
+            stateless: true
+            guard:
+                authenticators:
+                    -  jwt_token_authenticator
+
+    access_control:
+        - { path: ^/api/user/authenticate, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/user/registration, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: 'ROLE_USER' }

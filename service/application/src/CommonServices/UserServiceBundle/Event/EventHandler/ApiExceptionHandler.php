@@ -49,7 +49,6 @@ class ApiExceptionHandler
         $errorResponse = [
                   'message' => $message,
                   'code' => $exception->getCode(),
-                  'details' => []
          ];
 
         if ($exception instanceOf InvalidFormException )

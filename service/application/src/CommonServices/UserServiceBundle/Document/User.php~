@@ -1,18 +1,45 @@
 <?php
 
-namespace ImageStock\UserServiceBundle\Document;
+namespace CommonServices\UserServiceBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Exclude as Exclude;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * @package UserServiceBundle\Document
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *      href = @Hateoas\Route(
+ *          "user_service_get_user",
+ *          parameters = { "uuid" = "expr(object.getUuid())" }
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "facebookAccount",
+ *      href = @Hateoas\Route(
+ *          "user_service_get_user_facebook_account",
+ *          parameters = { "uuid" = "expr(object.getUuid())" }
+ *     ),
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(object === null)")
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "googleAccount",
+ *      href = @Hateoas\Route(
+ *          "user_service_get_user_google_account",
+ *          parameters = { "uuid" = "expr(object.getUuid())" }
+ *     ),
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(object === null)")
+ * )
+ *
  * @MongoDB\Document(
  *     collection="users",
- *     repositoryClass="ImageStock\UserServiceBundle\Repository\UserRepository",
+ *     repositoryClass="CommonServices\UserServiceBundle\Repository\UserRepository",
  *     indexes={
  *         @MongoDB\Index(keys={"firstName":"asc", "lastName":"asc", "fullName":"asc"})
  *     }
@@ -20,12 +47,6 @@ use JMS\Serializer\Annotation\Exclude;
  */
 class User
 {
-    public function __construct()
-    {
-        //TODO: create a custom UUID provider
-        $this->uuid = Uuid::uuid4()->toString();
-    }
-
     /**
      * @MongoDB\Id(strategy="AUTO", type="string")
      */
@@ -66,7 +87,6 @@ class User
 
     /**
      * @MongoDB\Field(type="string")
-     * @Assert\NotBlank()
      */
     protected $fullName;
 
@@ -90,26 +110,26 @@ class User
     protected $termsAccepted;
 
     /**
-     * @MongoDB\EmbedOne(targetDocument="ImageStock\UserServiceBundle\Document\PhoneNumber")
+     * @MongoDB\EmbedOne(targetDocument="CommonServices\UserServiceBundle\Document\PhoneNumber")
      */
     protected $phoneNumber;
 
     /**
-     * @MongoDB\EmbedOne(targetDocument="ImageStock\UserServiceBundle\Document\AccessInfo")
+     * @MongoDB\EmbedOne(targetDocument="CommonServices\UserServiceBundle\Document\AccessInfo")
      *
      * @Exclude
      */
     protected $accessInfo;
 
     /**
-     * @MongoDB\EmbedOne(targetDocument="ImageStock\UserServiceBundle\Document\FacebookAccount")
+     * @MongoDB\EmbedOne(targetDocument="CommonServices\UserServiceBundle\Document\FacebookAccount")
      *
      * @Exclude
      */
     protected $facebookAccount;
 
     /**
-     * @MongoDB\EmbedOne(targetDocument="ImageStock\UserServiceBundle\Document\GoogleAccount")
+     * @MongoDB\EmbedOne(targetDocument="CommonServices\UserServiceBundle\Document\GoogleAccount")
      *
      * @Exclude
      */
@@ -348,7 +368,7 @@ class User
     /**
      * Set facebookAccount
      *
-     * @param \ImageStock\UserServiceBundle\Document\FacebookAccount $facebookAccount
+     * @param FacebookAccount $facebookAccount
      * @return $this
      */
     public function setFacebookAccount(FacebookAccount $facebookAccount)
@@ -360,7 +380,7 @@ class User
     /**
      * Get facebookAccount
      *
-     * @return \ImageStock\UserServiceBundle\Document\FacebookAccount $facebookAccount
+     * @return FacebookAccount $facebookAccount
      */
     public function getFacebookAccount()
     {
@@ -370,7 +390,7 @@ class User
     /**
      * Set googleAccount
      *
-     * @param \ImageStock\UserServiceBundle\Document\GoogleAccount $googleAccount
+     * @param GoogleAccount $googleAccount
      * @return $this
      */
     public function setGoogleAccount(GoogleAccount $googleAccount)
@@ -382,7 +402,7 @@ class User
     /**
      * Get googleAccount
      *
-     * @return \ImageStock\UserServiceBundle\Document\GoogleAccount $googleAccount
+     * @return GoogleAccount $googleAccount
      */
     public function getGoogleAccount()
     {
@@ -392,10 +412,10 @@ class User
     /**
      * Set phoneNumber
      *
-     * @param ImageStock\UserServiceBundle\Document\PhoneNumber $phoneNumber
+     * @param PhoneNumber $phoneNumber
      * @return $this
      */
-    public function setPhoneNumber(\ImageStock\UserServiceBundle\Document\PhoneNumber $phoneNumber)
+    public function setPhoneNumber(PhoneNumber $phoneNumber)
     {
         $this->phoneNumber = $phoneNumber;
         return $this;
@@ -404,7 +424,7 @@ class User
     /**
      * Get phoneNumber
      *
-     * @return ImageStock\UserServiceBundle\Document\PhoneNumber $phoneNumber
+     * @return PhoneNumber $phoneNumber
      */
     public function getPhoneNumber()
     {

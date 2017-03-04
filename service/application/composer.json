@@ -42,15 +42,14 @@
         "doctrine/mongodb-odm": "^1.1",
         "knplabs/knp-paginator-bundle": "^2.5",
         "ramsey/uuid-doctrine": "^1.2",
-        "behat/symfony2-extension": "^2.1",
         "willdurand/geocoder": "^3.3",
-        "friendsofsymfony/rest-bundle": "^2.1",
         "willdurand/hateoas": "^2.10"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.0",
         "sensio/generator-bundle": "^3.1",
-        "symfony/debug-bundle": "^3.2"
+        "symfony/debug-bundle": "^3.2",
+        "behat/symfony2-extension": "^2.1"
     },
     "scripts": {
         "symfony-scripts": [

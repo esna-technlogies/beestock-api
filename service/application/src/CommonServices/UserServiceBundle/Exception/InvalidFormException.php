@@ -28,7 +28,10 @@ class InvalidFormException extends \Exception
         $errors =[];
 
         foreach ($formErrors as $form){
-            $errors[$form->getForm()->getName()]= $form->getChildren();
+            $errors[$formErrors->getForm()->getName()]=
+                [
+                    $formErrors->getChildren()
+                ];
         }
 
         self::$formErrors = $errors;

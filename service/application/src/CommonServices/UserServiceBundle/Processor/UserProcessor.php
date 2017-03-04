@@ -13,7 +13,7 @@ use CommonServices\UserServiceBundle\Form\Type\UserType;
 final class UserProcessor extends AbstractProcessor
 {
     /**
-     * Process Mail Form
+     * Process User Form
      * it validate the parameters and fill the Item entity with the form parameters
      *
      * @param User $user
@@ -32,7 +32,7 @@ final class UserProcessor extends AbstractProcessor
 
         if(false === $form->isValid()){
 
-            throw new InvalidFormException('Something went wrong !', $form->getErrors(true, false));
+            throw new InvalidFormException('Something went wrong !', $form->getErrors(true, true));
         }
 
         return $form->getData();
