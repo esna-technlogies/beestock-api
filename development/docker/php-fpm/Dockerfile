@@ -13,11 +13,12 @@ RUN apt-get install -y \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng12-dev \
+        libgmp-dev \
     && rm -rf /var/cache/apk/*
 
 RUN docker-php-ext-configure intl && docker-php-ext-install intl
 
-RUN docker-php-ext-install iconv mcrypt bcmath \
+RUN docker-php-ext-install iconv mcrypt bcmath gmp\
         opcache \
         soap \
         zip \

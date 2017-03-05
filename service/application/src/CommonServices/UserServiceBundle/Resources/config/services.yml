@@ -1,6 +1,6 @@
 services:
     user_service.core:
-        class: CommonServices\UserServiceBundle\lib\UserService
+        class: CommonServices\UserServiceBundle\lib\UserManagerService
         arguments: ["@service_container",
                     "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:User')"]
 
@@ -30,3 +30,6 @@ services:
         class:   CommonServices\UserServiceBundle\Event\EventListener\Document\DocumentPrePersistListener
         tags:
             -  { name: doctrine_mongodb.odm.event_listener, event: prePersist }
+
+
+

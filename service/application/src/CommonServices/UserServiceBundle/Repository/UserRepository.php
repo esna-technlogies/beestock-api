@@ -4,6 +4,7 @@ namespace CommonServices\UserServiceBundle\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use CommonServices\UserServiceBundle\Document\User;
+use MongoDB\BSON\Regex;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -35,7 +36,7 @@ class UserRepository extends DocumentRepository
     public function findAllByNameOrderedByName($name, $limit = 10)
     {
         return $this->createQueryBuilder()
-            ->field('fullName')->equals(new \MongoDB\BSON\Regex($name, 'i'))
+            ->field('fullName')->equals(new Regex($name, 'i'))
             ->sort('fullName', 'ASC')
             ->limit($limit)
             ->getQuery()

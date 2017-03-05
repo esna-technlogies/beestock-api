@@ -1,0 +1,70 @@
+default:
+    autoload:
+        - %paths.base%/features/bootstrap/
+    formatters:
+        pretty:
+            verbose:  true
+            paths:    false
+            snippets: false
+
+    extensions:
+        Behat\Symfony2Extension: ~
+        Behat\MinkExtension:
+            #mink_driver: true
+            #kernel:
+            #  env: test
+            #  debug: true
+            sessions:
+                default:
+                    symfony2: ~
+            base_url: http://user-service.dev
+            selenium2: ~
+
+    suites:
+        core_features:
+            paths:
+                - %paths.base%/tests/Functional/Features
+                - %paths.base%/tests/Functional/Bootstrap
+        default:
+            contexts:
+                - behatch:context:browser
+                - behatch:context:debug
+                - behatch:context:system
+                - behatch:context:json
+                - behatch:context:table
+                - behatch:context:rest
+                - behatch:context:xml
+
+        user_registration:
+            paths:    [ %paths.base%/tests/Functional/Features/Registration ]
+            type: symfony_bundle
+            bundle: UserServiceBundle
+            contexts:
+              - DefaultContext:
+                    resultPool: "@behatch.http_call.result_pool"
+                    fixtures:
+                        - %paths.base%/tests/Functional/Features/user.yml
+                    keepDatabase: true
+              - CommonServices\UserServiceBundle\Features\Context\UserSetupContext:
+                  userManagerService: "@user_service.core"
+            filters:
+                tags: "@registration"
+
+
+#
+#        userservice:
+#            type: symfony_bundle
+#            bundle: UserServiceBundle
+#            paths:
+#                features: %paths.base%/tests/Functional/Features/UserService
+#            contexts:
+#              - CommonServices\UserServiceBundle\Bootstrap\Context\DefaultContext:
+#                    resultPool: "@behatch.http_call.result_pool"
+#                    fixtures:
+#                        - %paths.base%/tests/behat/fixtures/PlayerSkin.yml
+#                        - %paths.base%/tests/behat/fixtures/Assignment.yml
+#                    keepDatabase: true
+#
+#              - CommonServices\UserServiceBundle\Features\UserService\Context\UserSetupContext:
+#                  userManagerService: "@user_service.core"
+#

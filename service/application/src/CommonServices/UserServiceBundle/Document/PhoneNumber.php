@@ -71,4 +71,26 @@ class PhoneNumber
     {
         return $this->number;
     }
+
+    /**
+     * Set number
+     *
+     * @param string $number
+     * @return $this
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+        return $this;
+    }
+
+    /**
+     * Get number
+     *
+     * @return string $number
+     */
+    public function getNumber()
+    {
+        return $this->number;
+    }
 }

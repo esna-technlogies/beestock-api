@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: almasry
- * Date: 23/02/2017
- * Time: 3:16 PM
- */
 
-namespace ImageStock\UserServiceBundle\Document;
+namespace CommonServices\UserServiceBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -15,8 +9,6 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 /**
  * @package UserServiceBundle\Document
  * @MongoDB\EmbeddedDocument
- *
- * @ExclusionPolicy("all")
  */
 class AccessInfo
 {
@@ -32,6 +24,18 @@ class AccessInfo
      * @Gedmo\Timestampable(on="change", field={"password"})
      */
     protected $lastChange;
+
+    /**
+     * @MongoDB\Field(type="string")
+     * @Assert\NotBlank()
+     */
+    protected $passwordSalt;
+
+    /**
+     * @MongoDB\Field(type="collection")
+     * @Assert\NotBlank()
+     */
+    protected $userRoles;
 
     /**
      * Set password
@@ -75,5 +79,49 @@ class AccessInfo
     public function getLastChange()
     {
         return $this->lastChange;
+    }
+
+    /**
+     * Set passwordSalt
+     *
+     * @param string $passwordSalt
+     * @return $this
+     */
+    public function setPasswordSalt($passwordSalt)
+    {
+        $this->passwordSalt = $passwordSalt;
+        return $this;
+    }
+
+    /**
+     * Get passwordSalt
+     *
+     * @return string $passwordSalt
+     */
+    public function getPasswordSalt()
+    {
+        return $this->passwordSalt;
+    }
+
+    /**
+     * Set userRoles
+     *
+     * @param array $userRoles
+     * @return $this
+     */
+    public function setUserRoles($userRoles)
+    {
+        $this->userRoles = $userRoles;
+        return $this;
+    }
+
+    /**
+     * Get userRoles
+     *
+     * @return array $userRoles
+     */
+    public function getUserRoles()
+    {
+        return $this->userRoles;
     }
 }

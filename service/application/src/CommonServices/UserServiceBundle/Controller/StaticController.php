@@ -16,7 +16,9 @@ class StaticController extends Controller
     {
         /** @var FormBuilderInterface $formBuilder */
         $formBuilder = $this->createFormBuilder()
-            ->setAction('/app_dev.php/api/user')
+            ->setAction(
+                $this->generateUrl('user_service_post_user')
+            )
             ->setMethod('POST');
 
         $form = $formBuilder->getForm();

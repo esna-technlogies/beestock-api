@@ -7,10 +7,16 @@ security:
         in_memory:
             memory: ~
 
+    encoders:
+        CommonServices\UserServiceBundle\Document\AccessInfo:
+            algorithm: bcrypt
+            cost: 12
+
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
+            stateless: true
             security: false
 
         main:
@@ -22,33 +28,3 @@ security:
 
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-
-        # ...
-
-    role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
-
-    firewalls:
-        dev:
-            pattern:  ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        security:
-            pattern: ^/api/security/(reset-password|request-password)/
-            security: false
-        common:
-            pattern: ^/api/common/
-            security: false
-        doc:
-            pattern: ^/api/doc
-            security: false
-        jwt_token:
-            pattern: ^/api/security/login
-            stateless: true
-            gfreeau_get_jwt:
-                username_parameter: email
-                #failure_handler:
-        main:
-            pattern: ^/
-            stateless: true
-            lexik_jwt: ~

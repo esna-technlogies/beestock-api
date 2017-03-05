@@ -43,7 +43,8 @@ class UserController extends Controller
         $user = $this->get('user_service.core')->addNewUser($requestData);
 
         return new Response(
-            $this->get('user_service.response_serializer')->serialize(['user' => $user]),
+            $this->get('user_service.response_serializer')
+                ->serialize(['user' => $user]),
             Response::HTTP_OK
         );
     }
@@ -56,7 +57,8 @@ class UserController extends Controller
     public function getUserAction(User $user)
     {
         return new Response(
-            $this->get('user_service.response_serializer')->serialize(['user' => $user]),
+            $this->get('user_service.response_serializer')
+                ->serialize(['user' => $user]),
             Response::HTTP_OK
         );
     }
@@ -69,7 +71,8 @@ class UserController extends Controller
     public function getUserPhoneNumberAction(User $user)
     {
         return new Response(
-            $this->get('user_service.response_serializer')->serialize(['userPhone' => $user->getPhoneNumber()]),
+            $this->get('user_service.response_serializer')
+                ->serialize(['userPhone' => $user->getPhoneNumber()]),
             Response::HTTP_OK
         );
     }
