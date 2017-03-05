@@ -1,6 +1,6 @@
 services:
     user_service.core:
-        class: CommonServices\UserServiceBundle\lib\UserService
+        class: CommonServices\UserServiceBundle\lib\UserManagerService
         arguments: ["@service_container",
                     "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:User')"]
 
@@ -31,10 +31,5 @@ services:
         tags:
             -  { name: doctrine_mongodb.odm.event_listener, event: prePersist }
 
-    user_service.mongodb_user_provider:
-        class: CommonServices\UserServiceBundle\Security\User\MongoDBUserProvider
-        arguments: ["@user_service.core"]
 
-    jwt_token_authenticator:
-        class: CommonServices\UserServiceBundle\Security\User\JwtTokenAuthenticator
-        autowire: true
+

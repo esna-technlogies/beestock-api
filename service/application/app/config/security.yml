@@ -4,12 +4,8 @@ security:
 
     # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        #in_memory:
-        #    memory: ~
-        jwt:
-            lexik_jwt: ~
-        database: # optional
-            id: user_service.mongodb_user_provider
+        in_memory:
+            memory: ~
 
     encoders:
         CommonServices\UserServiceBundle\Document\AccessInfo:
@@ -18,24 +14,17 @@ security:
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
-        default:
-            pattern: ^/
-            stateless: true
-            anonymous: ~
-
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             stateless: true
             security: false
 
-        api:
-            pattern:   ^/api
-            stateless: true
-            guard:
-                authenticators:
-                    -  jwt_token_authenticator
+        main:
+            anonymous: ~
+            # activate different ways to authenticate
 
-    access_control:
-        - { path: ^/api/user/authenticate, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/user/registration, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api, roles: 'ROLE_USER' }
+            # http_basic: ~
+            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: ~
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html

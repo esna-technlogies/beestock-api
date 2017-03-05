@@ -11,7 +11,7 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
  * @package UserServiceBundle\Document
  * @MongoDB\EmbeddedDocument
  */
-class AccessInfo implements UserInterface, \Serializable
+class AccessInfo implements UserInterface
 {
     /**
      * @MongoDB\Field(type="string")
@@ -134,23 +134,4 @@ class AccessInfo implements UserInterface, \Serializable
     public function eraseCredentials()
     {
     }
-
-    /** @see \Serializable::serialize() */
-    public function serialize()
-    {
-        return serialize(array(
-            $this->username,
-            $this->password,
-        ));
-    }
-
-    /** @see \Serializable::unserialize() */
-    public function unserialize($serialized)
-    {
-        list (
-            $this->username,
-            $this->password,
-            ) = unserialize($serialized);
-    }
-
 }

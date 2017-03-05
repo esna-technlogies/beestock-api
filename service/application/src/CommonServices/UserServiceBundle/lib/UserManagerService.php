@@ -3,6 +3,7 @@
 namespace CommonServices\UserServiceBundle\lib;
 
 use CommonServices\UserServiceBundle\Document\AccessInfo;
+use CommonServices\UserServiceBundle\Document\FacebookAccount;
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Exception\InvalidFormException;
 use CommonServices\UserServiceBundle\Processor\UserProcessor;
@@ -10,7 +11,11 @@ use CommonServices\UserServiceBundle\Repository\UserRepository;
 use Documents\CustomRepository\Document;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class UserService
+/**
+ * Class UserManagerService
+ * @package CommonServices\UserServiceBundle\lib
+ */
+class UserManagerService
 {
     /**
      * @var UserRepository
@@ -42,10 +47,10 @@ class UserService
     public function addNewUser(array $userData)
     {
         $userProcessor = new UserProcessor($this->serviceContainer->get('form.factory'));
-        $user = $userProcessor->processForm(new User(), $userData);
+        $user = $userProcessor->processForm($this->createNewUser(), $userData);
 
         /** @var AccessInfo $accessInfo */
-        $accessInfo = $user->getAccessInfo();
+        $accessInfo   = $user->getAccessInfo();
         $userPassword = $accessInfo->getPassword();
 
         $encoder = $this->serviceContainer->get('security.password_encoder');
@@ -88,6 +93,29 @@ class UserService
     public function changeUserPassword($user){
 
     }
+
+    /**
+     * @return User
+     */
+    public function createNewUser()
+    {
+        $user = new User();
+
+        $user->setAccessInfo(new AccessInfo());
+        $user->setFacebookAccount(new FacebookAccount());
+        $user->setFacebookAccount(new FacebookAccount());
+
+        return $user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function updateUser(User $user)
+    {
+        $this->userRepository->save($user);
+    }
+
 
     /**
      * Check if user exist

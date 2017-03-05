@@ -280,7 +280,7 @@ class User
     /**
      * Get accessInfo
      *
-     * @return $accessInfo
+     * @return AccessInfo
      */
     public function getAccessInfo()
     {
@@ -380,7 +380,7 @@ class User
     /**
      * Get facebookAccount
      *
-     * @return FacebookAccount $facebookAccount
+     * @return FacebookAccount
      */
     public function getFacebookAccount()
     {
@@ -402,7 +402,7 @@ class User
     /**
      * Get googleAccount
      *
-     * @return GoogleAccount $googleAccount
+     * @return GoogleAccount
      */
     public function getGoogleAccount()
     {
@@ -424,7 +424,7 @@ class User
     /**
      * Get phoneNumber
      *
-     * @return PhoneNumber $phoneNumber
+     * @return PhoneNumber
      */
     public function getPhoneNumber()
     {

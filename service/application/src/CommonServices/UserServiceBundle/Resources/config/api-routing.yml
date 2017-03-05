@@ -1,11 +1,3 @@
-api_login_check:
-    path: /api/login_check
-
-api_user_authenticate:
-    methods: [POST]
-    path: /user/authenticate
-    defaults: { _controller: UserServiceBundle:Authentication:userLogin }
-
 user_service_list_users:
     methods: [GET]
     path:     /user
@@ -18,7 +10,7 @@ user_service_get_user:
 
 user_service_post_user:
     methods: [POST]
-    path:     /user/registration
+    path:     /user/registration/
     defaults:
       _controller: UserServiceBundle:User:newUser
 
