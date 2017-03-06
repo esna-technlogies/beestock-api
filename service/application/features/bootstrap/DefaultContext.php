@@ -8,7 +8,6 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use JsonSchema\RefResolver;
 use JsonSchema\Uri\UriRetriever;
 use Behatch\Context\RestContext;
-use Behatch\HttpCall\HttpCallResultPool;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Webmozart\Json\JsonDecoder;
@@ -46,11 +45,6 @@ class DefaultContext extends RawMinkContext implements \Behat\Behat\Context\Cont
     protected $restContext;
 
     /**
-     * @var HttpCallResultPool
-     */
-    protected $resultPool;
-
-    /**
      * {@inheritdoc}
      */
     public function setKernel(KernelInterface $kernel)
@@ -60,13 +54,11 @@ class DefaultContext extends RawMinkContext implements \Behat\Behat\Context\Cont
     }
 
     /**
-     * @param HttpCallResultPool $resultPool
      * @param array              $fixtures
      * @param bool|false         $keepDatabase
      */
-    public function __construct(HttpCallResultPool $resultPool, $fixtures = array(), $keepDatabase = false)
+    public function __construct($fixtures = array(), $keepDatabase = false)
     {
-        $this->resultPool         = $resultPool;
         $this->fixtures           = $fixtures;
         $this->keepDatabase       = $keepDatabase;
     }

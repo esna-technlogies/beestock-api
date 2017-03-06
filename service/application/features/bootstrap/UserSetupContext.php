@@ -1,7 +1,5 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Features\Context;
-
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
@@ -36,9 +34,9 @@ class UserSetupContext implements Context, SnippetAcceptingContext
     {
         foreach ($users->getColumnsHash() as $key => $val) {
 
-/*            $confirmationToken =
-                isset($val['confirmation_token']) && ($val['confirmation_token'] != '')
-                    ? $val['confirmation_token']: null;*/
+            /*            $confirmationToken =
+                            isset($val['confirmation_token']) && ($val['confirmation_token'] != '')
+                                ? $val['confirmation_token']: null;*/
 
             $user = $this->userService->createNewUser();
 

@@ -1,7 +1,5 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Features\Context;
-
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
@@ -213,82 +211,82 @@ class RestApiContext implements Context
     // Reference : https://github.com/guzzle/guzzle/blob/master/UPGRADING.md#post-requests
 
 
-/*    /**
-     * Sends HTTP request to specific URL with form data from PyString.
-     *
-     * @param string       $method request method
-     * @param string       $url    relative url
-     * @param PyStringNode $body   request body
-     *
-     * @When /^(?:I )?send a "([A-Z]+)" request to "([^"]+)" with form data:$/
-     */
+    /*    /**
+         * Sends HTTP request to specific URL with form data from PyString.
+         *
+         * @param string       $method request method
+         * @param string       $url    relative url
+         * @param PyStringNode $body   request body
+         *
+         * @When /^(?:I )?send a "([A-Z]+)" request to "([^"]+)" with form data:$/
+         */
 
 
-/*    public function iSendARequestWithFormData($method, $url, PyStringNode $body)
-    {
-        $url = $this->prepareUrl($url);
-        $body = $this->replacePlaceHolder(trim($body));
+    /*    public function iSendARequestWithFormData($method, $url, PyStringNode $body)
+        {
+            $url = $this->prepareUrl($url);
+            $body = $this->replacePlaceHolder(trim($body));
 
-        $fields = array();
-        parse_str(implode('&', explode("\n", $body)), $fields);
-        $this->request = $this->getClient()->request($method, $url);
-        / ** @var \GuzzleHttp\Post\PostBodyInterface $requestBody * /
-        $requestBody = $this->request->getBody();
-        foreach ($fields as $key => $value) {
-            $requestBody->setField($key, $value);
-        }
+            $fields = array();
+            parse_str(implode('&', explode("\n", $body)), $fields);
+            $this->request = $this->getClient()->request($method, $url);
+            / ** @var \GuzzleHttp\Post\PostBodyInterface $requestBody * /
+            $requestBody = $this->request->getBody();
+            foreach ($fields as $key => $value) {
+                $requestBody->setField($key, $value);
+            }
 
-        $this->sendRequest();
-    }
-
-
-
-    /**
-     * @param $method
-     * @param $url
-     * @param TableNode $post
-     *
-     * @When /^(?:I )?send a multipart "([A-Z]+)" request to "([^"]+)" with form data:$/
-     */
-/*
-    public function iSendAMultipartRequestToWithFormData($method, $url, TableNode $post)
-    {
-        $url = $this->prepareUrl($url);
-
-        $this->request = $this->getClient()->request($method, $url);
-
-        $data = $post->getColumnsHash()[0];
-
-        $hasFile = false;
-
-        if (array_key_exists('filePath', $data)) {
-            $filePath = $this->dummyDataPath . $data['filePath'];
-            unset($data['filePath']);
-            $hasFile = true;
+            $this->sendRequest();
         }
 
 
-        / ** @var \GuzzleHttp\Post\PostBodyInterface $requestBody * /
-        $requestBody = $this->request->getBody();
-        foreach ($data as $key => $value) {
-            $requestBody->setField($key, $value);
-        }
+
+        /**
+         * @param $method
+         * @param $url
+         * @param TableNode $post
+         *
+         * @When /^(?:I )?send a multipart "([A-Z]+)" request to "([^"]+)" with form data:$/
+         */
+    /*
+        public function iSendAMultipartRequestToWithFormData($method, $url, TableNode $post)
+        {
+            $url = $this->prepareUrl($url);
+
+            $this->request = $this->getClient()->request($method, $url);
+
+            $data = $post->getColumnsHash()[0];
+
+            $hasFile = false;
+
+            if (array_key_exists('filePath', $data)) {
+                $filePath = $this->dummyDataPath . $data['filePath'];
+                unset($data['filePath']);
+                $hasFile = true;
+            }
 
 
-        if ($hasFile) {
-            $file = fopen($filePath, 'rb');
-            $postFile = new PostFile('uploadedFile', $file);
-            $requestBody->addFile($postFile);
-        }
+            / ** @var \GuzzleHttp\Post\PostBodyInterface $requestBody * /
+            $requestBody = $this->request->getBody();
+            foreach ($data as $key => $value) {
+                $requestBody->setField($key, $value);
+            }
 
 
-        if (!empty($this->headers)) {
-            $this->request->addHeaders($this->headers);
-        }
-        $this->request->setHeader('Content-Type', 'multipart/form-data');
+            if ($hasFile) {
+                $file = fopen($filePath, 'rb');
+                $postFile = new PostFile('uploadedFile', $file);
+                $requestBody->addFile($postFile);
+            }
 
-        $this->sendRequest();
-    }*/
+
+            if (!empty($this->headers)) {
+                $this->request->addHeaders($this->headers);
+            }
+            $this->request->setHeader('Content-Type', 'multipart/form-data');
+
+            $this->sendRequest();
+        }*/
 
     /**
      * Checks that response has specific status code.
