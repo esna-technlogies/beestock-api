@@ -6,11 +6,20 @@ framework:
     session:
         storage_id: session.storage.mock_file
     profiler:
-        collect: false
+        collect: true
+        only_exceptions: false
 
 web_profiler:
-    toolbar: false
+    toolbar: true
     intercept_redirects: false
 
 swiftmailer:
     disable_delivery: true
+
+csa_guzzle:
+    logger: true
+    clients:
+        local_api_test:
+            config: # you can specify the options as in http://docs.guzzlephp.org/en/latest/quickstart.html
+                base_uri: "http://user-service.dev/app_test.php/"
+                timeout: 60

@@ -2,11 +2,39 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\MinkExtension\Context\MinkContext;
+use Behat\Gherkin\Node\PyStringNode;
+use Behat\Gherkin\Node\TableNode;
 
-class FeatureContext extends MinkContext implements Context, SnippetAcceptingContext
+/**
+ * Defines application features from the specific context.
+ */
+class FeatureContext implements Context, SnippetAcceptingContext
 {
-    public function __construct($output_path)
+    private $doctrine;
+    private $manager;
+    private $schemaTool;
+    private $classes;
+
+    /**
+     * Initializes context.
+     *
+     * Every scenario gets its own context instance.
+     * You can also pass arbitrary arguments to the
+     * context constructor through behat.yml.
+     */
+    public function __construct(string $doctrine)
     {
+
+        print "Hello from FeatureContext :) ";
+
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function createSchema()
+    {
+
+
     }
 }
