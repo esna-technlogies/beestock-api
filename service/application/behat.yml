@@ -16,7 +16,7 @@ default:
                 - FeatureContext
                 - Behat\MinkExtension\Context\MinkContext
 
-        search:
+        login:
             contexts:
                 - behatch:context:browser
                 - behatch:context:debug
