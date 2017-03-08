@@ -40,7 +40,9 @@ class UserController extends Controller
     {
         $requestData = $request->request->all();
 
-        $user = $this->get('user_service.core')->addNewUser($requestData);
+        $userService = $this->get('user_service.core');
+
+        $user = $userService->addNewUser($userService->createNewUser(), $requestData);
 
         return new Response(
             $this->get('user_service.response_serializer')

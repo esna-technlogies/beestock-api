@@ -40,11 +40,16 @@ class UserSetupContext implements Context, SnippetAcceptingContext
 
             $user = $this->userService->createNewUser();
 
-            $user->setFullName($val['username']);
-            $user->setEmail($val['email']);
-            $user->getAccessInfo()->setPassword($val['password']);
+            try{
+                $this->userService->addNewUser($user, $val);
+            }
 
-            $this->userService->updateUser($user);
+            catch (Exception $e){
+                print_r(\CommonServices\UserServiceBundle\Exception\InvalidFormException::$formErrors);
+
+            }
+
+
         }
     }
 }

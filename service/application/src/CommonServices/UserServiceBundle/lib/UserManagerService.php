@@ -6,7 +6,7 @@ use CommonServices\UserServiceBundle\Document\AccessInfo;
 use CommonServices\UserServiceBundle\Document\FacebookAccount;
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Exception\InvalidFormException;
-use CommonServices\UserServiceBundle\Processor\UserProcessor;
+use CommonServices\UserServiceBundle\Form\Processor\UserProcessor;
 use CommonServices\UserServiceBundle\Repository\UserRepository;
 use Documents\CustomRepository\Document;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -39,15 +39,15 @@ class UserManagerService
     }
 
     /**
+     * @param User $user
      * @param array $userData
      * @throws InvalidFormException
      *
      * @return User $user
      */
-    public function addNewUser(array $userData)
+    public function addNewUser(User $user, array $userData)
     {
-        $userProcessor = new UserProcessor($this->serviceContainer->get('form.factory'));
-        $user = $userProcessor->processForm($this->createNewUser(), $userData);
+        $user = $this->mapUserData($user, $userData);
 
         /** @var AccessInfo $accessInfo */
         $accessInfo   = $user->getAccessInfo();
@@ -61,6 +61,20 @@ class UserManagerService
         $this->userRepository->save($user);
 
         return $user;
+    }
+
+    /**
+     * @param User $user
+     * @param array $userData
+     * @throws InvalidFormException
+     *
+     * @return User $user
+     */
+    private function mapUserData(User $user, array $userData)
+    {
+        $userProcessor = new UserProcessor($this->serviceContainer->get('form.factory'));
+
+        return $userProcessor->processForm($user, $userData);
     }
 
     /**
@@ -115,7 +129,6 @@ class UserManagerService
     {
         $this->userRepository->save($user);
     }
-
 
     /**
      * Check if user exist
