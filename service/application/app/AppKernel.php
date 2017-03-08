@@ -27,7 +27,6 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
             new Csa\Bundle\GuzzleBundle\CsaGuzzleBundle(),
-            new Oneup\FlysystemBundle\OneupFlysystemBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
