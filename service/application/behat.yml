@@ -9,7 +9,6 @@ default:
             debug: "false"
         Behatch\Extension: ~
 
-
     suites:
         default:
             contexts:
@@ -17,29 +16,28 @@ default:
                 - Behat\MinkExtension\Context\MinkContext
 
         login:
+            paths: [ %paths.base%/features/login ]
             contexts:
-                - behatch:context:browser
-                - behatch:context:debug
-                - behatch:context:system
-                - behatch:context:json
-                - behatch:context:table
                 - behatch:context:rest
-                - behatch:context:xml
-                - FeatureContext:
-                     doctrine: 1
-
+                - UserSetupContext:
+                      userManagerService: "@user_service.core"
                 - RestApiContext:
                       client: "@csa_guzzle.client.local_api_test"
 
-                - DefaultContext:
-                      fixtures:
-                          - %paths.base%/tests/Functional/Features/user.yml
-                      keepDatabase: true
-                - Behat\MinkExtension\Context\MinkContext
-            paths: [ %paths.base%/features/search ]
+                #- FeatureContext
+                #- DefaultContext:
+                #      fixtures:
+                #          - %paths.base%/tests/Functional/Features/user.yml
+                #      keepDatabase: true
+                # - Behat\MinkExtension\Context\MinkContext
 
-        other:
-            contexts:
-                - FeatureContext
-                - Behat\MinkExtension\Context\MinkContext
-            paths: [ %paths.base%/features/other ]
+
+####  Further necessary conexts that could be used with any suite
+            # contexts:
+               # - behatch:context:browser
+               # - behatch:context:debug
+               # - behatch:context:system
+               # - behatch:context:json
+               # - behatch:context:table
+               # - behatch:context:rest
+               # - behatch:context:xml

@@ -143,7 +143,7 @@ class RestApiContext implements Context
         $url = $this->prepareUrl($url);
         $data = $this->prepareData($data);
 
-//        print_r($data);
+        print_r($data);
 
         try {
             $this->response = $this->getClient()->request($method, $url, $data);
@@ -193,7 +193,7 @@ class RestApiContext implements Context
      *
      * @When /^(?:I )?send a "([A-Z]+)" request to "([^"]+)" with body:$/
      */
-    public function iSendARequestWithBody($method, $url, PyStringNode $string)
+/*    public function iSendARequestWithBody($method, $url, PyStringNode $string)
     {
         $url = $this->prepareUrl($url);
         $string = $this->replacePlaceHolder(trim($string));
@@ -203,7 +203,7 @@ class RestApiContext implements Context
             $url,
             [ 'body' => $string, ]
         );
-    }
+    }*/
 
 
 

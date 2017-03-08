@@ -22,10 +22,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    public function __construct(string $doctrine)
+    public function __construct()
     {
-
-        print "Hello from FeatureContext :) ";
 
     }
 
