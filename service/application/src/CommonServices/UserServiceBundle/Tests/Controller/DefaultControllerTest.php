@@ -4,6 +4,10 @@ namespace CommonServices\UserServiceBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * Class DefaultControllerTest
+ * @package CommonServices\UserServiceBundle\Tests\Controller
+ */
 class DefaultControllerTest extends WebTestCase
 {
     public function testIndex()

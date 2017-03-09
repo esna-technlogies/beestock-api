@@ -9,11 +9,14 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use libphonenumber\PhoneNumberUtil;
 
+/**
+ * Class InternationalMobileNumberValidator
+ * @package CommonServices\UserServiceBundle\Form\Validation
+ */
 class InternationalMobileNumberValidator extends ConstraintValidator
 {
     /**
-     * @param mixed $mobileNumber
-     * @param Constraint $constraint
+     * @inheritdoc
      */
     public function validate($mobileNumber, Constraint $constraint)
     {
@@ -41,6 +44,10 @@ class InternationalMobileNumberValidator extends ConstraintValidator
         }
     }
 
+    /**
+     * @param PhoneNumber $phoneNumber
+     * @param Constraint $constraint
+     */
     private function buildViolation(PhoneNumber $phoneNumber, Constraint $constraint){
 
         /** @var InternationalMobileNumber $constraint */

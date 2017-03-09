@@ -9,6 +9,10 @@ use CommonServices\UserServiceBundle\lib\Utility\MobileNumberFormatter;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * Class DocumentPrePersistListener
+ * @package CommonServices\UserServiceBundle\Event\EventListener\Document
+ */
 class DocumentPrePersistListener
 {
     public function prePersist(LifecycleEventArgs $args)

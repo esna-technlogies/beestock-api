@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: almasry
- * Date: 09/03/2017
- * Time: 1:24 AM
- */
 
 namespace CommonServices\UserServiceBundle\lib\Utility;
 
@@ -14,6 +8,10 @@ use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class MobileNumberFormatter
+ * @package CommonServices\UserServiceBundle\lib\Utility
+ */
 class MobileNumberFormatter
 {
     /**

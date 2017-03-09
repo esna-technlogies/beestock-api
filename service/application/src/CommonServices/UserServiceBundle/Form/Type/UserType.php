@@ -16,6 +16,10 @@ use CommonServices\UserServiceBundle\Document\User;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotNull;
 
+/**
+ * Class UserType
+ * @package CommonServices\UserServiceBundle\Form\Type
+ */
 class UserType extends AbstractType
 {
     /**

@@ -1,6 +1,7 @@
 <?php
 
 namespace CommonServices\UserServiceBundle\Serializer;
+
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

@@ -9,6 +9,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
+/**
+ * Class UniqueUserMobileNumberValidator
+ * @package CommonServices\UserServiceBundle\Form\Validation
+ */
 class UniqueUserMobileNumberValidator extends ConstraintValidator
 {
     /**
@@ -26,8 +30,7 @@ class UniqueUserMobileNumberValidator extends ConstraintValidator
     }
 
     /**
-     * @param PhoneNumber $mobileNumber
-     * @param Constraint $constraint
+     * @inheritdoc
      */
     public function validate($mobileNumber, Constraint $constraint)
     {
@@ -51,6 +54,10 @@ class UniqueUserMobileNumberValidator extends ConstraintValidator
         }
     }
 
+    /**
+     * @param string $mobileNumber
+     * @param Constraint $constraint
+     */
     private function buildViolation(string $mobileNumber, Constraint $constraint){
 
         /** @var InternationalMobileNumber $constraint */

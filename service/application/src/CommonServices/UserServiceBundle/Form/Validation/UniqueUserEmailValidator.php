@@ -1,19 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: almasry
- * Date: 09/03/2017
- * Time: 12:42 AM
- */
 
 namespace CommonServices\UserServiceBundle\Form\Validation;
 
-use CommonServices\UserServiceBundle\Form\Validation\Constraint\InternationalMobileNumber;
 use CommonServices\UserServiceBundle\Form\Validation\Constraint\UniqueUserEmail;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
+/**
+ * Class UniqueUserEmailValidator
+ * @package CommonServices\UserServiceBundle\Form\Validation
+ */
 class UniqueUserEmailValidator extends ConstraintValidator
 {
     /**
@@ -31,8 +28,7 @@ class UniqueUserEmailValidator extends ConstraintValidator
     }
 
     /**
-     * @param string $userEmail
-     * @param Constraint $constraint
+     * @inheritdoc
      */
     public function validate($userEmail, Constraint $constraint)
     {
@@ -52,6 +48,10 @@ class UniqueUserEmailValidator extends ConstraintValidator
         }
     }
 
+    /**
+     * @param string $userEmail
+     * @param Constraint $constraint
+     */
     private function buildViolation(string $userEmail, Constraint $constraint){
 
         /** @var UniqueUserEmail $constraint */

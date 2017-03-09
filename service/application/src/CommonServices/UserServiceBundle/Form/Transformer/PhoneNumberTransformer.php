@@ -6,6 +6,10 @@ use CommonServices\UserServiceBundle\Document\PhoneNumber;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 
+/**
+ * Class PhoneNumberTransformer
+ * @package CommonServices\UserServiceBundle\Form\Transformer
+ */
 class PhoneNumberTransformer implements DataTransformerInterface
 {
     /**

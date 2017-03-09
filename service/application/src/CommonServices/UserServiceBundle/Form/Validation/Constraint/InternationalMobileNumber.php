@@ -6,6 +6,9 @@ use CommonServices\UserServiceBundle\Form\Validation\InternationalMobileNumberVa
 use Symfony\Component\Validator\Constraint;
 
 /**
+ * Class InternationalMobileNumber
+ * @package CommonServices\UserServiceBundle\Form\Validation\Constraint
+ *
  * @Annotation
  */
 class InternationalMobileNumber extends Constraint
@@ -15,6 +18,9 @@ class InternationalMobileNumber extends Constraint
      */
     public $message = 'The number %string% is not a valid mobile number.';
 
+    /**
+     * @inheritdoc
+     */
     public function validatedBy()
     {
         return InternationalMobileNumberValidator::class;

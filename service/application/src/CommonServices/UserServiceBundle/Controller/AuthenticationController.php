@@ -8,7 +8,6 @@
 
 namespace CommonServices\UserServiceBundle\Controller;
 
-
 use CommonServices\UserServiceBundle\Document\AccessInfo;
 use CommonServices\UserServiceBundle\Document\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,6 +17,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
+/**
+ * Class AuthenticationController
+ * @package CommonServices\UserServiceBundle\Controller
+ */
 class AuthenticationController extends Controller
 {
     /**
