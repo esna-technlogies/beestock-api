@@ -5,12 +5,24 @@ namespace CommonServices\UserServiceBundle\Controller;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class StaticController extends Controller
 {
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *  description="Static registration page that renders a static HTML page",
+     *  output="Symfony\Component\HttpFoundation\Response",
+     *  tags={"beta"},
+     *  statusCodes={
+     *         200="Page was rendered successfully",
+     *         404={"No user with the provided UUID was found"},
+     *         500="The system is unable to create the user due to a server side error"
+     *  }
+     * )
      */
     public function signUpAction(Request $request)
     {
@@ -34,6 +46,17 @@ class StaticController extends Controller
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *  description="Static Sign-in page that renders a static HTML page",
+     *  output="Symfony\Component\HttpFoundation\Response",
+     *  tags={"beta"},
+     *  statusCodes={
+     *         200="Page was rendered successfully",
+     *         404={"No user with the provided UUID was found"},
+     *         500="The system is unable to create the user due to a server side error"
+     *  }
+     * )
      */
     public function signInAction()
     {

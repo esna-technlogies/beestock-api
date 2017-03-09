@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class InvalidFormException extends \Exception
 {
-
     /**
      * @var Form
      */

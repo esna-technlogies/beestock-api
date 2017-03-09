@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ApiExceptionHandler
 {
@@ -56,23 +57,22 @@ class ApiExceptionHandler
             $errorResponse['details'] = InvalidFormException::$formErrors;
         }
 
+        $response = new Response();
+
+        if ($exception instanceof NotFoundHttpException) {
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+            $errorResponse ['code'] = 404;
+        } else {
+             $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+        }
+
         $responseContent = $this->serializer->serialize(
             ['error' => $errorResponse],
             $this->serviceContainer->getParameter("api_format")
         );
 
-
-        $response = new Response();
-        $response->setContent($responseContent);
-
-
-        if ($exception instanceof HttpExceptionInterface) {
-            $response->setStatusCode($exception->getStatusCode());
-        } else {
-            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-
         // Send the modified response object to the event
+        $response->setContent($responseContent);
         $event->setResponse($response);
     }
 }

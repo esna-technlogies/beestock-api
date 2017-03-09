@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Processor;
+namespace CommonServices\UserServiceBundle\Form\Processor;
 
 use Symfony\Component\Form\FormFactoryInterface;
 

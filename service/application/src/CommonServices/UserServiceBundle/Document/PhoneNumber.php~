@@ -29,6 +29,12 @@ class PhoneNumber
     protected $number;
 
     /**
+     * @MongoDB\Field(type="string")
+     * @Assert\NotBlank()
+     */
+    protected $internationalNumber;
+
+    /**
      * Set countryCode
      *
      * @param string $countryCode
@@ -51,28 +57,6 @@ class PhoneNumber
     }
 
     /**
-     * Set phoneNumber
-     *
-     * @param string $number
-     * @return $this
-     */
-    public function setPhoneNumber($number)
-    {
-        $this->number = $number;
-        return $this;
-    }
-
-    /**
-     * Get phoneNumber
-     *
-     * @return string $number
-     */
-    public function getPhoneNumber()
-    {
-        return $this->number;
-    }
-
-    /**
      * Set number
      *
      * @param string $number
@@ -92,5 +76,27 @@ class PhoneNumber
     public function getNumber()
     {
         return $this->number;
+    }
+
+    /**
+     * Set internationalMobileNumber
+     *
+     * @param string $internationalNumber
+     * @return $this
+     */
+    public function setInternationalNumber($internationalNumber)
+    {
+        $this->internationalNumber = $internationalNumber;
+        return $this;
+    }
+
+    /**
+     * Get internationalMobileNumber
+     *
+     * @return string $internationalMobileNumber
+     */
+    public function getInternationalNumber()
+    {
+        return $this->internationalNumber;
     }
 }

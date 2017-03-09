@@ -1,7 +1,9 @@
 <?php
 
 namespace CommonServices\UserServiceBundle\Document;
+
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation\ExclusionPolicy;
@@ -10,7 +12,7 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
  * @package UserServiceBundle\Document
  * @MongoDB\EmbeddedDocument
  */
-class AccessInfo
+class AccessInfo implements UserInterface
 {
     /**
      * @MongoDB\Field(type="string")
@@ -29,13 +31,13 @@ class AccessInfo
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
      */
-    protected $passwordSalt;
+    protected $salt;
 
     /**
      * @MongoDB\Field(type="collection")
      * @Assert\NotBlank()
      */
-    protected $userRoles;
+    protected $roles;
 
     /**
      * Set password
@@ -82,46 +84,55 @@ class AccessInfo
     }
 
     /**
-     * Set passwordSalt
+     * Set password salt
      *
-     * @param string $passwordSalt
+     * @param string $salt
      * @return $this
      */
-    public function setPasswordSalt($passwordSalt)
+    public function setSalt($salt)
     {
-        $this->passwordSalt = $passwordSalt;
+        $this->salt = $salt;
         return $this;
     }
 
     /**
-     * Get passwordSalt
+     * Get password salt
      *
-     * @return string $passwordSalt
+     * @return string $salt
      */
-    public function getPasswordSalt()
+    public function getSalt()
     {
-        return $this->passwordSalt;
+        return $this->salt;
     }
 
     /**
      * Set userRoles
      *
-     * @param array $userRoles
+     * @param array $roles
      * @return $this
      */
-    public function setUserRoles($userRoles)
+    public function setRoles($roles)
     {
-        $this->userRoles = $userRoles;
+        $this->roles = $roles;
         return $this;
     }
 
     /**
      * Get userRoles
      *
-     * @return array $userRoles
+     * @return array $roles
      */
-    public function getUserRoles()
+    public function getRoles()
     {
-        return $this->userRoles;
+        return array($this->roles);
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function eraseCredentials()
+    {
     }
 }

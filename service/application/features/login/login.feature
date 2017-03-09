@@ -8,9 +8,11 @@ Feature: Handle user login via the RESTful API
 
   Background:
     Given there are Users with the following details:
-      | id | username | email          | password |
-      | 1  | peter    | peter@test.com | testpass |
-      | 2  | john     | john@test.org  | johnpass |
+
+      | firstName  | lastName | email          | password | termsAccepted | country |
+      | peter      | Janager  | peter@test.com | testpass |  true         | EG      |
+      | john       | Almasry  | john@test.org  | johnpass |  true         | US      |
+
     And I add "Content-Type" header equal to "application/json"
 
   Scenario: User can Login with good credentials
