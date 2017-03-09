@@ -12,6 +12,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Class AccessInfoType
+ * @package CommonServices\UserServiceBundle\Form\Type
+ */
 class AccessInfoType extends AbstractType
 {
     /**

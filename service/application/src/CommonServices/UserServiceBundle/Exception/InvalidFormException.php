@@ -9,7 +9,6 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-
 /**
  * Class InvalidFormException
  * @package CommonServices\UserServiceBundle\Exception
@@ -22,9 +21,7 @@ class InvalidFormException extends \Exception
     static public $formErrors =[];
 
     /**
-     * InvalidFormException constructor.
-     * @param String $message
-     * @param FormErrorIterator $formErrors
+     * @inheritdoc
      */
     public function __construct(String $message, FormErrorIterator $formErrors)
     {

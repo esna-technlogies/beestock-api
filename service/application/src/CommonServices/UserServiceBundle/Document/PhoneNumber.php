@@ -1,8 +1,8 @@
 <?php
 
 namespace CommonServices\UserServiceBundle\Document;
-use Hateoas\Configuration\Annotation as Hateoas;
 
+use Hateoas\Configuration\Annotation as Hateoas;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Validator\Constraints as Assert;
 

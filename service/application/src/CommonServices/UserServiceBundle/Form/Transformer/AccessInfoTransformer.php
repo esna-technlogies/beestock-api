@@ -5,6 +5,10 @@ namespace CommonServices\UserServiceBundle\Form\Transformer;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 
+/**
+ * Class AccessInfoTransformer
+ * @package CommonServices\UserServiceBundle\Form\Transformer
+ */
 class AccessInfoTransformer implements DataTransformerInterface
 {
     /**

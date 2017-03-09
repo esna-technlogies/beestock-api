@@ -1,12 +1,16 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Controller;
+namespace CommonServices\UserServiceBundle\Controller\StaticController;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
+/**
+ * Class StaticController
+ * @package CommonServices\UserServiceBundle\Controller\StaticController
+ */
 class StaticController extends Controller
 {
     /**
@@ -14,6 +18,7 @@ class StaticController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
+     *  section="Static Resources",
      *  description="Static registration page that renders a static HTML page",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"beta"},
@@ -48,6 +53,7 @@ class StaticController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
+     *  section="Static Resources",
      *  description="Static Sign-in page that renders a static HTML page",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"beta"},

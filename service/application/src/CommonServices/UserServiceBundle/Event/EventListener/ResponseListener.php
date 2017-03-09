@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class ResponseListener
- * @package CommonServices\UserServiceBundle\EventListener
+ * @package CommonServices\UserServiceBundle\Event\EventListener
  */
 class ResponseListener
 {

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: almasry
- * Date: 09/03/2017
- * Time: 12:39 AM
- */
 
 namespace CommonServices\UserServiceBundle\Form\Validation\Constraint;
 
@@ -12,6 +6,9 @@ use CommonServices\UserServiceBundle\Form\Validation\UniqueUserMobileNumberValid
 use Symfony\Component\Validator\Constraint;
 
 /**
+ * Class UniqueUserMobileNumber
+ * @package CommonServices\UserServiceBundle\Form\Validation\Constraint
+ *
  * @Annotation
  */
 class UniqueUserMobileNumber extends Constraint
@@ -21,6 +18,9 @@ class UniqueUserMobileNumber extends Constraint
      */
     public $message = 'A user with mobile number %string% has been registered before';
 
+    /**
+     * @inheritdoc
+     */
     public function validatedBy()
     {
         return UniqueUserMobileNumberValidator::class;
