@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Controller\UserController;
+namespace CommonServices\UserServiceBundle\Controller\SocialAccountController;
 
 use CommonServices\UserServiceBundle\Document\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -9,10 +9,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
- * Class UserGoogleAccountController
+ * Class UserFacebookAccountController
  * @package CommonServices\UserServiceBundle\Controller\UserController
  */
-class UserGoogleAccountController extends Controller
+class UserFacebookAccountController extends Controller
 {
     /**
      * Get user mobile phone details
@@ -21,6 +21,7 @@ class UserGoogleAccountController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
+     *  section="User Social Accounts",
      *  resource=true,
      *  description="Get a user mobile number details",
      *  output="Symfony\Component\HttpFoundation\Response",
@@ -41,7 +42,7 @@ class UserGoogleAccountController extends Controller
      *  }
      * )
      */
-    public function getUserGoogleAccountAction(User $user)
+    public function getUserFacebookAccountAction(User $user)
     {
         return new Response(
             $this->get('user_service.response_serializer')

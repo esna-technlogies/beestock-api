@@ -18,6 +18,7 @@ class StaticController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
+     *  section="Static Resources",
      *  description="Static registration page that renders a static HTML page",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"beta"},
@@ -52,6 +53,7 @@ class StaticController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
+     *  section="Static Resources",
      *  description="Static Sign-in page that renders a static HTML page",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"beta"},

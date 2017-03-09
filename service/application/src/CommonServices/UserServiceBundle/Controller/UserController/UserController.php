@@ -20,6 +20,7 @@ class UserController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
+     *  section="User Account",
      *  resource=true,
      *  description="returns a collections of users in the system",
      *  output="Symfony\Component\HttpFoundation\Response",
@@ -51,6 +52,7 @@ class UserController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
+     *  section="User Account",
      *  description="Create a new user",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  requirements={
@@ -133,6 +135,7 @@ class UserController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
+     *  section="User Account",
      *  description="Get a user by UUID",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"stable"},
@@ -168,6 +171,7 @@ class UserController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
+     *  section="User Account",
      *  description="Replace Existing user",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"beta"},
@@ -258,6 +262,7 @@ class UserController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
+     *  section="User Account",
      *  description="Partially update a user",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"beta"},

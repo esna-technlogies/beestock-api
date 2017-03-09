@@ -1,3 +1,4 @@
+## User related resources
 user_service_list_users:
     methods: [GET]
     path:     /user
@@ -30,12 +31,13 @@ user_service_get_user_phone_number:
     path:     /user/{uuid}/mobileNumber
     defaults: { _controller: UserServiceBundle:UserController/UserMobileNumber:getUserPhoneNumber }
 
+## Social accounts resources
 user_service_get_user_facebook_account:
     methods: [GET]
     path:     /user/{uuid}/facebookAccount
-    defaults: { _controller: UserServiceBundle:UserController/UserFacebookAccount:getUserFacebookAccount }
+    defaults: { _controller: UserServiceBundle:SocialAccountController/UserFacebookAccount:getUserFacebookAccount }
 
 user_service_get_user_google_account:
     methods: [GET]
     path:     /user/{uuid}/googleAccount
-    defaults: { _controller: UserServiceBundle:UserController/UserGoogleAccount:getUserGoogleAccount }
+    defaults: { _controller: UserServiceBundle:SocialAccountController/UserGoogleAccount:getUserGoogleAccount }

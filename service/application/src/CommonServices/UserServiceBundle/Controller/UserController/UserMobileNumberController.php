@@ -21,6 +21,7 @@ class UserMobileNumberController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
+     *  section="User Account",
      *  resource=true,
      *  description="Get a user mobile number details",
      *  output="Symfony\Component\HttpFoundation\Response",
