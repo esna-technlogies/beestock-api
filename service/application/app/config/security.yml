@@ -19,6 +19,11 @@ security:
             stateless: true
             security: false
 
+        public:
+            methods: [POST]
+            pattern: ^/api/user
+            security: false
+
         main:
             anonymous: ~
             # activate different ways to authenticate

@@ -78,12 +78,21 @@ class UserManagerService
     }
 
     /**
-     * @param string $user
+     * @param string $email
      * @return object
      */
-    public function getUser(string $user)
+    public function getUserByEmail(string $email)
     {
-        return $this->userRepository->findOneBy(['email'=>$user]);
+        return $this->userRepository->findOneBy(["email"=> $email]);
+    }
+
+    /**
+     * @param string $internationalMobileNumber
+     * @return object
+     */
+    public function getUserByMobileNumber(string $internationalMobileNumber)
+    {
+        return $this->userRepository->findOneBy(["mobileNumber.internationalNumber" => $internationalMobileNumber]);
     }
 
     /**

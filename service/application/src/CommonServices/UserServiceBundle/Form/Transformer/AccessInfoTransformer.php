@@ -1,8 +1,7 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Form\Transformers;
+namespace CommonServices\UserServiceBundle\Form\Transformer;
 
-use CommonServices\UserServiceBundle\Document\AccessInfo;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 

@@ -28,7 +28,6 @@ final class UserProcessor extends AbstractProcessor
                         ->getForm();
         $form->submit($parameters);
 
-
         if(false === $form->isValid()){
             throw new InvalidFormException('Something went wrong !', $form->getErrors(true, true));
         }

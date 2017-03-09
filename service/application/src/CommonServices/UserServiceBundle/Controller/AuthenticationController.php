@@ -16,18 +16,24 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class AuthenticationController extends Controller
 {
     /**
      * @param Request $request
      * @return JsonResponse
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Authentication endpoint",
+     * )
      */
     public function userLoginAction(Request $request)
     {
         $user = $request->getUser()? $request->getUser() : '';
         /** @var User $user */
-        $user = $this->get('user_service.core')->getUser($user);
+        $user = $this->get('user_service.core')->getUserByEmail($user);
 
         if (!$user) {
             throw new NotFoundHttpException('User not fund', null, 401);

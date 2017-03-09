@@ -48,7 +48,8 @@
         "symfony/event-dispatcher": "^3.2",
         "webmozart/json": "^1.2",
         "sanpi/behatch-contexts": "^2.1",
-        "giggsey/libphonenumber-for-php": "^8.3"
+        "giggsey/libphonenumber-for-php": "^8.3",
+        "nelmio/api-doc-bundle": "^2.13"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.2",

@@ -33,19 +33,22 @@ class PhoneNumberType extends AbstractType
     {
         $builder->add('countryCode', TextType::class,
             [
-                'constraints' => array(
-                    new NotBlank()
-                )
+                'constraints' =>
+                [
+                    new NotBlank(),
+                ]
             ]
         );
 
         $builder->add('number', TextType::class,
             [
-                'constraints' => array(
-                    new NotBlank()
-                )
+                'constraints' =>
+                [
+                    new NotBlank(),
+                ]
             ]
         );
+
     }
 
     /**
@@ -55,6 +58,7 @@ class PhoneNumberType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'invalid_message' => 'The number you filled is not a valid mobile number.',
             'data_class' => PhoneNumber::class,
             'csrf_protection' => false,
         ));

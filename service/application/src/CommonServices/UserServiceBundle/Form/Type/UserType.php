@@ -2,6 +2,9 @@
 
 namespace CommonServices\UserServiceBundle\Form\Type;
 
+use CommonServices\UserServiceBundle\Form\Validation\Constraint\InternationalMobileNumber;
+use CommonServices\UserServiceBundle\Form\Validation\Constraint\UniqueUserEmail;
+use CommonServices\UserServiceBundle\Form\Validation\Constraint\UniqueUserMobileNumber;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -10,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use CommonServices\UserServiceBundle\Document\User;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class UserType extends AbstractType
 {
@@ -34,12 +39,29 @@ class UserType extends AbstractType
     {
         $builder->add('firstName', TextType::class);
         $builder->add('lastName', TextType::class);
-        $builder->add('email', EmailType::class);
+        $builder->add('email', EmailType::class,
+            [
+                'constraints' =>
+                    [
+                        new NotNull(),
+                        new UniqueUserEmail(),
+                    ]
+            ]
+        );
         $builder->add('country', TextType::class);
         $builder->add('termsAccepted', RadioType::class);
-        $builder->remove('userRoles');
         $builder->add('accessInfo', AccessInfoType::class);
-        $builder->add('phoneNumber', PhoneNumberType::class);
+        $builder->add('mobileNumber', PhoneNumberType::class,
+            [
+                'error_bubbling'=> false,
+                'constraints' =>
+                    [
+                        new NotNull(),
+                        new UniqueUserMobileNumber(),
+                        new InternationalMobileNumber(),
+                    ]
+            ]
+        );
     }
 
     /**

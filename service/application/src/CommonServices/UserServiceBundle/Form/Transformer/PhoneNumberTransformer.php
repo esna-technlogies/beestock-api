@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Form\Transformers;
+namespace CommonServices\UserServiceBundle\Form\Transformer;
 
 use CommonServices\UserServiceBundle\Document\PhoneNumber;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -25,22 +25,22 @@ class PhoneNumberTransformer implements DataTransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function transform($phoneNumber)
+    public function transform($mobileNumber)
     {
-        /** @var PhoneNumber $phoneNumber */
-        if(null === $phoneNumber){
+        /** @var PhoneNumber $mobileNumber */
+        if(null === $mobileNumber){
             return null;
         }
-        return $phoneNumber->getPhoneNumber();
+        return $mobileNumber->getInternationalNumber();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function reverseTransform($phoneNumber)
+    public function reverseTransform($mobileNumber)
     {
         return (new PhoneNumber())
-            ->setPhoneNumber($phoneNumber['number'])
-            ->setCountryCode($phoneNumber['countryCode']);
+            ->setNumber($mobileNumber['number'])
+            ->setCountryCode($mobileNumber['countryCode']);
     }
 }

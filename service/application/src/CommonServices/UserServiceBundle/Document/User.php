@@ -110,9 +110,14 @@ class User
     protected $termsAccepted;
 
     /**
+     * @MongoDB\Field(type="string")
+     */
+    protected $language;
+
+    /**
      * @MongoDB\EmbedOne(targetDocument="CommonServices\UserServiceBundle\Document\PhoneNumber")
      */
-    protected $phoneNumber;
+    protected $mobileNumber;
 
     /**
      * @MongoDB\EmbedOne(targetDocument="CommonServices\UserServiceBundle\Document\AccessInfo")
@@ -410,24 +415,46 @@ class User
     }
 
     /**
-     * Set phoneNumber
+     * Set mobile number
      *
-     * @param PhoneNumber $phoneNumber
+     * @param PhoneNumber $mobileNumber
      * @return $this
      */
-    public function setPhoneNumber(PhoneNumber $phoneNumber)
+    public function setMobileNumber(PhoneNumber $mobileNumber)
     {
-        $this->phoneNumber = $phoneNumber;
+        $this->mobileNumber = $mobileNumber;
         return $this;
     }
 
     /**
-     * Get phoneNumber
+     * Get mobile number
      *
      * @return PhoneNumber
      */
-    public function getPhoneNumber()
+    public function getMobileNumber()
     {
-        return $this->phoneNumber;
+        return $this->mobileNumber;
+    }
+
+    /**
+     * Set language
+     *
+     * @param string $language
+     * @return $this
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+        return $this;
+    }
+
+    /**
+     * Get language
+     *
+     * @return string $language
+     */
+    public function getLanguage()
+    {
+        return $this->language;
     }
 }

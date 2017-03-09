@@ -10,8 +10,9 @@ parameters:
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
-    translator: ~
+    #translator:      { fallbacks: ["en"] }
+    translator:      { fallbacks: ["%locale%"] }
+    #translator: ~
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -134,6 +135,9 @@ sensio_framework_extra:
         converters: true
         auto_convert: true
 
+framework:
+    templating:
+        engines: ['twig']
 
 
 

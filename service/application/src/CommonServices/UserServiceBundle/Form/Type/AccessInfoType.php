@@ -3,7 +3,6 @@
 namespace CommonServices\UserServiceBundle\Form\Type;
 
 use CommonServices\UserServiceBundle\Document\AccessInfo;
-use CommonServices\UserServiceBundle\Form\Transformers\AccessInfoTransformer;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -38,14 +37,11 @@ class AccessInfoType extends AbstractType
             [
                 'constraints' => array(
                     new NotBlank(),
-                    new Length(['min' => 8])
+                    new Length(['min' => 6])
                 )
             ]
         );
         $builder->add('lastChange', DateTimeType::class);
-
-        //$transformer = new AccessInfoTransformer($this->manager);
-        //$builder->addModelTransformer($transformer);
     }
 
     /**
