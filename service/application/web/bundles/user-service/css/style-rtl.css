@@ -1,0 +1,18 @@
+header .navbar-right{
+    float: left !important;
+}
+.signin-link{
+    float:left !important;
+}
+.forgot-password{
+    float:left !important;
+    direction: rtl;
+}
+.mobile-wrap{
+    padding-left: 15px !important;
+    padding-right: 0;
+}
+.show-password {
+    left:50px;
+    right:auto !important;
+}
