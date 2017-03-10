@@ -1,7 +1,7 @@
 default:
     extensions:
         Behat\MinkExtension:
-            base_url: http://192.168.100.101/
+            base_url: http://user-service.dev
             goutte: ~
         Behat\Symfony2Extension:
           kernel:
@@ -10,29 +10,19 @@ default:
         Behatch\Extension: ~
 
     suites:
-        default:
-            contexts:
-                - FeatureContext
-                - Behat\MinkExtension\Context\MinkContext
-
         login:
             paths: [ %paths.base%/features/login ]
             contexts:
+                - FeatureContext
                 - behatch:context:rest
                 - UserSetupContext:
                       userManagerService: "@user_service.core"
-                - RestApiContext:
-                      client: "@csa_guzzle.client.local_api_test"
+                - DefaultContext:
+                      fixtures:
+                          - %paths.base%/tests/Functional/Features/user.yml
+                      keepDatabase: true
 
-                #- FeatureContext
-                #- DefaultContext:
-                #      fixtures:
-                #          - %paths.base%/tests/Functional/Features/user.yml
-                #      keepDatabase: true
-                # - Behat\MinkExtension\Context\MinkContext
-
-
-####  Further necessary conexts that could be used with any suite
+            # Further necessary conexts that could be used with any suite
             # contexts:
                # - behatch:context:browser
                # - behatch:context:debug

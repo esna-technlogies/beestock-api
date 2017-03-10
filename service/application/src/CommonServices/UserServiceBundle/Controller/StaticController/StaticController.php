@@ -24,8 +24,7 @@ class StaticController extends Controller
      *  tags={"beta"},
      *  statusCodes={
      *         200="Page was rendered successfully",
-     *         404={"No user with the provided UUID was found"},
-     *         500="The system is unable to create the user due to a server side error"
+     *         500="The system is unable to process the request due to a server side error"
      *  }
      * )
      */
@@ -59,8 +58,7 @@ class StaticController extends Controller
      *  tags={"beta"},
      *  statusCodes={
      *         200="Page was rendered successfully",
-     *         404={"No user with the provided UUID was found"},
-     *         500="The system is unable to create the user due to a server side error"
+     *         500="The system is unable to process the request due to a server side error"
      *  }
      * )
      */

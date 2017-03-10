@@ -90,7 +90,7 @@ class UserController extends Controller
      *          "name"="accessInfo[password]",
      *          "dataType"="string",
      *          "requirement"="[.]{0,16}",
-     *          "description"="the password provided by the user, minimum of 8 digits"
+     *          "description"="the password provided by the user, minimum of 6 digits"
      *      },
      *      {
      *          "name"="mobileNumber[number]",
@@ -224,7 +224,7 @@ class UserController extends Controller
      *          "dataType"="string",
      *          "required"="true",
      *          "format"="[.]{0,16}",
-     *          "description"="the password provided by the user, minimum of 8 digits"
+     *          "description"="the password provided by the user, minimum of 6 digits"
      *      },
      *      {
      *          "name"="mobileNumber[number]",
@@ -315,7 +315,7 @@ class UserController extends Controller
      *          "dataType"="string",
      *          "required"="false",
      *          "format"="[.]{0,16}",
-     *          "description"="the password provided by the user, minimum of 8 digits"
+     *          "description"="the password provided by the user, minimum of 6 digits"
      *      },
      *      {
      *          "name"="mobileNumber[number]",

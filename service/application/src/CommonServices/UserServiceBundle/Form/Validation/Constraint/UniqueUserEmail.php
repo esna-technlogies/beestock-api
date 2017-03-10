@@ -16,7 +16,7 @@ class UniqueUserEmail extends Constraint
     /**
      * @var string
      */
-    public $message = 'A user with email %string% has been registered before.';
+    public $message = 'USER_IS_REGISTERED_ERROR - A user with email %string% has been registered before.';
 
     /**
      * @inheritdoc

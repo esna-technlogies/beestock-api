@@ -9,19 +9,19 @@ Feature: Handle user login via the RESTful API
   Background:
     Given there are Users with the following details:
 
-      | firstName  | lastName | email          | password | termsAccepted | country |
-      | peter      | Janager  | peter@test.com | testpass |  true         | EG      |
-      | john       | Almasry  | john@test.org  | johnpass |  true         | US      |
+      | id | firstName | lastName | email          | password  | mobileCountry| mobileNumber |
+      | 1  | peter     | Janager  | peter@test.com | testpass  |  EG          | 01008818204  |
+      | 2  | john      | Almasry  | john@test.org  | johnpass  |  EG          | 01125639856  |
 
-    And I add "Content-Type" header equal to "application/json"
+  ##   And I add "Content-Type" header equal to "application/json"
 
   Scenario: User can Login with good credentials
-    When  I send a "POST" request to "/login" with body:
+    When  I send a "GET" request to "/api/user" with body:
       """
       {
         "username": "peter",
         "password": "testpass"
       }
       """
-    Then the response code should be 200
+    Then the response status code should be 200
     And the response should contain "token"
