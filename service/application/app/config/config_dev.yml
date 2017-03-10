@@ -10,7 +10,7 @@ framework:
 
 web_profiler:
     toolbar: true
-    intercept_redirects: true
+    intercept_redirects: false
     position: top
     # Exclude AJAX requests in the web debug toolbar for specified paths
     #excluded_ajax_paths:  ^/bundles|^/_wdt

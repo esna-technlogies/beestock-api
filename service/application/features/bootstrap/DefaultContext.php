@@ -83,6 +83,9 @@ class DefaultContext extends RawMinkContext implements \Behat\Behat\Context\Cont
      */
     public function loadFixtures(BeforeScenarioScope $scope)
     {
+
+        /*
+
         if (count($this->fixtures) === 0) {
             return;
         }
@@ -91,8 +94,11 @@ class DefaultContext extends RawMinkContext implements \Behat\Behat\Context\Cont
             return;
         }
 
+        */
 
-        $this->getDocumentManager()->getSchemaManager()->dropDatabases();
+        // $this->getDocumentManager()->getSchemaManager()->dropDatabases();
+
+        // $this->getDocumentManager()->getSchemaManager()->createDatabases();
 
 
         // TODO: Fix the problem with loading fixtures and find an alternative to h4cc_alice_fixtures

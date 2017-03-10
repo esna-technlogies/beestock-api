@@ -74,6 +74,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'allow_extra_fields' => true,
             'data_class' => User::class,
             'csrf_protection' => false,
         ));

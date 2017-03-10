@@ -19,10 +19,10 @@ security:
             stateless: true
             security: false
 
-        public:
-            methods: [POST]
-            pattern: ^/api/user
-            security: false
+        #public:
+        #    methods: [POST]
+        #    pattern: ^/api/user
+        #    security: false
 
         main:
             anonymous: ~
