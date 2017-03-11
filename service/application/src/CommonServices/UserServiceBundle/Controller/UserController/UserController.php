@@ -3,6 +3,7 @@
 namespace CommonServices\UserServiceBundle\Controller\UserController;
 
 use CommonServices\UserServiceBundle\Document\User;
+use CommonServices\UserServiceBundle\Exception\NotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -119,7 +120,7 @@ class UserController extends Controller
 
         $userService = $this->get('user_service.core');
 
-        $user = $userService->addNewUser($userService->createNewUser(), $requestData);
+        $user = $userService->createUser($userService->createNewUser(), $requestData);
 
         return new Response(
             $this->get('user_service.response_serializer')
@@ -154,9 +155,15 @@ class UserController extends Controller
      *         500="The system is unable to create the user due to a server side error"
      *  }
      * )
+     *
+     * @throws NotFoundException
      */
-    public function getUserAction(User $user)
+    public function getUserAction(User $user = null)
     {
+        if (is_null($user)) {
+            throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
+        }
+
         return new Response(
             $this->get('user_service.response_serializer')
                 ->serialize(['user' => $user]),
@@ -166,7 +173,9 @@ class UserController extends Controller
 
     /**
      * Completely replace an existing user with another user object
+     * @param User $user
      * @param Request $request
+     * @ParamConverter()
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
@@ -248,15 +257,31 @@ class UserController extends Controller
      *         500="The system is unable to create the user due to a server side error"
      *  }
      * )
+     *
+     * @throws NotFoundException
      */
-    public function putUserAction(Request $request)
+    public function putUserAction(User $user, Request $request)
     {
-        $result=[];
-        return $this->render('UserServiceBundle:Default:index.html.twig', $result);
+        if (is_null($user)) {
+            throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
+        }
+
+        $requestData = $request->request->all();
+
+        $userService = $this->get('user_service.core');
+
+        $user = $userService->updateUser($user, $requestData);
+
+        return new Response(
+            $this->get('user_service.response_serializer')
+                ->serialize(['user' => $user]),
+            Response::HTTP_OK
+        );
     }
 
     /**
      * Partially update user details
+     * @param User $user
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -339,10 +364,56 @@ class UserController extends Controller
      *         500="The system is unable to create the user due to a server side error"
      *  }
      * )
+     *
+     * @throws NotFoundException
      */
-    public function patchUserAction(Request $request)
+    public function patchUserAction(User $user, Request $request)
     {
-        $result=[];
-        return $this->render('UserServiceBundle:Default:index.html.twig', $result);
+        if (is_null($user)) {
+            throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
+        }
+        return $this->putUserAction($user, $request);
+    }
+
+
+    /**
+     * Delete user by Unique User Identifier (UUID)
+     * @param User $user
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *  section="User Account",
+     *  description="Delete User by UUID. the current version of this endpoint performs a soft delete from the database.",
+     *  output="Symfony\Component\HttpFoundation\Response",
+     *  tags={"stable"},
+     *  requirements={
+     *      {
+     *          "name"="uuid",
+     *          "dataType"="string",
+     *          "requirement"="V5 UUID",
+     *          "description"="Unique user identifier of the user"
+     *      }
+     *  },
+     *  statusCodes={
+     *         204="Returned when user is successfully deleted ",
+     *         400="Bad request: The system is unable to process the request",
+     *         404={"No user with the provided UUID was found"},
+     *         500="The system is unable to create the user due to a server side error"
+     *  }
+     * )
+     *
+     * @throws NotFoundException
+     */
+    public function deleteUserAction(User $user = null)
+    {
+        if (is_null($user)) {
+            throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
+        }
+
+        $this->get('user_service.core')->deleteUser($user);
+
+        return new Response("User was successfully deleted.",
+            Response::HTTP_NO_CONTENT
+        );
     }
 }

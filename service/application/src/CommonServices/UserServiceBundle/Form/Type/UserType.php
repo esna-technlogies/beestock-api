@@ -7,6 +7,7 @@ use CommonServices\UserServiceBundle\Form\Validation\Constraint\UniqueUserEmail;
 use CommonServices\UserServiceBundle\Form\Validation\Constraint\UniqueUserMobileNumber;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -53,7 +54,7 @@ class UserType extends AbstractType
             ]
         );
         $builder->add('country', TextType::class);
-        $builder->add('termsAccepted', RadioType::class);
+        $builder->add('termsAccepted', CheckboxType::class);
         $builder->add('accessInfo', AccessInfoType::class);
         $builder->add('mobileNumber', PhoneNumberType::class,
             [

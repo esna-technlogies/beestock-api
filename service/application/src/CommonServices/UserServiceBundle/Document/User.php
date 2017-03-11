@@ -104,7 +104,7 @@ class User
     protected $country;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @MongoDB\Field(type="boolean")
      * @Assert\NotBlank()
      */
     protected $termsAccepted;
