@@ -43,15 +43,17 @@ class UserSetupContext extends \Behat\MinkExtension\Context\MinkContext implemen
             try{
                 $val['termsAccepted'] = true;
                 $val['country'] = 'EG';
-                $val['accessInfo']['password'] = $val['password'];
-                $val['mobileNumber']['country'] = $val['mobileCountry'];
-                $val['mobileNumber']['number']  = $val['mobileNumber'];
+                $val['accessInfo']=[];
+                $val['mobileNumber']=[];
+                $val['accessInfo']['password']  = $val['password'];
+                $val['mobileNumber']['countryCode'] = $val['mobile_country'];
+                $val['mobileNumber']['number']      = $val['mobile_number'];
 
                 $this->userService->addNewUser($user, $val);
-
             }
             catch (Exception $e){
-                print_r(\CommonServices\UserServiceBundle\Exception\InvalidFormException::$formErrors);
+
+                var_dump($e->getMessage());
 
             }
         }

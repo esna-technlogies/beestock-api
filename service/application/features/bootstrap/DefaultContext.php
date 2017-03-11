@@ -45,6 +45,16 @@ class DefaultContext extends RawMinkContext implements \Behat\Behat\Context\Cont
     protected $restContext;
 
     /**
+     * @param array              $fixtures
+     * @param bool|false         $keepDatabase
+     */
+    public function __construct($fixtures = array(), $keepDatabase = false)
+    {
+        $this->fixtures      = $fixtures;
+        $this->keepDatabase  = $keepDatabase;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function setKernel(KernelInterface $kernel)
@@ -53,15 +63,43 @@ class DefaultContext extends RawMinkContext implements \Behat\Behat\Context\Cont
         $this->container = $kernel->getContainer();
     }
 
-    /**
-     * @param array              $fixtures
-     * @param bool|false         $keepDatabase
-     */
-    public function __construct($fixtures = array(), $keepDatabase = false)
+    /** @BeforeSuite */
+    public static function setup(\Behat\Testwork\Hook\Scope\BeforeSuiteScope $scope)
     {
-        $this->fixtures           = $fixtures;
-        $this->keepDatabase       = $keepDatabase;
+        // TODO
     }
+
+    /** @AfterSuite */
+    public static function teardown(\Behat\Testwork\Hook\Scope\AfterSuiteScope $scope)
+    {
+        // TODO
+    }
+
+    /** @BeforeFeature */
+    public static function setupFeature(\Behat\Behat\Hook\Scope\BeforeFeatureScope $scope)
+    {
+        // TODO
+    }
+
+    /** @AfterFeature */
+    public static function teardownFeature(\Behat\Behat\Hook\Scope\AfterFeatureScope $scope)
+    {
+        // TODO
+    }
+
+
+    /** @BeforeScenario */
+    public function before(BeforeScenarioScope $scope)
+    {
+        // TODO
+    }
+
+    /** @AfterScenario */
+    public function after(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope)
+    {
+        // TODO
+    }
+
 
     /**
      * @param BeforeScenarioScope $scope
@@ -84,32 +122,13 @@ class DefaultContext extends RawMinkContext implements \Behat\Behat\Context\Cont
     public function loadFixtures(BeforeScenarioScope $scope)
     {
 
-        /*
-
-        if (count($this->fixtures) === 0) {
+        if ($this->keepDatabase && in_array('keep-database', $scope->getFeature()->getTags(), true) === true) {
             return;
         }
 
-        if ($this->keepDatabase && in_array('keep-database', $scope->getScenario()->getTags(), true) === true) {
-            return;
-        }
+        $this->getDocumentManager()->getSchemaManager()->dropDatabases();
 
-        */
-
-        // $this->getDocumentManager()->getSchemaManager()->dropDatabases();
-
-        // $this->getDocumentManager()->getSchemaManager()->createDatabases();
-
-
-        // TODO: Fix the problem with loading fixtures and find an alternative to h4cc_alice_fixtures
-
-        /*
-
-        $manager = $this->container->get('h4cc_alice_fixtures.manager');
-        $objects = $manager->loadFiles($this->fixtures, 'yaml');
-        $manager->persist($objects, true);
-
-        */
+        $this->getDocumentManager()->getSchemaManager()->createDatabases();
     }
 
     /**
@@ -139,31 +158,5 @@ class DefaultContext extends RawMinkContext implements \Behat\Behat\Context\Cont
     protected function getDocumentManager()
     {
         return $this->container->get('doctrine_mongodb')->getManager();
-    }
-
-    /**
-     * @param string|null $filename
-     *
-     * @return mixed
-     */
-    protected function getJson($filename = null)
-    {
-        $json = $this->getSession()->getDriver()->getContent();
-
-        $schema = null;
-
-        if ($filename !== null) {
-
-            $retriever = new UriRetriever();
-            $schema    = $retriever->retrieve('file://' . getcwd() . '/' . $filename);
-
-            $refResolver           = new RefResolver($retriever);
-            RefResolver::$maxDepth = 10;
-            $refResolver->resolve($schema, 'file://' . getcwd() . '/' . $filename);
-        }
-
-        $jsonDecoder = new JsonDecoder();
-
-        return $jsonDecoder->decode($json, $schema);
     }
 }
