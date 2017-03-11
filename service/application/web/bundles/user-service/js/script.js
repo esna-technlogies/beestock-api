@@ -15,7 +15,7 @@ function select_code(codeValue , dataCode) {
 }
 $(function () {
     $('#shortCountryCode option').each(function () {
-        var dataCode = $(this).attr('data-code');
+        var dataCode = $(this).attr('value');
         $('#codes').append("<li><a class=\"dropdown-item\" href=\"javascript:select_code('"+$(this).val()+"' , '"+dataCode+"')\">"+$(this).html()+"</a></li>")
     })
     $('.codeViewed').click(function () {
@@ -31,9 +31,10 @@ $(function () {
     $('#country').change(function(){
         var countryVal = $(this).val();
         $('#shortCountryCode option').each(function () {
-            if($(this).val() == countryVal){
-                $('#shortCountryCode').val(countryVal);
-                $('.codeViewed').html($(this).attr('data-code'));
+            if($(this).attr('data-value') == countryVal){
+                console.log(countryVal + '--'+$(this).attr('value'));
+                $('#shortCountryCode').val($(this).attr('value'));
+                $('.codeViewed').html($(this).attr('value'));
             }
         })
     })
