@@ -1,7 +1,7 @@
 default:
     extensions:
         Behat\MinkExtension:
-            base_url: http://user-service.dev
+            base_url: http://192.100.100.101/app_test.php/
             goutte: ~
         Behat\Symfony2Extension:
           kernel:
@@ -20,7 +20,7 @@ default:
                 - DefaultContext:
                       fixtures:
                           - %paths.base%/tests/Functional/Features/user.yml
-                      keepDatabase: true
+                      keepDatabase: false
 
             # Further necessary conexts that could be used with any suite
             # contexts:
