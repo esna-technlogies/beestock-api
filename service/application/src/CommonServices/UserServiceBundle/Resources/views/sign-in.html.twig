@@ -1,270 +1,173 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bee Stock</title>
+{% extends "layout.html.twig" %}
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+{% block title %} Register new user {% endblock %}
 
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="../../bundles/user-service/css/style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!-- for rtl
-    <link rel="stylesheet" href="../../bundles/user-service/css/bootstrap-rtl.min.css">
-    <link rel="stylesheet" href="../../bundles/user-service/css/style-rtl.css"> -->
-</head>
-<body>
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset("../../bundles/user-service/css/signin-register.css")}}">
 
 
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : '{{ facebookAccount.app_id|raw }}',
-            cookie     : false,
-            xfbml      : true,
-            version    : '{{ facebookAccount.sdk_version|raw }}'
-        });
-        FB.AppEvents.logPageView();
-    };
+{% endblock %}
 
-    (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
+{% block content %}
 
 
-    // This is called with the results from from FB.getLoginStatus().
-    function statusChangeCallback(response) {
-        console.log('statusChangeCallback');
-        console.log(response);
-        // The response object is returned with a status field that lets the
-        // app know the current login status of the person.
-        // Full docs on the response object can be found in the documentation
-        // for FB.getLoginStatus().
-        if (response.status === 'connected') {
-            // Logged into your app and Facebook.
-            testAPI();
-        } else {
-            FB.login( function(response) {
-                    if (response.status === 'connected') {
-                        alert('conected')
-                    } else if (response.status === 'not_authorized') {
-                        alert('redirect_to_registeration_page')
-                    } else {
-                        alert('we_dont_know!')
-                    }
-                },
-                {
-                    scope: 'public_profile,email',
-                    auth_type: 'rerequest'
-                })
-        }
-    }
-
-    // This function is called when someone finishes with the Login
-    // Button.  See the onlogin handler attached to it in the sample
-    // code below.
-    function checkLoginState() {
-        FB.getLoginStatus(function(response) {
-            statusChangeCallback(response);
-        });
-    }
-
-    function testAPI() {
-        console.log('Welcome!  Fetching your information.... ');
-        FB.api('/me', function(response) {
-            console.log('Successful login for: ' + response.name);
-
-            alert('Thanks for logging in, ' + response.name)
-        });
-    }
-
-</script>
-
-
-<header id="header">
-    <div class="container">
-        <div class="header">
-            <div class="row">
-                <div class="col-sm-3  hidden-xs">
-                    <h3 class="brand text-muted hidden-xs">Bee Stock</h3>
-                </div>
-                <div class="col-sm-9 col-xs-12 main-menu-wrapper" >
-
-                    <nav id="main_menu"  class="navbar navbar-default">
-                        <div class="container-fluid">
-                            <!-- Brand and toggle get grouped for better mobile display -->
-                            <div class="navbar-header">
-                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu" aria-expanded="false">
-                                    <span class="sr-only">Toggle navigation</span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-                                <a class="navbar-brand visible-xs" href="#">Bee Stock</a>
-                            </div>
-
-                            <!-- Collect the nav links, forms, and other content for toggling -->
-                            <div class="collapse navbar-collapse" id="header-menu">
-                                <ul class="nav navbar-nav">
-                                    <li class=" dropdown">
-                                        <a class=" dropdown-toggle" href="#" id="account_wrap" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-user "></i> User Name <span class="caret"></span>
-                                        </a>
-                                        <ul class="dropdown-menu" aria-labelledby="account_wrap">
-                                            <li><a class="dropdown-item" href="#">My Profile</a></li>
-                                            <li><a class="dropdown-item" href="#">Inbox</a></li>
-                                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#"><i class="fa fa-shopping-cart"></i> My Cart </a></li>
-
-                                    <li class=" dropdown">
-                                        <a class=" dropdown-toggle" href="#" id="language_wrap" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-globe "></i> Language <span class="caret"></span>
-                                        </a>
-                                        <ul class="dropdown-menu" aria-labelledby="language_wrap">
-                                            <li><a class="dropdown-item" href="#">English</a></li>
-                                            <li><a class="dropdown-item" href="#">Arabic</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                <form class="navbar-form navbar-right search-form">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Search">
-                                    </div>
-                                    <button type="submit" class="btn btn-default">Submit</button>
-                                </form>
-                            </div><!-- /.navbar-collapse -->
-                        </div><!-- /.container-fluid -->
-                    </nav>
-
-                </div>
+    <div id="loginbox"  class="mainbox">
+        <div class="panel panel-info" >
+            <div class="panel-heading">
+                <div class="panel-title">Sign In</div>
             </div>
 
-        </div>
-    </div>
-</header>
+            <div class="panel-body" >
 
 
+                <!--div id="login-alert" class="alert alert-success ">
+                    You have succsessfully Logged in
+                </div-->
 
-<section id="content">
-
-
-    <div class="container">
-
-
-        <link rel="stylesheet" href="../../bundles/user-service/css/signin-register.css">
-        <div id="loginbox"  class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-            <div class="panel panel-info" >
-                <div class="panel-heading">
-                    <div class="panel-title">Sign In</div>
+                <div id="login-alert2" class="alert alert-danger ">
+                    Error in log in data
                 </div>
 
-                <div class="panel-body" >
+
+                <form id="loginform" class="form" role="form">
+
+                    <div class="form-group">
+                        <label for="email" class=" control-label">Email / Mobile number</label>
+                        <input type="text" class="form-control" id="email" name="email" type="email" placeholder="John@company.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class=" control-label">Password</label>
+                        <input type="password" id="password" class="form-control " name="passwd" placeholder="******">
+                    </div>
+
+                    <div class="input-group remember-me">
+                        <div class="checkbox">
+                            <label>
+                                <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="small-spacer"></div>
+
+                    <div class="form-group">
+                        <!-- Button -->
+                        <div class=" controls">
+                            <a id="btn-login" href="#" class="btn btn-success"> <i class="fa fa-lock"></i> Sign in  </a>
+                        </div>
+                    </div>
 
                     <div class="social-login-buttons">
                         <!-- Button -->
                         <div class="controls">
-                            <a id="btn-fblogin" href="#" class="btn btn-primary" onclick="checkLoginState();"> <i class="fa fa-facebook"></i> &nbsp; Login with Facebook </a>
-                            <a id="btn-googlelogin" href="#" class="btn btn-danger"> <i class="fa fa-google-plus"></i> &nbsp;Login with google </a>
+                            <a id="btn-fblogin" href="#" class="btn btn-primary" onclick="checkLoginState();"> <i class="fa fa-facebook"></i> Sign in  </a>
+                            <a id="btn-googlelogin" href="#" class="btn btn-danger"> <i class="fa fa-google-plus"></i> Sign in  </a>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class=" control">
+                            <div class="signup_link_wrap" >
+                                Don't have an account!
+                                <a href="#"  >
+                                    Sign Up Here
+                                </a>
+                            </div>
+                        </div>
+                        <div class=" control">
+                            <div class="forgot-password" ><a href="#">Forgot password?</a></div>
                         </div>
                     </div>
 
-                    <div id="login-alert" class="alert alert-success col-sm-12">
-                        You have succsessfully Logged in
-                    </div>
 
-                    <div id="login-alert2" class="alert alert-danger col-sm-12">
-                        Error in log in data
-                    </div>
+                </form>
 
-
-                    <form id="loginform" class="form" role="form">
-
-                        <div class="form-group">
-                            <label for="email" class=" control-label">Email / Mobile number</label>
-                            <input type="text" class="form-control" id="email" name="email" type="email" placeholder="Email Address / Mobile number">
-                        </div>
-                        <div class="form-group">
-                            <label for="password" class=" control-label">Password</label>
-                            <input type="password" id="password" class="form-control " name="passwd" placeholder="Password">
-                        </div>
-
-                        <div class="input-group remember-me">
-                            <div class="checkbox">
-                                <label>
-                                    <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="small-spacer"></div>
-
-                        <div class="form-group">
-                            <!-- Button -->
-                            <div class=" controls">
-                                <a id="btn-login" href="#" class="btn btn-success"> <i class="fa fa-lock"></i> Login  </a>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class=" control">
-                                <div class="forgot-password" ><a href="#">Forgot password?</a></div>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <div class=" control">
-                                <div class="signup_link_wrap" >
-                                    Don't have an account!
-                                    <a href="/static/signup"  >
-                                        Sign Up Here
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </form>
-
-                </div>
             </div>
         </div>
 
-    </div> <!-- /container -->
-</section>
+        <div class="right_bg">
+            <img src="{{ asset("../../bundles/user-service/images/login_bg.jpg")}}" alt="BeeStock" class="img-responsive">
+        </div>
 
-
-
-<footer class="footer container">
-    <div class="text-center">
-        <p> Copyrights reserved &copy; BeeStock 2017</p>
     </div>
-</footer>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+{% endblock %}
 
-<script>
-    $(function () {
-        $('.show-password').click(function () {
-            $('#password').attr('type','text');
-        })
-    })
-</script>
+{% block footer %}
+    {{ parent() }}
 
-</body>
-</html>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '{{ facebookAccount.app_id|raw }}',
+                cookie     : false,
+                xfbml      : true,
+                version    : '{{ facebookAccount.sdk_version|raw }}'
+            });
+            FB.AppEvents.logPageView();
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+
+        // This is called with the results from from FB.getLoginStatus().
+        function statusChangeCallback(response) {
+            console.log('statusChangeCallback');
+            console.log(response);
+            // The response object is returned with a status field that lets the
+            // app know the current login status of the person.
+            // Full docs on the response object can be found in the documentation
+            // for FB.getLoginStatus().
+            if (response.status === 'connected') {
+                // Logged into your app and Facebook.
+                testAPI();
+            } else {
+                FB.login( function(response) {
+                        if (response.status === 'connected') {
+                            alert('conected')
+                        } else if (response.status === 'not_authorized') {
+                            alert('redirect_to_registeration_page')
+                        } else {
+                            alert('we_dont_know!')
+                        }
+                    },
+                    {
+                        scope: 'public_profile,email',
+                        auth_type: 'rerequest'
+                    })
+            }
+        }
+
+        // This function is called when someone finishes with the Login
+        // Button.  See the onlogin handler attached to it in the sample
+        // code below.
+        function checkLoginState() {
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+        }
+
+        function testAPI() {
+            console.log('Welcome!  Fetching your information.... ');
+            FB.api('/me', function(response) {
+                console.log('Successful login for: ' + response.name);
+
+                alert('Thanks for logging in, ' + response.name)
+            });
+        }
+
+    </script>
+
+{% endblock %}
+
+
+
+
