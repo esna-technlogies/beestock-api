@@ -59,7 +59,7 @@ $(document).ready(function() {
                         min: 4,
                     },
                     notEmpty: {
-                        message: 'Please supply your first name'
+                        message: error_messages.firstName.empty
                     }
                 }
             },
@@ -69,48 +69,48 @@ $(document).ready(function() {
                         min: 4,
                     },
                     notEmpty: {
-                        message: 'Please supply your last name'
+                        message: error_messages.lastName.empty
                     }
                 }
             },
             email: {
                 validators: {
                     notEmpty: {
-                        message: 'Please supply your email address'
+                        message: error_messages.email.empty
                     },
                     emailAddress: {
-                        message: 'Please supply a valid email address'
+                        message: error_messages.email.failed
                     }
                 }
             },
             "mobileNumber[number]": {
                 validators: {
                     notEmpty: {
-                        message: 'Please supply your mobile number'
+                        message: error_messages.mobileNumber.empty
                     },
                     stringLength: {
                         min: 4,
                     },
                     mobile: {
-                        message: 'Please supply a vaild mobile number '
+                        message: error_messages.mobileNumber.failed
                     }
                 }
             },
             "accessInfo[password]": {
                 validators: {
                     notEmpty: {
-                        message: 'Please supply your password'
+                        message: error_messages.accessInfo.empty
                     },
                     stringLength: {
                         min: 8,
-                        message: 'Please supply a strong password with min length 6 chars'
+                        message: error_messages.accessInfo.empty
                     }
                 }
             },
             country: {
                 validators: {
                     notEmpty: {
-                        message: 'Please supply your country'
+                        message: error_messages.country.empty
                     }
                 }
             }

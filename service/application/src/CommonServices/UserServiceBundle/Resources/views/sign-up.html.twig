@@ -620,9 +620,37 @@
 
 {% block footer %}
     {{ parent() }}
+
+    <script>
+        // will take values from translation messages and pass it to register.js file
+        var error_messages = {
+            firstName   : {
+                empty : 'Please supply your first name'
+            } ,
+            lastName    : {
+                empty : 'Please supply your last name'
+            } ,
+            email   : {
+                empty : 'Please supply your email address' ,
+                failed:'Please supply a valid email address'
+            } ,
+            mobileNumber   : {
+                empty : 'Please supply your mobile number' ,
+                failed: 'Please supply a vaild mobile number '
+            } ,
+            accessInfo   : {
+                empty : 'Please supply a strong password with min length 6 chars'
+            } ,
+            country   : {
+                empty : 'Please supply your country'
+            }
+
+        }
+    </script>
+
     <script src="{{ asset("../../bundles/user-service/js/jquery.form.js")}}"></script>
     <script src='{{ asset("../../bundles/user-service/js/bootstrapvalidator.min.js")}}'></script>
-    <script src="{{ asset("../../bundles/user-service/js/register11.js?v=1.1.3")}}" ></script>
+    <script src="{{ asset("../../bundles/user-service/js/register3.js?v=1.1.4")}}" ></script>
 
     <script>
         // wait for the DOM to be loaded
