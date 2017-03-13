@@ -2,12 +2,13 @@
 
 namespace CommonServices\UserServiceBundle\Event\EventListener\Document;
 
-use CommonServices\UserServiceBundle\Document\AccessInfo;
-use CommonServices\UserServiceBundle\Document\PhoneNumber;
 use CommonServices\UserServiceBundle\Document\User;
-use CommonServices\UserServiceBundle\lib\Utility\MobileNumberFormatter;
+use CommonServices\UserServiceBundle\Event\UserCreatedEvent;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use CommonServices\UserServiceBundle\Event\UserMobileNumberChangedEvent;
+use CommonServices\UserServiceBundle\Event\UserNameChangedEvent;
+use CommonServices\UserServiceBundle\Event\UserPasswordChangedEvent;
 
 /**
  * Class DocumentPrePersistListener
@@ -15,34 +16,41 @@ use Ramsey\Uuid\Uuid;
  */
 class DocumentPrePersistListener
 {
+    /**
+     * @var ContainerInterface
+     */
+    public $serviceContainer;
+
+    /**
+     * DocumentPrePersistListener constructor.
+     * @param ContainerInterface $serviceContainer
+     */
+    public function __construct(ContainerInterface $serviceContainer)
+    {
+        $this->serviceContainer = $serviceContainer;
+    }
+
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function prePersist(LifecycleEventArgs $args)
     {
         $document = $args->getDocument();
+        $eventDispatcher = $this->serviceContainer->get('event_dispatcher');
 
         if ($document instanceof User) {
 
-            /** @var User $document */
-            $document->setFullName(trim($document->getFirstName()." ".$document->getLastName()));
+            $nameChangedEvent = new UserNameChangedEvent($document);
+            $eventDispatcher->dispatch(UserNameChangedEvent::NAME, $nameChangedEvent);
 
-            $document->setUuid(Uuid::uuid4()->toString());
+            $mobileNumberChangedEvent = new UserMobileNumberChangedEvent($document->getMobileNumber());
+            $eventDispatcher->dispatch(UserMobileNumberChangedEvent::NAME, $mobileNumberChangedEvent);
 
-            $document->setLanguage('en');
+            $passwordChangedEvent = new UserPasswordChangedEvent($document->getAccessInfo());
+            $eventDispatcher->dispatch(UserPasswordChangedEvent::NAME, $passwordChangedEvent);
 
-            /** @var PhoneNumber $mobileNumber */
-            $mobileNumber = $document->getMobileNumber();
-
-            $internationalMobileNumber =
-                (new MobileNumberFormatter())
-                    ->getInternationalMobileNumber($mobileNumber->getNumber(), $mobileNumber->getCountryCode());
-
-            $mobileNumber->setInternationalNumber($internationalMobileNumber);
-
-            /** @var AccessInfo $accessInfo */
-            $accessInfo = $document->getAccessInfo();
-
-            $accessInfo->setRoles(['ROLE_USER']);
-
-            $accessInfo->setSalt(hash('sha256', time()));
+            $userCreatedEvent = new UserCreatedEvent($document);
+            $eventDispatcher->dispatch(UserCreatedEvent::NAME, $userCreatedEvent);
         }
     }
 }

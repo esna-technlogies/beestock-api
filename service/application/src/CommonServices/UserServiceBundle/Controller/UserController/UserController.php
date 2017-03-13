@@ -76,10 +76,16 @@ class UserController extends Controller
      *          "description"="a valid email address"
      *      },
      *      {
+     *          "name"="language",
+     *          "dataType"="string",
+     *          "requirement"="Unicode language identifier (e.g. ar or en_US )",
+     *          "description"="a Unicode language identifier (RFC 3066)"
+     *      },
+     *      {
      *          "name"="country",
      *          "dataType"="string",
      *          "requirement"="^[A-Z]{2}$",
-     *          "description"="ISO code of the country eg.:  US or UK"
+     *          "description"="ISO code of the country e.g.: US or GB"
      *      },
      *      {
      *          "name"="termsAccepted",
@@ -91,7 +97,7 @@ class UserController extends Controller
      *          "name"="accessInfo[password]",
      *          "dataType"="string",
      *          "requirement"="[.]{0,16}",
-     *          "description"="the password provided by the user, minimum of 6 digits"
+     *          "description"="the password provided by the user, minimum of 6 digits, max 16 digits"
      *      },
      *      {
      *          "name"="mobileNumber[number]",
@@ -103,7 +109,7 @@ class UserController extends Controller
      *          "name"="mobileNumber[countryCode]",
      *          "dataType"="string",
      *          "requirement"="^[A-Z]{2}$",
-     *          "description"="ISO code of the mobile number eg.:  US or UK"
+     *          "description"="ISO code of the mobile number eg.:  US or GB"
      *      }
      *  },
      *  tags={"stable"},
@@ -215,11 +221,18 @@ class UserController extends Controller
      *          "description"="a valid email address"
      *      },
      *      {
+     *          "name"="language",
+     *          "dataType"="string",
+     *          "required"="true",
+     *          "format"="Unicode language identifier (e.g. ar or en_US )",
+     *          "description"="a Unicode language identifier (RFC 3066)"
+     *      },
+     *      {
      *          "name"="country",
      *          "dataType"="string",
      *          "required"="true",
      *          "format"="^[A-Z]{2}$",
-     *          "description"="ISO code of the country eg.:  US or UK"
+     *          "description"="ISO code of the country e.g.: US or GB"
      *      },
      *      {
      *          "name"="termsAccepted",
@@ -233,7 +246,7 @@ class UserController extends Controller
      *          "dataType"="string",
      *          "required"="true",
      *          "format"="[.]{0,16}",
-     *          "description"="the password provided by the user, minimum of 6 digits"
+     *          "description"="the password provided by the user, minimum of 6 digits, max 16 digits"
      *      },
      *      {
      *          "name"="mobileNumber[number]",
@@ -247,7 +260,7 @@ class UserController extends Controller
      *          "dataType"="string",
      *          "required"="true",
      *          "format"="^[A-Z]{2}$",
-     *          "description"="ISO code of the mobile number eg.:  US or UK"
+     *          "description"="ISO code of the mobile number eg.:  US or GB"
      *      }
      *  },
      *  statusCodes={
@@ -322,11 +335,18 @@ class UserController extends Controller
      *          "description"="a valid email address"
      *      },
      *      {
+     *          "name"="language",
+     *          "dataType"="string",
+     *          "required"="false",
+     *          "format"="Unicode language identifier (e.g. ar or en_US )",
+     *          "description"="a Unicode language identifier (RFC 3066)"
+     *      },
+     *      {
      *          "name"="country",
      *          "dataType"="string",
      *          "required"="false",
      *          "format"="^[A-Z]{2}$",
-     *          "description"="ISO code of the country eg.:  US or UK"
+     *          "description"="ISO code of the country e.g.: US or GB"
      *      },
      *      {
      *          "name"="termsAccepted",
@@ -340,7 +360,7 @@ class UserController extends Controller
      *          "dataType"="string",
      *          "required"="false",
      *          "format"="[.]{0,16}",
-     *          "description"="the password provided by the user, minimum of 6 digits"
+     *          "description"="the password provided by the user, minimum of 6 digits, max 16 digits"
      *      },
      *      {
      *          "name"="mobileNumber[number]",
@@ -354,7 +374,7 @@ class UserController extends Controller
      *          "dataType"="string",
      *          "required"="false",
      *          "format"="^[A-Z]{2}$",
-     *          "description"="ISO code of the mobile number eg.:  US or UK"
+     *          "description"="ISO code of the mobile number eg.:  US or GB"
      *      }
      *  },
      *  statusCodes={

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9cc638b36e6edbfab640d0e6ade0f267",
+    "content-hash": "c18e0f07fd2aec243be9797c1c251080",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -2838,6 +2838,58 @@
             "time": "2017-03-09T22:32:04+00:00"
         },
         {
+            "name": "mattketmo/email-checker",
+            "version": "v1.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MattKetmo/EmailChecker.git",
+                "reference": "24f08365b0d425d463d552059b539c175bc1e686"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MattKetmo/EmailChecker/zipball/24f08365b0d425d463d552059b539c175bc1e686",
+                "reference": "24f08365b0d425d463d552059b539c175bc1e686",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.4 || ^7.0"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "^1.9",
+                "knplabs/gaufrette": "^0.1",
+                "phpunit/phpunit": "^4.8",
+                "symfony/validator": "^2.1"
+            },
+            "suggest": {
+                "knplabs/gaufrette": "Use filesystem abstraction layer to read data",
+                "symfony/validator": "Add validation constraints"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EmailChecker\\": "src/EmailChecker"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matthieu Moquet",
+                    "email": "matthieu@moquet.net"
+                }
+            ],
+            "description": "Throwaway email detection library",
+            "keywords": [
+                "check",
+                "disposable",
+                "email",
+                "throwaway"
+            ],
+            "time": "2016-08-12T13:58:02+00:00"
+        },
+        {
             "name": "mdanter/ecc",
             "version": "v0.4.2",
             "source": {
@@ -4938,16 +4990,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.2.5",
+            "version": "v3.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "463b6558cef064b8472779e79fc49a48af7b94d1"
+                "reference": "b0f8a7fa4b8baadf9db299cb6ac87c96a8977dbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/463b6558cef064b8472779e79fc49a48af7b94d1",
-                "reference": "463b6558cef064b8472779e79fc49a48af7b94d1",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/b0f8a7fa4b8baadf9db299cb6ac87c96a8977dbe",
+                "reference": "b0f8a7fa4b8baadf9db299cb6ac87c96a8977dbe",
                 "shasum": ""
             },
             "require": {
@@ -5078,7 +5130,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-03-09T02:03:55+00:00"
+            "time": "2017-03-10T18:35:48+00:00"
         },
         {
             "name": "twig/twig",
