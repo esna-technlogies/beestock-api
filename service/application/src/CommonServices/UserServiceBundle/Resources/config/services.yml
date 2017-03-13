@@ -16,6 +16,8 @@ services:
 
 
 
+
+
     ## Registered Listeners
     user_service.response_listener:
         class: CommonServices\UserServiceBundle\Event\EventListener\ResponseListener
@@ -42,6 +44,9 @@ services:
             -  { name: doctrine_mongodb.odm.event_listener, event: preUpdate }
 
 
+
+
+
     ## business events
     user_service.user_password_changed_subscriber:
         class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserPasswordChangedListener
@@ -60,6 +65,14 @@ services:
         arguments: ["@service_container"]
         tags:
             - { name: kernel.event_subscriber }
+
+    user_service.user_created_subscriber:
+        class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserCreatedListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: kernel.event_subscriber }
+
+
 
 
     ## type processors and transformers
@@ -80,6 +93,7 @@ services:
     #    arguments: ["@=service('doctrine_mongodb').getManager()"]
     #    tags:
     #        - { name: form.type }
+
 
 
 

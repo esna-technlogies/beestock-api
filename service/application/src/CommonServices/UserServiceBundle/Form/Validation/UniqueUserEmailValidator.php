@@ -33,9 +33,10 @@ class UniqueUserEmailValidator extends ConstraintValidator
      */
     public function validate($userEmail, Constraint $constraint)
     {
-        if(is_null($userEmail)){
+        if(empty($userEmail)){
             return;
         }
+
         try{
 
             /** @var User $user */

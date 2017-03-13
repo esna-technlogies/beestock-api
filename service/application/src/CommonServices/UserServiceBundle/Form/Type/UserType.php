@@ -2,6 +2,7 @@
 
 namespace CommonServices\UserServiceBundle\Form\Type;
 
+use CommonServices\UserServiceBundle\Form\Utility\EnglishNumberConverter;
 use CommonServices\UserServiceBundle\Form\Validation\Constraint\InternationalMobileNumber;
 use CommonServices\UserServiceBundle\Form\Validation\Constraint\NotDisposableEmail;
 use CommonServices\UserServiceBundle\Form\Validation\Constraint\UniqueUserEmail;
@@ -13,8 +14,12 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\LanguageType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use CommonServices\UserServiceBundle\Document\User;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
 /**
@@ -28,8 +33,26 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstName', TextType::class);
-        $builder->add('lastName', TextType::class);
+        $builder->add('firstName', TextType::class,
+            [
+                'constraints' =>
+                    [
+                        new NotBlank(),
+                        new Length(['min' => 2, 'max'=> 18])
+                    ]
+            ]
+        );
+
+        $builder->add('lastName', TextType::class,
+            [
+                'constraints' =>
+                    [
+                        new NotBlank(),
+                        new Length(['min' => 2, 'max'=> 18])
+                    ]
+            ]
+        );
+
         $builder->add('email', EmailType::class,
             [
                 'constraints' =>
@@ -40,6 +63,7 @@ class UserType extends AbstractType
                     ]
             ]
         );
+
         $builder->add('language', LanguageType::class);
         $builder->add('country', CountryType::class);
         $builder->add('termsAccepted', CheckboxType::class);
@@ -55,6 +79,17 @@ class UserType extends AbstractType
                     ]
             ]
         );
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            $user = $event->getData();
+
+            $user['email']   = strtolower($user['email']);
+            $user['country'] = strtoupper($user['country']);
+            $user['mobileNumber']['countryCode'] = strtoupper($user['mobileNumber']['countryCode']);
+            $user['mobileNumber']['number'] = (new EnglishNumberConverter($user['mobileNumber']['number']))->convert();
+            $event->setData($user);
+        });
+
     }
 
     /**

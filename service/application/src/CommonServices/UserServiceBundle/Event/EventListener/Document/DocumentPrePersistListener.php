@@ -2,17 +2,13 @@
 
 namespace CommonServices\UserServiceBundle\Event\EventListener\Document;
 
-use CommonServices\UserServiceBundle\Document\AccessInfo;
-use CommonServices\UserServiceBundle\Document\PhoneNumber;
 use CommonServices\UserServiceBundle\Document\User;
-use CommonServices\UserServiceBundle\lib\Utility\MobileNumberFormatter;
+use CommonServices\UserServiceBundle\Event\UserCreatedEvent;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use CommonServices\UserServiceBundle\Event\UserMobileNumberChangedEvent;
 use CommonServices\UserServiceBundle\Event\UserNameChangedEvent;
 use CommonServices\UserServiceBundle\Event\UserPasswordChangedEvent;
-use Doctrine\ODM\MongoDB\Event\PreUpdateEventArgs;
 
 /**
  * Class DocumentPrePersistListener
@@ -50,17 +46,11 @@ class DocumentPrePersistListener
             $mobileNumberChangedEvent = new UserMobileNumberChangedEvent($document->getMobileNumber());
             $eventDispatcher->dispatch(UserMobileNumberChangedEvent::NAME, $mobileNumberChangedEvent);
 
-
             $passwordChangedEvent = new UserPasswordChangedEvent($document->getAccessInfo());
             $eventDispatcher->dispatch(UserPasswordChangedEvent::NAME, $passwordChangedEvent);
 
-            $passwordChangedEvent = new UserPasswordChangedEvent($document->getAccessInfo());
-            $eventDispatcher->dispatch(UserPasswordChangedEvent::NAME, $passwordChangedEvent);
-
-            /** @var AccessInfo $accessInfo */
-            $accessInfo = $document->getAccessInfo();
-            $accessInfo->setRoles(['ROLE_USER']);
-            $document->setUuid(Uuid::uuid4()->toString());
+            $userCreatedEvent = new UserCreatedEvent($document);
+            $eventDispatcher->dispatch(UserCreatedEvent::NAME, $userCreatedEvent);
         }
     }
 }
