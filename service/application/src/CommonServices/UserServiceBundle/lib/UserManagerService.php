@@ -119,7 +119,7 @@ class UserManagerService
      */
     public function deleteUser(User $user)
     {
-        return $this->userRepository->delete($user);
+        $this->userRepository->delete($user);
     }
 
     /**

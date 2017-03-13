@@ -31,9 +31,35 @@ services:
 
     doctrine_mongo_db_pre_persisit_listener:
         class:   CommonServices\UserServiceBundle\Event\EventListener\Document\DocumentPrePersistListener
+        arguments: ["@service_container"]
         tags:
             -  { name: doctrine_mongodb.odm.event_listener, event: prePersist }
 
+    doctrine_mongo_db_perupdate_listener:
+        class:   CommonServices\UserServiceBundle\Event\EventListener\Document\DocumentPreUpdateListener
+        arguments: ["@service_container"]
+        tags:
+            -  { name: doctrine_mongodb.odm.event_listener, event: preUpdate }
+
+
+    ## business events
+    user_service.user_password_changed_subscriber:
+        class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserPasswordChangedListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    user_service.user_name_changed_subscriber:
+        class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserNameChangedListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    user_service.user_mobile_number_changed_subscriber:
+        class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserMobileNumberChangedListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: kernel.event_subscriber }
 
 
     ## type processors and transformers
@@ -49,11 +75,11 @@ services:
         tags:
             - { name: form.type }
 
-    user_service.type.user_type:
-        class: CommonServices\UserServiceBundle\Form\Type\UserType
-        arguments: ["@=service('doctrine_mongodb').getManager()"]
-        tags:
-            - { name: form.type }
+    #user_service.type.user_type:
+    #    class: CommonServices\UserServiceBundle\Form\Type\UserType
+    #    arguments: ["@=service('doctrine_mongodb').getManager()"]
+    #    tags:
+    #        - { name: form.type }
 
 
 

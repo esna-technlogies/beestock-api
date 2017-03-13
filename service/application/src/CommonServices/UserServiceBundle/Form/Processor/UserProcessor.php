@@ -25,8 +25,10 @@ final class UserProcessor extends AbstractProcessor
      */
     public function processForm(User $user, array $parameters, $clearMissing = true) : User
     {
+        $uuid = is_null($user->getUuid())? '' : $user->getUuid();
+
         $form =  $this->formFactory
-                        ->createBuilder(UserType::class, $user)
+                        ->createBuilder(UserType::class, $user, ['uuid' => $uuid])
                         ->getForm();
         $form->submit($parameters, $clearMissing);
 
