@@ -6,13 +6,10 @@ use CommonServices\UserServiceBundle\Document\AccessInfo;
 use CommonServices\UserServiceBundle\Document\FacebookAccount;
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Exception\InvalidFormException;
-use CommonServices\UserServiceBundle\Exception\NotFoundException;
 use CommonServices\UserServiceBundle\Form\Processor\UserProcessor;
+use CommonServices\UserServiceBundle\lib\Utility\Api\Pagination\DoctrineExtension\QueryPaginationHandler;
 use CommonServices\UserServiceBundle\Repository\UserRepository;
-use Documents\CustomRepository\Document;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class UserManagerService
@@ -107,11 +104,15 @@ class UserManagerService
     }
 
     /**
-     * @return array
+     * @param int $startPage
+     * @param int $resultsPerPage
+     * @return mixed
      */
-    public function getAllUsers()
+    public function getAllUsers(int $startPage, int $resultsPerPage)
     {
-        return $this->userRepository->findAll();
+        $queryPaginationHandler = new QueryPaginationHandler($startPage, $resultsPerPage);
+
+        return $this->userRepository->findAllUsers($queryPaginationHandler);
     }
 
     /**
