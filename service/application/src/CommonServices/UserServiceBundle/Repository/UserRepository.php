@@ -2,6 +2,7 @@
 
 namespace CommonServices\UserServiceBundle\Repository;
 
+use CommonServices\UserServiceBundle\lib\Utility\Api\Pagination\DoctrineExtension\QueryPaginationHandler;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use CommonServices\UserServiceBundle\Document\User;
 use MongoDB\BSON\Regex;
@@ -15,17 +16,23 @@ use Symfony\Component\HttpFoundation\Response;
 class UserRepository extends DocumentRepository
 {
     /**
-     * @param int $limit
+     * @param QueryPaginationHandler $queryPaginationHandler
      * @return mixed
      */
-    public function findAllOrderedByName($limit = 10)
+    public function findAllUsers(QueryPaginationHandler $queryPaginationHandler)
     {
-        return $this->createQueryBuilder()
-            ->sort('firstName', 'ASC')
-            ->limit($limit)
-            ->getQuery()
-            ->execute()
-            ;
+        $query = $this->createQueryBuilder()
+                    ->sort('created', 'DESC')
+                    ->limit($queryPaginationHandler->getResultsPerPage())
+                    ->skip($queryPaginationHandler->getResultsToSkip())
+                    ->getQuery()
+                    ->execute()
+                    ;
+
+        $queryPaginationHandler->setCountOfTotalResults($query->count());
+        $queryPaginationHandler->setQueryResults($query->toArray(true));
+
+        return $queryPaginationHandler;
     }
 
     /**
@@ -42,25 +49,6 @@ class UserRepository extends DocumentRepository
             ->getQuery()
             ->execute()
             ;
-    }
-
-    /**
-     * @param $id
-     * @return null|object
-     */
-    public function findById($id)
-    {
-        $user = parent::find($id);
-
-        if(is_null($user)){
-            $errorMessage = sprintf(
-                'No user was found with id: %s ',
-                $id
-            );
-
-            throw new Exception($errorMessage, Response::HTTP_NOT_FOUND);
-        }
-        return $user;
     }
 
     /**

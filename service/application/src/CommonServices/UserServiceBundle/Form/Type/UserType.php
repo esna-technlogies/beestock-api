@@ -83,10 +83,16 @@ class UserType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
             $user = $event->getData();
 
-            $user['email']   = strtolower($user['email']);
-            $user['country'] = strtoupper($user['country']);
-            $user['mobileNumber']['countryCode'] = strtoupper($user['mobileNumber']['countryCode']);
-            $user['mobileNumber']['number'] = (new EnglishNumberConverter($user['mobileNumber']['number']))->convert();
+            if(isset($user['email'])) $user['email'] = strtolower($user['email']);
+
+            if(isset($user['country'])) $user['country'] = strtoupper($user['country']);
+
+            if(isset($user['mobileNumber']['countryCode'])) {
+                $user['mobileNumber']['countryCode'] = strtoupper($user['mobileNumber']['countryCode']);
+            }
+            if(isset($user['mobileNumber']['number'])) {
+                $user['mobileNumber']['number'] = (new EnglishNumberConverter($user['mobileNumber']['number']))->convert();
+            }
             $event->setData($user);
         });
 

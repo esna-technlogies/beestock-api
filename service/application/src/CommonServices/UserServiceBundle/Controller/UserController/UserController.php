@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use CommonServices\UserServiceBundle\lib\Utility\Api\Pagination\ApiCollectionPagination;
 
 /**
  * Class UserController
@@ -16,6 +17,8 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
  */
 class UserController extends Controller
 {
+    const COLLECTION_LISTING_RESULTS_PER_PAGE = 2;
+
     /**
      * This endpoint lists all the users in the system
      * @return \Symfony\Component\HttpFoundation\Response
@@ -26,6 +29,10 @@ class UserController extends Controller
      *  description="returns a collections of users in the system",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"stable"},
+     *  filters={
+     *      {"name"="page", "dataType"="integer"},
+     *      {"name"="limit", "dataType"="integer"}
+     *  },
      *  statusCodes={
      *         200="Returned when successful, all users are listed",
      *         400="Bad request: The system is unable to process the request",
@@ -35,14 +42,26 @@ class UserController extends Controller
      */
     public function listUsersAction()
     {
-        $users =  $this->get('user_service.core')->getAllUsers();
+        $startPage      = abs(filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options'=>['default' => 1 ]]));
+        $resultsPerPage = abs(filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT,
+            ['options'=>['default' => self::COLLECTION_LISTING_RESULTS_PER_PAGE ]]
+        ));
 
-        if (!$users) {
+        $results =  $this->get('user_service.core')->getAllUsers($startPage, $resultsPerPage);
+
+        $resultsPaginator = new ApiCollectionPagination(
+            $results,
+            $this->get('router'),
+            'user_service_list_users'
+        );
+
+        if (!$resultsPaginator->getResultCollection()) {
             throw $this->createNotFoundException('No users found in the system.');
         }
 
         return new Response(
-            $this->get('user_service.response_serializer')->serialize(['users' => $users]),
+            $this->get('user_service.response_serializer')->serialize(
+                $resultsPaginator->getHateoasFriendlyResults('users')),
             Response::HTTP_OK
         );
     }
@@ -403,7 +422,7 @@ class UserController extends Controller
      *
      * @ApiDoc(
      *  section="User Account",
-     *  description="Delete User by UUID. the current version of this endpoint performs a soft delete from the database.",
+     *  description="Delete User by UUID - a soft delete is performed.",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"stable"},
      *  requirements={

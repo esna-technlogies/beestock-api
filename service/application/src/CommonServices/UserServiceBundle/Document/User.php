@@ -49,6 +49,8 @@ class User
 {
     /**
      * @MongoDB\Id(strategy="AUTO", type="string")
+     *
+     * @Exclude
      */
     protected $id;
 

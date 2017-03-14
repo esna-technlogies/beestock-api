@@ -27,16 +27,16 @@ class EnglishNumberConverter
      */
     public function convert()
     {
-        $string = $this->string;
+        $number = $this->string;
 
         $persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
         $arabicNumbers  = ['٩', '٨', '٧', '٦', '٥', '٤', '٣', '٢', '١','٠'];
 
-        $num = array_reverse(range(0, 9));
+        $latinNumbersRange = array_reverse(range(0, 9));
 
-        $convertedPersianNumber = str_replace($persianNumbers, $num, $string);
+        $convertedPersianNumber = str_replace($persianNumbers, $latinNumbersRange, $number);
 
-        $englishNumber = str_replace($arabicNumbers, $num, $convertedPersianNumber);
+        $englishNumber = str_replace($arabicNumbers, $latinNumbersRange, $convertedPersianNumber);
 
         return $englishNumber;
     }
