@@ -79,29 +79,20 @@ class ApiCollectionPagination
     {
         return [
             $collectionKey => $this->getResultCollection(),
-            '_links' => $this->getCollectionLinks()
+            '_links' => array_merge(
+                $this->getCurrentPageFullRepresentation(),
+                $this->getPreviousPage(),
+                $this->getNextPage(),
+                $this->getFirstPage(),
+                $this->getLastPage()
+            )
         ];
     }
 
     /**
      * @return array
      */
-    public function getCollectionLinks() : array
-    {
-        $collectionLinks = array_merge(
-                $this->getCurrentPageRepresentation(),
-                $this->getPreviousPage(),
-                $this->getNextPage(),
-                $this->getCollectionNavigationSet()
-            );
-
-        return $collectionLinks;
-    }
-
-    /**
-     * @return array
-     */
-    public function getCurrentPageRepresentation()
+    public function getCurrentPageFullRepresentation()
     {
         $currentPage = new ApiResultsPage(
             $this->router,
@@ -200,6 +191,11 @@ class ApiCollectionPagination
      */
     public function getFirstPage(): array
     {
+        if($this->queryHandler->getCountOfTotalResults() === $this->queryHandler->getResultsInCurrentPage())
+        {
+            return [];
+        }
+
         return $this->getPageSimplePresentation('first', 1);
     }
 
@@ -208,6 +204,10 @@ class ApiCollectionPagination
      */
     public function getLastPage(): array
     {
+        if($this->queryHandler->getCountOfTotalResults() === $this->queryHandler->getResultsInCurrentPage())
+        {
+            return [];
+        }
         $lastPage = $this->getCountOfPages();
 
         return $this->getPageSimplePresentation('last', $lastPage);
