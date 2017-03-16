@@ -8,18 +8,16 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>{% block title %}{% endblock %} - Bee Stock</title>
 
-        <!-- Latest compiled and minified CSS
+        <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="{{ asset("../../bundles/user-service/css/bootstrap.min.css")}}" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
         <!-- Custom styles for this template -->
         <link rel="stylesheet" href="{{ asset("../../bundles/user-service/css/style.css")}}">
-        <!--link rel="stylesheet" href="{{ asset("../../bundles/user-service/css/font-awesome.min.css")}}"-->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="{{ asset("../../bundles/user-service/css/font_stylesheet.css")}}">
 
         <!-- Custom styles for this page -->
-        <link rel='stylesheet prefetch' href='{{ asset("../../bundles/user-service/css/bootstrapValidator.min.css")}}'>
+        <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
 
         <!-- for rtl
         <link rel="stylesheet" href="{{ asset("../../bundles/user-service/css/bootstrap-rtl.min.css?v=1.0.0") }}" >
@@ -84,7 +82,7 @@
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <a class="navbar-brand visible-xs" href="#"><img class="logo brand img-responsive" src="{{ asset("../../bundles/user-service/images/logo.png") }}" alt="Bee Stock"> </a>
+                                <a class="navbar-brand visible-xs" href="#"><img class="logo brand img-responsive" src="./images/logo.png" alt="Bee Stock"> </a>
                             </div>
 
                             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -148,7 +146,7 @@
 
 
 
-<footer class="footer">
+<footer class="footer container">
     {% block footer %}
         <div class="text-center container">
             <p> Copyrights reserved &copy; BeeStock 2017</p>
@@ -161,6 +159,6 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="{{ asset("../../bundles/user-service/js/bootstrap.min.js")}}" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="{{ asset("../../bundles/user-service/js/script.js?v=1.0.4")}}" ></script>
+<script src="{{ asset("../../bundles/user-service/js/script.js?v=1.0.1")}}" ></script>
 </body>
 </html>
