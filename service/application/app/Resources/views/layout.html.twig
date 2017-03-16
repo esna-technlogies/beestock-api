@@ -8,23 +8,50 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>{% block title %}{% endblock %} - Bee Stock</title>
 
+
+
+
+    {% block main_header_css %}
+
+        {% stylesheets
+        '@UserServiceBundle/Resources/web/css/bootstrap.min.css'
+        '@UserServiceBundle/Resources/web/css/style.css'
+        '@UserServiceBundle/Resources/web/css/font_stylesheet.css'
+
+        filter='cssrewrite'
+        %}
+            <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
+
+
+
+    {% block my_javascripts %}
+        {% javascripts
+        '@UserServiceBundle/Resources/web/js/jquery-3.1.1.min.js'
+
+        filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+        {% endjavascripts %}
+    {% endblock %}
+
+
         <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="{{ asset("../../bundles/user-service/css/bootstrap.min.css")}}" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
         <!-- Custom styles for this template -->
-        <link rel="stylesheet" href="{{ asset("../../bundles/user-service/css/style.css")}}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="{{ asset("../../bundles/user-service/css/font_stylesheet.css")}}">
 
         <!-- Custom styles for this page -->
         <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
 
         <!-- for rtl
-        <link rel="stylesheet" href="{{ asset("../../bundles/user-service/css/bootstrap-rtl.min.css?v=1.0.0") }}" >
-        <link rel="stylesheet" href="{{ asset("../../bundles/user-service/css/style-rtl.css?v=1.0.0")  }}"> -->
+        <link rel="stylesheet" href="{{ asset("@UserServiceBundle/Resources/web/css/bootstrap-rtl.min.css?v=1.0.0") }}" >
+        <link rel="stylesheet" href="{{ asset("@UserServiceBundle/Resources/web/css/style-rtl.css?v=1.0.0")  }}"> -->
 
         <!-- jquery -->
-        <script src="{{ asset("../../bundles/user-service/js/jquery-3.1.1.min.js") }}" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+
 
     {% endblock %}
 </head>
@@ -38,7 +65,9 @@
             <div class="row">
                 <div class="col-sm-4  hidden-xs">
                     <a href="#">
-                        <img class="logo brand hidden-xs" src="{{ asset("../../bundles/user-service/images/logo.png")  }}" alt="Bee Stock">
+                        {% image '@UserServiceBundle/Resources/web/images/logo.png' %}
+                            <img src="{{ asset_url }}" class="logo brand hidden-xs" alt="BeeStock" />
+                        {% endimage %}
                     </a>
                     <!--h4 class="header-text hidden-sm hidden-xs">72,481,124  ROYALTY FREE STOCK PHOTOS / 837,953 FILES ADDED THIS WEEK</h4-->
                 </div>
@@ -54,7 +83,7 @@
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <a class="navbar-brand visible-xs" href="#"><img class="logo brand img-responsive" src="{{ asset("../../bundles/user-service/images/logo.png")  }}" alt="Bee Stock"> </a>
+                                <a class="navbar-brand visible-xs" href="#"><img class="logo brand img-responsive" src="{{ asset("@UserServiceBundle/Resources/web/images/logo.png")  }}" alt="Bee Stock"> </a>
                             </div>
 
                             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -82,7 +111,7 @@
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <a class="navbar-brand visible-xs" href="#"><img class="logo brand img-responsive" src="{{ asset("../../bundles/user-service/images/logo.png") }}" alt="Bee Stock"> </a>
+                                <a class="navbar-brand visible-xs" href="#"><img class="logo brand img-responsive" src="{{ asset("@UserServiceBundle/Resources/web/images/logo.png") }}" alt="Bee Stock"> </a>
                             </div>
 
                             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -158,7 +187,20 @@
 ================================================== -->
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="{{ asset("../../bundles/user-service/js/bootstrap.min.js")}}" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="{{ asset("../../bundles/user-service/js/script.js?v=1.0.4")}}" ></script>
+
+
+
+
+{% block footer_javascript %}
+    {% javascripts
+    '@UserServiceBundle/Resources/web/js/bootstrap.min.js'
+    '@UserServiceBundle/Resources/web/js/script.js'
+
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+{% endblock %}
+
 </body>
 </html>

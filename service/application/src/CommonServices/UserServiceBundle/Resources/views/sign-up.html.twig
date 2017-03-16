@@ -4,7 +4,18 @@
 
 {% block head %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset("../../bundles/user-service/css/signin-register.css")}}">
+
+
+    {% block css_code %}
+        {% stylesheets
+        '@UserServiceBundle/Resources/web/css/signin-register.css'
+
+        filter='cssrewrite'
+        %}
+        <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
+
 
 
 {% endblock %}
@@ -600,7 +611,11 @@
 
 
         <div class="right_bg">
-            <img src="{{ asset("../../bundles/user-service/images/login_bg.jpg")}}" alt="BeeStock" class="img-responsive">
+
+            {% image '@UserServiceBundle/Resources/web/images/login_bg.jpg' %}
+            <img src="{{ asset_url }}"  alt="BeeStock" class="img-responsive" />
+            {% endimage %}
+
         </div>
 
     </div>
@@ -648,9 +663,18 @@
         }
     </script>
 
-    <script src="{{ asset("../../bundles/user-service/js/jquery.form.js")}}"></script>
-    <script src='{{ asset("../../bundles/user-service/js/bootstrapvalidator.min.js")}}'></script>
-    <script src="{{ asset("../../bundles/user-service/js/register3.js?v=1.1.4")}}" ></script>
+
+    {% block my_javascripts %}
+        {% javascripts
+            '@UserServiceBundle/Resources/web/js/jquery.form.js'
+            '@UserServiceBundle/Resources/web/js/bootstrapvalidator.min.js'
+            '@UserServiceBundle/Resources/web/js/register.js'
+
+            filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+        {% endjavascripts %}
+    {% endblock %}
 
     <script>
         // wait for the DOM to be loaded

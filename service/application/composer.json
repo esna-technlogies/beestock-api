@@ -49,7 +49,8 @@
         "webmozart/json": "^1.2",
         "sanpi/behatch-contexts": "^2.1",
         "giggsey/libphonenumber-for-php": "^8.3",
-        "nelmio/api-doc-bundle": "^2.13"
+        "nelmio/api-doc-bundle": "^2.13",
+        "symfony/assetic-bundle": "^2.8"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.2",
