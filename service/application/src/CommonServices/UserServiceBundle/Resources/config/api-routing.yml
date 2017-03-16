@@ -20,6 +20,11 @@ user_service_put_user:
     path:     /user/{uuid}
     defaults: { _controller: UserServiceBundle:UserController/User:putUser }
 
+user_service_delete_user:
+    methods: [DELETE]
+    path:     /user/{uuid}
+    defaults: { _controller: UserServiceBundle:UserController/User:deleteUser }
+
 user_service_patch_user:
     methods: [PATCH]
     path:     /user/{uuid}

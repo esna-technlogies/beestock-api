@@ -49,6 +49,8 @@ class User
 {
     /**
      * @MongoDB\Id(strategy="AUTO", type="string")
+     *
+     * @Exclude
      */
     protected $id;
 
@@ -104,7 +106,7 @@ class User
     protected $country;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @MongoDB\Field(type="boolean")
      * @Assert\NotBlank()
      */
     protected $termsAccepted;

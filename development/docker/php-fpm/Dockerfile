@@ -36,6 +36,9 @@ RUN pecl install apcu-5.1.8  apcu_bc-1.0.3 \
 RUN echo "extension=mongodb.so" >> /usr/local/etc/php/conf.d/mongodb.ini
 
 
+RUN pecl install geoip
+
+
 COPY php.ini /usr/local/etc/php/conf.d/50-setting.ini
 COPY php-fpm.conf /usr/local/etc/php/php-fpm.conf
 COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini

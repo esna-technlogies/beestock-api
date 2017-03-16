@@ -20,18 +20,18 @@ class InternationalMobileNumberValidator extends ConstraintValidator
      */
     public function validate($mobileNumber, Constraint $constraint)
     {
-        if(is_null($mobileNumber)){
+        /** @var  PhoneNumber $mobileNumber */
+        if(empty($mobileNumber->getNumber())){
             return;
         }
 
         $phoneNumberUtil = PhoneNumberUtil::getInstance();
 
         try{
-            /** @var  PhoneNumber $mobileNumber */
-            $phoneNumberObject = $phoneNumberUtil->parse($mobileNumber->getNumber(), $mobileNumber->getCountryCode());
-
+            $phoneNumberObject   = $phoneNumberUtil->parse($mobileNumber->getNumber(), $mobileNumber->getCountryCode());
             $internationalNumber = $phoneNumberUtil->canBeInternationallyDialled($phoneNumberObject);
             $validNumber         = $phoneNumberUtil->isValidNumber($phoneNumberObject);
+
             $validMobileNumber   = ($phoneNumberUtil->getNumberType($phoneNumberObject) === 1);
 
             if (!($internationalNumber && $validNumber && $validMobileNumber))

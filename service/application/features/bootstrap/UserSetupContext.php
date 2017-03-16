@@ -7,7 +7,7 @@ use CommonServices\UserServiceBundle\lib\UserManagerService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 
-class UserSetupContext implements Context, SnippetAcceptingContext
+class UserSetupContext extends \Behat\MinkExtension\Context\MinkContext implements Context, SnippetAcceptingContext
 {
     /**
      * @var UserManagerService
@@ -41,15 +41,21 @@ class UserSetupContext implements Context, SnippetAcceptingContext
             $user = $this->userService->createNewUser();
 
             try{
+                $val['termsAccepted'] = true;
+                $val['country'] = 'EG';
+                $val['accessInfo']=[];
+                $val['mobileNumber']=[];
+                $val['accessInfo']['password']  = $val['password'];
+                $val['mobileNumber']['countryCode'] = $val['mobile_country'];
+                $val['mobileNumber']['number']      = $val['mobile_number'];
+
                 $this->userService->addNewUser($user, $val);
             }
-
             catch (Exception $e){
-                print_r(\CommonServices\UserServiceBundle\Exception\InvalidFormException::$formErrors);
+
+                var_dump($e->getMessage());
 
             }
-
-
         }
     }
 }

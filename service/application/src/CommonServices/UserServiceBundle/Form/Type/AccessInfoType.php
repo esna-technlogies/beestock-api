@@ -41,11 +41,12 @@ class AccessInfoType extends AbstractType
             [
                 'constraints' => array(
                     new NotBlank(),
-                    new Length(['min' => 6])
+                    new Length(['min' => 6, 'max'=> 16])
                 )
             ]
         );
-        $builder->add('lastChange', DateTimeType::class);
+
+        //$builder->add('lastChange', DateTimeType::class);
     }
 
     /**
