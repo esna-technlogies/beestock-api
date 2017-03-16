@@ -75,8 +75,8 @@ select.form-control{
 .show-password {
     display: inline;
     position:absolute;
-    right: 10px;
-    margin-top:-25px;
+    right: 30px;
+    margin-top: -28px;
     color: #f8a434;
 }
 /*
@@ -204,6 +204,10 @@ label{
 .has-error .form-control{ 
     box-shadow: none;
 } 
+.mobile_wrapper i.form-control-feedback{
+    top:0 !important;
+    margin-right:15px !important;
+}
 @media(max-width:476px){ 
     #signupbox .right_bg{
         display:none;
