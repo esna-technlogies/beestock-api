@@ -17,7 +17,6 @@ services:
 
 
 
-
     ## Registered Listeners
     user_service.response_listener:
         class: CommonServices\UserServiceBundle\Event\EventListener\ResponseListener
