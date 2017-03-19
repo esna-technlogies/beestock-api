@@ -62,13 +62,43 @@ class StaticController extends Controller
      *  }
      * )
      */
-    public function signInAction()
+    public function signInAction(Request $request)
     {
-        $result=[
+
+        $formParameters = [
             'facebookAccount' => $this->getParameter('facebook_settings'),
             'googleAccount' => $this->getParameter('google_settings'),
+            'signinLink' => "/signin",
+            'forgotPasswordLink' => "/forgotPassword"
         ];
-        return $this->render('UserServiceBundle::sign-in.html.twig', $result);
+
+        return $this->render('UserServiceBundle::sign-in.html.twig', $formParameters);
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *  section="Static Resources",
+     *  description="Static forgotpassword page that renders a static HTML page",
+     *  output="Symfony\Component\HttpFoundation\Response",
+     *  tags={"beta"},
+     *  statusCodes={
+     *         200="Page was rendered successfully",
+     *         500="The system is unable to process the request due to a server side error"
+     *  }
+     * )
+     */
+    public function forgotPasswordAction(Request $request)
+    {
+
+        $formParameters = [
+            'facebookAccount' => $this->getParameter('facebook_settings'),
+            'googleAccount' => $this->getParameter('google_settings'),
+            'forgotPasswordLink' => "forgotPassword"
+        ];
+
+        return $this->render('UserServiceBundle::forgot-password.html.twig', $formParameters);
     }
 
 }

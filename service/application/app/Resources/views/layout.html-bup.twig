@@ -10,11 +10,28 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
+    {% block main_header_css %}
 
-        <link rel="stylesheet" type="text/css" href="{{ asset("/css/style.css") }}" />
-        <link rel="stylesheet" type="text/css" href="{{ asset("/css/font_stylesheet.css") }}" />
+        {% stylesheets
+        '@UserServiceBundle/Resources/web/css/style.css'
+        '@UserServiceBundle/Resources/web/css/font_stylesheet.css'
 
-        <script src="{{ asset("/js/jquery-3.1.1.min.js") }}" type="text/javascript"></script>
+        filter='cssrewrite'
+        %}
+            <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
+
+
+    {% block header_javascripts %}
+        {% javascripts
+        '@UserServiceBundle/Resources/web/js/jquery-3.1.1.min.js'
+
+        filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+        {% endjavascripts %}
+    {% endblock %}
 
 
         <!-- Latest compiled and minified CSS -->
@@ -26,8 +43,8 @@
         <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
 
         <!-- for rtl
-        <link rel="stylesheet" href="{{ asset("/css/bootstrap-rtl.min.css?v=1.0.0") }}" >
-        <link rel="stylesheet" href="{{ asset("/css/style-rtl.css?v=1.0.0")  }}"> -->
+        <link rel="stylesheet" href="{{ asset("@UserServiceBundle/Resources/web/css/bootstrap-rtl.min.css?v=1.0.0") }}" >
+        <link rel="stylesheet" href="{{ asset("@UserServiceBundle/Resources/web/css/style-rtl.css?v=1.0.0")  }}"> -->
 
         <!-- jquery -->
 
@@ -46,7 +63,7 @@
                 <div class="col-sm-3  hidden-xs">
                     <a href="#">
                         {% image '@UserServiceBundle/Resources/web/images/logo.png' %}
-                        <img src="{{ asset_url }}" class="logo brand hidden-xs" alt="BeeStock" />
+                            <img src="{{ asset_url }}" class="logo brand hidden-xs" alt="BeeStock" />
                         {% endimage %}
                     </a>
                     <!--h4 class="header-text hidden-sm hidden-xs">72,481,124  ROYALTY FREE STOCK PHOTOS / 837,953 FILES ADDED THIS WEEK</h4-->
@@ -176,8 +193,27 @@
 
 <!-- Latest compiled and minified JavaScript -->
 
-<script src="{{ asset("js/bootstrap.min.js") }}" ></script>
-<script src="{{ asset("js/script.js") }}" ></script>
+{% block main_javascript %}
+    {% javascripts
+    '@UserServiceBundle/Resources/web/js/bootstrap.min.js'
+    '@UserServiceBundle/Resources/web/js/script.js'
+
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block footer_javascript %}
+    {% javascripts
+    '@UserServiceBundle/Resources/web/js/bootstrap.min.js'
+    '@UserServiceBundle/Resources/web/js/script.js'
+
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+{% endblock %}
 
 </body>
 </html>

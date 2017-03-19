@@ -2,12 +2,22 @@
 
 {% block title %} Register new user {% endblock %}
 
+
 {% block head %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset("../../bundles/user-service/css/signin-register_n.css?v=1.0.0")}}">
 
+    {% block css_code %}
+        {% stylesheets
+        '@UserServiceBundle/Resources/web/css/signin-register.css'
+
+        filter='cssrewrite'
+        %}
+        <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
 
 {% endblock %}
+
 
 {% block content %}
 
@@ -20,7 +30,9 @@
             <div class="panel-body" >
 
 
-                <form id="signupform" class="form" role="form"  action="{{form.vars.action}}" method="{{form.vars.method}}" >
+                <form id="signupform" class="form" role="form"  action="javascript:;" method="{{form.vars.method}}" >
+
+                    <div class="messages"></div>
 
                     <!--div id="signupalert-1" class="alert alert-success">
                         <p>Success:</p>
@@ -52,7 +64,7 @@
                         <label for="email" class="control-label">Email</label>
                         <input class="form-control" id="email" name="email" type="email" placeholder="myemail@company.com">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group select-country-wrap">
                         <label for="country" class="control-label">Country</label>
                         <select  class="form-control" id="country" name="country" >
                             <option value="">Select Country</option>
@@ -565,9 +577,13 @@
 
                     <div class="input-group accept">
                         <div class="checkbox">
-                            <label>
-                                <input id="terms-accepted" type="checkbox" name="termsAccepted" value="1"> Accept the <a href="#">greement</a>
-                            </label>
+
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="termsAccepted" value="net" /> Accept the licence agreement
+
+                                    </div>
+                                </div>
                         </div>
                     </div>
 
@@ -600,21 +616,25 @@
 
 
         <div class="right_bg">
-            <img src="{{ asset("../../bundles/user-service/images/login_bg.jpg")}}" alt="BeeStock" class="img-responsive">
+
+            {% image '@UserServiceBundle/Resources/web/images/login_bg.jpg' %}
+            <img src="{{ asset_url }}"  alt="BeeStock" class="img-responsive" />
+            {% endimage %}
+
         </div>
 
     </div>
 
 
-
+    <!--
     <fb:login-button
             scope="public_profile,email"
             onlogin="checkLoginState();">
     </fb:login-button>
 
 
-    {{ dump(form) }}
-
+    { dump(form) }
+    -->
 
 {% endblock %}
 
@@ -639,180 +659,40 @@
                 failed: 'Please supply a vaild mobile number '
             } ,
             accessInfo   : {
-                empty : 'Please supply a strong password with min length 6 chars'
+                empty : 'Please supply a strong password with min length 8 chars'
             } ,
             country   : {
                 empty : 'Please supply your country'
+            },
+            termsAccepted   : {
+                empty : 'You should accept our agreement'
             }
 
         }
-
-        // file register.js
-        $(function () {
-            $('.show-password').click(function () {
-                $('.show-password span').toggleClass("hidden");
-                if($('#password').attr('type') == "password"){
-                    $('#password').attr('type','text');
-                }else{
-                    $('#password').attr('type','password');
-                }
-            })
-        })
-        function select_code(codeValue , dataCode) {
-            $('.codeViewed').html(dataCode);
-            $('#shortCountryCode').val(codeValue);
-            $('#codes_wrap').removeClass('open');
-        }
-        $(function () {
-            $('#shortCountryCode option').each(function () {
-                var dataCode = $(this).attr('data-code');
-                $('#codes').append("<li><a class=\"dropdown-item\" href=\"javascript:select_code('"+$(this).val()+"' , '"+dataCode+"')\">"+$(this).html()+"</a></li>")
-            })
-            $('.codeViewed').click(function () {
-                event.stopPropagation();
-                $('#shortCountryCode option').each(function () {
-                    $('#codes_wrap').addClass('open');
-                })
-            })
-            $('#codes li').click(function(){
-                $('#codes li').removeClass('checked');
-                $(this).addClass('checked');
-            })
-            $('#country').change(function(){
-                var countryVal = $(this).val();
-                $('#shortCountryCode option').each(function () {
-                    if($(this).attr('value') == countryVal){
-                        $('#shortCountryCode').val($(this).attr('value'));
-                        $('.codeViewed').html($(this).attr('data-code'));
-                    }
-                })
-            })
-
-        })
-        $(window).click(function() {
-            $('#codes_wrap').removeClass('open');
-        });
-
-        //validation
-        $(document).ready(function() {
-            $('#signupform').bootstrapValidator({
-                // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
-                feedbackIcons: {
-                    valid: 'glyphicon glyphicon-ok',
-                    invalid: 'glyphicon glyphicon-remove',
-                    validating: 'glyphicon glyphicon-refresh'
-                },
-                fields: {
-                    firstName: {
-                        validators: {
-                            stringLength: {
-                                min: 4,
-                            },
-                            notEmpty: {
-                                message: error_messages.firstName.empty
-                            }
-                        }
-                    },
-                    lastName: {
-                        validators: {
-                            stringLength: {
-                                min: 4,
-                            },
-                            notEmpty: {
-                                message: error_messages.lastName.empty
-                            }
-                        }
-                    },
-                    email: {
-                        validators: {
-                            notEmpty: {
-                                message: error_messages.email.empty
-                            },
-                            emailAddress: {
-                                message: error_messages.email.failed
-                            }
-                        }
-                    },
-                    "mobileNumber[number]": {
-                        validators: {
-                            notEmpty: {
-                                message: error_messages.mobileNumber.empty
-                            },
-                            stringLength: {
-                                min: 4,
-                            },
-                            mobile: {
-                                message: error_messages.mobileNumber.failed
-                            }
-                        }
-                    },
-                    "accessInfo[password]": {
-                        validators: {
-                            notEmpty: {
-                                message: error_messages.accessInfo.empty
-                            },
-                            stringLength: {
-                                min: 8,
-                                message: error_messages.accessInfo.empty
-                            }
-                        }
-                    },
-                    country: {
-                        validators: {
-                            notEmpty: {
-                                message: error_messages.country.empty
-                            }
-                        }
-                    }
-                }
-            })
-                .on('success.form.bv', function(e) {
-                    $('#success_message').slideDown({ opacity: "show" }, "slow")
-
-                    // $('#signupform').ajaxForm(function() {
-                    //     //alert("Thank you for your comment!");
-                    //     console.log("Ajax form submitted");
-                    // });
-                    // Do something ...
-                    $('#contact_form').data('bootstrapValidator').resetForm();
-
-                    // Prevent form submission
-                    e.preventDefault();
-
-                    // Get the form instance
-                    var $form = $(e.target);
-
-                    // Get the BootstrapValidator instance
-                    var bv = $form.data('bootstrapValidator');
-
-                    console.log('validated') ;
-                    // Use Ajax to submit form data
-                    // $.post($form.attr('action'), $form.serialize(), function(result) {
-                    //    console.log( result );
-                    // }, 'json');
-                });
-        });
+        submitionlink = '{{ form.vars.action }}';
     </script>
 
-    <script src="{{ asset("../../bundles/user-service/js/jquery.form.js")}}"></script>
-    <script src='{{ asset("../../bundles/user-service/js/bootstrapvalidator.min.js")}}'></script>
-    <!--script src="{{ asset("../../bundles/user-service/js/register.js?v=1.1.4")}}" ></script-->
+    <script src="{{ asset("js/bootstrapvalidator.min.js") }}" ></script>
+    <!--
+            '@UserServiceBundle/Resources/web/js/jquery.form.js'
+            '@UserServiceBundle/Resources/web/js/bootstrapvalidator.min.js'-->
+    {% block footer_javascripts %}
+        {% javascripts
+            '@UserServiceBundle/Resources/web/js/register.js'
 
-    <script>
-        // wait for the DOM to be loaded
-        $(document).ready(function() {
-            // bind 'myForm' and provide a simple callback function
-            $('#signupform22').ajaxForm(function() {
-                alert("Thank you for your comment!");
-            });
-        });
-    </script>
+            filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+        {% endjavascripts %}
+    {% endblock %}
+
 
 
     <script>
+        /*
         window.fbAsyncInit = function() {
             FB.init({
-                appId      : '{{ facebookAccount.app_id|raw }}',
+                appId      : "{{ facebookAccount.app_id|raw }}",
                 cookie     : false,
                 xfbml      : true,
                 version    : '{{ facebookAccount.sdk_version|raw }}'
@@ -850,7 +730,7 @@
                 scope: 'user_likes',
                 auth_type: 'rerequest'
             }
-        );
+        );*/
 
     </script>
 

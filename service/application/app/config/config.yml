@@ -149,3 +149,11 @@ framework:
 #    filesystems:
 #        my_filesystem:
 #            adapter: my_adapter
+
+
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
+
