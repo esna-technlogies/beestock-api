@@ -51,7 +51,8 @@
         "giggsey/libphonenumber-for-php": "^8.3",
         "nelmio/api-doc-bundle": "^2.13",
         "mattketmo/email-checker": "^1.5",
-        "friendsofsymfony/jsrouting-bundle": "^1.6"
+        "friendsofsymfony/jsrouting-bundle": "^1.6",
+        "symfony/assetic-bundle": "^2.8"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.2",

@@ -2,12 +2,22 @@
 
 {% block title %} Register new user {% endblock %}
 
+
 {% block head %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset("../../bundles/user-service/css/signin-register.css")}}">
 
+    {% block css_code %}
+        {% stylesheets
+        '@UserServiceBundle/Resources/web/css/signin-register.css'
+
+        filter='cssrewrite'
+        %}
+        <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
 
 {% endblock %}
+
 
 {% block content %}
 
@@ -20,7 +30,9 @@
             <div class="panel-body" >
 
 
-                <form id="signupform" class="form" role="form"  action="{{form.vars.action}}" method="{{form.vars.method}}" >
+                <form id="signupform" class="form" role="form"  action="javascript:;" method="{{form.vars.method}}" >
+
+                    <div class="messages"></div>
 
                     <!--div id="signupalert-1" class="alert alert-success">
                         <p>Success:</p>
@@ -52,7 +64,7 @@
                         <label for="email" class="control-label">Email</label>
                         <input class="form-control" id="email" name="email" type="email" placeholder="myemail@company.com">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group select-country-wrap">
                         <label for="country" class="control-label">Country</label>
                         <select  class="form-control" id="country" name="country" >
                             <option value="">Select Country</option>
@@ -307,8 +319,8 @@
                             <option value="ZW">Zimbabwe</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="email" class="control-label">Mobile Number</label>
+                    <div class="form-group mobile_wrapper">
+                        <label for="mobile" class="control-label">Mobile Number</label>
                         <div class="row">
                             <div class="col-xs-2  text-center" style="padding: 0 ">
                                 <div class="codeViewed"> +1 </div>
@@ -565,9 +577,13 @@
 
                     <div class="input-group accept">
                         <div class="checkbox">
-                            <label>
-                                <input id="terms-accepted" type="checkbox" name="termsAccepted" value="1"> Accept the <a href="#">greement</a>
-                            </label>
+
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="termsAccepted" value="net" /> Accept the licence agreement
+
+                                    </div>
+                                </div>
                         </div>
                     </div>
 
@@ -600,21 +616,25 @@
 
 
         <div class="right_bg">
-            <img src="{{ asset("../../bundles/user-service/images/login_bg.jpg")}}" alt="BeeStock" class="img-responsive">
+
+            {% image '@UserServiceBundle/Resources/web/images/login_bg.jpg' %}
+            <img src="{{ asset_url }}"  alt="BeeStock" class="img-responsive" />
+            {% endimage %}
+
         </div>
 
     </div>
 
 
-
+    <!--
     <fb:login-button
             scope="public_profile,email"
             onlogin="checkLoginState();">
     </fb:login-button>
 
 
-    {{ dump(form) }}
-
+    { dump(form) }
+    -->
 
 {% endblock %}
 
@@ -639,34 +659,40 @@
                 failed: 'Please supply a vaild mobile number '
             } ,
             accessInfo   : {
-                empty : 'Please supply a strong password with min length 6 chars'
+                empty : 'Please supply a strong password with min length 8 chars'
             } ,
             country   : {
                 empty : 'Please supply your country'
+            },
+            termsAccepted   : {
+                empty : 'You should accept our agreement'
             }
 
         }
+        submitionlink = '{{ form.vars.action }}';
     </script>
 
-    <script src="{{ asset("../../bundles/user-service/js/jquery.form.js")}}"></script>
-    <script src='{{ asset("../../bundles/user-service/js/bootstrapvalidator.min.js")}}'></script>
-    <script src="{{ asset("../../bundles/user-service/js/register3.js?v=1.1.4")}}" ></script>
+    <script src="{{ asset("js/bootstrapvalidator.min.js") }}" ></script>
+    <!--
+            '@UserServiceBundle/Resources/web/js/jquery.form.js'
+            '@UserServiceBundle/Resources/web/js/bootstrapvalidator.min.js'-->
+    {% block footer_javascripts %}
+        {% javascripts
+            '@UserServiceBundle/Resources/web/js/register.js'
+
+            filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+        {% endjavascripts %}
+    {% endblock %}
+
+
 
     <script>
-        // wait for the DOM to be loaded
-        $(document).ready(function() {
-            // bind 'myForm' and provide a simple callback function
-            $('#signupform22').ajaxForm(function() {
-                alert("Thank you for your comment!");
-            });
-        });
-    </script>
-
-
-    <script>
+        /*
         window.fbAsyncInit = function() {
             FB.init({
-                appId      : '{{ facebookAccount.app_id|raw }}',
+                appId      : "{{ facebookAccount.app_id|raw }}",
                 cookie     : false,
                 xfbml      : true,
                 version    : '{{ facebookAccount.sdk_version|raw }}'
@@ -704,7 +730,7 @@
                 scope: 'user_likes',
                 auth_type: 'rerequest'
             }
-        );
+        );*/
 
     </script>
 

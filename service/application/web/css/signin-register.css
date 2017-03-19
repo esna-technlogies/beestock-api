@@ -1,0 +1,229 @@
+#loginbox , #signupbox{
+    margin: 50px auto !important;
+    border:#f8a434 1px solid;
+    overflow:hidden;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    max-width: 800px;
+    display: table;
+}
+#signupbox .panel-info, #loginbox .panel-info{
+    background:#fff;
+    display: table-cell;
+    vertical-align: top;
+}
+#signupbox .right_bg , #loginbox .right_bg{
+    background: #f8a434;
+    max-width: 40vw;
+    display: table-cell;
+    vertical-align: top;
+}
+select.form-control{
+    border:0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    border-bottom:#f8a434 2px solid;
+    box-shadow:none;
+    padding-left:0;
+    font-family:arial;
+}
+.form-control:focus {
+    border-color: #ff0000;
+    outline: 0;
+    -webkit-box-shadow:none;
+    box-shadow:none;
+}
+.panel{
+    background:transparent;
+}
+.panel-info>.panel-heading{
+    background:transparent;
+    border:0;
+}
+.panel-info{
+    border:0;
+}
+.password_wrapper{
+    position:relative;
+}
+.forgot-password{
+    /* float:right; */
+    font-size: 85%;
+    position: relative;
+    /* top:-10px */
+}
+.panel-body{
+    padding-top: 15px;
+}
+#login-alert{
+
+}
+.input-area{
+    margin-bottom: 20px
+}
+.remember-me{
+    margin-top: -10px;
+}
+.accept{
+    margin-top: -10px;
+}
+.signup-social{
+    border-top: 1px solid #999; padding-top:20px
+}
+.show-password {
+    display: inline;
+    position:absolute;
+    right: 30px;
+    margin-top: -29px;
+    color: #f8a434;
+}
+.mobile-wrap .form-control-feedback{
+    top:0 !important;
+    right:10px;
+}
+.select-country-wrap .form-control-feedback{
+    right:15px;
+}
+/*
+.show-password:after{
+    display: inline;
+    font-family: FontAwesome;
+    content:"\f06e";
+    font-size: 14px;
+    line-height: 30px;
+}*/
+.signin-link{
+    float:right;
+    font-size: 85%;
+    position: relative;
+    top:-10px;
+}
+.signup-social button{
+    display: inline-block;
+    font-size: .6rem;
+}
+.social-login-buttons{
+    margin-bottom:15px;
+}
+.signup_link_wrap{
+    font-size:85%;
+    padding-top:15px;
+}
+.control{
+    text-align:center;
+    font-family:tahoma;
+    font-size:16px;
+}
+.control a{
+    text-align:center;
+    color:#f8a434;
+}
+#codes_wrap .dropdown-menu{
+    max-height: 250px;
+    overflow-y: scroll;
+}
+.codeViewed{
+    font-size: 1rem;
+    line-height: 16px;
+    color: #f8a434;
+    cursor:pointer;
+    border-bottom: #f8a434 2px solid;
+    margin-right: 5px;
+    margin-left:15px;
+    padding: 8px 0;
+}
+.checked{
+    background:#eee;
+}
+.mobile-wrap{
+    padding-left: 0;
+}
+@media(max-width:476px){
+    .social-login-buttons .btn + .btn{
+        margin-top:15px;
+    }
+}
+.panel-heading{
+    text-align:center;
+}
+.panel-heading .panel-title{
+    text-align:center;
+    font:1.4rem/2.5rem arial ;
+    color:#000;
+}
+.alert{
+    padding: 0px 8px;
+    font-family:arial;
+    display: inline-block;
+}
+.alert-danger {
+    color: #ff0000;
+    background-color: #ffbfbf;
+    border-color: #ff0000;
+}
+.control-label{
+    font-family:arial;
+    font-size: 1rem;
+    font-weight:400;
+}
+input.form-control{
+    border:0;
+    box-shadow:none;
+    border-bottom: #f7a333 2px solid;
+    border-radius:0;
+    padding:0;
+    font-family:arial;
+    font-size: 1rem;
+    margin-top: 0px;
+}
+input.form-control:focus{
+    border-bottom:#ff0000 2px solid;
+    box-shadow:none;
+}
+#btn-login{
+    width:100%;
+    background:#f7a333;
+    border-color:#f7a333;
+}
+#btn-login:hover{
+    background:#e0942f;
+    border-color:#e0942f;
+}
+.remember-me{
+    font-family:arial;
+}
+.controls .btn{
+    width:calc(50% - 2px);
+    font-size:16px;
+    font-family:arial;
+}
+
+label{
+    margin-bottom:0;
+}
+.form-group{
+    margin-bottom:8px;
+}
+.panel-heading{
+    padding-bottom:0px ;
+}
+.has-error .form-control{
+    box-shadow: none;
+}
+@media(max-width:476px){
+    #signupbox .right_bg{
+        display:none;
+    }
+    .social-login-buttons{
+        margin-top:-15px;
+    }
+    .controls .btn{
+        display:inline-block;
+        vertical-align:bottom;
+    }
+}
+.form-control-feedback{
+    top: 20px !important;
+}

@@ -2,43 +2,45 @@
 
 {% block title %} Register new user {% endblock %}
 
+
 {% block head %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset("../../bundles/user-service/css/signin-register.css")}}">
 
+    {% block css_code %}
+        {% stylesheets
+        '@UserServiceBundle/Resources/web/css/signin-register.css'
+
+        filter='cssrewrite'
+        %}
+        <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
 
 {% endblock %}
 
+
 {% block content %}
 
-
-    <div id="loginbox"  class="mainbox">
-        <div class="panel panel-info" >
+    <div id="loginbox" class="mainbox">
+        <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="panel-title">Sign In</div>
             </div>
 
-            <div class="panel-body" >
+            <div class="panel-body">
+
+                <div class="messages"></div>
 
 
-                <!--div id="login-alert" class="alert alert-success ">
-                    You have succsessfully Logged in
-                </div-->
-
-                <div id="login-alert2" class="alert alert-danger ">
-                    Error in log in data
-                </div>
-
-
-                <form id="loginform" class="form" role="form">
+                <form id="loginform" class="form" role="form" action="{{ signinLink }}">
 
                     <div class="form-group">
                         <label for="email" class=" control-label">Email / Mobile number</label>
-                        <input type="text" class="form-control" id="email" name="email" type="email" placeholder="John@company.com">
+                        <input type="text" class="form-control" id="email" name="email" placeholder="John@company.com">
                     </div>
                     <div class="form-group">
                         <label for="password" class=" control-label">Password</label>
-                        <input type="password" id="password" class="form-control " name="passwd" placeholder="******">
+                        <input type="password" id="password" class="form-control " name="accessInfo[password]" placeholder="******">
                     </div>
 
                     <div class="input-group remember-me">
@@ -61,22 +63,21 @@
                     <div class="social-login-buttons">
                         <!-- Button -->
                         <div class="controls">
-                            <a id="btn-fblogin" href="#" class="btn btn-primary" onclick="checkLoginState();"> <i class="fa fa-facebook"></i> Sign in  </a>
-                            <a id="btn-googlelogin" href="#" class="btn btn-danger"> <i class="fa fa-google-plus"></i> Sign in  </a>
-
+                            <a id="btn-fblogin" href="#" class="btn btn-primary"> <i class="fa fa-facebook"></i> &nbsp; Sign in </a>
+                            <a id="btn-googlelogin" href="#" class="btn btn-danger"> <i class="fa fa-google-plus"></i> &nbsp; Sign in</a>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class=" control">
-                            <div class="signup_link_wrap" >
+                            <div class="signup_link_wrap">
                                 Don't have an account!
-                                <a href="#"  >
+                                <a href="#">
                                     Sign Up Here
                                 </a>
                             </div>
                         </div>
                         <div class=" control">
-                            <div class="forgot-password" ><a href="#">Forgot password?</a></div>
+                            <div class="forgot-password"><a href="{{ forgotPasswordLink }}">Forgot password?</a></div>
                         </div>
                     </div>
 
@@ -87,7 +88,9 @@
         </div>
 
         <div class="right_bg">
-            <img src="{{ asset("../../bundles/user-service/images/login_bg.jpg")}}" alt="BeeStock" class="img-responsive">
+            {% image '@UserServiceBundle/Resources/web/images/login_bg.jpg' %}
+            <img src="{{ asset_url }}"  alt="BeeStock" class="img-responsive" />
+            {% endimage %}
         </div>
 
     </div>
@@ -99,75 +102,103 @@
     {{ parent() }}
 
     <script>
-        window.fbAsyncInit = function() {
-            FB.init({
-                appId      : '{{ facebookAccount.app_id|raw }}',
-                cookie     : false,
-                xfbml      : true,
-                version    : '{{ facebookAccount.sdk_version|raw }}'
-            });
-            FB.AppEvents.logPageView();
-        };
-
-        (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-
-
-        // This is called with the results from from FB.getLoginStatus().
-        function statusChangeCallback(response) {
-            console.log('statusChangeCallback');
-            console.log(response);
-            // The response object is returned with a status field that lets the
-            // app know the current login status of the person.
-            // Full docs on the response object can be found in the documentation
-            // for FB.getLoginStatus().
-            if (response.status === 'connected') {
-                // Logged into your app and Facebook.
-                testAPI();
-            } else {
-                FB.login( function(response) {
-                        if (response.status === 'connected') {
-                            alert('conected')
-                        } else if (response.status === 'not_authorized') {
-                            alert('redirect_to_registeration_page')
-                        } else {
-                            alert('we_dont_know!')
-                        }
-                    },
-                    {
-                        scope: 'public_profile,email',
-                        auth_type: 'rerequest'
-                    })
+        // will take values from translation messages and pass it to register.js file
+        var error_messages = {
+            email  : {
+                empty : 'Please supply your first name'
+            } ,
+            accessInfo   : {
+                empty : 'Please supply a strong password with min length 8 chars'
             }
-        }
 
-        // This function is called when someone finishes with the Login
-        // Button.  See the onlogin handler attached to it in the sample
-        // code below.
-        function checkLoginState() {
-            FB.getLoginStatus(function(response) {
-                statusChangeCallback(response);
-            });
         }
+        submitionlink = '{{ signinLink }}';
+    </script>
 
-        function testAPI() {
-            console.log('Welcome!  Fetching your information.... ');
-            FB.api('/me', function(response) {
-                console.log('Successful login for: ' + response.name);
+    <script src="{{ asset("js/bootstrapvalidator.min.js") }}" ></script>
+    <!--
+            '@UserServiceBundle/Resources/web/js/jquery.form.js'
+            '@UserServiceBundle/Resources/web/js/bootstrapvalidator.min.js'-->
+    {% block footer_javascripts %}
+        {% javascripts
+        '@UserServiceBundle/Resources/web/js/signin.js'
 
-                alert('Thanks for logging in, ' + response.name)
-            });
-        }
+        filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+        {% endjavascripts %}
+    {% endblock %}
+
+
+
+    <script>
+        /*window.fbAsyncInit = function() {
+         FB.init({
+         appId      : '{{ facebookAccount.app_id|raw }}',
+         cookie     : false,
+         xfbml      : true,
+         version    : '{{ facebookAccount.sdk_version|raw }}'
+         });
+         FB.AppEvents.logPageView();
+         };
+
+         (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+         }(document, 'script', 'facebook-jssdk'));
+
+
+         // This is called with the results from from FB.getLoginStatus().
+         function statusChangeCallback(response) {
+         console.log('statusChangeCallback');
+         console.log(response);
+         // The response object is returned with a status field that lets the
+         // app know the current login status of the person.
+         // Full docs on the response object can be found in the documentation
+         // for FB.getLoginStatus().
+         if (response.status === 'connected') {
+         // Logged into your app and Facebook.
+         testAPI();
+         } else {
+         FB.login( function(response) {
+         if (response.status === 'connected') {
+         alert('conected')
+         } else if (response.status === 'not_authorized') {
+         alert('redirect_to_registeration_page')
+         } else {
+         alert('we_dont_know!')
+         }
+         },
+         {
+         scope: 'public_profile,email',
+         auth_type: 'rerequest'
+         })
+         }
+         }
+
+         // This function is called when someone finishes with the Login
+         // Button.  See the onlogin handler attached to it in the sample
+         // code below.
+         function checkLoginState() {
+         FB.getLoginStatus(function(response) {
+         statusChangeCallback(response);
+         });
+         }
+
+         function testAPI() {
+         console.log('Welcome!  Fetching your information.... ');
+         FB.api('/me', function(response) {
+         console.log('Successful login for: ' + response.name);
+
+         alert('Thanks for logging in, ' + response.name)
+         });
+         }
+         */
 
     </script>
 
+
 {% endblock %}
-
-
-
-
