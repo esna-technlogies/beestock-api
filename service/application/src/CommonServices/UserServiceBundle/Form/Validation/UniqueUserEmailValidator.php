@@ -2,6 +2,7 @@
 
 namespace CommonServices\UserServiceBundle\Form\Validation;
 
+use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Form\Validation\Constraint\UniqueUserEmail;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\Constraint;
@@ -19,7 +20,7 @@ class UniqueUserEmailValidator extends ConstraintValidator
     public $serviceContainer;
 
     /**
-     * UniqueUserMobileNumberValidator constructor.
+     * UniqueUserEmailValidator constructor.
      * @param ContainerInterface $serviceContainer
      */
     public function __construct(ContainerInterface $serviceContainer)
@@ -32,14 +33,21 @@ class UniqueUserEmailValidator extends ConstraintValidator
      */
     public function validate($userEmail, Constraint $constraint)
     {
-        if(is_null($userEmail)){
+        if(empty($userEmail)){
             return;
         }
 
         try{
+
+            /** @var User $user */
             $user = $this->serviceContainer->get('user_service.core')->getUserByEmail($userEmail);
 
             if(!is_null($user)){
+
+                /** @var UniqueUserEmail $constraint */
+                if($user->getUuid() === $constraint->getUuid()){
+                    return;
+                }
                 $this->buildViolation($userEmail, $constraint);
             }
 

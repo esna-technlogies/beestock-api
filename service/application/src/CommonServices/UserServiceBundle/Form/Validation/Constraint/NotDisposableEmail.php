@@ -2,27 +2,27 @@
 
 namespace CommonServices\UserServiceBundle\Form\Validation\Constraint;
 
-use CommonServices\UserServiceBundle\Form\Validation\InternationalMobileNumberValidator;
+use CommonServices\UserServiceBundle\Form\Validation\NotDisposableEmailValidator;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * Class InternationalMobileNumber
+ * Class NotDisposableEmail
  * @package CommonServices\UserServiceBundle\Form\Validation\Constraint
  *
  * @Annotation
  */
-class InternationalMobileNumber extends Constraint
+class NotDisposableEmail extends Constraint
 {
     /**
      * @var string
      */
-    public $message = '%string% is not a valid mobile number.';
+    public $message = 'Using a disposable email is not allowed.';
 
     /**
      * @inheritdoc
      */
     public function validatedBy()
     {
-        return InternationalMobileNumberValidator::class;
+        return NotDisposableEmailValidator::class;
     }
 }

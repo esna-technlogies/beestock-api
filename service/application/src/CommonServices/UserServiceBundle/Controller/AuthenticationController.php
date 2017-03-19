@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: almasry
- * Date: 03/03/2017
- * Time: 3:42 PM
- */
 
 namespace CommonServices\UserServiceBundle\Controller;
 

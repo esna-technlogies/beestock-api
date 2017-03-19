@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f06a57756b551264504573257a3398d0",
+    "content-hash": "f161f27143cd109fbbfde541fd6ab0f5",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -71,16 +71,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.24.0",
+            "version": "3.24.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "3aacac064f40fcfdf8ecde2102a73d18b8b744d0"
+                "reference": "81d79a486c7628d5fd282259bd6f9a0570d3eb41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3aacac064f40fcfdf8ecde2102a73d18b8b744d0",
-                "reference": "3aacac064f40fcfdf8ecde2102a73d18b8b744d0",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/81d79a486c7628d5fd282259bd6f9a0570d3eb41",
+                "reference": "81d79a486c7628d5fd282259bd6f9a0570d3eb41",
                 "shasum": ""
             },
             "require": {
@@ -147,7 +147,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-03-08T23:57:18+00:00"
+            "time": "2017-03-09T21:48:33+00:00"
         },
         {
             "name": "aws/aws-sdk-php-symfony",
@@ -1789,6 +1789,64 @@
             "time": "2016-10-29T15:46:46+00:00"
         },
         {
+            "name": "friendsofsymfony/jsrouting-bundle",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfSymfony/FOSJsRoutingBundle.git",
+                "reference": "2f52d924692647db02bbcb27c159fef03bf000c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSJsRoutingBundle/zipball/2f52d924692647db02bbcb27c159fef03bf000c9",
+                "reference": "2f52d924692647db02bbcb27c159fef03bf000c9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "symfony/console": "~2.0|3.*",
+                "symfony/framework-bundle": "~2.0|3.*",
+                "symfony/serializer": "~2.0|3.*",
+                "willdurand/jsonp-callback-validator": "~1.0"
+            },
+            "require-dev": {
+                "symfony/expression-language": "~2.4|3.*"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "FOS\\JsRoutingBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "FriendsOfSymfony Community",
+                    "homepage": "https://github.com/friendsofsymfony/FOSJsRoutingBundle/contributors"
+                },
+                {
+                    "name": "William Durand",
+                    "email": "william.durand1@gmail.com"
+                }
+            ],
+            "description": "A pretty nice way to expose your Symfony2 routing to client applications.",
+            "homepage": "http://friendsofsymfony.github.com",
+            "keywords": [
+                "Js Routing",
+                "javascript",
+                "routing"
+            ],
+            "time": "2015-10-28T15:08:39+00:00"
+        },
+        {
             "name": "gedmo/doctrine-extensions",
             "version": "v2.4.26",
             "source": {
@@ -2742,16 +2800,16 @@
         },
         {
             "name": "lexik/jwt-authentication-bundle",
-            "version": "v2.1.1",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lexik/LexikJWTAuthenticationBundle.git",
-                "reference": "b0f60028fdd3e06411ec9b7e196b5bbf925eba76"
+                "reference": "3bf2107841de2d8ba6df8fd1c3f7cbf25a2256cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/b0f60028fdd3e06411ec9b7e196b5bbf925eba76",
-                "reference": "b0f60028fdd3e06411ec9b7e196b5bbf925eba76",
+                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/3bf2107841de2d8ba6df8fd1c3f7cbf25a2256cd",
+                "reference": "3bf2107841de2d8ba6df8fd1c3f7cbf25a2256cd",
                 "shasum": ""
             },
             "require": {
@@ -2835,7 +2893,59 @@
                 "rest",
                 "symfony"
             ],
-            "time": "2017-01-20T22:50:02+00:00"
+            "time": "2017-03-09T22:32:04+00:00"
+        },
+        {
+            "name": "mattketmo/email-checker",
+            "version": "v1.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MattKetmo/EmailChecker.git",
+                "reference": "24f08365b0d425d463d552059b539c175bc1e686"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MattKetmo/EmailChecker/zipball/24f08365b0d425d463d552059b539c175bc1e686",
+                "reference": "24f08365b0d425d463d552059b539c175bc1e686",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.4 || ^7.0"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "^1.9",
+                "knplabs/gaufrette": "^0.1",
+                "phpunit/phpunit": "^4.8",
+                "symfony/validator": "^2.1"
+            },
+            "suggest": {
+                "knplabs/gaufrette": "Use filesystem abstraction layer to read data",
+                "symfony/validator": "Add validation constraints"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EmailChecker\\": "src/EmailChecker"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matthieu Moquet",
+                    "email": "matthieu@moquet.net"
+                }
+            ],
+            "description": "Throwaway email detection library",
+            "keywords": [
+                "check",
+                "disposable",
+                "email",
+                "throwaway"
+            ],
+            "time": "2016-08-12T13:58:02+00:00"
         },
         {
             "name": "mdanter/ecc",
@@ -3999,16 +4109,16 @@
         },
         {
             "name": "sensiolabs/security-checker",
-            "version": "v4.0.1",
+            "version": "v4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/security-checker.git",
-                "reference": "f2ce0035fc512287978510ca1740cd111d60f89f"
+                "reference": "56bded66985e22f6eac2cf86735fd21c625bff2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/f2ce0035fc512287978510ca1740cd111d60f89f",
-                "reference": "f2ce0035fc512287978510ca1740cd111d60f89f",
+                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/56bded66985e22f6eac2cf86735fd21c625bff2f",
+                "reference": "56bded66985e22f6eac2cf86735fd21c625bff2f",
                 "shasum": ""
             },
             "require": {
@@ -4039,7 +4149,7 @@
                 }
             ],
             "description": "A security checker for your composer.lock",
-            "time": "2017-02-18T17:53:25+00:00"
+            "time": "2017-03-09T17:33:20+00:00"
         },
         {
             "name": "spomky-labs/aes-key-wrap",
@@ -4938,16 +5048,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.2.5",
+            "version": "v3.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "463b6558cef064b8472779e79fc49a48af7b94d1"
+                "reference": "b0f8a7fa4b8baadf9db299cb6ac87c96a8977dbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/463b6558cef064b8472779e79fc49a48af7b94d1",
-                "reference": "463b6558cef064b8472779e79fc49a48af7b94d1",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/b0f8a7fa4b8baadf9db299cb6ac87c96a8977dbe",
+                "reference": "b0f8a7fa4b8baadf9db299cb6ac87c96a8977dbe",
                 "shasum": ""
             },
             "require": {
@@ -5078,7 +5188,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-03-09T02:03:55+00:00"
+            "time": "2017-03-10T18:35:48+00:00"
         },
         {
             "name": "twig/twig",
@@ -5465,6 +5575,46 @@
                 "rest"
             ],
             "time": "2016-05-31T13:55:14+00:00"
+        },
+        {
+            "name": "willdurand/jsonp-callback-validator",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/willdurand/JsonpCallbackValidator.git",
+                "reference": "1a7d388bb521959e612ef50c5c7b1691b097e909"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/willdurand/JsonpCallbackValidator/zipball/1a7d388bb521959e612ef50c5c7b1691b097e909",
+                "reference": "1a7d388bb521959e612ef50c5c7b1691b097e909",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JsonpCallbackValidator": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "William Durand",
+                    "email": "william.durand1@gmail.com",
+                    "homepage": "http://www.willdurand.fr"
+                }
+            ],
+            "description": "JSONP callback validator.",
+            "time": "2014-01-20T22:35:06+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",
@@ -5859,6 +6009,54 @@
             "time": "2017-01-03T13:21:43+00:00"
         },
         {
+            "name": "fzaninotto/faker",
+            "version": "v1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fzaninotto/Faker.git",
+                "reference": "44f9a286a04b80c76a4e5fb7aad8bb539b920123"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/44f9a286a04b80c76a4e5fb7aad8bb539b920123",
+                "reference": "44f9a286a04b80c76a4e5fb7aad8bb539b920123",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3|^7.0"
+            },
+            "require-dev": {
+                "ext-intl": "*",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": []
+            },
+            "autoload": {
+                "psr-4": {
+                    "Faker\\": "src/Faker/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "time": "2016-04-29T12:21:54+00:00"
+        },
+        {
             "name": "instaclick/php-webdriver",
             "version": "1.4.3",
             "source": {
@@ -5957,6 +6155,69 @@
                 "object graph"
             ],
             "time": "2017-01-26T22:05:40+00:00"
+        },
+        {
+            "name": "nelmio/alice",
+            "version": "2.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nelmio/alice.git",
+                "reference": "be940d30a450043c7991f2bc6ad19682db98c8cf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nelmio/alice/zipball/be940d30a450043c7991f2bc6ad19682db98c8cf",
+                "reference": "be940d30a450043c7991f2bc6ad19682db98c8cf",
+                "shasum": ""
+            },
+            "require": {
+                "fzaninotto/faker": "^1.0",
+                "php": "^5.6||^7.0",
+                "symfony/yaml": "^2.0||^3.0"
+            },
+            "require-dev": {
+                "doctrine/common": "^2.3",
+                "phpunit/phpunit": "^5.0||^4.0",
+                "symfony/phpunit-bridge": "^3.0",
+                "symfony/property-access": "^2.2||^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nelmio\\Alice\\": "src/Nelmio/Alice"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be"
+                },
+                {
+                    "name": "Tim Shelburne",
+                    "email": "shelburt02@gmail.com"
+                },
+                {
+                    "name": "Théo FIDRY",
+                    "email": "theo.fidry@gmail.com"
+                }
+            ],
+            "description": "Expressive fixtures generator",
+            "keywords": [
+                "Fixture",
+                "data",
+                "orm",
+                "test"
+            ],
+            "time": "2016-07-15T19:50:38+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",

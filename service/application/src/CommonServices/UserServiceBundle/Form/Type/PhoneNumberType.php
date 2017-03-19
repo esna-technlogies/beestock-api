@@ -5,6 +5,7 @@ namespace CommonServices\UserServiceBundle\Form\Type;
 use CommonServices\UserServiceBundle\Document\PhoneNumber;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -35,7 +36,7 @@ class PhoneNumberType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('countryCode', TextType::class,
+        $builder->add('countryCode', CountryType::class,
             [
                 'constraints' =>
                 [

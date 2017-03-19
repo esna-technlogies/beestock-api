@@ -3,11 +3,13 @@
 namespace CommonServices\UserServiceBundle\Controller\UserController;
 
 use CommonServices\UserServiceBundle\Document\User;
+use CommonServices\UserServiceBundle\Exception\NotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use CommonServices\UserServiceBundle\lib\Utility\Api\Pagination\ApiCollectionPagination;
 
 /**
  * Class UserController
@@ -15,6 +17,8 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
  */
 class UserController extends Controller
 {
+    const COLLECTION_LISTING_RESULTS_PER_PAGE = 2;
+
     /**
      * This endpoint lists all the users in the system
      * @return \Symfony\Component\HttpFoundation\Response
@@ -25,6 +29,10 @@ class UserController extends Controller
      *  description="returns a collections of users in the system",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"stable"},
+     *  filters={
+     *      {"name"="page", "dataType"="integer"},
+     *      {"name"="limit", "dataType"="integer"}
+     *  },
      *  statusCodes={
      *         200="Returned when successful, all users are listed",
      *         400="Bad request: The system is unable to process the request",
@@ -34,14 +42,26 @@ class UserController extends Controller
      */
     public function listUsersAction()
     {
-        $users =  $this->get('user_service.core')->getAllUsers();
+        $startPage      = abs(filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options'=>['default' => 1 ]]));
+        $resultsPerPage = abs(filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT,
+            ['options'=>['default' => self::COLLECTION_LISTING_RESULTS_PER_PAGE ]]
+        ));
 
-        if (!$users) {
+        $results =  $this->get('user_service.core')->getAllUsers($startPage, $resultsPerPage);
+
+        $resultsPaginator = new ApiCollectionPagination(
+            $results,
+            $this->get('router'),
+            'user_service_list_users'
+        );
+
+        if (!$resultsPaginator->getResultCollection()) {
             throw $this->createNotFoundException('No users found in the system.');
         }
 
         return new Response(
-            $this->get('user_service.response_serializer')->serialize(['users' => $users]),
+            $this->get('user_service.response_serializer')->serialize(
+                $resultsPaginator->getHateoasFriendlyResults('users')),
             Response::HTTP_OK
         );
     }
@@ -75,10 +95,16 @@ class UserController extends Controller
      *          "description"="a valid email address"
      *      },
      *      {
+     *          "name"="language",
+     *          "dataType"="string",
+     *          "requirement"="Unicode language identifier (e.g. ar or en_US )",
+     *          "description"="a Unicode language identifier (RFC 3066)"
+     *      },
+     *      {
      *          "name"="country",
      *          "dataType"="string",
      *          "requirement"="^[A-Z]{2}$",
-     *          "description"="ISO code of the country eg.:  US or UK"
+     *          "description"="ISO code of the country e.g.: US or GB"
      *      },
      *      {
      *          "name"="termsAccepted",
@@ -90,7 +116,7 @@ class UserController extends Controller
      *          "name"="accessInfo[password]",
      *          "dataType"="string",
      *          "requirement"="[.]{0,16}",
-     *          "description"="the password provided by the user, minimum of 8 digits"
+     *          "description"="the password provided by the user, minimum of 6 digits, max 16 digits"
      *      },
      *      {
      *          "name"="mobileNumber[number]",
@@ -102,7 +128,7 @@ class UserController extends Controller
      *          "name"="mobileNumber[countryCode]",
      *          "dataType"="string",
      *          "requirement"="^[A-Z]{2}$",
-     *          "description"="ISO code of the mobile number eg.:  US or UK"
+     *          "description"="ISO code of the mobile number eg.:  US or GB"
      *      }
      *  },
      *  tags={"stable"},
@@ -119,7 +145,7 @@ class UserController extends Controller
 
         $userService = $this->get('user_service.core');
 
-        $user = $userService->addNewUser($userService->createNewUser(), $requestData);
+        $user = $userService->createUser($userService->createNewUser(), $requestData);
 
         return new Response(
             $this->get('user_service.response_serializer')
@@ -154,9 +180,15 @@ class UserController extends Controller
      *         500="The system is unable to create the user due to a server side error"
      *  }
      * )
+     *
+     * @throws NotFoundException
      */
-    public function getUserAction(User $user)
+    public function getUserAction(User $user = null)
     {
+        if (is_null($user)) {
+            throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
+        }
+
         return new Response(
             $this->get('user_service.response_serializer')
                 ->serialize(['user' => $user]),
@@ -166,7 +198,9 @@ class UserController extends Controller
 
     /**
      * Completely replace an existing user with another user object
+     * @param User $user
      * @param Request $request
+     * @ParamConverter()
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
@@ -206,11 +240,18 @@ class UserController extends Controller
      *          "description"="a valid email address"
      *      },
      *      {
+     *          "name"="language",
+     *          "dataType"="string",
+     *          "required"="true",
+     *          "format"="Unicode language identifier (e.g. ar or en_US )",
+     *          "description"="a Unicode language identifier (RFC 3066)"
+     *      },
+     *      {
      *          "name"="country",
      *          "dataType"="string",
      *          "required"="true",
      *          "format"="^[A-Z]{2}$",
-     *          "description"="ISO code of the country eg.:  US or UK"
+     *          "description"="ISO code of the country e.g.: US or GB"
      *      },
      *      {
      *          "name"="termsAccepted",
@@ -224,7 +265,7 @@ class UserController extends Controller
      *          "dataType"="string",
      *          "required"="true",
      *          "format"="[.]{0,16}",
-     *          "description"="the password provided by the user, minimum of 8 digits"
+     *          "description"="the password provided by the user, minimum of 6 digits, max 16 digits"
      *      },
      *      {
      *          "name"="mobileNumber[number]",
@@ -238,7 +279,7 @@ class UserController extends Controller
      *          "dataType"="string",
      *          "required"="true",
      *          "format"="^[A-Z]{2}$",
-     *          "description"="ISO code of the mobile number eg.:  US or UK"
+     *          "description"="ISO code of the mobile number eg.:  US or GB"
      *      }
      *  },
      *  statusCodes={
@@ -248,15 +289,31 @@ class UserController extends Controller
      *         500="The system is unable to create the user due to a server side error"
      *  }
      * )
+     *
+     * @throws NotFoundException
      */
-    public function putUserAction(Request $request)
+    public function putUserAction(User $user, Request $request)
     {
-        $result=[];
-        return $this->render('UserServiceBundle:Default:index.html.twig', $result);
+        if (is_null($user)) {
+            throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
+        }
+
+        $requestData = $request->request->all();
+
+        $userService = $this->get('user_service.core');
+
+        $user = $userService->updateUser($user, $requestData);
+
+        return new Response(
+            $this->get('user_service.response_serializer')
+                ->serialize(['user' => $user]),
+            Response::HTTP_OK
+        );
     }
 
     /**
      * Partially update user details
+     * @param User $user
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -297,11 +354,18 @@ class UserController extends Controller
      *          "description"="a valid email address"
      *      },
      *      {
+     *          "name"="language",
+     *          "dataType"="string",
+     *          "required"="false",
+     *          "format"="Unicode language identifier (e.g. ar or en_US )",
+     *          "description"="a Unicode language identifier (RFC 3066)"
+     *      },
+     *      {
      *          "name"="country",
      *          "dataType"="string",
      *          "required"="false",
      *          "format"="^[A-Z]{2}$",
-     *          "description"="ISO code of the country eg.:  US or UK"
+     *          "description"="ISO code of the country e.g.: US or GB"
      *      },
      *      {
      *          "name"="termsAccepted",
@@ -315,7 +379,7 @@ class UserController extends Controller
      *          "dataType"="string",
      *          "required"="false",
      *          "format"="[.]{0,16}",
-     *          "description"="the password provided by the user, minimum of 8 digits"
+     *          "description"="the password provided by the user, minimum of 6 digits, max 16 digits"
      *      },
      *      {
      *          "name"="mobileNumber[number]",
@@ -329,7 +393,7 @@ class UserController extends Controller
      *          "dataType"="string",
      *          "required"="false",
      *          "format"="^[A-Z]{2}$",
-     *          "description"="ISO code of the mobile number eg.:  US or UK"
+     *          "description"="ISO code of the mobile number eg.:  US or GB"
      *      }
      *  },
      *  statusCodes={
@@ -339,10 +403,56 @@ class UserController extends Controller
      *         500="The system is unable to create the user due to a server side error"
      *  }
      * )
+     *
+     * @throws NotFoundException
      */
-    public function patchUserAction(Request $request)
+    public function patchUserAction(User $user, Request $request)
     {
-        $result=[];
-        return $this->render('UserServiceBundle:Default:index.html.twig', $result);
+        if (is_null($user)) {
+            throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
+        }
+        return $this->putUserAction($user, $request);
+    }
+
+
+    /**
+     * Delete user by Unique User Identifier (UUID)
+     * @param User $user
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *  section="User Account",
+     *  description="Delete User by UUID - a soft delete is performed.",
+     *  output="Symfony\Component\HttpFoundation\Response",
+     *  tags={"stable"},
+     *  requirements={
+     *      {
+     *          "name"="uuid",
+     *          "dataType"="string",
+     *          "requirement"="V5 UUID",
+     *          "description"="Unique user identifier of the user"
+     *      }
+     *  },
+     *  statusCodes={
+     *         204="Returned when user is successfully deleted ",
+     *         400="Bad request: The system is unable to process the request",
+     *         404={"No user with the provided UUID was found"},
+     *         500="The system is unable to create the user due to a server side error"
+     *  }
+     * )
+     *
+     * @throws NotFoundException
+     */
+    public function deleteUserAction(User $user = null)
+    {
+        if (is_null($user)) {
+            throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
+        }
+
+        $this->get('user_service.core')->deleteUser($user);
+
+        return new Response("User was successfully deleted.",
+            Response::HTTP_NO_CONTENT
+        );
     }
 }
