@@ -179,5 +179,34 @@
 <script src="{{ asset("js/bootstrap.min.js") }}" ></script>
 <script src="{{ asset("js/script.js") }}" ></script>
 
+<!--
+
+{% block main_javascript %}
+    {% javascripts
+    '@UserServiceBundle/Resources/web/js/bootstrap.min.js'
+    '@UserServiceBundle/Resources/web/js/script.js'
+
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block footer_javascript %}
+    {% javascripts
+    '@UserServiceBundle/Resources/web/js/bootstrap.min.js'
+    '@UserServiceBundle/Resources/web/js/script.js'
+
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+
+-->
+
+
+
 </body>
 </html>
