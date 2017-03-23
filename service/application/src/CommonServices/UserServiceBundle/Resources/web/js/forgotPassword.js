@@ -1,3 +1,4 @@
+
 var myForm = $('#loginform');
 var myFormId = 'loginform';
 
@@ -24,15 +25,15 @@ $(document).ready(function() {
                     myForm.hide();
                 }
             })
-            .fail(function(result) {
-                $('#'+myFormId+' .messages').html('');
-                $.each( result.responseJSON.error.details , function( key, value ) {
-                    console.log( key + ": " + value.message );
-                    myForm.prepend('<div id="signupaler-2" class="alert alert-danger">\
+                .fail(function(result) {
+                    $('#'+myFormId+' .messages').html('');
+                    $.each( result.responseJSON.error.details , function( key, value ) {
+                        console.log( key + ": " + value.message );
+                        myForm.prepend('<div id="signupaler-2" class="alert alert-danger">\
                                             <span> '+value.message+'</span>\
                                         </div>');
-                });
-            })
+                    });
+                })
             return false;
         },
         fields: {

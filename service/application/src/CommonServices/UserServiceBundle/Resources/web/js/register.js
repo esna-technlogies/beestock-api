@@ -151,3 +151,16 @@ $(document).ready(function() {
         }
     })
 });
+
+$('.codeViewed').keydown(function(e) {
+    if (e.keyCode == 32) {
+        event.stopPropagation();
+        $('#codes_wrap').addClass('open');
+    }
+});
+$('.show-password').keydown(function(e) {
+    if (e.keyCode == 32) {
+        event.stopPropagation();
+        $(this).trigger('click');
+    }
+});

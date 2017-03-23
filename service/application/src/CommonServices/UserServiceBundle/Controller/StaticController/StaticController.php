@@ -69,7 +69,7 @@ class StaticController extends Controller
             'facebookAccount' => $this->getParameter('facebook_settings'),
             'googleAccount' => $this->getParameter('google_settings'),
             'signinLink' => "/signin",
-            'forgotPasswordLink' => "/forgotPassword"
+            'forgotPasswordLink' => "/forgot-Password"
         ];
 
         return $this->render('UserServiceBundle::sign-in.html.twig', $formParameters);

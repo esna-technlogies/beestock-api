@@ -5,17 +5,9 @@
 
 {% block head %}
     {{ parent() }}
-
-    {% block css_code %}
-        {% stylesheets
-        '@UserServiceBundle/Resources/web/css/signin-register.css'
-
-        filter='cssrewrite'
-        %}
-        <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
-        {% endstylesheets %}
-    {% endblock %}
-
+    {% stylesheets '@UserServiceBundle/Resources/web/css/signin-register.css' filter='cssrewrite' %}
+    <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+    {% endstylesheets %}
 {% endblock %}
 
 
@@ -49,24 +41,24 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="first_name" class="control-label">First name</label>
-                                <input type="text" class="form-control" id="first_name" name="firstName" placeholder="John">
+                                <input type="text" class="form-control" id="first_name" name="firstName" tabindex="1" placeholder="John">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="last_name" class="control-label">Last name</label>
-                                <input type="text" class="form-control" id="last_name" name="lastName"  placeholder="Albert">
+                                <input type="text" class="form-control" id="last_name" name="lastName" tabindex="2" placeholder="Albert">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="email" class="control-label">Email</label>
-                        <input class="form-control" id="email" name="email" type="email" placeholder="myemail@company.com">
+                        <input class="form-control" id="email" name="email" type="email" tabindex="3" placeholder="myemail@company.com">
                     </div>
                     <div class="form-group select-country-wrap">
                         <label for="country" class="control-label">Country</label>
-                        <select  class="form-control" id="country" name="country" >
+                        <select  class="form-control" id="country" name="country" tabindex="4" >
                             <option value="">Select Country</option>
                             <option value="AF">Afghanistan</option>
                             <option value="AX">Åland Islands</option>
@@ -323,7 +315,7 @@
                         <label for="mobile" class="control-label">Mobile Number</label>
                         <div class="row">
                             <div class="col-xs-2  text-center" style="padding: 0 ">
-                                <div class="codeViewed"> +1 </div>
+                                <div class="codeViewed" tabindex="5"> +1 </div>
                                 <div class=" dropdown" id="codes_wrap">
                                     <ul class="dropdown-menu" id="codes" aria-labelledby="account_wrap">
                                     </ul>
@@ -561,15 +553,15 @@
                                 </select>
                             </div>
                             <div class="col-xs-10  mobile-wrap" >
-                                <input type="text" class="form-control" id="mobile" name="mobileNumber[number]"  placeholder="Mobile Number">
+                                <input type="text" class="form-control" id="mobile" tabindex="6" name="mobileNumber[number]"  placeholder="Mobile Number">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group password_wrapper">
                         <label for="password" class="control-label">Password</label>
-                        <input type="password" id="password" class="form-control " name="accessInfo[password]" placeholder="******">
-                        <a class="show-password">
+                        <input type="password" id="password" class="form-control " tabindex="7" name="accessInfo[password]" placeholder="******">
+                        <a class="show-password" tabindex="8" >
                             <span>show</span>
                             <span class="hidden">hide</span>
                         </a>
@@ -580,7 +572,7 @@
 
                                 <div class="form-group">
                                     <div class="checkbox">
-                                        <input type="checkbox" name="termsAccepted" value="net" /> Accept the licence agreement
+                                        <input type="checkbox" name="termsAccepted" tabindex="8" value="1" /> Accept the licence agreement
 
                                     </div>
                                 </div>
@@ -589,14 +581,14 @@
 
                     <div class="form-group">
                         <!-- Button Sign up -->
-                        <button id="btn-signup" type="submit"  class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
+                        <button id="btn-signup" type="submit" tabindex="9" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
                     </div>
 
                     <div class="social-login-buttons">
                         <!-- Button -->
                         <div class="controls">
-                            <a id="btn-fbsignup" href="#" class="btn btn-primary"> <i class="fa fa-facebook"></i> &nbsp; Sign up </a>
-                            <a id="btn-googlesignup" href="#" class="btn btn-danger"> <i class="fa fa-google-plus"></i> &nbsp;Sign up </a>
+                            <a id="btn-fbsignup" href="#" class="btn btn-primary" tabindex="10"> <i class="fa fa-facebook"></i> &nbsp; Sign up </a>
+                            <a id="btn-googlesignup" href="#" class="btn btn-danger" tabindex="11"> <i class="fa fa-google-plus"></i> &nbsp;Sign up </a>
                         </div>
                     </div>
 
@@ -604,7 +596,7 @@
                         <div class=" control">
                             <div class="signin_link_wrap" >
                                 You already have an account!
-                                <a href="#"  >
+                                <a href="#" tabindex="12"  >
                                     Sign in Here
                                 </a>
                             </div>
@@ -672,20 +664,13 @@
         submitionlink = '{{ form.vars.action }}';
     </script>
 
-    <script src="{{ asset("js/bootstrapvalidator.min.js") }}" ></script>
-    <!--
-            '@UserServiceBundle/Resources/web/js/jquery.form.js'
-            '@UserServiceBundle/Resources/web/js/bootstrapvalidator.min.js'-->
-    {% block footer_javascripts %}
-        {% javascripts
-            '@UserServiceBundle/Resources/web/js/register.js'
-
-            filter='?uglifyjs2'
-        %}
+    {% javascripts '@UserServiceBundle/Resources/web/js/register.js' filter='?uglifyjs2' %}
         <script src="{{ asset_url }}" type="text/javascript"></script>
-        {% endjavascripts %}
-    {% endblock %}
+    {% endjavascripts %}
 
+    {% javascripts '@UserServiceBundle/Resources/web/js/bootstrapvalidator.min.js' %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
 
 
     <script>
