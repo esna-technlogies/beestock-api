@@ -2,7 +2,7 @@ CommonServices \ UserServiceBundle
 ==================================
    
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.0-8892BF.svg?style=flat-square)](https://php.net/)
-[![Build Status](http://jenkins.beesstock.com/buildStatus/icon?job=user-microservice/master)](http://jenkins.beesstock.com/job/user-microservice/job/master/)
+[![Build Status](http://jenkins.beesstock.com/buildStatus/icon?job=user-microservice/master?style=plastic)](http://jenkins.beesstock.com/job/user-microservice/job/master?style=plastic)
 
 > This is a user microservice that can be used for running and building symfony-based stand-alone web services. This project follows 
 a number of the best practices of designing microservices and PHP standards but is not a one-size-fits tool for all php projects. 
