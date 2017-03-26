@@ -10,5 +10,5 @@ user_service_sign_up_user:
 
 user_service_forgot_password:
     methods: [GET]
-    path:     /forgotPassword
-    defaults: { _controller: UserServiceBundle:StaticController/Static:forgotPassword }
+    path:     /forgot-password
+    defaults: { _controller: UserServiceBundle:StaticController/ForgotPassword:forgotPassword }

@@ -6,15 +6,9 @@
 {% block head %}
     {{ parent() }}
 
-    {% block css_code %}
-        {% stylesheets
-        '@UserServiceBundle/Resources/web/css/signin-register.css'
-
-        filter='cssrewrite'
-        %}
+    {% stylesheets '@UserServiceBundle/Resources/web/css/signin-register.css'  filter='cssrewrite' %}
         <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
-        {% endstylesheets %}
-    {% endblock %}
+    {% endstylesheets %}
 
 {% endblock %}
 
@@ -89,7 +83,7 @@
 
         <div class="right_bg">
             {% image '@UserServiceBundle/Resources/web/images/login_bg.jpg' %}
-            <img src="{{ asset_url }}"  alt="BeeStock" class="img-responsive" />
+                <img src="{{ asset_url }}"  alt="BeeStock" class="img-responsive" />
             {% endimage %}
         </div>
 
@@ -115,19 +109,17 @@
         submitionlink = '{{ signinLink }}';
     </script>
 
-    <script src="{{ asset("js/bootstrapvalidator.min.js") }}" ></script>
-    <!--
-            '@UserServiceBundle/Resources/web/js/jquery.form.js'
-            '@UserServiceBundle/Resources/web/js/bootstrapvalidator.min.js'-->
-    {% block footer_javascripts %}
-        {% javascripts
-        '@UserServiceBundle/Resources/web/js/signin.js'
 
+    {% javascripts '@UserServiceBundle/Resources/web/js/bootstrapvalidator.min.js'   %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+
+    {% javascripts
+        '@UserServiceBundle/Resources/web/js/signin.js'
         filter='?uglifyjs2'
         %}
         <script src="{{ asset_url }}" type="text/javascript"></script>
-        {% endjavascripts %}
-    {% endblock %}
+    {% endjavascripts %}
 
 
 
