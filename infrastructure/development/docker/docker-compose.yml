@@ -6,7 +6,7 @@ services:
       ports:
           - "80:80"
       volumes:
-          - ../../service:/service
+          - ../../../service:/service
           - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
   mongodb:
       build: ./mongodb/
@@ -20,7 +20,7 @@ services:
       container_name: symfony-php-fpm
       mem_limit: 2048M
       volumes:
-          - ../../service:/service
+          - ../../../service:/service
 #  gulp-watch:
 #      build: ./nodejs/gulp
 #      #volumes:
