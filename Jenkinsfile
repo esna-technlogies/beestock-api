@@ -9,7 +9,7 @@ pipeline {
                 dir('infrastructure/development/docker') {
                     sh 'figlet -f standard "Preparation Process"'
 
-                    sh 'sudo docker-compose down'
+                    sh 'sudo docker-compose down || true'
                     sh 'sudo docker rm -f $(sudo docker ps -aq ) || true'
                     sh 'sudo docker rmi -f $(sudo docker images -aq) || true'
                     sh 'sudo docker-compose up --build -d'
