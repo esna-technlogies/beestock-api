@@ -2,19 +2,13 @@ pipeline {
     agent any
 
     stages {
-        stage('Prepare') {
-            steps {
-                /** Prepare Test infrastructure / Docker Environments **/
-                dir('service/application') {
-                    sh 'composer install'
-                    sh './vendor/bin/simple-phpunit'
-                    sh './vendor/bin/behat'
-                }
-            }
-        }
         stage('Test') {
             steps {
-                /** Running tests **/
+                /** Preparing the docker machines for test **/
+                dir('infrastructure/development/docker') {
+                    sh 'ls -artls'
+                }
+                /** running the tests **/
                 dir('service/application') {
                     sh 'composer install'
                     sh './vendor/bin/simple-phpunit'
