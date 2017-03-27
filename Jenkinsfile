@@ -6,7 +6,7 @@ pipeline {
             steps {
                 /** Preparing the docker machines for test **/
                 dir('infrastructure/development/docker') {
-                    sh 'sudo docker-compose up --build'
+                    sh 'sudo docker-compose up --build -d'
                 }
                 /** running the tests **/
                 dir('service/application') {
