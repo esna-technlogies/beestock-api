@@ -10,7 +10,7 @@ pipeline {
                 }
                 /** running the tests **/
                 dir('service/application') {
-                    sh 'composer install'
+                    sh 'composer install' 
                     sh './vendor/bin/simple-phpunit'
                     sh './vendor/bin/behat'
                 }
