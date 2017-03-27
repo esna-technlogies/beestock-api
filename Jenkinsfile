@@ -8,8 +8,8 @@ pipeline {
                 /** clean up of any previously running services **/
                 dir('infrastructure/development/docker') {
                     sh 'sudo docker-compose down'
-                    sh 'sudo docker rm -f $(docker ps -aq )'
-                    sh 'sudo docker rmi -f $(docker images -aq)'
+                    sh 'sudo docker rm -f $(sudo docker ps -aq )'
+                    sh 'sudo docker rmi -f $(sudo docker images -aq)'
                     sh 'sudo docker-compose up --build -d'
                 }
                 /** running the tests **/
