@@ -1,9 +1,7 @@
 CommonServices \ UserServiceBundle 
 ==================================
    
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.0-8892BF.svg?style=flat-square)](https://php.net/)
-     
-[![Travis Build Status](https://travis-ci.org/almasry/user-microservice.svg?branch=master)](https://travis-ci.org/almasry/user-microservice)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.0-8892BF.svg?style=flat-square)](https://php.net/)   [![Travis Build Status](https://travis-ci.org/almasry/user-microservice.svg?branch=master)](https://travis-ci.org/almasry/user-microservice)
 
 
 
