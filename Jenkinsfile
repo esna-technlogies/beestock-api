@@ -6,11 +6,11 @@ pipeline {
             steps {
                 /** Preparing the docker machines for test **/
                 dir('infrastructure/development/docker') {
-                    sh 'docker-compose up --build'
+                    sh 'sudo docker-compose up --build'
                 }
                 /** running the tests **/
                 dir('service/application') {
-                    sh 'composer install' 
+                    sh 'composer install'
                     sh './vendor/bin/simple-phpunit'
                     sh './vendor/bin/behat'
                 }
