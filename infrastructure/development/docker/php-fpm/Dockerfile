@@ -1,4 +1,4 @@
-FROM almasry/php-7.1.3-fpm
+FROM almasry/php-7.1-fpm:latest
 
 MAINTAINER Mohamed Almasry <almasry@almasry.ws>
 
@@ -8,6 +8,10 @@ RUN apt-get update && apt-get install && rm -rf /var/cache/apk/*
 ## Install xdebug extension
 RUN pecl install xdebug
 COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
+## Copy necessary PHP configuration
+COPY php.ini /usr/local/etc/php/conf.d/50-setting.ini
+COPY php-fpm.conf /usr/local/etc/php/php-fpm.conf
 
 ## set user to sosverkehrsrecht
 ARG USERID=1000

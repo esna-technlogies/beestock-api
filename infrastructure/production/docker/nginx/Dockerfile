@@ -1,7 +1,4 @@
-FROM nginx:stable-alpine
-
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY nginx.vh.default.conf /etc/nginx/conf.d/default.conf
+FROM almasry/nginx-stable:latest
 
 EXPOSE 80 443
 
