@@ -32,15 +32,13 @@ pipeline {
 
                 /** running the Unit tests **/
                 dir('service/application') {
-                    sh 'figlet -f standard "Running Tests"'
-
-                    sh 'figlet -f bubble "Running Unit Tests"'
+                    sh 'figlet -f bubble "Unit Tests"'
                     sh 'sudo docker exec -i symfony-php-fpm /bin/sh -c "./vendor/bin/simple-phpunit"'
                 }
 
                 /** running the Functional tests **/
                 dir('service/application') {
-                    sh 'figlet -f bubble "Running Functional tests"'
+                    sh 'figlet -f bubble "Functional tests"'
                     sh 'sudo docker exec -i symfony-php-fpm /bin/sh -c "./vendor/bin/behat"'
                 }
 
