@@ -26,7 +26,6 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
-            new Csa\Bundle\GuzzleBundle\CsaGuzzleBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
         ];
@@ -35,7 +34,6 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
-            $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
         }
 
         return $bundles;
