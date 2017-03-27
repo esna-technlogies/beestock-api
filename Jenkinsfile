@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Prepare for tests') {
+        stage('Prepare') {
             steps {
                 /** Preparing the docker machines for test **/
                 /** clean up of any previously running services **/
@@ -68,6 +68,7 @@ pipeline {
                     sh 'sudo docker-compose down'
                     sh 'sudo docker rm -f $(sudo docker ps -aq ) || true'
                     sh 'sudo docker rmi -f $(sudo docker images -aq) || true'
+                    sh 'cowsay -f ghostbusters Well done buddy !'
                 }
             }
         }

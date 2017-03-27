@@ -32,7 +32,8 @@ class UserSetupContext extends \Behat\MinkExtension\Context\MinkContext implemen
      */
     public function thereAreUsersWithTheFollowingDetails(TableNode $users)
     {
-        foreach ($users->getColumnsHash() as $key => $val) {
+        foreach ($users->getColumnsHash() as $key => $val)
+        {
 
             /*            $confirmationToken =
                             isset($val['confirmation_token']) && ($val['confirmation_token'] != '')
@@ -49,7 +50,7 @@ class UserSetupContext extends \Behat\MinkExtension\Context\MinkContext implemen
                 $val['mobileNumber']['countryCode'] = $val['mobile_country'];
                 $val['mobileNumber']['number']      = $val['mobile_number'];
 
-                $this->userService->addNewUser($user, $val);
+                $this->userService->updateUser($user, $val);
             }
             catch (Exception $e){
 
