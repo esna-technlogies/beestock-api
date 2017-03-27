@@ -2,13 +2,23 @@ pipeline {
     agent any
 
     stages {
+        stage('Prepare') {
+            steps {
+                /** Prepare Test infrastructure / Docker Environments **/
+                dir('service/application') {
+                    sh 'composer install'
+                    sh './vendor/bin/simple-phpunit'
+                    sh './vendor/bin/behat'
+                }
+            }
+        }
         stage('Test') {
             steps {
                 /** Running tests **/
                 dir('service/application') {
-                    sh 'composer install || true'
-                    sh './vendor/bin/simple-phpunit || true'
-                    sh './vendor/bin/behat || true'
+                    sh 'composer install'
+                    sh './vendor/bin/simple-phpunit'
+                    sh './vendor/bin/behat'
                 }
             }
         }
