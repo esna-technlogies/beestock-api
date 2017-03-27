@@ -53,7 +53,7 @@
         "mattketmo/email-checker": "^1.5",
         "sensio/generator-bundle": "^3.1",
         "guzzlehttp/guzzle": "^6.2",
-        "csa/guzzle-bundle": "^2.2",
+        "csa/guzzle-bundle": "^2.0",
         "friendsofsymfony/jsrouting-bundle": "^1.6"
     },
     "require-dev": {
