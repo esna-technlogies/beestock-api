@@ -8,11 +8,19 @@ services:
       volumes:
           - ../../../service:/service
           - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
+      logging:
+        driver: syslog
+
+
   mongodb:
       build: ./mongodb/
       container_name: mongodb
       ports:
           - "27017:27017"
+      logging:
+        driver: syslog
+
+
   php-fpm:
       build: ./php-fpm/
       ports:
@@ -21,6 +29,9 @@ services:
       mem_limit: 2048M
       volumes:
           - ../../../service:/service
+      logging:
+        driver: syslog
+
 #  gulp-watch:
 #      build: ./nodejs/gulp
 #      #volumes:

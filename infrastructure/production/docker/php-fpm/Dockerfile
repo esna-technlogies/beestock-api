@@ -14,6 +14,9 @@ ARG USERID=1000
 RUN echo >> /usr/local/etc/php-fpm.conf
 RUN echo user = $USERID >> /usr/local/etc/php-fpm.conf
 
+RUN mkdir -p /service/application && chmod ug+rwx /service/application
+WORKDIR /service/application
+
 EXPOSE 9000
 
 CMD ["php-fpm", "-F"]
