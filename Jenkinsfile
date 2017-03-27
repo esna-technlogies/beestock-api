@@ -56,9 +56,11 @@ pipeline {
         }
 
         stage('Deploy') {
+            steps {
                 dir('service/application') {
                     sh 'figlet -f standard "Deploying .."'
                 }
+            }
         }
 
         stage('Clean up') {
