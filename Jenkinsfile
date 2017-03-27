@@ -10,7 +10,7 @@ pipeline {
                 }
                 /** running the tests **/
                 dir('service/application') {
-                    sh 'composer install'
+                    sh 'docker exec -it symfony-php-fpm /bin/bash -c "cd /service/application && composer install --no-dev "'
                     sh './vendor/bin/simple-phpunit'
                     sh './vendor/bin/behat'
                 }
