@@ -10,9 +10,9 @@ pipeline {
                 }
                 /** running the tests **/
                 dir('service/application') {
-                    sh 'docker exec -it symfony-php-fpm /bin/bash -c "cd /service/application && composer install --no-dev "'
-                    sh './vendor/bin/simple-phpunit'
-                    sh './vendor/bin/behat'
+                    sh 'sudo docker exec -it symfony-php-fpm /bin/sh -c "composer install --no-dev"'
+                    sh 'sudo docker exec -it symfony-php-fpm /bin/sh -c "./vendor/bin/simple-phpunit"'
+                    sh 'sudo docker exec -it symfony-php-fpm /bin/sh -c "./vendor/bin/behat"'
                 }
                 /** running the tests **/
                 dir('service/application') {
