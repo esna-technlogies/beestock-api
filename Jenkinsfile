@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Test') {
+        stage('Prepare for tests') {
             steps {
                 /** Preparing the docker machines for test **/
                 /** clean up of any previously running services **/
@@ -18,6 +18,10 @@ pipeline {
                     sh 'sudo docker exec -i symfony-php-fpm /bin/sh -c "./vendor/bin/simple-phpunit"'
                     sh 'sudo docker exec -i symfony-php-fpm /bin/sh -c "./vendor/bin/behat"'
                 }
+            }
+        }
+        stage('Test') {
+            steps {
                 /** running the tests **/
                 dir('service/application') {
                     sh 'docker-compose down'
