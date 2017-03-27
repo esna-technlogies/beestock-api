@@ -5,7 +5,11 @@ pipeline {
         stage('Test') {
             steps {
                 /** Preparing the docker machines for test **/
+                /** clean up of any previously running services **/
                 dir('infrastructure/development/docker') {
+                    sh 'sudo docker-compose down'
+                    sh 'docker rm -f $(docker ps -aq )'
+                    sh 'docker rmi -f $(docker images -aq)'
                     sh 'sudo docker-compose up --build -d'
                 }
                 /** running the tests **/
