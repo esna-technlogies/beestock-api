@@ -39,7 +39,9 @@ pipeline {
                 /** running the Functional tests **/
                 dir('service/application') {
                     sh 'figlet -f bubble "Functional tests"'
-                    sh 'sudo docker exec -i symfony-php-fpm /bin/sh -c "./vendor/bin/behat"'
+
+                    sh 'export BEHAT_PARAMS=\'{"extensions":{"Behat\\MinkExtension":{"base_url":"http://127.0.0.1/app_test.php/"}}}\''
+                    sh 'sudo docker exec -i symfony-php-fpm /bin/sh -c "./vendor/bin/behat -s default"'
                 }
 
             }

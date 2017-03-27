@@ -22,6 +22,10 @@ RUN echo user = $USERID >> /usr/local/etc/php-fpm.conf
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN curl -sS https://phar.phpunit.de/phpunit.phar | php -- --install-dir=/usr/local/bin --filename=phpunit
 
+
+## setting behat / testing environment variables
+RUN export BEHAT_PARAMS='{"extensions":{"Behat\\MinkExtension":{"base_url":"http://192.100.100.101/app_test.php/"}}}'
+
 RUN mkdir -p /service/application && chmod ug+rwx /service/application
 WORKDIR /service/application
 

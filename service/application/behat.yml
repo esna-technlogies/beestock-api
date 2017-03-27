@@ -1,7 +1,6 @@
 default:
     extensions:
         Behat\MinkExtension:
-            base_url: http://192.100.100.101/app_test.php/
             goutte: ~
         Behat\Symfony2Extension:
           kernel:

@@ -110,6 +110,15 @@ To get your hands dirty with the code, please install  :
     For further tweaks please check the [unit testing guide for symfony](http://symfony.com/doc/current/create_framework/unit_testing.html) and the tweaks of [running PHPunit tests with Symfony 3.2](http://symfony.com/blog/how-to-solve-phpunit-issues-in-symfony-3-2-applications) 
     
     
-- Functional testing: To be added.
+- Functional testing: 
+    
+                
+        docker exec -it symfony-php-fpm /bin/sh -c "cd /var/www/html/application  && ./vendor/bin/simple-phpunit"
 
-- Integration testing: To be added.
+
+Before you run the Behat tests, you should first set the environment variables from inside the PHP machine:
+
+        export BEHAT_PARAMS='{"extensions":{"Behat\\MinkExtension":{"base_url":"http://192.100.100.101/app_test.php/"}}}'
+
+Forgetting to set the base_ur of mink through environment variables, will definitely fail all the tests. 
+    
