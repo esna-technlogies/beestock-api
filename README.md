@@ -94,7 +94,7 @@ To get your hands dirty with the code, please install  :
      
             vagrant ssh 
             
-            docker exec -it symfony-php-fpm /bin/sh -c "cd /service/application && composer install --prefer-dist"
+            docker exec -it user-service-php-fpm /bin/sh -c "cd /service/application && composer install --prefer-dist"
 
 
 ## Testing the microservice   
@@ -103,7 +103,7 @@ To get your hands dirty with the code, please install  :
 
         vagrant ssh 
             
-        docker exec -it symfony-php-fpm /bin/sh -c "cd /var/www/html/application  && ./vendor/bin/simple-phpunit"
+        docker exec -it user-service-php-fpm /bin/sh -c "cd /var/www/html/application  && ./vendor/bin/simple-phpunit"
 
     This will run the unit tests in the ./application/tests directory.
     
@@ -113,7 +113,7 @@ To get your hands dirty with the code, please install  :
 - Functional testing: 
     
                 
-        docker exec -it symfony-php-fpm /bin/sh -c "cd /var/www/html/application  && ./vendor/bin/simple-phpunit"
+        docker exec -it user-service-php-fpm /bin/sh -c "cd /var/www/html/application  && ./vendor/bin/simple-phpunit"
 
 
 Before you run the Behat tests, you should first set the environment variables from inside the PHP machine:

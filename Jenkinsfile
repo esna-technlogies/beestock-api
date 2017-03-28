@@ -15,10 +15,10 @@ pipeline {
                     sh 'docker-compose up --build -d'
                 }
 
-                /** Installing dependencies of symfony-PHP-fpm docker container **/
+                /** Installing dependencies of user-service-php-fpm docker container **/
                 dir('service/application') {
                     sh 'figlet -f standard "Installing dependencies"'
-                    sh 'docker exec -i symfony-php-fpm /bin/sh -c "composer install --no-progress"'
+                    sh 'docker exec -i user-service-php-fpm /bin/sh -c "composer install --no-progress"'
                 }
             }
         }
@@ -33,7 +33,7 @@ pipeline {
                 /** running the Unit tests **/
                 dir('service/application') {
                     sh 'figlet -f bubble "Unit Tests"'
-                    sh 'docker exec -i symfony-php-fpm /bin/sh -c "./vendor/bin/simple-phpunit"'
+                    sh 'docker exec -i user-service-php-fpm /bin/sh -c "./vendor/bin/simple-phpunit"'
                 }
 
                 /** running the Functional tests **/
@@ -42,7 +42,7 @@ pipeline {
 
                     /** setting mink base_url to run the functional tests **/
                     sh 'export BEHAT_PARAMS=\'{"extensions":{"Behat\\MinkExtension":{"base_url":"http://127.0.0.1/app_test.php/"}}}\''
-                    sh 'docker exec -i symfony-php-fpm /bin/sh -c "./vendor/bin/behat --profile default"'
+                    sh 'docker exec -i user-service-php-fpm /bin/sh -c "./vendor/bin/behat --profile default"'
                 }
 
             }
