@@ -41,7 +41,7 @@ pipeline {
                     sh 'figlet -f bubble "Functional tests"'
 
                     /** setting mink base_url to run the functional tests **/
-                    sh 'export BEHAT_PARAMS=\'{"extensions":{"Behat\\MinkExtension":{"base_url":"http://127.0.0.1/app_test.php/"}}}\''
+                    sh 'export BEHAT_PARAMS=\'{"extensions":{"Behat\\MinkExtension":{"base_url":"http://user-service.dev/app_test.php/"}}}\''
                     sh 'docker exec -i user-service-php-fpm /bin/sh -c "./vendor/bin/behat --profile default"'
                 }
 
