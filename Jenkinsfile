@@ -5,20 +5,25 @@ pipeline {
         stage('Prepare') {
             steps {
                 /** Preparing the docker machines for test **/
-                /** clean up of any previously running services **/
-                dir('infrastructure/development/docker') {
-                    sh 'figlet -f standard "Preparation Process"'
 
-                    sh 'docker-compose down || true'
-                    sh 'docker rm -f $(docker ps -aq ) || true'
-                    sh 'docker rmi -f $(docker images -aq) || true'
+                dir('infrastructure/scripts/test') {
+                    /** clean up of any previously running services **/
+
+                    sh 'figlet -f standard "Preparation Process"'
+                    sh './cleanup-docker-machines.sh || true'
+                }
+
+                dir('infrastructure/development/docker') {
+                    /** Building new dockers **/
+
                     sh 'docker-compose up --build -d'
                 }
 
-                /** Installing dependencies of user-service-php-fpm docker container **/
                 dir('service/application') {
+                    /** Installing dependencies of user-service-php-fpm docker container **/
+
                     sh 'figlet -f standard "Installing dependencies"'
-                    sh 'docker exec -i user-service-php-fpm /bin/sh -c "composer install --no-progress"'
+                    sh './install-service-dependencies.sh'
                 }
             }
         }
@@ -26,25 +31,17 @@ pipeline {
         stage('Test') {
             steps {
                 /** Running Tests **/
-                dir('service/application') {
+                dir('infrastructure/scripts/test') {
                     sh 'figlet -f standard "Running Tests"'
-                }
 
-                /** running the Unit tests **/
-                dir('service/application') {
+                    /** running the Unit tests **/
                     sh 'figlet -f bubble "Unit Tests"'
-                    sh 'docker exec -i user-service-php-fpm /bin/sh -c "./vendor/bin/simple-phpunit"'
-                }
+                    sh './run-unit-tests.sh'
 
-                /** running the Functional tests **/
-                dir('service/application') {
+                    /** running the Functional tests **/
                     sh 'figlet -f bubble "Functional tests"'
-
-                    /** setting mink base_url to run the functional tests **/
-                    sh 'docker exec -i user-service-php-fpm /bin/sh -c export BEHAT_PARAMS=\'{"extensions":{"Behat\\MinkExtension":{"base_url":"http://user-service.dev/app_test.php/"}}}\''
-                    sh 'docker exec -i user-service-php-fpm /bin/sh -c "./vendor/bin/behat --profile default"'
+                    sh './run-functional-tests.sh'
                 }
-
             }
         }
 
@@ -69,8 +66,13 @@ pipeline {
                 dir('infrastructure/development/docker') {
                     sh 'figlet -f standard "Cleaning Up ..."'
                     sh 'docker-compose down'
-                    sh 'docker rm -f $(docker ps -aq ) || true'
-                    sh 'docker rmi -f $(docker images -aq) || true'
+                }
+
+                dir('infrastructure/scripts/test') {
+                    /** clean up of any previously running services **/
+
+                    sh 'figlet -f standard "Preparation Process"'
+                    sh './cleanup-docker-machines.sh || true'
                     sh 'cowsay -f ghostbusters Well done buddy !'
                 }
             }
