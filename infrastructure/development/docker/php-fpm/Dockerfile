@@ -26,7 +26,9 @@ RUN curl -sS https://phar.phpunit.de/phpunit.phar | php -- --install-dir=/usr/lo
 ## setting behat / testing environment variables
 ENV BEHAT_PARAMS='{"extensions":{"Behat\\MinkExtension":{"base_url":"http://nginx-server/app_test.php/"}}}'
 
-RUN mkdir -p /service/application && chmod 777 -R /service/application
+RUN mkdir -p /service && chmod 777 -R /service
+
+COPY ./service /service
 WORKDIR /service/application
 
 EXPOSE 9000

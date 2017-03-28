@@ -26,7 +26,7 @@ services:
           - "9000:9000"
       container_name: user-service-php-fpm
       mem_limit: 2048M
-      volumes:
-          - ../../../service:/service
+      #volumes:
+      #    - ../../../service:/service
       logging:
         driver: syslog

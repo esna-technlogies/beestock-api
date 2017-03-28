@@ -1,5 +1,5 @@
 #!/bin/sh
 
 
-chmod 777 -R ../../../service/application
+cp -R ../../../service ../../development/docker/php-fpm
 docker exec -i user-service-php-fpm /bin/bash -c "composer install --no-progress"
