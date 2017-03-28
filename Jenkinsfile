@@ -36,11 +36,11 @@ pipeline {
 
                     /** running the Unit tests **/
                     sh 'figlet -f bubble "Unit Tests"'
-                    sh './run-unit-tests.sh'
+                    sh '/bin/sh ./run-unit-tests.sh'
 
                     /** running the Functional tests **/
                     sh 'figlet -f bubble "Functional tests"'
-                    sh './run-functional-tests.sh'
+                    sh '/bin/sh ./run-functional-tests.sh'
                 }
             }
         }
@@ -72,7 +72,7 @@ pipeline {
                     /** clean up of any previously running services **/
 
                     sh 'figlet -f standard "Preparation Process"'
-                    sh './cleanup-docker-machines.sh || true'
+                    sh '/bin/sh ./cleanup-docker-machines.sh || true'
                     sh 'cowsay -f ghostbusters Well done buddy !'
                 }
             }
