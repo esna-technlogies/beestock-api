@@ -29,7 +29,10 @@ ENV BEHAT_PARAMS='{"extensions":{"Behat\\MinkExtension":{"base_url":"http://ngin
 RUN mkdir -p /service && chmod 777 -R /service
 
 COPY ./service /service
-RUN cd /service/application && rm -rf var/cache/* && composer install --no-progress
+RUN cd /service/application
+
+## workaround to solve the cache clear problem
+RUN chmod 777 -R /service/application/var  && rm -rf var/cache/* && composer install --no-progress
 WORKDIR /service/application
 
 EXPOSE 9000
