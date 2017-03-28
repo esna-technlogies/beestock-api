@@ -19,8 +19,8 @@ RUN echo >> /usr/local/etc/php-fpm.conf
 RUN echo user = $USERID >> /usr/local/etc/php-fpm.conf
 
 ## installing PHPUnit and Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN curl -sS https://phar.phpunit.de/phpunit.phar | php -- --install-dir=/usr/local/bin --filename=phpunit
+RUN curl -sS https://getcomposer.org/installer | php --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://phar.phpunit.de/phpunit.phar | php --install-dir=/usr/local/bin --filename=phpunit
 
 
 ## setting behat / testing environment variables
