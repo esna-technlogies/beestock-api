@@ -11,6 +11,7 @@ pipeline {
 
                     sh 'figlet -f standard "Preparation Process"'
                     sh '/bin/sh ./cleanup-docker-machines.sh || true'
+                    sh '/bin/sh ./copy-code-to-docker.sh'
                 }
 
                 dir('infrastructure/development/docker') {
