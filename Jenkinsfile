@@ -19,7 +19,7 @@ pipeline {
                     sh 'docker-compose up --build -d'
                 }
 
-                dir('infrastructure/scripts/test') {
+                dir('service') {
                     /** Installing dependencies of user-service-php-fpm docker container **/
 
                     sh 'figlet -f standard "Installing dependencies"'
