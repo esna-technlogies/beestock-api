@@ -31,7 +31,7 @@ RUN mkdir -p /service && chmod 777 -R /service
 COPY ./service /service
 
 ## workaround to solve the cache clear problem
-RUN cd /service/application && chmod 777 -R ./var ../logs  && rm -rf ./var/cache/* && composer install --no-progress
+RUN cd /service/application && chmod 777 -R ../* && rm -rf ./var/cache/* && composer install --no-progress
 
 WORKDIR /service/application
 
