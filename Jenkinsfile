@@ -10,7 +10,7 @@ pipeline {
                     /** clean up of any previously running services **/
 
                     sh 'figlet -f standard "Preparation Process"'
-                    sh './cleanup-docker-machines.sh || true'
+                    sh '/bin/sh ./cleanup-docker-machines.sh || true'
                 }
 
                 dir('infrastructure/development/docker') {
@@ -19,11 +19,11 @@ pipeline {
                     sh 'docker-compose up --build -d'
                 }
 
-                dir('service/application') {
+                dir('infrastructure/scripts/test') {
                     /** Installing dependencies of user-service-php-fpm docker container **/
 
                     sh 'figlet -f standard "Installing dependencies"'
-                    sh './install-service-dependencies.sh'
+                    sh '/bin/sh ./install-service-dependencies.sh'
                 }
             }
         }
