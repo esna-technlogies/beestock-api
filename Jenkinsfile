@@ -14,7 +14,7 @@ pipeline {
                     sh '/bin/sh ./copy-code-to-docker.sh'
                 }
 
-                dir('infrastructure/development/docker') {
+                dir('infrastructure/test/docker') {
                     /** Building new dockers **/
 
                     sh 'docker-compose up --build -d'
@@ -64,7 +64,7 @@ pipeline {
 
         stage('Clean up') {
             steps {
-                dir('infrastructure/development/docker') {
+                dir('infrastructure/test/docker') {
                     sh 'figlet -f standard "Cleaning Up ..."'
                     sh 'docker-compose down'
                 }
@@ -72,7 +72,6 @@ pipeline {
                 dir('infrastructure/scripts/test') {
                     /** clean up of any previously running services **/
 
-                    sh 'figlet -f standard "Preparation Process"'
                     sh '/bin/sh ./cleanup-docker-machines.sh || true'
                     sh 'cowsay -f ghostbusters Well done buddy !'
                 }

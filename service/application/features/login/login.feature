@@ -25,6 +25,6 @@ Feature: Handle user login via the RESTful API
         "password": "testpass"
       }
       """
-    Then the response status code should be 500
+    Then the response status code should be 400
 
     #And the response should contain "token"

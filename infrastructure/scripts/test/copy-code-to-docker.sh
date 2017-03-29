@@ -1,3 +1,3 @@
 #!/bin/sh
 
-cp -R ../../../service ../../development/docker/php-fpm
+cp -R ../../../service ../../test/docker/php-fpm

@@ -26,7 +26,15 @@ RUN curl -sS https://phar.phpunit.de/phpunit.phar | php -- --install-dir=/usr/lo
 ## setting behat / testing environment variables
 ENV BEHAT_PARAMS='{"extensions":{"Behat\\MinkExtension":{"base_url":"http://nginx-server/app_test.php/"}}}'
 
-RUN mkdir -p /service/application && chmod ug+rwx /service/application
+RUN mkdir -p /service && chmod 777 -R /service
+
+COPY ./service /service
+
+## workaround to solve the cache clear problem
+
+RUN chown www-data:www-data -R /service
+RUN cd /service/application && chmod 777 -R ../* && rm -rf ./var/cache/* && composer install --no-progress
+
 WORKDIR /service/application
 
 EXPOSE 9000
