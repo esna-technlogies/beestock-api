@@ -10,6 +10,7 @@ use CommonServices\UserServiceBundle\Form\Processor\UserProcessor;
 use CommonServices\UserServiceBundle\lib\Utility\Api\Pagination\DoctrineExtension\QueryPaginationHandler;
 use CommonServices\UserServiceBundle\Repository\UserRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use CommonServices\UserServiceBundle\Exception\NotFoundException;
 
 /**
  * Class UserManagerService
@@ -100,7 +101,7 @@ class UserManagerService
      */
     public function getUserByMobileNumber(string $internationalMobileNumber)
     {
-        return $this->userRepository->findOneBy(["mobileNumber.internationalNumber" => $internationalMobileNumber]);
+        return $this->userRepository->findOneByMobileNumber($internationalMobileNumber);
     }
 
     /**
@@ -144,13 +145,53 @@ class UserManagerService
         return $user;
     }
 
+
+    /**
+     * @param string $userName
+     *
+     * @throws NotFoundException
+     * @return object | null
+     */
+    public function getUserByUserName(string $userName)
+    {
+        $user = null;
+        if(filter_var($userName, FILTER_VALIDATE_EMAIL))
+        {
+            $email = $userName;
+            $user = $this->userRepository->findOneByEmail($email);
+        }
+
+        if(preg_match('/^[0-9]+$/', $userName))
+        {
+            $mobileNumber = preg_replace('/[^0-9]/', '', $userName);
+            $user = $this->userRepository->findOneByMobileNumber($mobileNumber, $mobileNumber);
+        }
+
+        if(is_null($user)){
+            throw new NotFoundException('User not found', 404);
+        }
+
+        return $user;
+    }
+
+
     /**
      * Check if user exist
-     * @param string $userId
+     * @param string $uuid
+     * @return object | null
+     */
+    public function getUserByUuid($uuid)
+    {
+        return $this->userRepository->findByUUID($uuid);
+    }
+
+    /**
+     * Check if user exist
+     * @param string $uuid
      * @return bool
      */
-    public function has($userId)
+    public function has($uuid)
     {
-        return $this->userRepository->find($userId) ? true : false;
+        return $this->userRepository->find($uuid) ? true : false;
     }
 }

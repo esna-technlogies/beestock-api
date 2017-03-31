@@ -6,7 +6,6 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation\ExclusionPolicy;
 
 /**
  * @package UserServiceBundle\Document
@@ -38,6 +37,11 @@ class AccessInfo implements UserInterface
      * @Assert\NotBlank()
      */
     protected $roles;
+
+    /**
+     * @var string
+     */
+    protected $userName;
 
     /**
      * Set password
@@ -124,15 +128,27 @@ class AccessInfo implements UserInterface
      */
     public function getRoles()
     {
-        return array($this->roles);
+        return $this->roles;
     }
 
+    /**
+     * @return string
+     */
     public function getUsername()
     {
-        return $this->username;
+        return $this->userName;
+    }
+
+    /**
+     * @param $userName
+     */
+    public function setUserName($userName)
+    {
+        $this->userName = $userName;
     }
 
     public function eraseCredentials()
     {
+        // TODO: Implement eraseCredentials() method.
     }
 }

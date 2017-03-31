@@ -22,12 +22,12 @@ class UserRepository extends DocumentRepository
     public function findAllUsers(QueryPaginationHandler $queryPaginationHandler)
     {
         $query = $this->createQueryBuilder()
-                    ->sort('created', 'DESC')
-                    ->limit($queryPaginationHandler->getResultsPerPage())
-                    ->skip($queryPaginationHandler->getResultsToSkip())
-                    ->getQuery()
-                    ->execute()
-                    ;
+            ->sort('created', 'DESC')
+            ->limit($queryPaginationHandler->getResultsPerPage())
+            ->skip($queryPaginationHandler->getResultsToSkip())
+            ->getQuery()
+            ->execute()
+        ;
 
         $queryPaginationHandler->setCountOfTotalResults($query->count());
         $queryPaginationHandler->setQueryResults($query->toArray(true));
@@ -40,7 +40,7 @@ class UserRepository extends DocumentRepository
      * @param int $limit
      * @return mixed
      */
-    public function findAllByNameOrderedByName($name, $limit = 10)
+    public function findAllByName($name, $limit = 10)
     {
         return $this->createQueryBuilder()
             ->field('fullName')->equals(new Regex($name, 'i'))
@@ -49,6 +49,37 @@ class UserRepository extends DocumentRepository
             ->getQuery()
             ->execute()
             ;
+    }
+
+    /**
+     * Finds a user by email address
+     *
+     * @param string $email
+     * @return object
+     */
+    public function findOneByEmail(string $email)
+    {
+        return $this->getDocumentPersister()->load(['email' =>  $email]);
+    }
+
+    /**
+     * Finds a user by mobile number
+     * @param string $mobileNumber
+     * @param string $internationalMobileNumber
+     * @return object
+     */
+    public function findOneByMobileNumber(string $internationalMobileNumber, string $mobileNumber= null)
+    {
+        $query = $this->createQueryBuilder();
+        $query->addOr($query->expr()->field('mobileNumber.internationalNumber')->equals($internationalMobileNumber));
+
+        if($mobileNumber){
+            $query->addOr($query->expr()->field('mobileNumber.number')->equals($mobileNumber));
+        }
+
+        return $query->limit(1)
+                ->getQuery()
+                ->getSingleResult();
     }
 
     /**

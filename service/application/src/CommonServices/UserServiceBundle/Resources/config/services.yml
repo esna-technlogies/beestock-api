@@ -4,6 +4,11 @@ services:
         arguments: ["@service_container",
                     "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:User')"]
 
+    user_service.security:
+        class: CommonServices\UserServiceBundle\lib\UserSecurityService
+        arguments: ["@service_container",
+                    "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:User')"]
+
     user_service.response_serializer:
         class: CommonServices\UserServiceBundle\Serializer\ResponseSerializer
         arguments: ["@service_container", "@jms_serializer.serializer"]
@@ -94,9 +99,6 @@ services:
     #        - { name: form.type }
 
 
-
-
-
     # Mobile number validator
     user_service.contains_international_mobile_number_validator:
         class: CommonServices\UserServiceBundle\Form\Validation\InternationalMobileNumberValidator
@@ -114,3 +116,28 @@ services:
         arguments: ["@service_container"]
         tags:
             - { name: validator.constraint_validator }
+
+
+    ## User authuntecation provider
+    #wsse.security.authentication.provider:
+    #    class: CommonServices\UserServiceBundle\Security\Provider\WsseProvider
+    #    arguments:
+    #        - '' # User Provider
+    #        - '@cache.app'
+    #    public: false
+
+    #wsse.security.authentication.listener:
+    #    class: CommonServices\UserServiceBundle\Security\Firewall\WsseListener
+    #    arguments: ['@security.token_storage', '@security.authentication.manager']
+    #    public: false
+
+
+    ## User Provider
+
+    user_service.mongodb_user_provider:
+        class: CommonServices\UserServiceBundle\Security\Provider\MongoDBUserProvider
+        arguments: ["@user_service.core"]
+
+    user_service.security.json_web_token_handler:
+        class: CommonServices\UserServiceBundle\lib\Utility\JsonWebTokenHandler
+        arguments: ['@service_container']

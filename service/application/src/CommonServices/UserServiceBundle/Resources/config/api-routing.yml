@@ -30,11 +30,25 @@ user_service_patch_user:
     path:     /user/{uuid}
     defaults: { _controller: UserServiceBundle:UserController/User:patchUser }
 
+
+## User Security resources
+user_service_login_user:
+    methods: [POST]
+    path:     /security/login
+    defaults: { _controller: UserServiceBundle:SecurityController/Login:loginUser }
+
+user_service_logout_user:
+    methods: [GET]
+    path:     /security/logout/user/{uuid}
+    defaults: { _controller: UserServiceBundle:SecurityController/Logout:logoutUser }
+
+
 ## User related resources
 user_service_get_user_phone_number:
     methods: [GET]
     path:     /user/{uuid}/mobileNumber
     defaults: { _controller: UserServiceBundle:UserController/UserMobileNumber:getUserPhoneNumber }
+
 
 ## Social accounts resources
 user_service_get_user_facebook_account:

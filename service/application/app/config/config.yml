@@ -97,25 +97,6 @@ jms_serializer:
             default_format: "c" # ISO8601
             default_timezone: "UTC" # defaults to whatever timezone set in php.ini or via date_default_ti
 
-## SSL Keys used for JWT authentication
-lexik_jwt_authentication:
-    private_key_path: '%jwt_private_key_path%'
-    public_key_path:  '%jwt_public_key_path%'
-    pass_phrase:      '%jwt_key_pass_phrase%'
-    token_ttl:        '%jwt_token_ttl%'
-    # token extraction settings
-    token_extractors:
-        authorization_header:      # look for a token as Authorization Header
-            enabled: true
-            prefix:  Bearer
-            name:    Authorization
-        cookie:                    # check token in a cookie
-            enabled: false
-            name:    BEARER
-        query_parameter:           # check token in query string parameter
-            enabled: false
-            name:    bearer
-
 # settings of the user service
 user_service:
     api_settings:
@@ -129,6 +110,12 @@ user_service:
         google:
             app_id:     108749902985918
             app_secret: 46ee1ff99d49bb0567751fe551198525
+    security:
+        jwt:
+          ssl_public_key: '%ssl_public_key%'
+          ssl_private_key: '%ssl_private_key%'
+          ssl_key_pass_phrase: '%ssl_key_pass_phrase%'
+          jwt_token_ttl: '%jwt_token_ttl%'
 
 sensio_framework_extra:
     request:
@@ -139,6 +126,10 @@ framework:
     templating:
         engines: ['twig']
 
+
+## GeoIP package
+maxmind_geoip:
+  data_file_path: "%kernel.root_dir%/../data/GeoIPCity.dat"
 
 
 #oneup_flysystem:

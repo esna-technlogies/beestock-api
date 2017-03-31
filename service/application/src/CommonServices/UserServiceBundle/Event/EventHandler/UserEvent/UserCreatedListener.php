@@ -35,7 +35,12 @@ class UserCreatedListener implements EventSubscriberInterface
 
          /** @var AccessInfo $accessInfo */
         $accessInfo = $user->getAccessInfo();
-        $accessInfo->setRoles(['ROLE_USER']);
+        $accessInfo->setRoles(
+            [
+                'ROLE_USER',
+                'ROLE_ACTIVE',
+                'ROLE_CLIENT',
+            ]);
         $user->setUuid(Uuid::uuid4()->toString());
     }
 

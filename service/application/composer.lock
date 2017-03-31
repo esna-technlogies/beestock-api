@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fdded78c5529babaaea27ae5c7b57d58",
+    "content-hash": "1bf8ec45866e0d58a9370b0356d221d8",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -2858,103 +2858,6 @@
             "time": "2016-04-20T11:40:30+00:00"
         },
         {
-            "name": "lexik/jwt-authentication-bundle",
-            "version": "v2.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lexik/LexikJWTAuthenticationBundle.git",
-                "reference": "3bf2107841de2d8ba6df8fd1c3f7cbf25a2256cd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/3bf2107841de2d8ba6df8fd1c3f7cbf25a2256cd",
-                "reference": "3bf2107841de2d8ba6df8fd1c3f7cbf25a2256cd",
-                "shasum": ""
-            },
-            "require": {
-                "namshi/jose": "^7.2",
-                "php": "^5.5|^7.0",
-                "symfony/console": "^2.8|^3.0",
-                "symfony/framework-bundle": "^2.8|^3.0",
-                "symfony/security-bundle": "^2.8|^3.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^1.1",
-                "lcobucci/jwt": "~3.2",
-                "phpunit/phpunit": "^4.8|^5.0",
-                "symfony/browser-kit": "^2.8|^3.0",
-                "symfony/dom-crawler": "^2.8|^3.0",
-                "symfony/phpunit-bridge": "^2.8|^3.0",
-                "symfony/yaml": "^2.8|^3.0"
-            },
-            "suggest": {
-                "gesdinet/jwt-refresh-token-bundle": "Implements a refresh token system over Json Web Tokens in Symfony",
-                "lcobucci/jwt": "For using the LcobucciJWTEncoder",
-                "spomky-labs/lexik-jose-bridge": "Provides a JWT Token encoder with encryption support"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Lexik\\Bundle\\JWTAuthenticationBundle\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Robin Chalas",
-                    "email": "robin.chalas@gmail.com",
-                    "homepage": "https://github.com/chalasr"
-                },
-                {
-                    "name": "Jeremy Barthe",
-                    "email": "j.barthe@lexik.fr",
-                    "homepage": "https://github.com/jeremyb"
-                },
-                {
-                    "name": "Nicolas Cabot",
-                    "email": "n.cabot@lexik.fr",
-                    "homepage": "https://github.com/slashfan"
-                },
-                {
-                    "name": "Cedric Girard",
-                    "email": "c.girard@lexik.fr",
-                    "homepage": "https://github.com/cedric-g"
-                },
-                {
-                    "name": "Lexik Community",
-                    "homepage": "https://github.com/lexik/LexikJWTAuthenticationBundle/graphs/contributors"
-                },
-                {
-                    "name": "Dev Lexik",
-                    "email": "dev@lexik.fr",
-                    "homepage": "https://github.com/lexik"
-                }
-            ],
-            "description": "This bundle provides JWT authentication for your Symfony REST API",
-            "homepage": "https://github.com/lexik/LexikJWTAuthenticationBundle",
-            "keywords": [
-                "Authentication",
-                "JWS",
-                "api",
-                "bundle",
-                "jwt",
-                "rest",
-                "symfony"
-            ],
-            "time": "2017-03-09T22:32:04+00:00"
-        },
-        {
             "name": "mattketmo/email-checker",
             "version": "v1.5.2",
             "source": {
@@ -3005,6 +2908,56 @@
                 "throwaway"
             ],
             "time": "2016-08-12T13:58:02+00:00"
+        },
+        {
+            "name": "maxmind/geoip",
+            "version": "v1.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/IDCI-Consulting/Maxmind-GeoIp.git",
+                "reference": "d19a4454f2a13ba54f1bd2e25c6c54784c1cb059"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/IDCI-Consulting/Maxmind-GeoIp/zipball/d19a4454f2a13ba54f1bd2e25c6c54784c1cb059",
+                "reference": "d19a4454f2a13ba54f1bd2e25c6c54784c1cb059",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Maxmind\\": "src/Maxmind/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Sébastien Roch",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Ariel Ferrandini",
+                    "email": "arielferrandini@gmail.com",
+                    "homepage": "http://ferrandini.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Gabriel BONDAZ",
+                    "email": "gabriel.bondaz@idci-consulting.fr",
+                    "role": "Developer"
+                }
+            ],
+            "description": "MaxMind GeoIP Symfony2 Bundle",
+            "keywords": [
+                "maxmind geoip"
+            ],
+            "time": "2016-10-14T15:36:10+00:00"
         },
         {
             "name": "mdanter/ecc",
