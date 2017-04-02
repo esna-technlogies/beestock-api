@@ -2,12 +2,12 @@
 
 namespace CommonServices\UserServiceBundle\Controller\SecurityController;
 
-use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Exception\NotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Class LoginController
@@ -52,6 +52,9 @@ class LoginController extends Controller
      */
     public function loginUserAction(Request $request)
     {
+        // this action call is intercepted by the JWT tokenizer
+        // user should never actually get here ..
+    /*
         $userName = $request->request->get('userName', '');
         $password = $request->request->get('password', '');
 
@@ -64,5 +67,8 @@ class LoginController extends Controller
                 ->serialize(['token' => $userToken]),
             Response::HTTP_OK
         );
+    */
+
+        throw new \DomainException("whatever !");
     }
 }

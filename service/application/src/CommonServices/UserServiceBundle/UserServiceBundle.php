@@ -2,9 +2,10 @@
 
 namespace CommonServices\UserServiceBundle;
 
+use CommonServices\UserServiceBundle\DependencyInjection\Security\Factory\JwtFactory;
+use Symfony\Bundle\SecurityBundle\DependencyInjection\SecurityExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use CommonServices\UserServiceBundle\DependencyInjection\Security\Factory\WsseFactory;
 
 /**
  * Class UserServiceBundle
@@ -19,9 +20,9 @@ class UserServiceBundle extends Bundle
     {
         parent::build($container);
 
-        /**
-            $extension = $container->getExtension('security');
-            $extension->addSecurityListenerFactory(new WsseFactory());
-         ***/
+        $extension = $container->getExtension('security');
+
+        /** @var SecurityExtension  $extension*/
+        $extension->addSecurityListenerFactory(new JwtFactory());
     }
 }

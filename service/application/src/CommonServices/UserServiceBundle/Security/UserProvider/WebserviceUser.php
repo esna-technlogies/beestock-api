@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Security\Provider;
+namespace CommonServices\UserServiceBundle\Security\UserProvider;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
@@ -32,15 +32,28 @@ class WebserviceUser implements UserInterface, EquatableInterface
     private $roles;
 
     /**
+     * @var string
+     */
+    private $username;
+
+    /**
+     * @var string
+     */
+    private $email;
+
+    /**
      * WebserviceUser constructor.
+     * @param string $email
      * @param string $uuid
      * @param string $password
      * @param string $salt
      * @param array $roles
      */
-    public function __construct(string $uuid,string $password, string $salt, array $roles)
+    public function __construct(string $email, string $uuid,string $password, string $salt, array $roles)
     {
         $this->uuid = $uuid;
+        $this->email = $email;
+        $this->username = $email;
         $this->password = $password;
         $this->salt = $salt;
         $this->roles = $roles;
@@ -90,7 +103,7 @@ class WebserviceUser implements UserInterface, EquatableInterface
      */
     public function getUsername()
     {
-        // Not implemented, and should not be used since username could be the email or the mobile phone number
+        return $this->username;
     }
 
     /**

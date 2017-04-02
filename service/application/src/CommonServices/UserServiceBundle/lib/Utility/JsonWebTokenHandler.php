@@ -3,9 +3,16 @@
 namespace CommonServices\UserServiceBundle\lib\Utility;
 
 use CommonServices\UserServiceBundle\Document\User;
+use CommonServices\UserServiceBundle\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Namshi\JOSE\SimpleJWS;
 
+/**
+ * Class JsonWebTokenHandler
+ * @package CommonServices\UserServiceBundle\lib\Utility
+ *
+ * The class is deprecated an is no longer in use  |  Lexik JWT bundle is used instead
+ */
 class JsonWebTokenHandler
 {
     /**
@@ -29,7 +36,7 @@ class JsonWebTokenHandler
      */
     public function getJsonWebToken(User $user) : string
     {
-        $sslPrivateKey = $this->serviceContainer->getParameter('ssl_private_key');
+        $sslPrivateKeyFile = $this->serviceContainer->getParameter('ssl_private_key');
         $sslKeyPassPhrase = $this->serviceContainer->getParameter('ssl_key_pass_phrase');
 
         $jsonWebToken  = new SimpleJWS(['alg' => 'RS256']);
@@ -43,7 +50,7 @@ class JsonWebTokenHandler
             ]
         );
 
-        $privateKey = openssl_pkey_get_private(file_get_contents($sslPrivateKey), $sslKeyPassPhrase);
+        $privateKey = openssl_pkey_get_private(file_get_contents($sslPrivateKeyFile), $sslKeyPassPhrase);
 
         $jsonWebToken->sign($privateKey);
 
@@ -52,16 +59,42 @@ class JsonWebTokenHandler
 
     /**
      * @param string $token
-     *
-     * @return bool
+     * @throws InvalidArgumentException
+     * @return array
      */
-    public function validateJsonWebToken(string $token) : boolean
+    public function decodeJsonWebToken(string $token) : array
     {
-        $sslPublicKey = $this->serviceContainer->getParameter('ssl_public_key');
+
+        $sslPublicKeyFile = $this->serviceContainer->getParameter('ssl_public_key');
 
         $jsonWebToken  = SimpleJWS::load($token);
 
-        $publicKey = openssl_pkey_get_public(file_get_contents($sslPublicKey));
+        $publicKey = openssl_pkey_get_public(file_get_contents($sslPublicKeyFile));
+
+        if ($jsonWebToken->verify($publicKey, 'RS256')) {
+
+            $payload = $jsonWebToken->getPayload();
+
+            //$userService = $this->serviceContainer->get('user_service.core');
+
+            return $payload;
+        }
+
+        throw new InvalidArgumentException( 'Invalid json web token', 403);
+    }
+
+    /**
+     * @param string $token
+     *
+     * @return bool
+     */
+    public function isValidJsonWebToken(string $token) : boolean
+    {
+        $sslPublicKeyFile = $this->serviceContainer->getParameter('ssl_public_key');
+
+        $jsonWebToken  = SimpleJWS::load($token);
+
+        $publicKey = openssl_pkey_get_public(file_get_contents($sslPublicKeyFile));
 
         return $jsonWebToken->verify($publicKey);
     }

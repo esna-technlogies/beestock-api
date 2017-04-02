@@ -1,60 +1,43 @@
 # To get started with security, check out the documentation:
 # http://symfony.com/doc/current/security.html
 security:
-
-    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
-    providers:
-        in_memory:
-            memory: ~
-        webservice: # optional
-            id: user_service.mongodb_user_provider
-
     encoders:
+        CommonServices\UserServiceBundle\Security\UserProvider\WebserviceUser:
+            algorithm: bcrypt
+            cost: 12
         CommonServices\UserServiceBundle\Document\AccessInfo:
             algorithm: bcrypt
             cost: 12
 
+    providers:
+        webservice:
+            id: user_service.mongodb_user_provider
+
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+        login:
+            pattern:  ^/api/security/login
             stateless: true
-            security: false
+            anonymous: true
+            provider: webservice
+            form_login:
+                username_parameter: userName
+                password_parameter: password
+                check_path: /api/security/login
+                require_previous_session: false
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            logout: true
 
-        #public:
-        #    methods: [POST]
-        #    pattern: ^/api/user
-        #    security: false
-
-        main:
-            anonymous: ~
-            # activate different ways to authenticate
-
-            # http_basic: ~
-            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-
-
-    ############    wsse_secured:
-    ############        pattern:   ^/api/
-    ############        stateless: true
-    ############        wsse:      true
-
-
-    ###    api:
-    ###        pattern:   ^/api
-    ###        stateless: true
-    ###        guard:
-    ###            authenticators:
-    ###                -  jwt_token_authenticator
-
-    role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        api:
+            pattern:  ^/api
+            stateless: true
+            anonymous: true
+            lexik_jwt: ~
 
     access_control:
-        - { path: ^/api/user/authenticate, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/user/registration, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/security/login, roles: IS_AUTHENTICATED_ANONYMOUSLY } ## login
+        - { path: ^/api/user, roles: IS_AUTHENTICATED_ANONYMOUSLY } ## register a new user
+        - { path: ^/api, roles: ROLE_USER }
+
+
+

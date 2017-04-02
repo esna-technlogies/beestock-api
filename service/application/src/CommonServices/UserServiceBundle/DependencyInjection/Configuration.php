@@ -45,7 +45,8 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-                ->arrayNode('security')
+            ->end();
+/*                ->arrayNode('security')
                     ->children()
                         ->arrayNode('jwt')->isRequired()
                             ->children()
@@ -56,8 +57,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                     ->end()
-                ->end()
-            ->end();
+                ->end()*/
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

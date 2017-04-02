@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Security\Provider;
+namespace CommonServices\UserServiceBundle\Security\UserProvider;
 
 use CommonServices\UserServiceBundle\Document\AccessInfo;
 use CommonServices\UserServiceBundle\Document\User;
@@ -48,12 +48,13 @@ class MongoDBUserProvider implements UserProviderInterface
             $password = $accessInfo->getPassword();
             $salt  = $accessInfo->getSalt();
             $roles = $accessInfo->getRoles();
+            $email = $user->getEmail();
 
-            return new WebserviceUser($uuid, $password, $salt, $roles);
+            return new WebserviceUser($email, $uuid, $password, $salt, $roles);
         }
 
         throw new UsernameNotFoundException(
-            sprintf('User with uuid "%s" does not exist.', $username)
+            sprintf('User with username "%s" does not exist.', $username)
         );
     }
 

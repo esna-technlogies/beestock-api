@@ -15,16 +15,16 @@ Feature: Handle user login via the RESTful API
       | 2  | john      | abbas    | john@test.org  | johnpass  |  EG           | 01125639856   |
       | 2  | salah     | Almasry  | salah@test.org | salahpass |  EG           | 01159986214   |
 
-  ##   And I add "Content-Type" header equal to "application/json"
+     And I add "Content-Type" header equal to "application/json"
 
   Scenario: User can Login with good credentials
-    When  I send a "POST" request to "/api/user/login" with body:
+    When  I send a "POST" request to "/api/security/login" with body:
       """
       {
-        "username": "peter",
+        "userName": "peter@test.com",
         "password": "testpass"
       }
       """
-    Then the response status code should be 400
+    Then the response status code should be 200
 
-    #And the response should contain "token"
+    And the response should contain "token"

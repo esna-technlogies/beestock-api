@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use CommonServices\UserServiceBundle\lib\Utility\Api\Pagination\ApiCollectionPagination;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Class UserController
@@ -141,6 +142,10 @@ class UserController extends Controller
      */
     public function newUserAction(Request $request)
     {
+        /**
+         * @Secure("is_granted('IS_AUTHENTICATED_ANONYMOUSLY')")
+         */
+
         $requestData = $request->request->all();
 
         $userService = $this->get('user_service.core');

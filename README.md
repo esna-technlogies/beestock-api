@@ -10,15 +10,16 @@ a number of the best practices of designing microservices and PHP standards but 
 
 This template or archetype can be used to quickly bootstrap a PHP project without a lot of infrastructure hassle, and it utilizes :
 
-* PHP 7.0
+* PHP 7.1.x
 * Symfony 3.2.x project 
 * Dockerized containers that are AWS ready
 * HATEOAS API  
 
-The microservice template comes with 2  separate yet dependent docker images :
+The microservice template comes with 3 separate yet dependent docker images :
     
 * nginx 
-* PHP7.0-fpm
+* PHP7.1.3-fpm
+* mongodb
 
 ## Project Structure   
     
@@ -76,19 +77,28 @@ To get your hands dirty with the code, please install  :
         
     add the following record :
         
-        192.100.100.100  sample-micro-service.dev 
+        192.100.100.101  user-service.dev 
         
-    You may change the vale of the IP address 192.168.99.100 any other value that doesn't conflict with other devices on your local network.
+    You may change the vale of the IP address 192.168.99.101 any other value that doesn't conflict with other devices on your local network.
      
     If you change it, you should also change the IP set for the vagrant box in the Vagrantfile (if you use Vagrant):
      
-        config.vm.network "private_network", ip: "192.100.100.100"
+        config.vm.network "private_network", ip: "192.100.100.101"
         
         
 -    Visit the domain name you specified in the previous line (in the /etc/hosts) to browse the micro-service you'e developing.  
 
 
 ## Installing dependencies 
+
+- Generate SSl certificates for the JWT authentication 
+
+            cd service/ssl-keys/jwt
+            
+            openssl genrsa -out private.pem -aes256 4096
+            
+            openssl rsa -pubout -in  private.pem -out  public.pem
+            
 
 -    Install composer dependencies :
      

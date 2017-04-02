@@ -19,7 +19,9 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    ssl_private_key: '%kernel.root_dir%/../../ssl-keys/jwt/private.key' # ssh private key path
-    ssl_public_key:  '%kernel.root_dir%/../../ssl-keys/jwt/public.key'  # ssh public key path
-    ssl_key_pass_phrase:  ''                                         # ssh key pass phrase
-    jwt_token_ttl:        3600
+    cors_allow_origin: "http://user-service.dev"
+
+    jwt_private_key_path: '%kernel.root_dir%/../../ssl-keys/jwt/private.pem'
+    jwt_public_key_path: '%kernel.root_dir%/../../ssl-keys/jwt/public.pem'
+    jwt_key_pass_phrase: ''
+    jwt_token_ttl: 3600

@@ -55,7 +55,9 @@
         "csa/guzzle-bundle": "^2.0",
         "friendsofsymfony/jsrouting-bundle": "^1.6",
         "namshi/jose": "^7.2",
-        "maxmind/geoip": "^1.1"
+        "maxmind/geoip": "^1.1",
+        "lexik/jwt-authentication-bundle": "^2.2",
+        "friendsofsymfony/user-bundle": "~2.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.2",
