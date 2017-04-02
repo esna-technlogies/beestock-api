@@ -40,7 +40,9 @@ class UserController extends Controller
      *         404={"No users were found"}
      *  }
      * )
+     *
      */
+
     public function listUsersAction()
     {
         $startPage      = abs(filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options'=>['default' => 1 ]]));
@@ -139,13 +141,11 @@ class UserController extends Controller
      *         500="The system is unable to create the user due to a server side error"
      *  }
      * )
+     *
+     * @Secure("isAnonymous()")
      */
     public function newUserAction(Request $request)
     {
-        /**
-         * @Secure("is_granted('IS_AUTHENTICATED_ANONYMOUSLY')")
-         */
-
         $requestData = $request->request->all();
 
         $userService = $this->get('user_service.core');

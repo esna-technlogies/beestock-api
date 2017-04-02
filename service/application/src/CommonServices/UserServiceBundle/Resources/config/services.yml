@@ -19,10 +19,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
-    user_service.request_type_listener:
-        class: CommonServices\UserServiceBundle\Event\EventListener\RequestListener
+    user_service.request_content_type_subscriber:
+        class: CommonServices\UserServiceBundle\Event\EventListener\RequestSubscriber
         tags:
-            - { name: kernel.event_listener, event: kernel.request }
+            - { name: kernel.event_subscriber }
 
 
 
@@ -126,3 +126,4 @@ services:
     user_service.mongodb_user_provider:
         class: CommonServices\UserServiceBundle\Security\UserProvider\MongoDBUserProvider
         arguments: ["@user_service.core"]
+

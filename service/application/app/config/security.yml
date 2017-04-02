@@ -36,7 +36,6 @@ security:
 
     access_control:
         - { path: ^/api/security/login, roles: IS_AUTHENTICATED_ANONYMOUSLY } ## login
-        - { path: ^/api/user, roles: IS_AUTHENTICATED_ANONYMOUSLY } ## register a new user
         - { path: ^/api, roles: ROLE_USER }
 
 

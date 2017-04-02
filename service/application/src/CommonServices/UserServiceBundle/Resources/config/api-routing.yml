@@ -14,6 +14,8 @@ user_service_post_user:
     path:     /user
     defaults:
       _controller: UserServiceBundle:UserController/User:newUser
+      _security:
+          expression: is_expr_granted("isAnonymous()")
 
 user_service_put_user:
     methods: [PUT]

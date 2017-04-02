@@ -43,25 +43,26 @@ class ApiExceptionHandler
         // get the exception object from the received event
         $exception = $event->getException();
         $message = sprintf(
-            'API error : %s ',
+            ' %s .. ',
             $exception->getMessage()
         );
 
         $errorResponse = [
-                  'message' => $message,
-                  'code' => $exception->getCode()
+            'code' => $exception->getCode(),
+            'message' => $message
          ];
+
+        $response = new Response();
 
         if ($exception instanceOf InvalidFormException )
         {
             $errorResponse['details'] = InvalidFormException::$formErrors;
         }
 
-        $response = new Response();
-
         if ($exception instanceof NotFoundHttpException) {
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
-            $errorResponse ['code'] = 404;
+            $errorResponse ['message'] = 'Resource not found';
+            $errorResponse ['code'] = Response::HTTP_NOT_FOUND;
         } else {
              $response->setStatusCode(Response::HTTP_BAD_REQUEST);
         }

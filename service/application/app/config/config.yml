@@ -166,3 +166,14 @@ nelmio_cors:
             allow_headers: ["Content-Type", "authorization", "Authorization"]
             allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS']
             max_age: 3600
+
+
+jms_security_extra:
+    secure_all_services: false
+    enable_iddqd_attribute: false
+    expressions: true
+    voters:
+        disable_authenticated: false
+        disable_role:          false
+        disable_acl:           false
+    method_access_control: { }
