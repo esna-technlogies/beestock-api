@@ -110,12 +110,6 @@ user_service:
         google:
             app_id:     108749902985918
             app_secret: 46ee1ff99d49bb0567751fe551198525
-    #security:
-    #    jwt:
-    #      ssl_public_key: '%ssl_public_key%'
-    #      ssl_private_key: '%ssl_private_key%'
-    #      ssl_key_pass_phrase: '%ssl_key_pass_phrase%'
-    #      jwt_token_ttl: '%jwt_token_ttl%'
 
 sensio_framework_extra:
     request:
@@ -162,11 +156,25 @@ nelmio_cors:
         forced_allow_origin_value: ~
     paths:
         '^/api/':
-            allow_origin: ["%cors_allow_origin%"]
-            allow_headers: ["Content-Type", "authorization", "Authorization"]
+            allow_origin: ['*']
+            allow_headers: ["*"]
             allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS']
             max_age: 3600
 
+nelmio_api_doc:
+    sandbox:
+        request_format:
+            formats:
+                json: application/json
+            method: accept_header
+            default_format: json
+        enabled:  true
+        body_format:
+            formats: [ form, json ]             # array of enabled body formats,
+            default_format: form                # default is `form`, determines whether to send
+    cache:
+        enabled:              false
+        file:                 '%kernel.cache_dir%/api-doc.cache'
 
 jms_security_extra:
     secure_all_services: false
@@ -177,3 +185,41 @@ jms_security_extra:
         disable_role:          false
         disable_acl:           false
     method_access_control: { }
+
+
+old_sound_rabbit_mq:
+    connections:
+        default:
+            host:     'rabbitmq'
+            port:     5672
+            user:     'guest'
+            password: 'guest'
+            vhost:    '/'
+            lazy:     false
+            connection_timeout: 3
+            read_write_timeout: 3
+
+            # requires php-amqplib v2.4.1+ and PHP5.4+
+            keepalive: false
+
+            # requires php-amqplib v2.4.1+
+            heartbeat: 0
+    producers:
+        upload_picture:
+            connection:       default
+            exchange_options: {name: 'upload-picture', type: direct}
+    consumers:
+        upload_picture:
+            connection:       default
+            exchange_options: {name: 'upload-picture', type: direct}
+            queue_options:    {name: 'upload-picture'}
+            callback:         upload_picture_service
+
+
+
+
+
+
+
+
+

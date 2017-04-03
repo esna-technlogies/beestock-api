@@ -14,8 +14,6 @@ user_service_post_user:
     path:     /user
     defaults:
       _controller: UserServiceBundle:UserController/User:newUser
-      _security:
-          expression: is_expr_granted("isAnonymous()")
 
 user_service_put_user:
     methods: [PUT]
@@ -42,6 +40,11 @@ user_service_login_user:
 user_service_logout_user:
     methods: [GET]
     path:     /security/logout/user/{uuid}
+    defaults: { _controller: UserServiceBundle:SecurityController/Logout:logoutUser }
+
+user_service_user_forgot_password:
+    methods: [GET]
+    path:     /security/forgotPassword
     defaults: { _controller: UserServiceBundle:SecurityController/Logout:logoutUser }
 
 

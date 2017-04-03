@@ -30,6 +30,13 @@ class UserController extends Controller
      *  description="returns a collections of users in the system",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"stable"},
+     *  headers={
+     *    {
+     *        "name"="Authorization",
+     *        "description"="Bearer token",
+     *        "required"=true,
+     *    }
+     *  },
      *  filters={
      *      {"name"="page", "dataType"="integer"},
      *      {"name"="limit", "dataType"="integer"}
@@ -37,12 +44,11 @@ class UserController extends Controller
      *  statusCodes={
      *         200="Returned when successful, all users are listed",
      *         400="Bad request: The system is unable to process the request",
-     *         404={"No users were found"}
+     *         404="No users were found"
      *  }
      * )
      *
      */
-
     public function listUsersAction()
     {
         $startPage      = abs(filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options'=>['default' => 1 ]]));
@@ -141,8 +147,6 @@ class UserController extends Controller
      *         500="The system is unable to create the user due to a server side error"
      *  }
      * )
-     *
-     * @Secure("isAnonymous()")
      */
     public function newUserAction(Request $request)
     {
@@ -170,6 +174,13 @@ class UserController extends Controller
      *  description="Get a user by UUID",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"stable"},
+     *  headers={
+     *    {
+     *        "name"="Authorization",
+     *        "description"="Bearer token",
+     *        "required"=true,
+     *    }
+     *  },
      *  requirements={
      *      {
      *          "name"="uuid",
@@ -214,6 +225,13 @@ class UserController extends Controller
      *  description="Replace Existing user",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"beta"},
+     *  headers={
+     *    {
+     *        "name"="Authorization",
+     *        "description"="Bearer token",
+     *        "required"=true,
+     *    }
+     *  },
      *  requirements={
      *      {
      *          "name"="uuid",
@@ -328,6 +346,13 @@ class UserController extends Controller
      *  description="Partially update a user",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"beta"},
+     *  headers={
+     *    {
+     *        "name"="Authorization",
+     *        "description"="Bearer token",
+     *        "required"=true,
+     *    }
+     *  },
      *  requirements={
      *      {
      *          "name"="uuid",
@@ -430,6 +455,13 @@ class UserController extends Controller
      *  description="Delete User by UUID - a soft delete is performed.",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"stable"},
+     *  headers={
+     *    {
+     *        "name"="Authorization",
+     *        "description"="Bearer token",
+     *        "required"=true,
+     *    }
+     *  },
      *  requirements={
      *      {
      *          "name"="uuid",

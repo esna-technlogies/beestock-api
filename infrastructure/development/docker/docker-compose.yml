@@ -19,6 +19,14 @@ services:
       logging:
         driver: syslog
 
+  rabbitmq:
+      build: ./rabbitmq/
+      container_name: user-service-rabbitmq
+
+  rabbitmq-management:
+      build: ./rabbitmq-management/
+      container_name: user-service-rabbitmq-management
+
   php-fpm:
       build: ./php-fpm/
       ports:

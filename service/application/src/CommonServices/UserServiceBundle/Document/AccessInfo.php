@@ -44,6 +44,14 @@ class AccessInfo implements UserInterface
     protected $userName;
 
     /**
+     * @var \DateTime $lastPasswordRetrievalRequest
+     * @MongoDB\Timestamp
+
+     * @var string
+     */
+    protected $lastPasswordRetrievalRequest;
+
+    /**
      * Set password
      *
      * @param string $password
@@ -150,5 +158,21 @@ class AccessInfo implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getLastPasswordRetrievalRequest()
+    {
+        return $this->lastPasswordRetrievalRequest;
+    }
+
+    /**
+     * @param \DateTime $lastPasswordRetrievalRequest
+     */
+    public function setLastPasswordRetrievalRequest(\DateTime $lastPasswordRetrievalRequest)
+    {
+        $this->lastPasswordRetrievalRequest = $lastPasswordRetrievalRequest;
     }
 }

@@ -4,6 +4,7 @@ namespace CommonServices\UserServiceBundle\lib;
 
 use CommonServices\UserServiceBundle\Document\AccessInfo;
 use CommonServices\UserServiceBundle\Document\User;
+use CommonServices\UserServiceBundle\Event\UserPasswordRetrievalRequestedEvent;
 use CommonServices\UserServiceBundle\Exception\InvalidArgumentException;
 use CommonServices\UserServiceBundle\Repository\UserRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -37,27 +38,21 @@ class UserSecurityService
 
     /**
      * @param string $userName
-     * @param string $password
      * @throws InvalidArgumentException
      *
-     * @return string
+     * @return null
      */
-    public function authenticateUser(string $userName = '', string $password = '')
+    public function retrievePassword(string $userName = '')
     {
         /** @var User $user */
         $user = $this->serviceContainer->get('user_service.core')->getUserByUserName($userName);
 
-        if(!$this->hasValidCredentials($user, $password))
-        {
-            throw new InvalidArgumentException('Invalid Credentials');
-        }
+        $user->getAccessInfo()->setLastPasswordRetrievalRequest(time());
 
-        // setting a temp username which is used for the login of this session
-        $user->getAccessInfo()->setUsername($userName);
+        $eventDispatcher = $this->serviceContainer->get('event_dispatcher');
 
-        return $this->serviceContainer
-                    ->get('user_service.security.json_web_token_handler')
-                    ->getJsonWebToken($user);
+        $passwordChaneRequestedEvent = new UserPasswordRetrievalRequestedEvent($user);
+        $eventDispatcher->dispatch(UserPasswordRetrievalRequestedEvent::NAME, $passwordChaneRequestedEvent);
     }
 
     /**

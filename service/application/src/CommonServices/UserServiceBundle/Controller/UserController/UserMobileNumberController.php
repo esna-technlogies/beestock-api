@@ -26,6 +26,13 @@ class UserMobileNumberController extends Controller
      *  description="Get a user mobile number details",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"beta"},
+     *  headers={
+     *    {
+     *        "name"="Authorization",
+     *        "description"="Bearer token",
+     *        "required"=true,
+     *    }
+     *  },
      *  requirements={
      *      {
      *          "name"="uuid",
