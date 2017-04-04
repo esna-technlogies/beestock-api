@@ -58,7 +58,9 @@
         "maxmind/geoip": "^1.1",
         "lexik/jwt-authentication-bundle": "^2.2",
         "friendsofsymfony/user-bundle": "~2.0",
-        "php-amqplib/rabbitmq-bundle": "^1.12"
+        "php-amqplib/rabbitmq-bundle": "^1.12",
+        "sensiolabs/ansi-to-html": "^1.1",
+        "hellogerard/jobby": "^3.2"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.2",

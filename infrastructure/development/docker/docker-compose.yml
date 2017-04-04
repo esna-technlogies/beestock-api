@@ -19,19 +19,28 @@ services:
       logging:
         driver: syslog
 
-  rabbitmq:
-      build: ./rabbitmq/
-      container_name: user-service-rabbitmq
+  #rabbitmq:
+  #    build: ./rabbitmq/
+  #    container_name: user-service-rabbitmq
 
-  rabbitmq-management:
-      build: ./rabbitmq-management/
-      container_name: user-service-rabbitmq-management
+  #rabbitmq-management:
+  #    build: ./rabbitmq-management/
+  #   container_name: user-service-rabbitmq-management
 
   php-fpm:
       build: ./php-fpm/
       ports:
           - "9000:9000"
       container_name: user-service-php-fpm
+      mem_limit: 2048M
+      volumes:
+          - ../../../service:/service
+      logging:
+        driver: syslog
+
+  php-cli:
+      build: ./php-cli/
+      container_name: user-service-php-cli
       mem_limit: 2048M
       volumes:
           - ../../../service:/service

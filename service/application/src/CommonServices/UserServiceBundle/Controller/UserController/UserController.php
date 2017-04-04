@@ -56,10 +56,10 @@ class UserController extends Controller
             ['options'=>['default' => self::COLLECTION_LISTING_RESULTS_PER_PAGE ]]
         ));
 
-        $results =  $this->get('user_service.core')->getAllUsers($startPage, $resultsPerPage);
+        $resultsHandler =  $this->get('user_service.core')->getAllUsers($startPage, $resultsPerPage);
 
         $resultsPaginator = new ApiCollectionPagination(
-            $results,
+            $resultsHandler,
             $this->get('router'),
             'user_service_list_users'
         );

@@ -19,9 +19,17 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    cors_allow_origin: "http://user-service.dev"
+    # allow cross origin for specific domain
+    cors_allow_origin: 'http://user-service.dev'
 
     jwt_private_key_path: '%kernel.root_dir%/../../ssl-keys/jwt/private.pem'
     jwt_public_key_path: '%kernel.root_dir%/../../ssl-keys/jwt/public.pem'
     jwt_key_pass_phrase: ''
     jwt_token_ttl: 3600
+
+    # aws api access
+    aws_access_key: "AKIAJLTG3XG72FWMNCOA"
+    aws_access_secret: ""
+
+    # aws SQS URLs
+    aws_sqs_user_password_change_request_queue_url: ''

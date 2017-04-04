@@ -37,9 +37,10 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
     access_control:
-        - { path: ^/api/security/$,         role: IS_AUTHENTICATED_ANONYMOUSLY } ## login
-        - { path: ^/api/user,               role: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST] } ## login
-        - { path: ^/api/,                   role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/security/forgotPassword,          role: IS_AUTHENTICATED_ANONYMOUSLY } ## login
+        - { path: ^/api/security/login,                   role: IS_AUTHENTICATED_ANONYMOUSLY } ## login
+        - { path: ^/api/user,                             role: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST] } ## login
+        - { path: ^/api/,                                 role: IS_AUTHENTICATED_FULLY }
 
 
 

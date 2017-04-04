@@ -44,9 +44,9 @@ class UserManagerService
      * @param array $userData
      * @throws InvalidFormException
      *
-     * @return User $user
+     * @return User
      */
-    public function createUser(User $user, array $userData)
+    public function createUser(User $user, array $userData) : User
     {
         $user = $this->mapUserData($user, $userData);
 
@@ -125,22 +125,12 @@ class UserManagerService
     }
 
     /**
-     * @param User $user
-     */
-    public function changeUserPassword($user){
-
-    }
-
-    /**
      * @return User
      */
     public function createNewUser()
     {
         $user = new User();
-
         $user->setAccessInfo(new AccessInfo());
-        $user->setFacebookAccount(new FacebookAccount());
-        $user->setFacebookAccount(new FacebookAccount());
 
         return $user;
     }

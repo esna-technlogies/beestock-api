@@ -39,15 +39,19 @@ class UserSecurityService
     /**
      * @param string $userName
      * @throws InvalidArgumentException
-     *
-     * @return null
      */
     public function retrievePassword(string $userName = '')
     {
         /** @var User $user */
         $user = $this->serviceContainer->get('user_service.core')->getUserByUserName($userName);
 
-        $user->getAccessInfo()->setLastPasswordRetrievalRequest(time());
+        $lastTimePasswordChangeRequest = $user->getAccessInfo()->getLastPasswordRetrievalRequest();
+
+        // current time - 10800 (seconds in 3 hours)
+//        if ($lastTimePasswordChangeRequest >= (time() - 10800)) {
+//            throw new InvalidArgumentException("Changing the password can't happen before 3 hours from last change request.",
+//                400);
+//        }
 
         $eventDispatcher = $this->serviceContainer->get('event_dispatcher');
 
@@ -76,4 +80,30 @@ class UserSecurityService
 
         return true;
     }
+
+    /**
+     * @param int $length
+     * @return string
+     */
+    public static function generateRandomString(int $length) : string
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+
+        $charactersLength = strlen($characters);
+
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+
+        return $randomString;
+    }
+
 }
+
+
+
+
+
+
+

@@ -198,26 +198,37 @@ old_sound_rabbit_mq:
             lazy:     false
             connection_timeout: 3
             read_write_timeout: 3
-
-            # requires php-amqplib v2.4.1+ and PHP5.4+
             keepalive: false
-
-            # requires php-amqplib v2.4.1+
             heartbeat: 0
-    producers:
-        upload_picture:
-            connection:       default
-            exchange_options: {name: 'upload-picture', type: direct}
-    consumers:
-        upload_picture:
-            connection:       default
-            exchange_options: {name: 'upload-picture', type: direct}
-            queue_options:    {name: 'upload-picture'}
-            callback:         upload_picture_service
+            use_socket: true
+    #producers:
+    #    user_password_change_request:
+    #        connection:       default
+    #        exchange_options: {name: 'user-password-change-request-exchange', type: direct}
+    #        service_alias:    user_service.amqb_producer.password_change_request
+    #consumers:
+    #    user_password_change_request:
+    #        connection:       default
+    #        exchange_options: {name: 'user-password-change-request-exchange', type: direct}
+    #        callback:         user_service.amqb_consumer.password_change_request
+    #        queue_options:
+    #            name: "user-password-change-request-queue"
+    #            arguments: {'x-ha-policy': ['S', 'all']}
+    #            routing_keys:
+    #              - 'email.user_password_change_request'
+    #              - 'mobile.user_password_change_request'
 
-
-
-
+aws:
+    version: latest
+    region: us-west-2
+    credentials:
+        key: "%aws_access_key%"
+        secret: "%aws_access_secret%"
+    Sqs:
+        region: us-west-2
+        version: '2012-11-05'
+        debug: true
+        credentials: "@aws.credentials_provider"
 
 
 

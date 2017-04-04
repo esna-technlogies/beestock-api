@@ -89,6 +89,21 @@ To get your hands dirty with the code, please install  :
 -    Visit the domain name you specified in the previous line (in the /etc/hosts) to browse the micro-service you'e developing.  
 
 
+        
+
+## Registering the cron-jobs  
+
+- Add the cronjobs to your crontab :
+
+            vagrant ssh 
+        
+            crontab -e 
+            
+- at the end of the cron file add the following line :
+
+            * * * * * sudo docker exec -i user-service-php-fpm /bin/bash -c "bin/console cron:run"  >> /home/ubuntu/cronrun 2>&1
+        
+
 ## Installing dependencies 
 
 - Generate SSl certificates for the JWT authentication 

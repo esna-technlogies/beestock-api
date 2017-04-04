@@ -4,11 +4,19 @@ services:
         arguments: ["@service_container",
                     "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:User')"]
 
+    user_service.change_requests_service:
+        class: CommonServices\UserServiceBundle\lib\ChangeRequestsService
+        arguments: ["@service_container",
+                    "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:ChangeRequest')"]
+
     user_service.security:
         class: CommonServices\UserServiceBundle\lib\UserSecurityService
         arguments: ["@service_container",
                     "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:User')"]
 
+
+
+    # Serializers and API utilities
     user_service.response_serializer:
         class: CommonServices\UserServiceBundle\Serializer\ResponseSerializer
         arguments: ["@service_container", "@jms_serializer.serializer"]
@@ -19,15 +27,14 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
+
+
+    ## Registered Listeners and subscribers
     user_service.request_content_type_subscriber:
         class: CommonServices\UserServiceBundle\Event\EventListener\RequestSubscriber
         tags:
             - { name: kernel.event_subscriber }
 
-
-
-
-    ## Registered Listeners
     user_service.response_listener:
         class: CommonServices\UserServiceBundle\Event\EventListener\ResponseListener
         arguments: ["@service_container"]
@@ -62,6 +69,12 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    user_service.user_email_changed_subscriber:
+        class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserEmailChangedListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: kernel.event_subscriber }
+
     user_service.user_name_changed_subscriber:
         class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserNameChangedListener
         arguments: ["@service_container"]
@@ -80,6 +93,14 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    user_service.user_password_change_requested_subscriber:
+        class: CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserPasswordRetrievalRequestedListener
+        arguments:
+          - "@service_container"
+          - "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:User')"
+          - "@user_service.change_requests_service"
+        tags:
+            - { name: kernel.event_subscriber }
 
 
 
@@ -126,4 +147,48 @@ services:
     user_service.mongodb_user_provider:
         class: CommonServices\UserServiceBundle\Security\UserProvider\MongoDBUserProvider
         arguments: ["@user_service.core"]
+
+
+
+    ## aws api Services
+    aws.credentials_provider:
+        class: Aws\Credentials\Credentials
+        arguments:
+            - "%aws_access_key%"
+            - "%aws_access_secret%"
+
+    aws.sqs.message_producer:
+        class: CommonServices\UserServiceBundle\EventBus\Producer\AwsSqsMessageProducer
+        arguments:
+            - "@service_container"
+
+    aws.sqs.sms_sender:
+        class: CommonServices\UserServiceBundle\lib\Utility\Aws\SmsSender
+        arguments:
+            - "@service_container"
+
+
+
+    ## CLI Commands
+    user_service.command.standard_command_runner:
+        class: CommonServices\UserServiceBundle\lib\Utility\Command\StandardCommandRunner
+        arguments:
+            - "@service_container"
+
+    user_service.command.send_sms:
+        class: CommonServices\UserServiceBundle\Command\SendUserSMSCommand
+        tags:
+            - { name: console.command }
+
+    user_service.command.send_email:
+        class: CommonServices\UserServiceBundle\Command\SendUserEmailCommand
+        tags:
+            - { name: console.command }
+
+
+
+
+
+
+
 

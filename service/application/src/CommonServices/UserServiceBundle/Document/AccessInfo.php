@@ -44,10 +44,10 @@ class AccessInfo implements UserInterface
     protected $userName;
 
     /**
-     * @var \DateTime $lastPasswordRetrievalRequest
-     * @MongoDB\Timestamp
-
-     * @var string
+     * @MongoDB\Field(type="integer")
+     * @Assert\NotBlank()
+     *
+     * @var int
      */
     protected $lastPasswordRetrievalRequest;
 
@@ -161,17 +161,17 @@ class AccessInfo implements UserInterface
     }
 
     /**
-     * @return \DateTime
+     * @return int
      */
-    public function getLastPasswordRetrievalRequest()
+    public function getLastPasswordRetrievalRequest(): int
     {
-        return $this->lastPasswordRetrievalRequest;
+        return (int) $this->lastPasswordRetrievalRequest;
     }
 
     /**
-     * @param \DateTime $lastPasswordRetrievalRequest
+     * @param int $lastPasswordRetrievalRequest
      */
-    public function setLastPasswordRetrievalRequest(\DateTime $lastPasswordRetrievalRequest)
+    public function setLastPasswordRetrievalRequest(int $lastPasswordRetrievalRequest)
     {
         $this->lastPasswordRetrievalRequest = $lastPasswordRetrievalRequest;
     }

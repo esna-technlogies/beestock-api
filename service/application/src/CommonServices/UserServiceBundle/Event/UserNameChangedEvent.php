@@ -21,7 +21,7 @@ class UserNameChangedEvent extends Event
     protected $user;
 
     /**
-     * PasswordChangedEvent constructor.
+     * UserNameChangedEvent constructor.
      *
      * @param User $user
      */

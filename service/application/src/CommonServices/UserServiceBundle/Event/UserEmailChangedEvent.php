@@ -6,16 +6,13 @@ use CommonServices\UserServiceBundle\Document\User;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Class PasswordRetrievalRequestedEvent
- * @package CommonServices\UserServiceBundle\Event
+ * Class UserEmailChangedEvent
+ * @package CommonServices\UserServiceBundle\Event\Event
  */
-class UserPasswordRetrievalRequestedEvent extends Event
+class UserEmailChangedEvent extends Event
 {
-    const NAME = 'user_password_retrieval.requested';
+    const NAME = 'user_email.changed';
 
-    /**
-     * @var string
-     */
     protected $eventFiringTime;
 
     /**
@@ -24,7 +21,7 @@ class UserPasswordRetrievalRequestedEvent extends Event
     protected $user;
 
     /**
-     * PasswordChangedEvent constructor.
+     * UserEmailChangedEvent constructor.
      *
      * @param User $user
      */
@@ -41,13 +38,5 @@ class UserPasswordRetrievalRequestedEvent extends Event
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEventFiringTime()
-    {
-        return $this->eventFiringTime;
     }
 }

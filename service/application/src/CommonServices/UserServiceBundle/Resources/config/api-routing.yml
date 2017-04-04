@@ -43,9 +43,9 @@ user_service_logout_user:
     defaults: { _controller: UserServiceBundle:SecurityController/Logout:logoutUser }
 
 user_service_user_forgot_password:
-    methods: [GET]
+    methods: [POST]
     path:     /security/forgotPassword
-    defaults: { _controller: UserServiceBundle:SecurityController/Logout:logoutUser }
+    defaults: { _controller: UserServiceBundle:SecurityController/ForgotPassword:forgotPassword }
 
 
 ## User related resources

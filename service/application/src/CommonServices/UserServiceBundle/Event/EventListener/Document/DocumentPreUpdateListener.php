@@ -5,6 +5,7 @@ namespace CommonServices\UserServiceBundle\Event\EventListener\Document;
 use CommonServices\UserServiceBundle\Document\AccessInfo;
 use CommonServices\UserServiceBundle\Document\PhoneNumber;
 use CommonServices\UserServiceBundle\Document\User;
+use CommonServices\UserServiceBundle\Event\UserEmailChangedEvent;
 use CommonServices\UserServiceBundle\Event\UserMobileNumberChangedEvent;
 use CommonServices\UserServiceBundle\Event\UserNameChangedEvent;
 use CommonServices\UserServiceBundle\Event\UserPasswordChangedEvent;
@@ -45,6 +46,12 @@ class DocumentPreUpdateListener
             {
                 $nameChangedEvent = new UserNameChangedEvent($document);
                 $eventDispatcher->dispatch(UserNameChangedEvent::NAME, $nameChangedEvent);
+            }
+
+            if ($event->hasChangedField('email'))
+            {
+                $nameChangedEvent = new UserEmailChangedEvent($document);
+                $eventDispatcher->dispatch(UserEmailChangedEvent::NAME, $nameChangedEvent);
             }
         }
 
