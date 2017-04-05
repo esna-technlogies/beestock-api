@@ -44,6 +44,10 @@ class CronJobRunnerCommand extends ContainerAwareCommand
         $sendEmailCommand = $this->getContainer()->get('user_service.command.send_sms');
         $this->commandRunner->attachCommand($sendEmailCommand, CronTabCommandRunner::EVERY_1_MINUTE);
 
+        // attach SMS email command
+        $sendEmailCommand = $this->getContainer()->get('user_service.command.send_email');
+        $this->commandRunner->attachCommand($sendEmailCommand, CronTabCommandRunner::EVERY_1_MINUTE);
+
         /**
          * Run the attached jobs
          */

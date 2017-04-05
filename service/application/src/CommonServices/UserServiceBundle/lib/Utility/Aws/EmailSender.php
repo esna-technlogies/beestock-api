@@ -5,10 +5,10 @@ namespace CommonServices\UserServiceBundle\lib\Utility\Aws;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class SendSMS
+ * Class EmailSender
  * @package CommonServices\UserServiceBundle\lib\Utility\Aws
  */
-class SmsSender
+class EmailSender
 {
     /**
      * @var ContainerInterface
@@ -32,14 +32,14 @@ class SmsSender
     public function send(string $message, string $internationalPhoneNumber)
     {
         /** @var  \Aws\Sns\SnsClient  $sqsServiceClient */
-        $sqsServiceClient = $this->serviceContainer->get('aws.sns');
-
-        $request =[
-            'Message'     => $message,
-            'PhoneNumber' => $internationalPhoneNumber
-        ];
-        $sqsServiceClient->publish($request);
-
-        sleep(1);
+//        $sqsServiceClient = $this->serviceContainer->get('aws.sns');
+//
+//        $request =[
+//            'Message'     => $message,
+//            'PhoneNumber' => $internationalPhoneNumber
+//        ];
+//        $sqsServiceClient->publish($request);
+//
+//        sleep(1);
     }
 }

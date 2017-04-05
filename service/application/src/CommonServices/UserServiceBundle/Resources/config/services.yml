@@ -97,7 +97,7 @@ services:
         class: CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserPasswordRetrievalRequestedListener
         arguments:
           - "@service_container"
-          - "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:User')"
+          - "@user_service.core"
           - "@user_service.change_requests_service"
         tags:
             - { name: kernel.event_subscriber }
@@ -167,6 +167,11 @@ services:
         arguments:
             - "@service_container"
 
+    aws.sqs.email_sender:
+        class: CommonServices\UserServiceBundle\lib\Utility\Aws\EmailSender
+        arguments:
+            - "@service_container"
+
 
 
     ## CLI Commands
@@ -176,12 +181,12 @@ services:
             - "@service_container"
 
     user_service.command.send_sms:
-        class: CommonServices\UserServiceBundle\Command\SendUserSMSCommand
+        class: CommonServices\UserServiceBundle\Command\SendUserSMSNotificationCommand
         tags:
             - { name: console.command }
 
     user_service.command.send_email:
-        class: CommonServices\UserServiceBundle\Command\SendUserEmailCommand
+        class: CommonServices\UserServiceBundle\Command\SendUserEmailNotificationCommand
         tags:
             - { name: console.command }
 

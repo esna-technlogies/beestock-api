@@ -73,6 +73,17 @@ class UserManagerService
 
     /**
      * @param User $user
+     * @throws InvalidFormException
+     *
+     * @return User $user
+     */
+    public function saveUser(User $user)
+    {
+        $this->userRepository->save($user);
+    }
+
+    /**
+     * @param User $user
      * @param array $userData
      * @param boolean $clearMissing
      * @throws InvalidFormException

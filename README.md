@@ -103,7 +103,16 @@ To get your hands dirty with the code, please install  :
 
             * * * * * sudo docker exec -i user-service-php-fpm /bin/bash -c "bin/console cron:run"  >> /home/ubuntu/cronrun 2>&1
         
+- you can monitor the output of the crontab either through watching :
 
+            tail -f /home/ubuntu/cronrun
+            
+            // or 
+            
+            tail -f /var/log/syslog
+
+            
+            
 ## Installing dependencies 
 
 - Generate SSl certificates for the JWT authentication 

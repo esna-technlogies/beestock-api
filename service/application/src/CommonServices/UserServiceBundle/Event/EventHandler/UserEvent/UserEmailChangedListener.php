@@ -36,17 +36,6 @@ class UserEmailChangedListener implements EventSubscriberInterface
     {
         /** @var UserEmailChangedEvent $event */
         $user = $event->getUser();
-        $verificationCode = UserSecurityService::generateRandomString(6);
-        $commandRunner = $this->serviceContainer->get('user_service.command.standard_command_runner');
-
-        $message ='You recently requested to set your email address to :'.$user->getEmail().PHP_EOL;
-
-        $emailInput = new ArrayInput([
-            'command' => 'user-service:send-user-email',
-            'message' => $message.PHP_EOL.$verificationCode,
-            'email' => $user->getEmail(),
-        ]);
-        $commandRunner->execute($emailInput);
     }
 
     /**
