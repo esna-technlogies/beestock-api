@@ -1,0 +1,22 @@
+services:
+    ## aws api Services
+    aws.credentials_provider:
+        class: Aws\Credentials\Credentials
+        arguments:
+            - "%aws_access_key%"
+            - "%aws_access_secret%"
+
+    aws.sqs.message_producer:
+        class: CommonServices\UserServiceBundle\EventBus\Producer\AwsSqsMessageProducer
+        arguments:
+            - "@service_container"
+
+    aws.sqs.sms_sender:
+        class: CommonServices\UserServiceBundle\Utility\Aws\SmsSender
+        arguments:
+            - "@service_container"
+
+    aws.sqs.email_sender:
+        class: CommonServices\UserServiceBundle\Utility\Aws\EmailSender
+        arguments:
+            - "@service_container"

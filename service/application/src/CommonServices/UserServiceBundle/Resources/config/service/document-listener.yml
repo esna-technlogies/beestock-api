@@ -1,0 +1,19 @@
+services:
+    ## Document prePersist, postPersist, preUpdate events
+    doctrine_mongo_db_pre_persisit_listener:
+        class:   CommonServices\UserServiceBundle\EventListener\Document\UserDocumentPrePersistListener
+        arguments: ["@service_container"]
+        tags:
+            -  { name: doctrine_mongodb.odm.event_listener, event: prePersist }
+
+    doctrine_mongo_db_post_persisit_listener:
+        class:   CommonServices\UserServiceBundle\EventListener\Document\UserDocumentPostPersistListener
+        arguments: ["@service_container"]
+        tags:
+            -  { name: doctrine_mongodb.odm.event_listener, event: postPersist }
+
+    doctrine_mongo_db_perupdate_listener:
+        class:   CommonServices\UserServiceBundle\EventListener\Document\UserDocumentPreUpdateListener
+        arguments: ["@service_container"]
+        tags:
+            -  { name: doctrine_mongodb.odm.event_listener, event: preUpdate }

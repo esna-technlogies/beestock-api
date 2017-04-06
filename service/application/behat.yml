@@ -15,7 +15,7 @@ default:
                 - FeatureContext
                 - behatch:context:rest
                 - UserSetupContext:
-                      userManagerService: "@user_service.core"
+                      userManagerService: "@user_service.core_service"
                 - DefaultContext:
                       fixtures:
                           - %paths.base%/tests/Functional/Features/user.yml

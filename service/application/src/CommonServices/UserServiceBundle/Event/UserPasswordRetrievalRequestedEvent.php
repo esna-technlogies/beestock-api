@@ -38,7 +38,7 @@ class UserPasswordRetrievalRequestedEvent extends Event
     /**
      * @return User
      */
-    public function getUser()
+    public function getUserDocument()
     {
         return $this->user;
     }

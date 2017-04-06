@@ -1,199 +1,29 @@
+imports:
+    - { resource: service/aws.yml }
+    - { resource: service/cli.yml }
+    - { resource: service/document-listener.yml }
+    - { resource: service/event-listener.yml }
+    - { resource: service/exception.yml }
+    - { resource: service/factory.yml }
+    - { resource: service/parameter-converter.yml }
+    - { resource: service/processor.yml }
+    - { resource: service/provider.yml }
+    - { resource: service/rabbitmq.yml }
+    - { resource: service/request-listener.yml }
+    - { resource: service/response-listener.yml }
+    - { resource: service/validator.yml }
+
 services:
-    user_service.core:
-        class: CommonServices\UserServiceBundle\lib\UserManagerService
+    ## Core business domains
+    user_service.user_domain:
+        class: CommonServices\UserServiceBundle\Domain\User\UserDomain
+        shared: false
         arguments: ["@service_container",
                     "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:User')"]
 
-    user_service.change_requests_service:
-        class: CommonServices\UserServiceBundle\lib\ChangeRequestsService
+    user_service.change_request_domain:
+        class: CommonServices\UserServiceBundle\Domain\ChangeRequest\ChangeRequestDomain
+        shared: false
         arguments: ["@service_container",
                     "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:ChangeRequest')"]
-
-    user_service.security:
-        class: CommonServices\UserServiceBundle\lib\UserSecurityService
-        arguments: ["@service_container",
-                    "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:User')"]
-
-
-
-    # Serializers and API utilities
-    user_service.response_serializer:
-        class: CommonServices\UserServiceBundle\Serializer\ResponseSerializer
-        arguments: ["@service_container", "@jms_serializer.serializer"]
-
-    user_service.exception_handler:
-        class: CommonServices\UserServiceBundle\Event\EventHandler\ApiExceptionHandler
-        arguments: ["@service_container", "@jms_serializer.serializer"]
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception }
-
-
-
-    ## Registered Listeners and subscribers
-    user_service.request_content_type_subscriber:
-        class: CommonServices\UserServiceBundle\Event\EventListener\RequestSubscriber
-        tags:
-            - { name: kernel.event_subscriber }
-
-    user_service.response_listener:
-        class: CommonServices\UserServiceBundle\Event\EventListener\ResponseListener
-        arguments: ["@service_container"]
-        tags:
-            - { name: kernel.event_listener, event: kernel.response }
-
-    doctrine_mongo_db_param_converter:
-        class: Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter
-        arguments: ["@doctrine_mongodb"]
-        tags:
-            - { name: request.param_converter, converter: doctrine.odm }
-
-    doctrine_mongo_db_pre_persisit_listener:
-        class:   CommonServices\UserServiceBundle\Event\EventListener\Document\DocumentPrePersistListener
-        arguments: ["@service_container"]
-        tags:
-            -  { name: doctrine_mongodb.odm.event_listener, event: prePersist }
-
-    doctrine_mongo_db_perupdate_listener:
-        class:   CommonServices\UserServiceBundle\Event\EventListener\Document\DocumentPreUpdateListener
-        arguments: ["@service_container"]
-        tags:
-            -  { name: doctrine_mongodb.odm.event_listener, event: preUpdate }
-
-
-
-
-    ## business events
-    user_service.user_password_changed_subscriber:
-        class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserPasswordChangedListener
-        arguments: ["@service_container"]
-        tags:
-            - { name: kernel.event_subscriber }
-
-    user_service.user_email_changed_subscriber:
-        class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserEmailChangedListener
-        arguments: ["@service_container"]
-        tags:
-            - { name: kernel.event_subscriber }
-
-    user_service.user_name_changed_subscriber:
-        class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserNameChangedListener
-        arguments: ["@service_container"]
-        tags:
-            - { name: kernel.event_subscriber }
-
-    user_service.user_mobile_number_changed_subscriber:
-        class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserMobileNumberChangedListener
-        arguments: ["@service_container"]
-        tags:
-            - { name: kernel.event_subscriber }
-
-    user_service.user_created_subscriber:
-        class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserCreatedListener
-        arguments: ["@service_container"]
-        tags:
-            - { name: kernel.event_subscriber }
-
-    user_service.user_password_change_requested_subscriber:
-        class: CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserPasswordRetrievalRequestedListener
-        arguments:
-          - "@service_container"
-          - "@user_service.core"
-          - "@user_service.change_requests_service"
-        tags:
-            - { name: kernel.event_subscriber }
-
-
-
-    ## type processors and transformers
-    user_service.type.user_access_info_type:
-        class: CommonServices\UserServiceBundle\Form\Type\AccessInfoType
-        arguments: ["@=service('doctrine_mongodb').getManager()"]
-        tags:
-            - { name: form.type }
-
-    user_service.type.user_phone_number_type:
-        class: CommonServices\UserServiceBundle\Form\Type\PhoneNumberType
-        arguments: ["@=service('doctrine_mongodb').getManager()"]
-        tags:
-            - { name: form.type }
-
-    #user_service.type.user_type:
-    #    class: CommonServices\UserServiceBundle\Form\Type\UserType
-    #    arguments: ["@=service('doctrine_mongodb').getManager()"]
-    #    tags:
-    #        - { name: form.type }
-
-
-    # Mobile number validator
-    user_service.contains_international_mobile_number_validator:
-        class: CommonServices\UserServiceBundle\Form\Validation\InternationalMobileNumberValidator
-        tags:
-            - { name: validator.constraint_validator }
-
-    user_service.contains_unique_user_mobile_number_validator:
-        class: CommonServices\UserServiceBundle\Form\Validation\UniqueUserMobileNumberValidator
-        arguments: ["@service_container"]
-        tags:
-            - { name: validator.constraint_validator }
-
-    user_service.contains_unique_user_email_validator:
-        class: CommonServices\UserServiceBundle\Form\Validation\UniqueUserEmailValidator
-        arguments: ["@service_container"]
-        tags:
-            - { name: validator.constraint_validator }
-
-
-    ## User Provider
-    user_service.mongodb_user_provider:
-        class: CommonServices\UserServiceBundle\Security\UserProvider\MongoDBUserProvider
-        arguments: ["@user_service.core"]
-
-
-
-    ## aws api Services
-    aws.credentials_provider:
-        class: Aws\Credentials\Credentials
-        arguments:
-            - "%aws_access_key%"
-            - "%aws_access_secret%"
-
-    aws.sqs.message_producer:
-        class: CommonServices\UserServiceBundle\EventBus\Producer\AwsSqsMessageProducer
-        arguments:
-            - "@service_container"
-
-    aws.sqs.sms_sender:
-        class: CommonServices\UserServiceBundle\lib\Utility\Aws\SmsSender
-        arguments:
-            - "@service_container"
-
-    aws.sqs.email_sender:
-        class: CommonServices\UserServiceBundle\lib\Utility\Aws\EmailSender
-        arguments:
-            - "@service_container"
-
-
-
-    ## CLI Commands
-    user_service.command.standard_command_runner:
-        class: CommonServices\UserServiceBundle\lib\Utility\Command\StandardCommandRunner
-        arguments:
-            - "@service_container"
-
-    user_service.command.send_sms:
-        class: CommonServices\UserServiceBundle\Command\SendUserSMSNotificationCommand
-        tags:
-            - { name: console.command }
-
-    user_service.command.send_email:
-        class: CommonServices\UserServiceBundle\Command\SendUserEmailNotificationCommand
-        tags:
-            - { name: console.command }
-
-
-
-
-
-
-
 

@@ -1,0 +1,6 @@
+services:
+    ## amqb producer
+    user_service.amqb_consumer.password_change_request:
+        class: CommonServices\UserServiceBundle\EventBus\Consumer\EmailChangeEventConsumer
+        arguments:
+            - "@service_container"

@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class SendUserEmailCommand
+ * Class SendUserEmailNotificationCommand
  * @package CommonServices\UserServiceBundle\Command
  */
 class SendUserEmailNotificationCommand extends ContainerAwareCommand
@@ -28,8 +28,8 @@ class SendUserEmailNotificationCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $changeRequestService = $this->getContainer()->get('user_service.change_requests_service');
-        $userService = $this->getContainer()->get('user_service.core');
+        $changeRequestService = $this->getContainer()->get('user_service.change_request_domain');
+        $userService = $this->getContainer()->get('user_service.user_domain');
         $emailSender   = $this->getContainer()->get('aws.sqs.email_sender');
 
         $requests = $changeRequestService->getMostRecentRequests('send_email');
@@ -42,7 +42,7 @@ class SendUserEmailNotificationCommand extends ContainerAwareCommand
             $verificationCode = $request->getVerificationCode();
 
             /** @var User $user */
-            $user = $userService->getUserByUuid($uuid);
+            $user = $userService->getUserRepository()->findByUuid($uuid);
 
             // TODO : create email type checker / parser / verifier
             if(UserPasswordRetrievalRequestedEvent::NAME === $eventName)

@@ -9,8 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use CommonServices\UserServiceBundle\lib\Utility\Api\Pagination\ApiCollectionPagination;
-use JMS\SecurityExtraBundle\Annotation\Secure;
+use CommonServices\UserServiceBundle\Utility\Api\Pagination\ApiCollectionPagination;
 
 /**
  * Class UserController
@@ -18,7 +17,7 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
  */
 class UserController extends Controller
 {
-    const COLLECTION_LISTING_RESULTS_PER_PAGE = 2;
+    const USER_COLLECTION_LISTING_RESULTS_PER_PAGE = 2;
 
     /**
      * This endpoint lists all the users in the system
@@ -53,10 +52,10 @@ class UserController extends Controller
     {
         $startPage      = abs(filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options'=>['default' => 1 ]]));
         $resultsPerPage = abs(filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT,
-            ['options'=>['default' => self::COLLECTION_LISTING_RESULTS_PER_PAGE ]]
+            ['options'=>['default' => self::USER_COLLECTION_LISTING_RESULTS_PER_PAGE ]]
         ));
 
-        $resultsHandler =  $this->get('user_service.core')->getAllUsers($startPage, $resultsPerPage);
+        $resultsHandler =  $this->get('user_service.user_domain')->getUserRepository()->findAllUsers($startPage, $resultsPerPage);
 
         $resultsPaginator = new ApiCollectionPagination(
             $resultsHandler,
@@ -68,9 +67,10 @@ class UserController extends Controller
             throw $this->createNotFoundException('No users found in the system.');
         }
 
+        $results = $resultsPaginator->getHateoasFriendlyResults('users');
+
         return new Response(
-            $this->get('user_service.response_serializer')->serialize(
-                $resultsPaginator->getHateoasFriendlyResults('users')),
+            $this->get('user_service.response_serializer')->serialize($results),
             Response::HTTP_OK
         );
     }
@@ -150,11 +150,11 @@ class UserController extends Controller
      */
     public function newUserAction(Request $request)
     {
-        $requestData = $request->request->all();
+        $basicAccountInformation = $request->request->all();
 
-        $userService = $this->get('user_service.core');
+        $userService = $this->get('user_service.user_domain');
 
-        $user = $userService->createUser($userService->createNewUser(), $requestData);
+        $user = $userService->createUserAccount($basicAccountInformation);
 
         return new Response(
             $this->get('user_service.response_serializer')
@@ -321,11 +321,12 @@ class UserController extends Controller
             throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
         }
 
-        $requestData = $request->request->all();
+        $basicUserInformation = $request->request->all();
 
-        $userService = $this->get('user_service.core');
+        $userService = $this->get('user_service.user_domain');
 
-        $user = $userService->updateUser($user, $requestData);
+        $user = $userService->getUser($user);
+        $user->getAccount()->updateAccountBasicInformation($basicUserInformation);
 
         return new Response(
             $this->get('user_service.response_serializer')
@@ -441,9 +442,10 @@ class UserController extends Controller
         if (is_null($user)) {
             throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
         }
-        return $this->putUserAction($user, $request);
-    }
+        $this->putUserAction($user, $request);
 
+        return new Response("",Response::HTTP_NO_CONTENT);
+    }
 
     /**
      * Delete user by Unique User Identifier (UUID)
@@ -452,7 +454,7 @@ class UserController extends Controller
      *
      * @ApiDoc(
      *  section="User Account",
-     *  description="Delete User by UUID - a soft delete is performed.",
+     *  description="Delete User by UUID.",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"stable"},
      *  headers={
@@ -486,10 +488,57 @@ class UserController extends Controller
             throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
         }
 
-        $this->get('user_service.core')->deleteUser($user);
+        $user = $this->get('user_service.user_domain')->getUser($user);
+        $user->getAccount()->deleteAccount();
 
-        return new Response("User was successfully deleted.",
-            Response::HTTP_NO_CONTENT
-        );
+        return new Response("", Response::HTTP_NO_CONTENT);
+    }
+
+
+    /**
+     * Suspend user (soft delete) by Unique User Identifier (UUID)
+     * @param User $user
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *  section="User Account",
+     *  description="Suspend User by UUID - flags user account as deleted without actually deleting it.",
+     *  output="Symfony\Component\HttpFoundation\Response",
+     *  tags={"stable"},
+     *  headers={
+     *    {
+     *        "name"="Authorization",
+     *        "description"="Bearer token",
+     *        "required"=true,
+     *    }
+     *  },
+     *  requirements={
+     *      {
+     *          "name"="uuid",
+     *          "dataType"="string",
+     *          "requirement"="V5 UUID",
+     *          "description"="Unique user identifier of the user"
+     *      }
+     *  },
+     *  statusCodes={
+     *         204="Returned when user is successfully suspended ",
+     *         400="Bad request: The system is unable to process the request",
+     *         404={"No user with the provided UUID was found"},
+     *         500="The system is unable to create the user due to a server side error"
+     *  }
+     * )
+     *
+     * @throws NotFoundException
+     */
+    public function suspendUserAction(User $user = null)
+    {
+        if (is_null($user)) {
+            throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
+        }
+
+        $user = $this->get('user_service.user_domain')->getUser($user);
+        $user->getAccount()->suspendAccount();
+
+        return new Response("", Response::HTTP_NO_CONTENT);
     }
 }

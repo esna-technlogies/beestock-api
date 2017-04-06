@@ -1,19 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: almasry
- * Date: 04/04/2017
- * Time: 7:42 AM
- */
 
 namespace CommonServices\UserServiceBundle\Command;
 
-
-use CommonServices\UserServiceBundle\lib\Utility\Command\CronTabCommandRunner;
+use CommonServices\UserServiceBundle\Utility\Command\CronTabCommandRunner;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class CronJobRunnerCommand
+ * @package CommonServices\UserServiceBundle\Command
+ */
 class CronJobRunnerCommand extends ContainerAwareCommand
 {
     /**

@@ -2,12 +2,11 @@
 
 namespace CommonServices\UserServiceBundle\Repository;
 
-use CommonServices\UserServiceBundle\lib\Utility\Api\Pagination\DoctrineExtension\QueryPaginationHandler;
+use CommonServices\UserServiceBundle\Exception\NotFoundException;
+use CommonServices\UserServiceBundle\Utility\Api\Pagination\DoctrineExtension\QueryPaginationHandler;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use CommonServices\UserServiceBundle\Document\User;
 use MongoDB\BSON\Regex;
-use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class UserRepository
@@ -16,11 +15,14 @@ use Symfony\Component\HttpFoundation\Response;
 class UserRepository extends DocumentRepository
 {
     /**
-     * @param QueryPaginationHandler $queryPaginationHandler
+     * @param int $startPage
+     * @param int $resultsPerPage
      * @return mixed
      */
-    public function findAllUsers(QueryPaginationHandler $queryPaginationHandler)
+    public function findAllUsers(int $startPage, int $resultsPerPage) : QueryPaginationHandler
     {
+        $queryPaginationHandler = new QueryPaginationHandler($startPage, $resultsPerPage);
+
         $query = $this->createQueryBuilder()
             ->sort('created', 'DESC')
             ->limit($queryPaginationHandler->getResultsPerPage())
@@ -33,6 +35,15 @@ class UserRepository extends DocumentRepository
         $queryPaginationHandler->setQueryResults($query->toArray(true));
 
         return $queryPaginationHandler;
+    }
+
+    /**
+     * @param string $email
+     * @return object
+     */
+    public function findUserByEmail(string $email)
+    {
+        return $this->findOneBy(["email"=> $email]);
     }
 
     /**
@@ -49,17 +60,6 @@ class UserRepository extends DocumentRepository
             ->getQuery()
             ->execute()
             ;
-    }
-
-    /**
-     * Finds a user by email address
-     *
-     * @param string $email
-     * @return object
-     */
-    public function findOneByEmail(string $email)
-    {
-        return $this->getDocumentPersister()->load(['email' =>  $email]);
     }
 
     /**
@@ -85,6 +85,7 @@ class UserRepository extends DocumentRepository
     /**
      * @param $name
      * @return null|object
+     * @throws NotFoundException
      */
     public function findOneByName($name)
     {
@@ -96,7 +97,7 @@ class UserRepository extends DocumentRepository
                 $name
             );
 
-            throw new Exception($errorMessage, Response::HTTP_NOT_FOUND);
+            throw new NotFoundException($errorMessage);
         }
         return $user;
     }
@@ -104,8 +105,9 @@ class UserRepository extends DocumentRepository
     /**
      * @param $uuid
      * @return null|object
+     * @throws NotFoundException
      */
-    public function findByUUID($uuid)
+    public function findByUuid($uuid)
     {
         $user = parent::findOneBy(['uuid' => $uuid]);
 
@@ -115,8 +117,36 @@ class UserRepository extends DocumentRepository
                 $uuid
             );
 
-            throw new Exception($errorMessage, Response::HTTP_NOT_FOUND);
+            throw new NotFoundException($errorMessage);
         }
+        return $user;
+    }
+
+    /**
+     * @param string $userName
+     *
+     * @throws NotFoundException
+     * @return object | null
+     */
+    public function findByUserName(string $userName)
+    {
+        $user = null;
+        if(filter_var($userName, FILTER_VALIDATE_EMAIL))
+        {
+            $email = $userName;
+            $user = $this->findUserByEmail($email);
+        }
+
+        if(preg_match('/^[0-9]+$/', $userName))
+        {
+            $mobileNumber = preg_replace('/[^0-9]/', '', $userName);
+            $user = $this->findOneByMobileNumber($mobileNumber, $mobileNumber);
+        }
+
+        if(is_null($user)){
+            throw new NotFoundException('User not found');
+        }
+
         return $user;
     }
 
@@ -134,6 +164,15 @@ class UserRepository extends DocumentRepository
      * @param User $user
      */
     public function delete(User $user)
+    {
+        $this->dm->remove($user);
+        $this->dm->flush();
+    }
+
+    /**
+     * @param User $user
+     */
+    public function softDelete(User $user)
     {
         $this->dm->remove($user);
         $this->dm->flush();

@@ -2,11 +2,9 @@
 
 namespace CommonServices\UserServiceBundle\Form\Validation;
 
-use CommonServices\UserServiceBundle\Document\PhoneNumber;
 use CommonServices\UserServiceBundle\Document\User;
-use CommonServices\UserServiceBundle\Form\Validation\Constraint\InternationalMobileNumber;
 use CommonServices\UserServiceBundle\Form\Validation\Constraint\UniqueUserMobileNumber;
-use CommonServices\UserServiceBundle\lib\Utility\MobileNumberFormatter;
+use CommonServices\UserServiceBundle\Utility\MobileNumberFormatter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -40,12 +38,12 @@ class UniqueUserMobileNumberValidator extends ConstraintValidator
             return;
         }
         try{
-            $internationalMobileNumber =
-                (new MobileNumberFormatter())
-                    ->getInternationalMobileNumber($mobileNumber->getNumber(), $mobileNumber->getCountryCode());
+            $mobileNumberFormatter = new MobileNumberFormatter();
+            $internationalMobileNumber = $mobileNumberFormatter
+                ->getInternationalMobileNumber($mobileNumber->getNumber(), $mobileNumber->getCountryCode());
 
             /** @var User $user */
-            $user = $this->serviceContainer->get('user_service.core')->getUserByMobileNumber($internationalMobileNumber);
+            $user = $this->serviceContainer->get('user_service.user_domain')->getUserRepository()->findOneByMobileNumber($internationalMobileNumber);
 
             if(!is_null($user)){
 

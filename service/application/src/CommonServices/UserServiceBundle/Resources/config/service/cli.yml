@@ -1,0 +1,16 @@
+services:
+    ## CLI Commands
+    user_service.command.standard_command_runner:
+        class: CommonServices\UserServiceBundle\Utility\Command\StandardCommandRunner
+        arguments:
+            - "@service_container"
+
+    user_service.command.send_sms:
+        class: CommonServices\UserServiceBundle\Command\SendUserSMSNotificationCommand
+        tags:
+            - { name: console.command }
+
+    user_service.command.send_email:
+        class: CommonServices\UserServiceBundle\Command\SendUserEmailNotificationCommand
+        tags:
+            - { name: console.command }
