@@ -28,12 +28,6 @@ class UserServiceExtension extends Extension
         $container->setParameter('facebook_settings', $config['social_login']['facebook']);
         $container->setParameter('google_settings', $config['social_login']['google']);
 
-
-/*        $container->setParameter('ssl_public_key', $config['security']['jwt']['ssl_public_key']);
-        $container->setParameter('ssl_private_key', $config['security']['jwt']['ssl_private_key']);
-        $container->setParameter('ssl_key_pass_phrase', $config['security']['jwt']['ssl_key_pass_phrase']);
-        $container->setParameter('jwt_token_ttl', $config['security']['jwt']['jwt_token_ttl']);*/
-
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

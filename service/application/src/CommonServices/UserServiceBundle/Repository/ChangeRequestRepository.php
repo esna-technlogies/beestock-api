@@ -3,10 +3,9 @@
 namespace CommonServices\UserServiceBundle\Repository;
 
 use CommonServices\UserServiceBundle\Document\ChangeRequest;
-use CommonServices\UserServiceBundle\Exception\InvalidArgumentException;
-use CommonServices\UserServiceBundle\lib\Utility\Api\Pagination\DoctrineExtension\QueryPaginationHandler;
+use CommonServices\UserServiceBundle\Exception\NotFoundException;
+use CommonServices\UserServiceBundle\Utility\Api\Pagination\DoctrineExtension\QueryPaginationHandler;
 use Doctrine\ODM\MongoDB\DocumentRepository;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ChangeRequestRepository
@@ -15,12 +14,15 @@ use Symfony\Component\HttpFoundation\Response;
 class ChangeRequestRepository extends DocumentRepository
 {
     /**
-     * @param QueryPaginationHandler $queryPaginationHandler
      * @param string $action
-     * @return QueryPaginationHandler
+     * @param int $startPage
+     * @param int $resultsPerPage
+     * @return mixed
      */
-    public function findAllChangeRequests(QueryPaginationHandler $queryPaginationHandler, string $action)
+    public function findAllChangeRequests(string $action, int $startPage, int $resultsPerPage) : QueryPaginationHandler
     {
+        $queryPaginationHandler = new QueryPaginationHandler($startPage, $resultsPerPage);
+
         $query = $this->createQueryBuilder()
             ->field('action')->equals($action)
             ->sort('created')
@@ -35,6 +37,7 @@ class ChangeRequestRepository extends DocumentRepository
 
         return $queryPaginationHandler;
     }
+
 
     /**
      * @param $eventName
@@ -55,7 +58,7 @@ class ChangeRequestRepository extends DocumentRepository
     /**
      * @param $eventName
      * @return null|object
-     * @throws InvalidArgumentException
+     * @throws NotFoundException
      */
     public function findOneByEventName($eventName)
     {
@@ -67,7 +70,7 @@ class ChangeRequestRepository extends DocumentRepository
                 $eventName
             );
 
-            throw new InvalidArgumentException($errorMessage, Response::HTTP_NOT_FOUND);
+            throw new NotFoundException($errorMessage);
         }
         return $changeRequest;
     }
@@ -75,7 +78,7 @@ class ChangeRequestRepository extends DocumentRepository
     /**
      * @param $uuid
      * @return null|object
-     * @throws InvalidArgumentException
+     * @throws NotFoundException
      */
     public function findByUuid($uuid)
     {
@@ -87,7 +90,7 @@ class ChangeRequestRepository extends DocumentRepository
                 $uuid
             );
 
-            throw new InvalidArgumentException($errorMessage, Response::HTTP_NOT_FOUND);
+            throw new NotFoundException($errorMessage);
         }
         return $changeRequest;
     }

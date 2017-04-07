@@ -3,11 +3,11 @@ NelmioApiDocBundle:
     prefix:   /documentation/
 
 user_service_api:
-    resource: "@UserServiceBundle/Resources/config/api-routing.yml"
+    resource: "@UserServiceBundle/Resources/config/routing/api.yml"
     prefix:   /api
 
 user_service_static_pages:
-    resource: "@UserServiceBundle/Resources/config/static-pages.yml"
+    resource: "@UserServiceBundle/Resources/config/routing/static-pages.yml"
     prefix:   /static
 
 app:

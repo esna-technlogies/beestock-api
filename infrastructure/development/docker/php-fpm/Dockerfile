@@ -7,6 +7,9 @@ RUN apt-get update && apt-get install && rm -rf /var/cache/apk/*
 
 ## Install xdebug extension
 RUN pecl install xdebug
+
+## add later to the standard php docker
+RUN  docker-php-ext-install sockets
 COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 ## Copy necessary PHP configuration

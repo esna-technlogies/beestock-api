@@ -4,10 +4,8 @@ namespace CommonServices\UserServiceBundle\Controller\SecurityController;
 
 use CommonServices\UserServiceBundle\Exception\NotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use JMS\SecurityExtraBundle\Annotation\Secure;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class LoginController
@@ -17,8 +15,6 @@ class LoginController extends Controller
 {
     /**
      * Login user with email or mobile number
-     * @param Request $request
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
@@ -41,34 +37,20 @@ class LoginController extends Controller
      *      }
      *  },
      *  statusCodes={
-     *         200="Returned when successful, user is logged in",
-     *         400="Bad request: The password provided is invalid",
-     *         404={"No user with the provided username was found"},
+     *         200="Returned when successful, user is logged-in and token is provided in the response",
+     *         400="Bad request: The password or username is invalid",
+     *         401={"Unauthorized, the credentials provided are not valid"},
      *         500="The system is unable to create the user due to a server side error"
      *  }
      * )
      *
      * @throws NotFoundException
      */
-    public function loginUserAction(Request $request)
+    public function loginUserAction()
     {
-        // this action call is intercepted by the JWT tokenizer
+        // this action call is intercepted by the JWT token handler
         // user should never actually get here ..
-    /*
-        $userName = $request->request->get('userName', '');
-        $password = $request->request->get('password', '');
 
-        $userService = $this->get('user_service.security');
-
-        $userToken = $userService->authenticateUser($userName, $password);
-
-        return new Response(
-            $this->get('user_service.response_serializer')
-                ->serialize(['token' => $userToken]),
-            Response::HTTP_OK
-        );
-    */
-
-        throw new \DomainException("whatever !");
+        return new Response( '', Response::HTTP_NOT_IMPLEMENTED );
     }
 }

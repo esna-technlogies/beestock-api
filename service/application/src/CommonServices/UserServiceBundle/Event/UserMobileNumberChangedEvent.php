@@ -3,6 +3,7 @@
 namespace CommonServices\UserServiceBundle\Event;
 
 use CommonServices\UserServiceBundle\Document\PhoneNumber;
+use CommonServices\UserServiceBundle\Document\User;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -19,16 +20,18 @@ class UserMobileNumberChangedEvent extends Event
      * @var PhoneNumber
      */
     protected $mobileNumber;
+    /**
+     * @var User
+     */
+    private $user;
 
     /**
      * PasswordChangedEvent constructor.
-     *
-     * @param PhoneNumber $mobileNumber
+     * @param User $user
      */
-    public function __construct(PhoneNumber $mobileNumber)
+    public function __construct(User $user)
     {
-        $this->mobileNumber = $mobileNumber;
-
+        $this->user = $user;
         $this->eventFiringTime = new \DateTime();
     }
 
@@ -37,6 +40,14 @@ class UserMobileNumberChangedEvent extends Event
      */
     public function getMobileNumber()
     {
-        return $this->mobileNumber;
+        return $this->user->getMobileNumber();
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

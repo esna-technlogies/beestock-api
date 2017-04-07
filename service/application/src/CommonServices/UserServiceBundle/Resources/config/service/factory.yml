@@ -1,0 +1,5 @@
+services:
+    ## Factory Services
+    user_service.factory.user_factory:
+        class: CommonServices\UserServiceBundle\Factory\UserFactory
+        arguments: ["@service_container" , "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:User')"]

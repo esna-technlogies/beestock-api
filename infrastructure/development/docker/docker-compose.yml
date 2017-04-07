@@ -23,9 +23,13 @@ services:
   #    build: ./rabbitmq/
   #    container_name: user-service-rabbitmq
 
-  #rabbitmq-management:
-  #    build: ./rabbitmq-management/
-  #   container_name: user-service-rabbitmq-management
+  rabbitmq-management:
+      build: ./rabbitmq-management/
+      container_name: user-service-rabbitmq-management
+      ports:
+          - "15672:15672"
+      logging:
+        driver: syslog
 
   php-fpm:
       build: ./php-fpm/

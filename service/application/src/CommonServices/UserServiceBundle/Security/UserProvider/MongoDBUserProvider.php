@@ -4,7 +4,7 @@ namespace CommonServices\UserServiceBundle\Security\UserProvider;
 
 use CommonServices\UserServiceBundle\Document\AccessInfo;
 use CommonServices\UserServiceBundle\Document\User;
-use CommonServices\UserServiceBundle\lib\UserManagerService;
+use CommonServices\UserServiceBundle\Domain\User\UserDomain;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -17,17 +17,17 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 class MongoDBUserProvider implements UserProviderInterface
 {
     /**
-     * @var UserManagerService
+     * @var UserDomain
      */
-    private $userManagerService;
+    private $userDomain;
 
     /**
      * WebserviceUser constructor.
-     * @param UserManagerService $userManagerService
+     * @param UserDomain $userDomain
      */
-    public function __construct(UserManagerService $userManagerService)
+    public function __construct(UserDomain $userDomain)
     {
-        $this->userManagerService = $userManagerService;
+        $this->userDomain = $userDomain;
     }
 
     /**
@@ -36,7 +36,7 @@ class MongoDBUserProvider implements UserProviderInterface
     public function loadUserByUsername($username)
     {
         /** @var User $user */
-        $user = $this->userManagerService->getUserByUserName($username);
+        $user = $this->userDomain->getUserRepository()->findByUserName($username);
 
         if ($user) {
 
@@ -68,7 +68,6 @@ class MongoDBUserProvider implements UserProviderInterface
                 sprintf('Instances of "%s" are not supported.', get_class($user))
             );
         }
-
         return $this->loadUserByUsername($user->getUsername());
     }
 

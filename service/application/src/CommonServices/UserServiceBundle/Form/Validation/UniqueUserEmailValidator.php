@@ -40,7 +40,7 @@ class UniqueUserEmailValidator extends ConstraintValidator
         try{
 
             /** @var User $user */
-            $user = $this->serviceContainer->get('user_service.core')->getUserByEmail($userEmail);
+            $user = $this->serviceContainer->get('user_service.user_domain')->getUserRepository()->findUserByEmail($userEmail);
 
             if(!is_null($user)){
 

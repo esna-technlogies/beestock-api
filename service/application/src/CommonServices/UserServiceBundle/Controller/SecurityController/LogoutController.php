@@ -4,7 +4,6 @@ namespace CommonServices\UserServiceBundle\Controller\SecurityController;
 
 use CommonServices\UserServiceBundle\Exception\NotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use CommonServices\UserServiceBundle\Document\User;
@@ -49,8 +48,6 @@ class LogoutController extends Controller
     {
         //TODO: do something with JWT
 
-        return new Response([],
-            Response::HTTP_NO_CONTENT
-        );
+        return new Response([],Response::HTTP_NO_CONTENT);
     }
 }

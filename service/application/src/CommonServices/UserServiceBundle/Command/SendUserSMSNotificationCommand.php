@@ -5,9 +5,7 @@ namespace CommonServices\UserServiceBundle\Command;
 use CommonServices\UserServiceBundle\Document\ChangeRequest;
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Event\UserPasswordRetrievalRequestedEvent;
-use CommonServices\UserServiceBundle\lib\Utility\Aws\SmsSender;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -30,8 +28,8 @@ class SendUserSMSNotificationCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $changeRequestService = $this->getContainer()->get('user_service.change_requests_service');
-        $userService = $this->getContainer()->get('user_service.core');
+        $changeRequestService = $this->getContainer()->get('user_service.change_request_domain');
+        $userService = $this->getContainer()->get('user_service.user_domain');
         $smsSender   = $this->getContainer()->get('aws.sqs.sms_sender');
 
         $requests = $changeRequestService->getMostRecentRequests('send_sms');
@@ -44,7 +42,7 @@ class SendUserSMSNotificationCommand extends ContainerAwareCommand
             $verificationCode = $request->getVerificationCode();
 
             /** @var User $user */
-            $user = $userService->getUserByUuid($uuid);
+            $user = $userService->getUserRepository()->findByUuid($uuid);
 
             // TODO : create SMS type checker / parser / verifier
             if(UserPasswordRetrievalRequestedEvent::NAME === $eventName)
