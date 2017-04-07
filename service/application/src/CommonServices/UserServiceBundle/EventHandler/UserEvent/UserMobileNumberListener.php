@@ -2,8 +2,8 @@
 
 namespace CommonServices\UserServiceBundle\EventHandler\UserEvent;
 
-use CommonServices\UserServiceBundle\Event\MobileNumber\UserMobileNumberChangeRequestedEvent;
-use CommonServices\UserServiceBundle\Event\UserMobileNumberChangedEvent;
+use CommonServices\UserServiceBundle\Event\User\MobileNumber\UserMobileNumberChangeRequestedEvent;
+use CommonServices\UserServiceBundle\Event\User\MobileNumber\UserMobileNumberChangedEvent;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;

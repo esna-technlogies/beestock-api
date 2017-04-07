@@ -3,12 +3,12 @@
 namespace CommonServices\UserServiceBundle\EventListener\Document\User;
 
 use CommonServices\UserServiceBundle\Document\User;
-use CommonServices\UserServiceBundle\Event\MobileNumber\UserMobileNumberChangeRequestedEvent;
+use CommonServices\UserServiceBundle\Event\User\MobileNumber\UserMobileNumberChangeRequestedEvent;
 use CommonServices\UserServiceBundle\Event\User\Account\UserAccountInitializedEvent;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use CommonServices\UserServiceBundle\Event\UserNameChangedEvent;
-use CommonServices\UserServiceBundle\Event\UserPasswordChangedEvent;
+use CommonServices\UserServiceBundle\Event\User\Name\UserNameChangedEvent;
+use CommonServices\UserServiceBundle\Event\User\Password\UserPasswordChangedEvent;
 
 /**
  * Class UserDocumentPrePersistListener

@@ -3,11 +3,10 @@
 namespace CommonServices\UserServiceBundle\EventHandler\UserEvent;
 
 use CommonServices\UserServiceBundle\Domain\User\UserDomain;
-use CommonServices\UserServiceBundle\Event\UserEmail\UserEmailAddedToAccountEvent;
-use CommonServices\UserServiceBundle\Event\UserEmail\UserEmailChangedEvent;
-use CommonServices\UserServiceBundle\Event\UserEmail\UserEmailChangeRequestedEvent;
+use CommonServices\UserServiceBundle\Event\User\Email\UserEmailAddedToAccountEvent;
+use CommonServices\UserServiceBundle\Event\User\Email\UserEmailChangedEvent;
+use CommonServices\UserServiceBundle\Event\User\Email\UserEmailChangeRequestedEvent;
 use CommonServices\UserServiceBundle\Domain\ChangeRequest\ChangeRequestDomain;
-use CommonServices\UserServiceBundle\Utility\Security\RandomCodeGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -62,23 +61,32 @@ class UserEmailListener implements EventSubscriberInterface
             $event->getNewValue()
         );
         $user->getAccount()->setLastPasswordRetrievalRequest(time());
-
-        $event->stopPropagation();
-    }
-
-    /**
-     * @param Event $event
-     */
-    public function onUserEmailChanged(Event $event)
-    {
-        // Do something ..
-        $event->stopPropagation();
     }
 
     /**
      * @param Event $event
      */
     public function onUserEmailAddedToAccount(Event $event)
+    {
+        /** @var UserEmailChangeRequestedEvent $event */
+        $userDocument = $event->getUser();
+        $user = $this->userManagerService->getUser($userDocument);
+
+        /// issue a change request event
+        $requestLifeTime = 1 * 60 * 60;
+        $user->getAccount()->issueAccountChangeRequest(
+            UserEmailChangeRequestedEvent::NAME,
+            $requestLifeTime,
+            '',
+            $event->getNewValue()
+        );
+        $user->getAccount()->setLastPasswordRetrievalRequest(time());
+    }
+
+    /**
+     * @param Event $event
+     */
+    public function onUserEmailChanged(Event $event)
     {
         // Do something ..
         $event->stopPropagation();

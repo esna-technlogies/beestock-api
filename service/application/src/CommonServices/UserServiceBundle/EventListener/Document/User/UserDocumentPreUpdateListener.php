@@ -5,10 +5,10 @@ namespace CommonServices\UserServiceBundle\EventListener\Document\User;
 use CommonServices\UserServiceBundle\Document\AccessInfo;
 use CommonServices\UserServiceBundle\Document\PhoneNumber;
 use CommonServices\UserServiceBundle\Document\User;
-use CommonServices\UserServiceBundle\Event\UserEmail\UserEmailChangeRequestedEvent;
-use CommonServices\UserServiceBundle\Event\UserMobileNumberChangedEvent;
-use CommonServices\UserServiceBundle\Event\UserNameChangedEvent;
-use CommonServices\UserServiceBundle\Event\UserPasswordChangedEvent;
+use CommonServices\UserServiceBundle\Event\User\Email\UserEmailChangeRequestedEvent;
+use CommonServices\UserServiceBundle\Event\User\MobileNumber\UserMobileNumberChangedEvent;
+use CommonServices\UserServiceBundle\Event\User\Name\UserNameChangedEvent;
+use CommonServices\UserServiceBundle\Event\User\Password\UserPasswordChangedEvent;
 use Doctrine\ODM\MongoDB\Event\PreUpdateEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
