@@ -31,11 +31,7 @@ class PhoneNumberTransformer implements DataTransformerInterface
      */
     public function transform($mobileNumber)
     {
-        /** @var PhoneNumber $mobileNumber */
-        if(null === $mobileNumber){
-            return null;
-        }
-        return $mobileNumber->getInternationalNumber();
+        return $mobileNumber;
     }
 
     /**
@@ -43,8 +39,9 @@ class PhoneNumberTransformer implements DataTransformerInterface
      */
     public function reverseTransform($mobileNumber)
     {
-        return (new PhoneNumber())
-            ->setNumber($mobileNumber['number'])
-            ->setCountryCode($mobileNumber['countryCode']);
+       // remove white spaces - if any
+        $mobileNumber = preg_replace('#\s+#','',trim($mobileNumber));
+
+        return $mobileNumber;
     }
 }

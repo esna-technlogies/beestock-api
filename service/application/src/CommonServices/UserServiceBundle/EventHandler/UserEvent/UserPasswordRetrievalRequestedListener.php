@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class UserPasswordRetrievalRequestedListener
- * @package CommonServices\UserServiceBundle\Event\EventHandler\UserEvent
+ * @package CommonServices\UserServiceBundle\EventHandler\UserEvent
  */
 class UserPasswordRetrievalRequestedListener implements EventSubscriberInterface
 {

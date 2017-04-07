@@ -19,9 +19,9 @@ services:
       logging:
         driver: syslog
 
-  rabbitmq:
-      build: ./rabbitmq/
-      container_name: user-service-rabbitmq
+  #rabbitmq:
+  #    build: ./rabbitmq/
+  #    container_name: user-service-rabbitmq
 
   rabbitmq-management:
       build: ./rabbitmq-management/

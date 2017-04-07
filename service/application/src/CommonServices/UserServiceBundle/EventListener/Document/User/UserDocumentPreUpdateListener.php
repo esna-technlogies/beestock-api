@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\EventListener\Document;
+namespace CommonServices\UserServiceBundle\EventListener\Document\User;
 
 use CommonServices\UserServiceBundle\Document\AccessInfo;
 use CommonServices\UserServiceBundle\Document\PhoneNumber;
@@ -13,8 +13,8 @@ use Doctrine\ODM\MongoDB\Event\PreUpdateEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class DocumentPreUpdateListener
- * @package CommonServices\UserServiceBundle\Event\EventListener\Document
+ * Class UserDocumentPreUpdateListener
+ * @package CommonServices\UserServiceBundle\EventListener\Document
  */
 class UserDocumentPreUpdateListener
 {
@@ -61,6 +61,7 @@ class UserDocumentPreUpdateListener
             }
         }
 
+        // sub-document (embedded) of the User document
         if ($document instanceof AccessInfo)
         {
             if ($event->hasChangedField('password'))
@@ -70,6 +71,7 @@ class UserDocumentPreUpdateListener
             }
         }
 
+        // sub-document (embedded) of the User document
         if ($document instanceof PhoneNumber)
         {
             if ($event->hasChangedField('country_code') || $event->hasChangedField('number'))

@@ -1,18 +1,18 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\EventListener\Document;
+namespace CommonServices\UserServiceBundle\EventListener\Document\User;
 
 use CommonServices\UserServiceBundle\Document\User;
+use CommonServices\UserServiceBundle\Event\MobileNumber\UserMobileNumberChangeRequestedEvent;
 use CommonServices\UserServiceBundle\Event\User\Account\UserAccountInitializedEvent;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use CommonServices\UserServiceBundle\Event\UserMobileNumberChangedEvent;
 use CommonServices\UserServiceBundle\Event\UserNameChangedEvent;
 use CommonServices\UserServiceBundle\Event\UserPasswordChangedEvent;
 
 /**
- * Class DocumentPrePersistListener
- * @package CommonServices\UserServiceBundle\Event\EventListener\Document
+ * Class UserDocumentPrePersistListener
+ * @package CommonServices\UserServiceBundle\EventListener\Document\User
  */
 class UserDocumentPrePersistListener
 {
@@ -46,8 +46,8 @@ class UserDocumentPrePersistListener
             $nameChangedEvent = new UserNameChangedEvent($document);
             $eventDispatcher->dispatch(UserNameChangedEvent::NAME, $nameChangedEvent);
 
-            $mobileNumberChangedEvent = new UserMobileNumberChangedEvent($document->getMobileNumber());
-            $eventDispatcher->dispatch(UserMobileNumberChangedEvent::NAME, $mobileNumberChangedEvent);
+            $mobileNumberChangedEvent = new UserMobileNumberChangeRequestedEvent($document);
+            $eventDispatcher->dispatch(UserMobileNumberChangeRequestedEvent::NAME, $mobileNumberChangedEvent);
 
             $passwordChangedEvent = new UserPasswordChangedEvent($document->getAccessInfo());
             $eventDispatcher->dispatch(UserPasswordChangedEvent::NAME, $passwordChangedEvent);

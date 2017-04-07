@@ -64,11 +64,12 @@ class UserSecurityManager
     }
 
     /**
+     * @param array $roles
      * @return User
      */
-    public function setRoles()
+    public function setRoles(array $roles)
     {
-        return $this->user;
+        $this->user->getAccessInfo()->setRoles($roles);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace CommonServices\UserServiceBundle\Form\Type;
 
 use CommonServices\UserServiceBundle\Document\PhoneNumber;
+use CommonServices\UserServiceBundle\Form\Transformer\PhoneNumberTransformer;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
@@ -54,6 +55,9 @@ class PhoneNumberType extends AbstractType
             ]
         );
 
+        $builder->get('number')
+            ->addModelTransformer(new PhoneNumberTransformer($this->manager))
+        ;
     }
 
     /**

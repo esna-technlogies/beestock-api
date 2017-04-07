@@ -38,9 +38,8 @@ class UniqueUserMobileNumberValidator extends ConstraintValidator
             return;
         }
         try{
-            $mobileNumberFormatter = new MobileNumberFormatter();
-            $internationalMobileNumber = $mobileNumberFormatter
-                ->getInternationalMobileNumber($mobileNumber->getNumber(), $mobileNumber->getCountryCode());
+            $mobileNumberFormatter = new MobileNumberFormatter($mobileNumber->getNumber(), $mobileNumber->getCountryCode());
+            $internationalMobileNumber = $mobileNumberFormatter->getInternationalMobileNumber();
 
             /** @var User $user */
             $user = $this->serviceContainer->get('user_service.user_domain')->getUserRepository()->findOneByMobileNumber($internationalMobileNumber);

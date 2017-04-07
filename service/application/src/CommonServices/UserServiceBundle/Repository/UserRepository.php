@@ -4,6 +4,7 @@ namespace CommonServices\UserServiceBundle\Repository;
 
 use CommonServices\UserServiceBundle\Exception\NotFoundException;
 use CommonServices\UserServiceBundle\Utility\Api\Pagination\DoctrineExtension\QueryPaginationHandler;
+use CommonServices\UserServiceBundle\Utility\MobileNumberFormatter;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use CommonServices\UserServiceBundle\Document\User;
 use MongoDB\BSON\Regex;
@@ -64,22 +65,34 @@ class UserRepository extends DocumentRepository
 
     /**
      * Finds a user by mobile number
-     * @param string $mobileNumber
-     * @param string $internationalMobileNumber
+     * @param string $number
      * @return object
      */
-    public function findOneByMobileNumber(string $internationalMobileNumber, string $mobileNumber= null)
+    public function findOneByMobileNumber(string $number)
     {
         $query = $this->createQueryBuilder();
-        $query->addOr($query->expr()->field('mobileNumber.internationalNumber')->equals($internationalMobileNumber));
-
-        if($mobileNumber){
-            $query->addOr($query->expr()->field('mobileNumber.number')->equals($mobileNumber));
-        }
+        $query->addOr($query->expr()->field('mobileNumber.number')->equals($number));
+        $query->addOr($query->expr()->field('mobileNumber.nationalNumber')->equals($number));
+        $query->addOr($query->expr()->field('mobileNumber.internationalNumber')->equals($number));
+        $query->addOr($query->expr()->field('mobileNumber.internationalNumberForCalling')->equals($number));
 
         return $query->limit(1)
-                ->getQuery()
-                ->getSingleResult();
+            ->getQuery()
+            ->getSingleResult();
+    }
+
+    /**
+     * Finds a user by mobile number
+     * @param string $number
+     * @return object
+     */
+    public function findOneByInternationalMobileNumber(string $number)
+    {
+        $query = $this->createQueryBuilder()->field('mobileNumber.internationalNumber')->equals($number);
+
+        return $query->limit(1)
+            ->getQuery()
+            ->getSingleResult();
     }
 
     /**
@@ -131,16 +144,17 @@ class UserRepository extends DocumentRepository
     public function findByUserName(string $userName)
     {
         $user = null;
+        // first try to login with email address
         if(filter_var($userName, FILTER_VALIDATE_EMAIL))
         {
             $email = $userName;
             $user = $this->findUserByEmail($email);
         }
-
-        if(preg_match('/^[0-9]+$/', $userName))
+        // try to login with possible mobile number
+        else
         {
-            $mobileNumber = preg_replace('/[^0-9]/', '', $userName);
-            $user = $this->findOneByMobileNumber($mobileNumber, $mobileNumber);
+            $mobileNumber = MobileNumberFormatter::getCleansedMobileNumberAsPossibleUsername($userName);
+            $user = $this->findOneByMobileNumber($mobileNumber);
         }
 
         if(is_null($user)){

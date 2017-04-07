@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\EventListener\Document;
+namespace CommonServices\UserServiceBundle\EventListener\Document\User;
 
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Event\User\Account\UserAccountSuccessfullyCreatedEvent;
@@ -9,8 +9,8 @@ use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class DocumentPrePersistListener
- * @package CommonServices\UserServiceBundle\Event\EventListener\Document
+ * Class UserDocumentPostPersistListener
+ * @package CommonServices\UserServiceBundle\EventListener\Document
  */
 class UserDocumentPostPersistListener
 {

@@ -14,7 +14,7 @@ class UserAccountListener implements EventSubscriberInterface
     /**
      * @var ContainerInterface
      */
-    private $serviceContainer;
+    private $container;
 
     /**
      * UserCreatedListener constructor.
@@ -22,7 +22,7 @@ class UserAccountListener implements EventSubscriberInterface
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->serviceContainer = $container;
+        $this->container = $container;
     }
 
     /**
@@ -39,8 +39,9 @@ class UserAccountListener implements EventSubscriberInterface
     public function onUserAccountInitialized(Event $event)
     {
         /** @var UserAccountSuccessfullyCreatedEvent $event */
-        $accessInfo = $event->getUser()->getAccessInfo();
-        $accessInfo->setRoles(UserRolesManager::getInactiveUserRoles());
+        $userDocument = $event->getUser();
+        $userService = $this->container->get('user_service.user_domain');
+        $userService->getUser($userDocument)->getSecurity()->setRoles(UserRolesManager::getInactiveUserRoles());
     }
 
     /**

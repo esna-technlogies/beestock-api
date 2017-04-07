@@ -1,18 +1,18 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Event;
+namespace CommonServices\UserServiceBundle\Event\MobileNumber;
 
 use CommonServices\UserServiceBundle\Document\PhoneNumber;
 use CommonServices\UserServiceBundle\Document\User;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Class UserMobileNumberChangedEvent
+ * Class UserMobileNumberChangeRequestedEvent
  * @package CommonServices\UserServiceBundle\Event\Event
  */
-class UserMobileNumberChangedEvent extends Event
+class UserMobileNumberChangeRequestedEvent extends Event
 {
-    const NAME = 'user_mobile_number.changed';
+    const NAME = 'user_mobile_number.change_requested';
 
     protected $eventFiringTime;
 

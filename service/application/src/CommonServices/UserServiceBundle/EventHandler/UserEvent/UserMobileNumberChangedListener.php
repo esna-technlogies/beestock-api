@@ -2,8 +2,8 @@
 
 namespace CommonServices\UserServiceBundle\EventHandler\UserEvent;
 
+use CommonServices\UserServiceBundle\Event\MobileNumber\UserMobileNumberChangeRequestedEvent;
 use CommonServices\UserServiceBundle\Event\UserMobileNumberChangedEvent;
-use CommonServices\UserServiceBundle\Utility\MobileNumberFormatter;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -13,7 +13,7 @@ class UserMobileNumberChangedListener implements EventSubscriberInterface
     /**
      * @var ContainerInterface
      */
-    private $serviceContainer;
+    private $container;
 
     /**
      * UserMobileNumberChangedListener constructor.
@@ -21,7 +21,7 @@ class UserMobileNumberChangedListener implements EventSubscriberInterface
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->serviceContainer = $container;
+        $this->container = $container;
     }
 
     /**
@@ -29,14 +29,24 @@ class UserMobileNumberChangedListener implements EventSubscriberInterface
      */
     public function onUserMobileNumberChanged(Event $event)
     {
+        //TODO : do something here
+    }
+
+    /**
+     * @param Event $event
+     */
+    public function onUserMobileNumberChangeRequested(Event $event)
+    {
         /** @var UserMobileNumberChangedEvent $event */
-        $mobileNumber = $event->getMobileNumber();
+        $userDocument = $event->getUser();
 
-        $internationalMobileNumber =
-            (new MobileNumberFormatter())
-                ->getInternationalMobileNumber($mobileNumber->getNumber(), $mobileNumber->getCountryCode());
+        $mobileNumber = $userDocument->getMobileNumber()->getNumber();
 
-        $mobileNumber->setInternationalNumber($internationalMobileNumber);
+        $countryCode = $userDocument->getMobileNumber()->getCountryCode();
+
+        $user = $this->container->get('user_service.user_domain')->getUser($userDocument);
+
+        $user->getAccount()->setMobileNumberAlternatives($mobileNumber, $countryCode);
     }
 
     /**
@@ -47,6 +57,9 @@ class UserMobileNumberChangedListener implements EventSubscriberInterface
         return array(
             UserMobileNumberChangedEvent::NAME => array(
                 array('onUserMobileNumberChanged', 1),
+            ),
+            UserMobileNumberChangeRequestedEvent::NAME => array(
+                array('onUserMobileNumberChangeRequested', 1),
             ),
         );
     }

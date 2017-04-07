@@ -7,6 +7,7 @@ use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Exception\InvalidFormException;
 use CommonServices\UserServiceBundle\Form\Processor\UserBasicInfoProcessor;
 use CommonServices\UserServiceBundle\Repository\UserRepository;
+use CommonServices\UserServiceBundle\Utility\MobileNumberFormatter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -91,6 +92,23 @@ class UserAccountManager
             ->get('user_service.amqb_producer.'.$email_change.'_producer')
             ->publish(serialize($changeRequest)
         );
+    }
+
+    /**
+     * @param string $mobileNumber
+     * @param string $countryCode
+     */
+    public function setMobileNumberAlternatives(string $mobileNumber, string $countryCode)
+    {
+        $mobileNumberFormatter = new MobileNumberFormatter($mobileNumber, $countryCode);
+
+        $mobileNumberDocument = $this->user->getMobileNumber();
+
+        $mobileNumberDocument->setNationalNumber($mobileNumberFormatter->getNationalMobileNumber());
+
+        $mobileNumberDocument->setInternationalNumber($mobileNumberFormatter->getInternationalMobileNumber());
+
+        $mobileNumberDocument->setInternationalNumberForCalling($mobileNumberFormatter->getInternationalMobileNumberForCalling());
     }
 
     /**
