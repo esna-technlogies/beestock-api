@@ -44,8 +44,8 @@ class UserSecurityManager
         $lastTimePasswordChangeRequest = $user->getAccessInfo()->getLastPasswordRetrievalRequest();
 
         // current time - 10800 (seconds in 3 hours)
-        if ($lastTimePasswordChangeRequest >= (time() - 10800)) {
-            throw new InvalidArgumentException("Changing the password can't happen before 3 hours from last change request.",
+        if ($lastTimePasswordChangeRequest >= (time() - 60)) {
+            throw new InvalidArgumentException("A password retrieval request has been issued less than a minute ago ..",
                 400);
         }
 

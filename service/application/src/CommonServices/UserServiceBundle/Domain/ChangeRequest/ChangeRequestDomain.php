@@ -14,28 +14,24 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ChangeRequestDomain
 {
     /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
      * @var ChangeRequestRepository
      */
     private $changeRequestRepository;
 
     /**
-     * @var ContainerInterface
-     */
-    private $serviceContainer;
-
-    const USER_NOTIFICATION_EMAIL = 'email';
-    const USER_NOTIFICATION_SMS   = 'sms';
-    const USER_NOTIFICATION_NONE  = 'none';
-
-    /**
      * UserChangeRequestsService constructor.
-     * @param ContainerInterface $serviceContainer
+     * @param ContainerInterface $container
      * @param ChangeRequestRepository $changeRequestRepository
      */
-    public function __construct(ContainerInterface $serviceContainer, ChangeRequestRepository $changeRequestRepository)
+    public function __construct(ContainerInterface $container, ChangeRequestRepository $changeRequestRepository)
     {
-        $this->serviceContainer = $serviceContainer;
         $this->changeRequestRepository = $changeRequestRepository;
+        $this->container = $container;
     }
 
     /**
@@ -64,7 +60,6 @@ class ChangeRequestDomain
      * @param string $verificationCode
      * @param string $eventName
      * @param int $eventLifeTime
-     * @param string $action
      * @param string $oldValue
      * @param string $newValue
      *
@@ -76,7 +71,6 @@ class ChangeRequestDomain
         string $verificationCode,
         string $eventName,
         int $eventLifeTime,
-        string $action,
         $oldValue = null,
         $newValue = null
     )
@@ -88,12 +82,21 @@ class ChangeRequestDomain
         $changeRequest->setEventName($eventName);
         $changeRequest->setUuid($user->getUuid());
         $changeRequest->setVerificationCode($verificationCode);
-        $changeRequest->setAction($action);
-
         $changeRequest->setOldValue($oldValue);
         $changeRequest->setNewValue($newValue);
 
         return $changeRequest;
+    }
+
+    /**
+     * @param ChangeRequest $changeRequest
+     * @param string $producerName
+     */
+    public function publishChangeRequest(ChangeRequest $changeRequest, string $producerName)
+    {
+        $this->container
+            ->get('user_service.event_bus_service')
+            ->publish($changeRequest, $producerName);
     }
 }
 

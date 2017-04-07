@@ -202,21 +202,17 @@ old_sound_rabbit_mq:
             heartbeat: 6
             use_socket: true
     producers:
-        user_email_change:
+        user_account_change:
             connection:       default
-            exchange_options: {name: 'user-email-change-request-exchange', type: direct}
-            service_alias:    user_service.amqb_producer.email_change_producer
+            exchange_options: {name: 'user-account-exchange', type: direct}
     consumers:
-        user_email_change:
+        user_account_change:
             connection:       default
-            exchange_options: {name: 'user-email-change-request-exchange', type: direct}
+            exchange_options: {name: 'user-account-exchange', type: direct}
             queue_options:
-                name: "user-email-change-request-exchange"
+                name: "user-account-exchange"
                 arguments: {'x-ha-policy': ['S', 'all']}
-                routing_keys:
-                  - 'email.user_password_change_request'
-                  - 'mobile.user_password_change_request'
-            callback: user_service.amqb_consumer.password_change_request
+            callback: user_service.amqb_consumer.user_account_change
 
 aws:
     version: latest

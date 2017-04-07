@@ -2,6 +2,7 @@
 
 namespace CommonServices\UserServiceBundle\EventHandler\UserEvent;
 
+use CommonServices\UserServiceBundle\Domain\User\UserDomain;
 use CommonServices\UserServiceBundle\Event\UserEmail\UserEmailAddedToAccountEvent;
 use CommonServices\UserServiceBundle\Event\UserEmail\UserEmailChangedEvent;
 use CommonServices\UserServiceBundle\Event\UserEmail\UserEmailChangeRequestedEvent;
@@ -15,30 +16,32 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * Class UserEmailChangedListener
  * @package CommonServices\UserServiceBundle\Event\EventHandler\UserEvent
  */
-class UserEmailEventListener implements EventSubscriberInterface
+class UserEmailListener implements EventSubscriberInterface
 {
+    /**
+     * @var ChangeRequestDomain
+     */
+    private $changeRequestsService;
+    /**
+     * @var UserDomain
+     */
+    private $userManagerService;
     /**
      * @var ContainerInterface
      */
     private $container;
 
     /**
-     * @var ChangeRequestDomain
-     */
-    private $changeRequestsService;
-
-    /**
      * UserPasswordChangedListener constructor.
      * @param ContainerInterface $container
-     * @param ChangeRequestDomain $changeRequestsService
      */
     public function __construct(
-        ContainerInterface $container,
-        ChangeRequestDomain $changeRequestsService
+        ContainerInterface $container
     )
     {
         $this->container = $container;
-        $this->changeRequestsService   = $changeRequestsService;
+        $this->userManagerService    = $this->container->get('user_service.user_domain');
+        $this->changeRequestsService = $this->container->get('user_service.change_request_domain');
     }
 
     /**
@@ -47,36 +50,18 @@ class UserEmailEventListener implements EventSubscriberInterface
     public function onUserEmailChangeRequested(Event $event)
     {
         /** @var UserEmailChangeRequestedEvent $event */
-        $user = $event->getUser();
+        $userDocument = $event->getUser();
+        $user = $this->userManagerService->getUser($userDocument);
 
-        $verificationCode = RandomCodeGenerator::generateRandomVerificationString();
-
-        $oldValue = $event->getOldValue();
-        $newValue = $event->getNewValue();
-
+        /// issue a change request event
         $requestLifeTime = 1 * 60 * 60;
-
-        // notify user by sms
-        $smsChangeRequestNotification = $this->changeRequestsService->generateChangeRequest(
-            $user,
-            $verificationCode,
+        $user->getAccount()->issueAccountChangeRequest(
             UserEmailChangeRequestedEvent::NAME,
             $requestLifeTime,
-            ChangeRequestDomain::USER_NOTIFICATION_SMS,
-            $oldValue,
-            $newValue
+            $event->getOldValue(),
+            $event->getNewValue()
         );
-
-        // notify user by email
-        $emailChangeRequestNotification = $this->changeRequestsService->generateChangeRequest(
-            $user,
-            $verificationCode,
-            UserEmailChangeRequestedEvent::NAME,
-            $requestLifeTime,
-            ChangeRequestDomain::USER_NOTIFICATION_EMAIL,
-            $oldValue,
-            $newValue
-        );
+        $user->getAccount()->setLastPasswordRetrievalRequest(time());
 
         $event->stopPropagation();
     }

@@ -2,12 +2,12 @@
 
 namespace CommonServices\UserServiceBundle\Domain\User\Manager;
 
-use CommonServices\UserServiceBundle\Document\ChangeRequest;
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Exception\InvalidFormException;
 use CommonServices\UserServiceBundle\Form\Processor\UserBasicInfoProcessor;
 use CommonServices\UserServiceBundle\Repository\UserRepository;
 use CommonServices\UserServiceBundle\Utility\MobileNumberFormatter;
+use CommonServices\UserServiceBundle\Utility\Security\RandomCodeGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -83,15 +83,25 @@ class UserAccountManager
     }
 
     /**
-     * @param ChangeRequest $changeRequest
+     * @param string $eventName
+     * @param int $requestLifeTime
+     * @param $oldValue
+     * @param $newValue
      */
-    public function issueAccountChangeRequest(ChangeRequest $changeRequest)
+    public function issueAccountChangeRequest(string $eventName, int $requestLifeTime, $oldValue = null, $newValue = null)
     {
-        $email_change = 'email_change';
-        $this->container
-            ->get('user_service.amqb_producer.'.$email_change.'_producer')
-            ->publish(serialize($changeRequest)
+        $changeRequestService = $this->container->get('user_service.change_request_domain');
+        $verificationCode = RandomCodeGenerator::generateRandomVerificationString(6);
+
+        $changeRequest = $changeRequestService->generateChangeRequest(
+            $this->user,
+            $verificationCode,
+            $eventName,
+            $requestLifeTime,
+            $oldValue,
+            $newValue
         );
+        $changeRequestService->publishChangeRequest($changeRequest, 'user_account_change');
     }
 
     /**

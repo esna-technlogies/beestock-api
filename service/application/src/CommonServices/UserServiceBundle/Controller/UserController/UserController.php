@@ -317,16 +317,11 @@ class UserController extends Controller
      */
     public function putUserAction(User $user, Request $request)
     {
-        if (is_null($user)) {
-            throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
-        }
-
         $basicUserInformation = $request->request->all();
 
         $userService = $this->get('user_service.user_domain');
 
-        $user = $userService->getUser($user);
-        $user->getAccount()->updateAccountBasicInformation($basicUserInformation);
+        $userService->getUser($user)->getAccount()->updateAccountBasicInformation($basicUserInformation);
 
         return new Response(
             $this->get('user_service.response_serializer')
@@ -339,6 +334,7 @@ class UserController extends Controller
      * Partially update user details
      * @param User $user
      * @param Request $request
+     * @ParamConverter()
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
@@ -439,12 +435,7 @@ class UserController extends Controller
      */
     public function patchUserAction(User $user, Request $request)
     {
-        if (is_null($user)) {
-            throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
-        }
-        $this->putUserAction($user, $request);
-
-        return new Response("",Response::HTTP_NO_CONTENT);
+        return $this->putUserAction($user, $request);
     }
 
     /**

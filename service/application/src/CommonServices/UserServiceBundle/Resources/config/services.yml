@@ -27,3 +27,8 @@ services:
         arguments: ["@service_container",
                     "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:ChangeRequest')"]
 
+    ## Configured event-bus
+    user_service.event_bus_service:
+            class: CommonServices\UserServiceBundle\EventBus\RabbitMqEventBus
+            shared: false
+            arguments: ["@service_container"]

@@ -8,7 +8,7 @@ use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class UserMobileNumberChangedListener implements EventSubscriberInterface
+class UserMobileNumberListener implements EventSubscriberInterface
 {
     /**
      * @var ContainerInterface
@@ -40,13 +40,21 @@ class UserMobileNumberChangedListener implements EventSubscriberInterface
         /** @var UserMobileNumberChangedEvent $event */
         $userDocument = $event->getUser();
 
-        $mobileNumber = $userDocument->getMobileNumber()->getNumber();
-
-        $countryCode = $userDocument->getMobileNumber()->getCountryCode();
+        $mobileNumberDocument = $userDocument->getMobileNumber();
+        $mobileNumber = $mobileNumberDocument->getNumber();
+        $countryCode = $mobileNumberDocument->getCountryCode();
 
         $user = $this->container->get('user_service.user_domain')->getUser($userDocument);
-
         $user->getAccount()->setMobileNumberAlternatives($mobileNumber, $countryCode);
+
+        /// issue a change request event
+        $requestLifeTime = 1 * 60 * 60;
+        $user->getAccount()->issueAccountChangeRequest(
+            UserMobileNumberChangeRequestedEvent::NAME,
+            $requestLifeTime,
+            null,
+            $mobileNumberDocument->getInternationalNumber()
+        );
     }
 
     /**
