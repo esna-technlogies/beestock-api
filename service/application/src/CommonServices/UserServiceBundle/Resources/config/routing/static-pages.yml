@@ -1,9 +1,9 @@
 user_service_sign_in_user:
     methods: [GET]
     path:     /signin
-    defaults: { _controller: UserServiceBundle:StaticController/Static:signIn }
+    defaults: { _controller: UserServiceBundle:StaticPages/Static:signIn }
 
 user_service_sign_up_user:
     methods: [GET]
     path:     /signup
-    defaults: { _controller: UserServiceBundle:StaticController/Static:signUp }
+    defaults: { _controller: UserServiceBundle:StaticPages/Static:signUp }

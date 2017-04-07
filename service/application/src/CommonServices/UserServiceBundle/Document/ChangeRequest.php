@@ -24,6 +24,13 @@ class ChangeRequest
     protected $id;
 
     /**
+     * @MongoDB\UniqueIndex
+     *
+     * @MongoDB\Field(type="string")
+     */
+    protected $uuid;
+
+    /**
      * @var \DateTime $created
      * @MongoDB\Timestamp
      * @Gedmo\Timestampable(on="create")
@@ -36,13 +43,6 @@ class ChangeRequest
      * @Gedmo\Timestampable(on="update")
      */
     protected $lastChange;
-
-    /**
-     * @MongoDB\UniqueIndex
-     *
-     * @MongoDB\Field(type="string")
-     */
-    protected $uuid;
 
     /**
      * @MongoDB\Field(type="integer")

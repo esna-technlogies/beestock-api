@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Controller\UserController;
+namespace CommonServices\UserServiceBundle\Controller\User;
 
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Exception\NotFoundException;

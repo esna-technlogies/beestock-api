@@ -4,6 +4,7 @@ namespace CommonServices\UserServiceBundle\Domain\ChangeRequest;
 
 use CommonServices\UserServiceBundle\Document\ChangeRequest;
 use CommonServices\UserServiceBundle\Document\User;
+use CommonServices\UserServiceBundle\Domain\ChangeRequest\Manager\ChangeRequestManager;
 use CommonServices\UserServiceBundle\Repository\ChangeRequestRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -53,6 +54,15 @@ class ChangeRequestDomain
         $queryPaginationHandler = $this->changeRequestRepository->findAllChangeRequests($action, $startPage, $limit);
 
         return $queryPaginationHandler->getQueryResults();
+    }
+
+    /**
+     * @param ChangeRequest $changeRequest
+     * @return ChangeRequestManager
+     */
+    public function getChangeRequest(ChangeRequest $changeRequest) : ChangeRequestManager
+    {
+        return new ChangeRequestManager($this->container, $changeRequest, $this->changeRequestRepository);
     }
 
     /**
