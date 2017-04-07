@@ -81,28 +81,6 @@ class ChangeRequest
     protected $verificationCode;
 
     /**
-     * @MongoDB\Field(type="string")
-     * @Assert\NotBlank()
-     */
-    protected $action;
-
-    /**
-     * @return string
-     */
-    public function getAction()
-    {
-        return $this->action;
-    }
-
-    /**
-     * @param string $action
-     */
-    public function setAction($action)
-    {
-        $this->action = $action;
-    }
-
-    /**
      * @return mixed
      */
     public function getEventLifeTime()

@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Event;
+namespace CommonServices\UserServiceBundle\Event\User\Password;
 
 use CommonServices\UserServiceBundle\Document\AccessInfo;
 use Symfony\Component\EventDispatcher\Event;

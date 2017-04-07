@@ -4,7 +4,7 @@ namespace CommonServices\UserServiceBundle\EventListener\Document\User;
 
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Event\User\Account\UserAccountSuccessfullyCreatedEvent;
-use CommonServices\UserServiceBundle\Event\UserEmail\UserEmailAddedToAccountEvent;
+use CommonServices\UserServiceBundle\Event\User\Email\UserEmailAddedToAccountEvent;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

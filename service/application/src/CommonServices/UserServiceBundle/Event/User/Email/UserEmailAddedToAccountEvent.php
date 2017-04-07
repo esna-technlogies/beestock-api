@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Event\UserEmail;
+namespace CommonServices\UserServiceBundle\Event\User\Email;
 
 use CommonServices\UserServiceBundle\Document\User;
 use Symfony\Component\EventDispatcher\Event;

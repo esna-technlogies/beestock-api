@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Event\UserEmail;
+namespace CommonServices\UserServiceBundle\Event\User\Email;
 
 use CommonServices\UserServiceBundle\Document\User;
 use Symfony\Component\EventDispatcher\Event;
@@ -9,9 +9,9 @@ use Symfony\Component\EventDispatcher\Event;
  * Class UserEmailChangedEvent
  * @package CommonServices\UserServiceBundle\Event\Event
  */
-class UserEmailChangeRequestedEvent extends Event
+class UserEmailChangedEvent extends Event
 {
-    const NAME = 'user_email.change_requested';
+    const NAME = 'user_email.changed';
 
     /**
      * @var int
@@ -39,7 +39,7 @@ class UserEmailChangeRequestedEvent extends Event
      * @param string $oldValue
      * @param string $newValue
      */
-    public function __construct(User $user, string $newValue, $oldValue ='')
+    public function __construct(User $user, string $newValue,  string $oldValue ='')
     {
         $this->user = $user;
 
@@ -59,7 +59,7 @@ class UserEmailChangeRequestedEvent extends Event
     /**
      * @return string
      */
-    public function getOldValue()
+    public function getOldValue(): string
     {
         return $this->oldValue;
     }
@@ -67,7 +67,7 @@ class UserEmailChangeRequestedEvent extends Event
     /**
      * @return string
      */
-    public function getNewValue()
+    public function getNewValue(): string
     {
         return $this->newValue;
     }

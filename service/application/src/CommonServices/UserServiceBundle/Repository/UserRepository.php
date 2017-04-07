@@ -4,6 +4,7 @@ namespace CommonServices\UserServiceBundle\Repository;
 
 use CommonServices\UserServiceBundle\Exception\NotFoundException;
 use CommonServices\UserServiceBundle\Utility\Api\Pagination\DoctrineExtension\QueryPaginationHandler;
+use CommonServices\UserServiceBundle\Utility\EmailFormatter;
 use CommonServices\UserServiceBundle\Utility\MobileNumberFormatter;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use CommonServices\UserServiceBundle\Document\User;
@@ -147,7 +148,7 @@ class UserRepository extends DocumentRepository
         // first try to login with email address
         if(filter_var($userName, FILTER_VALIDATE_EMAIL))
         {
-            $email = $userName;
+            $email = EmailFormatter::getCleansedEmailAddress($userName);
             $user = $this->findUserByEmail($email);
         }
         // try to login with possible mobile number

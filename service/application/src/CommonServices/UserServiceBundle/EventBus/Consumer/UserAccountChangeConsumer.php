@@ -11,10 +11,10 @@ namespace CommonServices\UserServiceBundle\EventBus\Consumer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class EmailChangeEventConsumer
+ * Class UserAccountChangeConsumer
  * @package CommonServices\UserServiceBundle\EventBus\Consumer
  */
-class EmailChangeEventConsumer
+class UserAccountChangeConsumer
 {
     /**
      * @var ContainerInterface

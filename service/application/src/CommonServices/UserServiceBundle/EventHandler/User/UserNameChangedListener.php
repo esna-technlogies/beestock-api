@@ -1,15 +1,15 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\EventHandler\UserEvent;
+namespace CommonServices\UserServiceBundle\EventHandler\User;
 
-use CommonServices\UserServiceBundle\Event\UserNameChangedEvent;
+use CommonServices\UserServiceBundle\Event\User\Name\UserNameChangedEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class UserNameChangedListener
- * @package CommonServices\UserServiceBundle\EventHandler\UserEvent
+ * @package CommonServices\UserServiceBundle\EventHandler\User
  */
 class UserNameChangedListener implements EventSubscriberInterface
 {
