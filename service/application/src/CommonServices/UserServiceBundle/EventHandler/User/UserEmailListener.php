@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\EventHandler\UserEvent;
+namespace CommonServices\UserServiceBundle\EventHandler\User;
 
 use CommonServices\UserServiceBundle\Domain\User\UserDomain;
 use CommonServices\UserServiceBundle\Event\User\Email\UserEmailAddedToAccountEvent;
@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class UserEmailChangedListener
- * @package CommonServices\UserServiceBundle\Event\EventHandler\UserEvent
+ * @package CommonServices\UserServiceBundle\Event\EventHandler\User
  */
 class UserEmailListener implements EventSubscriberInterface
 {

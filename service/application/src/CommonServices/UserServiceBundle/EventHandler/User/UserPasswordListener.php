@@ -1,12 +1,12 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\EventHandler\UserEvent;
+namespace CommonServices\UserServiceBundle\EventHandler\User;
 
 use CommonServices\UserServiceBundle\Document\AccessInfo;
 use CommonServices\UserServiceBundle\Domain\ChangeRequest\ChangeRequestDomain;
 use CommonServices\UserServiceBundle\Domain\User\UserDomain;
-use CommonServices\UserServiceBundle\Event\UserPasswordChangedEvent;
-use CommonServices\UserServiceBundle\Event\UserPasswordRetrievalRequestedEvent;
+use CommonServices\UserServiceBundle\Event\User\Password\UserPasswordChangedEvent;
+use CommonServices\UserServiceBundle\Event\User\Password\UserPasswordRetrievalRequestedEvent;
 use CommonServices\UserServiceBundle\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\Event;
@@ -14,7 +14,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class UserPasswordRetrievalRequestedListener
- * @package CommonServices\UserServiceBundle\EventHandler\UserEvent
+ * @package CommonServices\UserServiceBundle\EventHandler\User
  */
 class UserPasswordListener implements EventSubscriberInterface
 {

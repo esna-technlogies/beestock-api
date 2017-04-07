@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\EventHandler\UserEvent;
+namespace CommonServices\UserServiceBundle\EventHandler\User;
 
 use CommonServices\UserServiceBundle\Event\User\MobileNumber\UserMobileNumberChangeRequestedEvent;
 use CommonServices\UserServiceBundle\Event\User\MobileNumber\UserMobileNumberChangedEvent;
