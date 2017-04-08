@@ -53,7 +53,6 @@ class ForgotPasswordController extends Controller
 
         $userService->getUser($user)->getSecurity()->issueForgotPasswordRequest();
 
-        return new Response("",Response::HTTP_NO_CONTENT
-        );
+        return new Response("",Response::HTTP_NO_CONTENT);
     }
 }

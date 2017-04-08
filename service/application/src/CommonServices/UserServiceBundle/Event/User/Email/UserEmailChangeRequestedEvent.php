@@ -39,7 +39,7 @@ class UserEmailChangeRequestedEvent extends Event
      * @param string $oldValue
      * @param string $newValue
      */
-    public function __construct(User $user, string $newValue, string $oldValue)
+    public function __construct(User $user, $newValue, $oldValue)
     {
         $this->user = $user;
 

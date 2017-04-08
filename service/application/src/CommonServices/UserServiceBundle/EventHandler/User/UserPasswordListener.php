@@ -61,7 +61,7 @@ class UserPasswordListener implements EventSubscriberInterface
             UserPasswordRetrievalRequestedEvent::NAME,
             $requestLifeTime
         );
-        $user->getAccount()->setLastPasswordRetrievalRequest(time());
+        $user->getSecurity()->updatePasswordRetrievalLimits(time());
     }
 
     /**

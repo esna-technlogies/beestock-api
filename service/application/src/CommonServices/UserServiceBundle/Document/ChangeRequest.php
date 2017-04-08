@@ -45,6 +45,12 @@ class ChangeRequest
     protected $lastChange;
 
     /**
+     * @MongoDB\Field(type="string")
+     * @Assert\NotBlank()
+     */
+    protected $changeProcessorName;
+
+    /**
      * @MongoDB\Field(type="integer")
      * @Assert\NotBlank()
      */
@@ -110,6 +116,22 @@ class ChangeRequest
     public function setVerificationCode($verificationCode)
     {
         $this->verificationCode = $verificationCode;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChangeProcessorName()
+    {
+        return $this->changeProcessorName;
+    }
+
+    /**
+     * @param mixed $changeProcessorName
+     */
+    public function setChangeProcessorName($changeProcessorName)
+    {
+        $this->changeProcessorName = $changeProcessorName;
     }
 
     /**

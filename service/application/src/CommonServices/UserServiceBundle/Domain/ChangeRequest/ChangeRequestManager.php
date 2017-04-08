@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Domain\ChangeRequest\Manager;
+namespace CommonServices\UserServiceBundle\Domain\ChangeRequest;
 
 use CommonServices\UserServiceBundle\Document\ChangeRequest;
 use CommonServices\UserServiceBundle\Repository\ChangeRequestRepository;
@@ -38,17 +38,11 @@ class ChangeRequestManager
         $this->changeRequestRepository = $changeRequestRepository;
     }
 
-    /**
-     * @param $verificationCode
-     */
-    public function executeChange($verificationCode)
-    {
-        $this->verifyChangeRequest($verificationCode);
 
+    public function deleteChangeRequest()
+    {
+        $this->changeRequestRepository->delete($this->changeRequest);
     }
 
-    public function verifyChangeRequest($verificationCode)
-    {
-        
-    }
+
 }

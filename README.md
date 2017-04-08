@@ -96,12 +96,16 @@ To get your hands dirty with the code, please install  :
 - Add the cronjobs to your crontab :
 
             vagrant ssh 
+            
+            ## create cron logs file 
+            touch  /home/ubuntu/cronrun
         
+            ## Edit cron jobs 
             crontab -e 
             
 - at the end of the cron file add the following line :
 
-            * * * * * sudo docker exec -i user-service-php-fpm /bin/bash -c "bin/console cron:run"  >> /home/ubuntu/cronrun 2>&1
+            * * * * * sudo docker exec -i user-service-php-cli /bin/bash -c "bin/console cron:run"  >> /home/ubuntu/cronrun 2>&1
         
 - you can monitor the output of the crontab either through watching :
 
