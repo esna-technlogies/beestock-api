@@ -29,10 +29,8 @@ class AppKernel extends Kernel
             new Maxmind\Bundle\GeoipBundle\MaxmindGeoipBundle(),
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
-            new JMS\AopBundle\JMSAopBundle(),
-            new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
-            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

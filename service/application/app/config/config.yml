@@ -176,17 +176,6 @@ nelmio_api_doc:
         enabled:              false
         file:                 '%kernel.cache_dir%/api-doc.cache'
 
-jms_security_extra:
-    secure_all_services: false
-    enable_iddqd_attribute: false
-    expressions: true
-    voters:
-        disable_authenticated: false
-        disable_role:          false
-        disable_acl:           false
-    method_access_control: { }
-
-
 old_sound_rabbit_mq:
     connections:
         default:
@@ -226,7 +215,9 @@ aws:
         debug: true
         credentials: "@aws.credentials_provider"
 
-
-
-
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
 

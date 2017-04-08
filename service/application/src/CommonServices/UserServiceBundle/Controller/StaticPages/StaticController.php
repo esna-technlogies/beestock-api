@@ -62,13 +62,18 @@ class StaticController extends Controller
      *  }
      * )
      */
-    public function signInAction()
+    public function signInAction(Request $request)
     {
-        $result=[
+
+        $formParameters = [
             'facebookAccount' => $this->getParameter('facebook_settings'),
             'googleAccount' => $this->getParameter('google_settings'),
+            'signinLink' => "/signin",
+            'forgotPasswordLink' => "/forgot-Password"
         ];
-        return $this->render('UserServiceBundle::sign-in.html.twig', $result);
+
+        return $this->render('UserServiceBundle::sign-in.html.twig', $formParameters);
     }
+
 
 }
