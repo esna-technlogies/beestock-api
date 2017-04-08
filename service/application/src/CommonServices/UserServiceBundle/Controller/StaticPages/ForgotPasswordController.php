@@ -1,8 +1,9 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Controller\StaticController;
+namespace CommonServices\UserServiceBundle\Controller\StaticPages;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class ForgotPasswordController extends Controller
 {
