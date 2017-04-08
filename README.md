@@ -11,15 +11,16 @@ a number of the best practices of designing microservices and PHP standards but 
 This template or archetype can be used to quickly bootstrap a PHP project without a lot of infrastructure hassle, and it utilizes :
 
 * PHP 7.1.x
-* Symfony 3.2.x project 
+* Symfony 3.2.x application 
 * Dockerized containers that are AWS ready
-* HATEOAS API  
+* HATEOAS REST API  
 
 The microservice template comes with 3 separate yet dependent docker images :
     
 * nginx 
 * PHP7.1.3-fpm
 * mongodb
+* rabbitmq
 
 ## Project Structure   
     
