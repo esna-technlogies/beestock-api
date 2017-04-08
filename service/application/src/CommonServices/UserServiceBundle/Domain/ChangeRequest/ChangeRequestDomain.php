@@ -3,7 +3,6 @@
 namespace CommonServices\UserServiceBundle\Domain\ChangeRequest;
 
 use CommonServices\UserServiceBundle\Document\ChangeRequest;
-use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Repository\ChangeRequestRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -36,73 +35,26 @@ class ChangeRequestDomain
 
     /**
      * @param ChangeRequest $changeRequest
+     * @return ChangeRequestManager
      */
-    public function deleteChangeRequest(ChangeRequest $changeRequest)
+    public function getChangeRequest(ChangeRequest $changeRequest) : ChangeRequestManager
     {
-        $this->changeRequestRepository->delete($changeRequest);
+        return new ChangeRequestManager($this->container, $changeRequest, $this->changeRequestRepository);
     }
 
     /**
-     * @param string $action
-     * @param int $startPage
-     * @param int $limit
-     * @return array
+     * @return ChangeRequestSearchManager
      */
-    public function getMostRecentRequests(string $action, $startPage = 1, int $limit = 10) : array
+    public function getSearch()
     {
-        $queryPaginationHandler = $this->changeRequestRepository->findAllChangeRequests($action, $startPage, $limit);
-
-        return $queryPaginationHandler->getQueryResults();
+        return new ChangeRequestSearchManager($this->container, $this->changeRequestRepository);
     }
 
     /**
-     * @param User $user
-     * @param string $verificationCode
-     * @param string $eventName
-     * @param int $eventLifeTime
-     * @param string $oldValue
-     * @param string $newValue
-     *
-     * @return ChangeRequest
+     * @return ChangeRequestService
      */
-    public function generateChangeRequest
-    (
-        User $user,
-        string $verificationCode,
-        string $eventName,
-        int $eventLifeTime,
-        $oldValue = null,
-        $newValue = null
-    )
+    public function getDomainService() : ChangeRequestService
     {
-        $changeRequest = new ChangeRequest();
-
-        $changeRequest->setEventFiringTime(time());
-        $changeRequest->setEventLifeTime(time() + ($eventLifeTime));
-        $changeRequest->setEventName($eventName);
-        $changeRequest->setUuid($user->getUuid());
-        $changeRequest->setVerificationCode($verificationCode);
-        $changeRequest->setOldValue($oldValue);
-        $changeRequest->setNewValue($newValue);
-
-        return $changeRequest;
-    }
-
-    /**
-     * @param ChangeRequest $changeRequest
-     * @param string $producerName
-     */
-    public function publishChangeRequest(ChangeRequest $changeRequest, string $producerName)
-    {
-        $this->container
-            ->get('user_service.event_bus_service')
-            ->publish($changeRequest, $producerName);
+        return new ChangeRequestService($this->container, $this->changeRequestRepository);
     }
 }
-
-
-
-
-
-
-

@@ -19,10 +19,9 @@ interface EventBusInterface
 
     /**
      * @param ChangeRequest $changeRequest
-     * @param string $producerName
      * @return mixed
      */
-    public function publish(ChangeRequest $changeRequest, string $producerName);
+    public function publish(ChangeRequest $changeRequest);
 
     /**
      * @return mixed

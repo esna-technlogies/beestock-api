@@ -9,28 +9,37 @@
 namespace CommonServices\UserServiceBundle\EventBus\Consumer;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
+use PhpAmqpLib\Message\AMQPMessage;
 
 /**
  * Class UserAccountChangeConsumer
  * @package CommonServices\UserServiceBundle\EventBus\Consumer
  */
-class UserAccountChangeConsumer
+class UserAccountChangeConsumer implements ConsumerInterface
 {
     /**
      * @var ContainerInterface
      */
-    private $serviceContainer;
+    private $container;
 
     /**
      * @inheritdoc
      */
-    public function __construct(ContainerInterface $serviceContainer)
+    public function __construct(ContainerInterface $container)
     {
-        $this->serviceContainer = $serviceContainer;
+        $this->container = $container;
     }
 
-    public function consume()
+    /**
+     * @inheritdoc
+     */
+    public function execute(AMQPMessage $msg)
     {
-        print 'hello';
+
+        $unSerializedMessage = unserialize($msg);
+
+        var_dump($unSerializedMessage);
+
     }
 }

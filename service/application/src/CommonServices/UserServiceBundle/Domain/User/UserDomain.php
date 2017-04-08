@@ -24,6 +24,11 @@ class UserDomain
     private $container;
 
     /**
+     * @var UserDomainService
+     */
+    private $userDomainService;
+
+    /**
      * ItemService constructor.
      * @param ContainerInterface $container
      * @param UserRepository $userRepository
@@ -32,28 +37,16 @@ class UserDomain
     {
         $this->container = $container;
         $this->userRepository = $userRepository;
-    }
-
-    /**
-     * @param array $basicAccountInformation
-     * @throws InvalidFormException
-     *
-     * @return User
-     */
-    public function createUserAccount(array $basicAccountInformation) : User
-    {
-        $userFactory = $this->container->get('user_service.factory.user_factory');
-
-        return $userFactory->createUserFromBasicInfo($basicAccountInformation);
+        $this->userDomainService = new UserDomainService($container, $userRepository);
     }
 
     /**
      * @param User $user
-     * @return UserServiceManager
+     * @return UserManager
      */
-    public function getUser(User $user) : UserServiceManager
+    public function getUser(User $user) : UserManager
     {
-        return new UserServiceManager($user, $this->userRepository, $this->container);
+        return new UserManager($user, $this->userRepository, $this->container);
     }
 
     /**
@@ -63,5 +56,22 @@ class UserDomain
     public function getUserRepository() : UserRepository
     {
         return $this->userRepository;
+    }
+
+    /**
+     * Check if user exist
+     * @return UserDomainService
+     */
+    public function getDomainService() : UserDomainService
+    {
+        return $this->userDomainService;
+    }
+
+    /**
+     * processPendingAccountsChanges upon destruction of domain
+     */
+    public function __destruct()
+    {
+        //$this->getDomainService()->processPendingAccountsChanges();
     }
 }

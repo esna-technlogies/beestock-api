@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Controller\UserController;
+namespace CommonServices\UserServiceBundle\Controller\User;
 
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Exception\NotFoundException;
@@ -152,9 +152,9 @@ class UserController extends Controller
     {
         $basicAccountInformation = $request->request->all();
 
-        $userService = $this->get('user_service.user_domain');
+        $userDomain = $this->get('user_service.user_domain');
 
-        $user = $userService->createUserAccount($basicAccountInformation);
+        $user = $userDomain->getDomainService()->createUserAccount($basicAccountInformation);
 
         return new Response(
             $this->get('user_service.response_serializer')
@@ -319,9 +319,11 @@ class UserController extends Controller
     {
         $basicUserInformation = $request->request->all();
 
-        $userService = $this->get('user_service.user_domain');
+        $userDomain = $this->get('user_service.user_domain');
 
-        $userService->getUser($user)->getAccount()->updateAccountBasicInformation($basicUserInformation);
+        $userManager = $userDomain->getUser($user);
+
+        $userManager->getSettings()->updateAccountBasicSettings($basicUserInformation);
 
         return new Response(
             $this->get('user_service.response_serializer')

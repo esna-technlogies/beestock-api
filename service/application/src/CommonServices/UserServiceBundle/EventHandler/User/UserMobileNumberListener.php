@@ -45,7 +45,7 @@ class UserMobileNumberListener implements EventSubscriberInterface
         $countryCode = $mobileNumberDocument->getCountryCode();
 
         $user = $this->container->get('user_service.user_domain')->getUser($userDocument);
-        $user->getAccount()->setMobileNumberAlternatives($mobileNumber, $countryCode);
+        $user->getSettings()->setMobileNumberAlternatives($mobileNumber, $countryCode);
 
         /// issue a change request event
         $requestLifeTime = 1 * 60 * 60;

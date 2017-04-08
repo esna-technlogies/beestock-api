@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Controller\SocialAccountController;
+namespace CommonServices\UserServiceBundle\Controller\SocialAccount;
 
 use CommonServices\UserServiceBundle\Document\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

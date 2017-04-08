@@ -41,8 +41,8 @@ class UserDocumentPostPersistListener
             $userCreatedEvent = new UserAccountSuccessfullyCreatedEvent($document);
             $eventDispatcher->dispatch(UserAccountSuccessfullyCreatedEvent::NAME, $userCreatedEvent);
 
-            $nameChangedEvent = new UserEmailAddedToAccountEvent($document, $document->getEmail());
-            $eventDispatcher->dispatch(UserEmailAddedToAccountEvent::NAME, $nameChangedEvent);
+            $emailAddedToAccountEvent = new UserEmailAddedToAccountEvent($document, $document->getEmail());
+            $eventDispatcher->dispatch(UserEmailAddedToAccountEvent::NAME, $emailAddedToAccountEvent);
         }
     }
 }

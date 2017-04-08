@@ -60,7 +60,6 @@ class UserEmailListener implements EventSubscriberInterface
             $event->getOldValue(),
             $event->getNewValue()
         );
-        $user->getAccount()->setLastPasswordRetrievalRequest(time());
     }
 
     /**
@@ -68,7 +67,7 @@ class UserEmailListener implements EventSubscriberInterface
      */
     public function onUserEmailAddedToAccount(Event $event)
     {
-        /** @var UserEmailChangeRequestedEvent $event */
+        /** @var UserEmailAddedToAccountEvent $event */
         $userDocument = $event->getUser();
         $user = $this->userManagerService->getUser($userDocument);
 
@@ -78,9 +77,8 @@ class UserEmailListener implements EventSubscriberInterface
             UserEmailChangeRequestedEvent::NAME,
             $requestLifeTime,
             '',
-            $event->getNewValue()
+            $event->getEmail()
         );
-        $user->getAccount()->setLastPasswordRetrievalRequest(time());
     }
 
     /**

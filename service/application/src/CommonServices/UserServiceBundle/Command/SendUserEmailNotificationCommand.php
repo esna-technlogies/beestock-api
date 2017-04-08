@@ -4,7 +4,7 @@ namespace CommonServices\UserServiceBundle\Command;
 
 use CommonServices\UserServiceBundle\Document\ChangeRequest;
 use CommonServices\UserServiceBundle\Document\User;
-use CommonServices\UserServiceBundle\Event\UserPasswordRetrievalRequestedEvent;
+use CommonServices\UserServiceBundle\Event\User\Password\UserPasswordRetrievalRequestedEvent;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,7 +32,7 @@ class SendUserEmailNotificationCommand extends ContainerAwareCommand
         $userService = $this->getContainer()->get('user_service.user_domain');
         $emailSender   = $this->getContainer()->get('aws.sqs.email_sender');
 
-        $requests = $changeRequestService->getMostRecentRequests('send_email');
+        $requests = $changeRequestService->getSearch()->getMostRecentRequests('send_email');
 
         foreach ($requests as $request)
         {
@@ -52,7 +52,7 @@ class SendUserEmailNotificationCommand extends ContainerAwareCommand
                     $message,
                     $user->getMobileNumber()->getInternationalNumber()
                 );
-                $changeRequestService->deleteChangeRequest($request);
+                $changeRequestService->getChangeRequest($request)->deleteChangeRequest();
             }
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Controller\UserController;
+namespace CommonServices\UserServiceBundle\Controller\SocialAccount;
 
 use CommonServices\UserServiceBundle\Document\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -9,10 +9,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
- * Class UserMobileNumberController
+ * Class UserFacebookAccountController
  * @package CommonServices\UserServiceBundle\Controller\UserController
  */
-class UserMobileNumberController extends Controller
+class UserFacebookAccountController extends Controller
 {
     /**
      * Get user mobile phone details
@@ -21,7 +21,7 @@ class UserMobileNumberController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
-     *  section="User Account",
+     *  section="User Social Accounts",
      *  resource=true,
      *  description="Get a user mobile number details",
      *  output="Symfony\Component\HttpFoundation\Response",
@@ -42,14 +42,14 @@ class UserMobileNumberController extends Controller
      *      }
      *  },
      *  statusCodes={
-     *         200="Returned when successful, user mobile number details are isted",
+     *         200="Returned when successful, user mobile google account is retrieved",
      *         400="Bad request: The system is unable to process the request",
      *         404={"No user with the provided UUID was found"},
      *         500="The system is unable to create the user due to a server side error"
      *  }
      * )
      */
-    public function getUserPhoneNumberAction(User $user)
+    public function getUserFacebookAccountAction(User $user)
     {
         return new Response(
             $this->get('user_service.response_serializer')

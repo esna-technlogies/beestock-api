@@ -24,6 +24,13 @@ class ChangeRequest
     protected $id;
 
     /**
+     * @MongoDB\UniqueIndex
+     *
+     * @MongoDB\Field(type="string")
+     */
+    protected $uuid;
+
+    /**
      * @var \DateTime $created
      * @MongoDB\Timestamp
      * @Gedmo\Timestampable(on="create")
@@ -38,11 +45,10 @@ class ChangeRequest
     protected $lastChange;
 
     /**
-     * @MongoDB\UniqueIndex
-     *
      * @MongoDB\Field(type="string")
+     * @Assert\NotBlank()
      */
-    protected $uuid;
+    protected $changeProcessorName;
 
     /**
      * @MongoDB\Field(type="integer")
@@ -110,6 +116,22 @@ class ChangeRequest
     public function setVerificationCode($verificationCode)
     {
         $this->verificationCode = $verificationCode;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChangeProcessorName()
+    {
+        return $this->changeProcessorName;
+    }
+
+    /**
+     * @param mixed $changeProcessorName
+     */
+    public function setChangeProcessorName($changeProcessorName)
+    {
+        $this->changeProcessorName = $changeProcessorName;
     }
 
     /**

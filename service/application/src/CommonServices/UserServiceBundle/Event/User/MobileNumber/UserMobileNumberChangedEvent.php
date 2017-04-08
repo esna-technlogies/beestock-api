@@ -24,15 +24,19 @@ class UserMobileNumberChangedEvent extends Event
      * @var User
      */
     private $user;
+    /**
+     * @var PhoneNumber
+     */
+    private $phoneNumber;
 
     /**
      * PasswordChangedEvent constructor.
-     * @param User $user
+     * @param PhoneNumber $phoneNumber
      */
-    public function __construct(User $user)
+    public function __construct(PhoneNumber $phoneNumber)
     {
-        $this->user = $user;
         $this->eventFiringTime = new \DateTime();
+        $this->phoneNumber = $phoneNumber;
     }
 
     /**
@@ -40,7 +44,7 @@ class UserMobileNumberChangedEvent extends Event
      */
     public function getMobileNumber()
     {
-        return $this->user->getMobileNumber();
+        return $this->phoneNumber;
     }
 
     /**

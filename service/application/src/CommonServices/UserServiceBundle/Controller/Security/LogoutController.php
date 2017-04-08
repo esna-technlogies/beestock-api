@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Controller\SecurityController;
+namespace CommonServices\UserServiceBundle\Controller\Security;
 
 use CommonServices\UserServiceBundle\Exception\NotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

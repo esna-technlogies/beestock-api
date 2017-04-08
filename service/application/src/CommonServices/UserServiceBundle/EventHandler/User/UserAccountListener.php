@@ -41,7 +41,7 @@ class UserAccountListener implements EventSubscriberInterface
         /** @var UserAccountSuccessfullyCreatedEvent $event */
         $userDocument = $event->getUser();
         $userService = $this->container->get('user_service.user_domain');
-        $userService->getUser($userDocument)->getSecurity()->setRoles(UserRolesManager::getInactiveUserRoles());
+        $userService->getUser($userDocument)->getSecurity()->updateUserRoles(UserRolesManager::getInactiveUserRoles());
     }
 
     /**

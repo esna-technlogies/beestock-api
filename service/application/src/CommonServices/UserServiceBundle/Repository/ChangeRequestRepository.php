@@ -14,6 +14,11 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 class ChangeRequestRepository extends DocumentRepository
 {
     /**
+     * @var [] ChangeRequest
+     */
+    public static $pendingRequests;
+
+    /**
      * @param string $action
      * @param int $startPage
      * @param int $resultsPerPage
@@ -114,4 +119,19 @@ class ChangeRequestRepository extends DocumentRepository
         $this->dm->flush();
     }
 
+    /**
+     * @return ChangeRequest[]
+     */
+    public function getPendingRequests()
+    {
+        return self::$pendingRequests;
+    }
+
+    /**
+     * @param ChangeRequest $changeRequest
+     */
+    public function addPendingRequests(ChangeRequest $changeRequest)
+    {
+        self::$pendingRequests[] = $changeRequest;
+    }
 }

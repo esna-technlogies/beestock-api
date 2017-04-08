@@ -3,7 +3,7 @@
 namespace CommonServices\UserServiceBundle\Domain\User\Manager;
 
 use CommonServices\UserServiceBundle\Document\User;
-use CommonServices\UserServiceBundle\Event\UserPasswordRetrievalRequestedEvent;
+use CommonServices\UserServiceBundle\Event\User\Password\UserPasswordRetrievalRequestedEvent;
 use CommonServices\UserServiceBundle\Exception\InvalidArgumentException;
 use CommonServices\UserServiceBundle\Repository\UserRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -39,61 +39,41 @@ class UserSecurityManager
      */
     public function issueForgotPasswordRequest()
     {
-        $user = $this->user;
+        $userDocument = $this->user;
 
-        $lastTimePasswordChangeRequest = $user->getAccessInfo()->getLastPasswordRetrievalRequest();
+        $lastTimePasswordChangeRequest = $userDocument->getAccessInfo()->getLastPasswordRetrievalRequest();
 
         // current time - 10800 (seconds in 3 hours)
         if ($lastTimePasswordChangeRequest >= (time() - 60)) {
             throw new InvalidArgumentException("A password retrieval request has been issued less than a minute ago ..",
                 400);
         }
-
         $eventDispatcher = $this->container->get('event_dispatcher');
 
-        $passwordChaneRequestedEvent = new UserPasswordRetrievalRequestedEvent($user);
+        $passwordChaneRequestedEvent = new UserPasswordRetrievalRequestedEvent($userDocument);
         $eventDispatcher->dispatch(UserPasswordRetrievalRequestedEvent::NAME, $passwordChaneRequestedEvent);
     }
 
+
     /**
-     * @return User
+     * @param null $time
      */
-    public function setPassword()
+    public function updatePasswordRetrievalLimits($time = null)
     {
-        return $this->user;
+        if(!isset($time))
+        {
+            $time = time();
+        }
+        $this->user->getAccessInfo()->setLastPasswordRetrievalRequest($time);
+        $this->userRepository->save($this->user);
     }
 
     /**
      * @param array $roles
-     * @return User
      */
-    public function setRoles(array $roles)
+    public function updateUserRoles(array $roles)
     {
         $this->user->getAccessInfo()->setRoles($roles);
-    }
-
-    /**
-     * @return boolean
-     */
-    public function hasAdminRoles()
-    {
-        return true;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function hasSuperAdminRoles()
-    {
-        return true;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function hasUserRoles()
-    {
-        return true;
     }
 
 }

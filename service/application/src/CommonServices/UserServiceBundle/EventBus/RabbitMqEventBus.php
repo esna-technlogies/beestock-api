@@ -33,10 +33,10 @@ class RabbitMqEventBus implements EventBusInterface
     /**
      * @inheritdoc
      */
-    public function publish(ChangeRequest $changeRequest, string $producerName)
+    public function publish(ChangeRequest $changeRequest)
     {
         $this->container
-            ->get('old_sound_rabbit_mq.'.$producerName.'_producer')
+            ->get('old_sound_rabbit_mq.'.$changeRequest->getChangeProcessorName().'_producer')
             ->publish(serialize($changeRequest));
     }
 
