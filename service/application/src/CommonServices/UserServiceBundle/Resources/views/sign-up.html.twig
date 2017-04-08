@@ -596,7 +596,7 @@
                         <div class=" control">
                             <div class="signin_link_wrap" >
                                 You already have an account!
-                                <a href="#" tabindex="12"  >
+                                <a href=" {{ path('user_service_sign_in_user', { callback: 'fos.Router.setData' }) }}" tabindex="12"  >
                                     Sign in Here
                                 </a>
                             </div>
