@@ -122,8 +122,10 @@ To get your hands dirty with the code, please install  :
 
 - Generate SSl certificates for the JWT authentication 
 
-            cd service/ssl-keys/jwt
+            cd service/ssl-keys/
             
+            mkdir jwt && cd jwt
+
             openssl genrsa -out private.pem -aes256 4096
             
             openssl rsa -pubout -in  private.pem -out  public.pem
