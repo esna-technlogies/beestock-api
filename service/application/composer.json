@@ -60,7 +60,8 @@
         "friendsofsymfony/user-bundle": "~2.0",
         "php-amqplib/rabbitmq-bundle": "^1.12",
         "sensiolabs/ansi-to-html": "^1.1",
-        "hellogerard/jobby": "^3.2"
+        "hellogerard/jobby": "^3.2",
+        "symfony/assetic-bundle": "^2.8"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.2",
