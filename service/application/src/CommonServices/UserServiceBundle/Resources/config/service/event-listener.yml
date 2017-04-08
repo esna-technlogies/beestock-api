@@ -1,0 +1,33 @@
+services:
+    ## business events
+    user_service.user_name_changed_subscriber:
+        class:   CommonServices\UserServiceBundle\EventHandler\User\UserNameChangedListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    user_service.user_mobile_number_changed_subscriber:
+        class:   CommonServices\UserServiceBundle\EventHandler\User\UserMobileNumberListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    user_service.user_account_created_subscriber:
+        class:   CommonServices\UserServiceBundle\EventHandler\User\UserAccountListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    user_service.user_password_change_requested_subscriber:
+        class: CommonServices\UserServiceBundle\EventHandler\User\UserPasswordListener
+        arguments:
+          - "@service_container"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    user_service.user_email_changed_subscriber:
+        class:   CommonServices\UserServiceBundle\EventHandler\User\UserEmailListener
+        arguments:
+          - "@service_container"
+        tags:
+            - { name: kernel.event_subscriber }

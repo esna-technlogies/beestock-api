@@ -1,0 +1,5 @@
+services:
+    ## User Provider
+    user_service.mongodb_user_provider:
+        class: CommonServices\UserServiceBundle\Security\UserProvider\MongoDBUserProvider
+        arguments: ["@user_service.user_domain"]

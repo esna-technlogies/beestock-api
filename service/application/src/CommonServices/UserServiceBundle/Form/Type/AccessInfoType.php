@@ -5,7 +5,6 @@ namespace CommonServices\UserServiceBundle\Form\Type;
 use CommonServices\UserServiceBundle\Document\AccessInfo;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

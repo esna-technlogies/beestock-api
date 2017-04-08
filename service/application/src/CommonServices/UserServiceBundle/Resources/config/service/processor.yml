@@ -1,0 +1,13 @@
+services:
+    ## type processors and transformers
+    user_service.type.user_access_info_type:
+        class: CommonServices\UserServiceBundle\Form\Type\AccessInfoType
+        arguments: ["@=service('doctrine_mongodb').getManager()"]
+        tags:
+            - { name: form.type }
+
+    user_service.type.user_phone_number_type:
+        class: CommonServices\UserServiceBundle\Form\Type\PhoneNumberType
+        arguments: ["@=service('doctrine_mongodb').getManager()"]
+        tags:
+            - { name: form.type }

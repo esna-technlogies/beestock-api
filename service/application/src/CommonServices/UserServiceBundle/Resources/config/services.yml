@@ -1,116 +1,34 @@
+imports:
+    - { resource: service/aws.yml }
+    - { resource: service/cli.yml }
+    - { resource: service/document-listener.yml }
+    - { resource: service/event-listener.yml }
+    - { resource: service/exception.yml }
+    - { resource: service/factory.yml }
+    - { resource: service/parameter-converter.yml }
+    - { resource: service/processor.yml }
+    - { resource: service/provider.yml }
+    - { resource: service/rabbitmq.yml }
+    - { resource: service/request-listener.yml }
+    - { resource: service/response-listener.yml }
+    - { resource: service/validator.yml }
+
 services:
-    user_service.core:
-        class: CommonServices\UserServiceBundle\lib\UserManagerService
+    ## Core business domains
+    user_service.user_domain:
+        class: CommonServices\UserServiceBundle\Domain\User\UserDomain
+        shared: false
         arguments: ["@service_container",
                     "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:User')"]
 
-    user_service.response_serializer:
-        class: CommonServices\UserServiceBundle\Serializer\ResponseSerializer
-        arguments: ["@service_container", "@jms_serializer.serializer"]
+    user_service.change_request_domain:
+        class: CommonServices\UserServiceBundle\Domain\ChangeRequest\ChangeRequestDomain
+        shared: false
+        arguments: ["@service_container",
+                    "@=service('doctrine_mongodb').getManager().getRepository('UserServiceBundle:ChangeRequest')"]
 
-    user_service.exception_handler:
-        class: CommonServices\UserServiceBundle\Event\EventHandler\ApiExceptionHandler
-        arguments: ["@service_container", "@jms_serializer.serializer"]
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception }
-
-
-
-
-    ## Registered Listeners
-    user_service.response_listener:
-        class: CommonServices\UserServiceBundle\Event\EventListener\ResponseListener
-        arguments: ["@service_container"]
-        tags:
-            - { name: kernel.event_listener, event: kernel.response }
-
-    doctrine_mongo_db_param_converter:
-        class: Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter
-        arguments: ["@doctrine_mongodb"]
-        tags:
-            - { name: request.param_converter, converter: doctrine.odm }
-
-    doctrine_mongo_db_pre_persisit_listener:
-        class:   CommonServices\UserServiceBundle\Event\EventListener\Document\DocumentPrePersistListener
-        arguments: ["@service_container"]
-        tags:
-            -  { name: doctrine_mongodb.odm.event_listener, event: prePersist }
-
-    doctrine_mongo_db_perupdate_listener:
-        class:   CommonServices\UserServiceBundle\Event\EventListener\Document\DocumentPreUpdateListener
-        arguments: ["@service_container"]
-        tags:
-            -  { name: doctrine_mongodb.odm.event_listener, event: preUpdate }
-
-
-
-
-
-    ## business events
-    user_service.user_password_changed_subscriber:
-        class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserPasswordChangedListener
-        arguments: ["@service_container"]
-        tags:
-            - { name: kernel.event_subscriber }
-
-    user_service.user_name_changed_subscriber:
-        class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserNameChangedListener
-        arguments: ["@service_container"]
-        tags:
-            - { name: kernel.event_subscriber }
-
-    user_service.user_mobile_number_changed_subscriber:
-        class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserMobileNumberChangedListener
-        arguments: ["@service_container"]
-        tags:
-            - { name: kernel.event_subscriber }
-
-    user_service.user_created_subscriber:
-        class:   CommonServices\UserServiceBundle\Event\EventHandler\UserEvent\UserCreatedListener
-        arguments: ["@service_container"]
-        tags:
-            - { name: kernel.event_subscriber }
-
-
-
-
-    ## type processors and transformers
-    user_service.type.user_access_info_type:
-        class: CommonServices\UserServiceBundle\Form\Type\AccessInfoType
-        arguments: ["@=service('doctrine_mongodb').getManager()"]
-        tags:
-            - { name: form.type }
-
-    user_service.type.user_phone_number_type:
-        class: CommonServices\UserServiceBundle\Form\Type\PhoneNumberType
-        arguments: ["@=service('doctrine_mongodb').getManager()"]
-        tags:
-            - { name: form.type }
-
-    #user_service.type.user_type:
-    #    class: CommonServices\UserServiceBundle\Form\Type\UserType
-    #    arguments: ["@=service('doctrine_mongodb').getManager()"]
-    #    tags:
-    #        - { name: form.type }
-
-
-
-
-
-    # Mobile number validator
-    user_service.contains_international_mobile_number_validator:
-        class: CommonServices\UserServiceBundle\Form\Validation\InternationalMobileNumberValidator
-        tags:
-            - { name: validator.constraint_validator }
-
-    user_service.contains_unique_user_mobile_number_validator:
-        class: CommonServices\UserServiceBundle\Form\Validation\UniqueUserMobileNumberValidator
-        arguments: ["@service_container"]
-        tags:
-            - { name: validator.constraint_validator }
-
-    user_service.contains_unique_user_email_validator:
-        class: CommonServices\UserServiceBundle\Form\Validation\UniqueUserEmailValidator
-        arguments: ["@service_container"]
-        tags:
-            - { name: validator.constraint_validator }
+    ## Configured event-bus
+    user_service.event_bus_service:
+            class: CommonServices\UserServiceBundle\EventBus\RabbitMqEventBus
+            shared: false
+            arguments: ["@service_container"]

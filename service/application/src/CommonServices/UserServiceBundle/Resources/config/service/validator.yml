@@ -1,0 +1,18 @@
+services:
+    # Mobile number validator
+    user_service.contains_international_mobile_number_validator:
+        class: CommonServices\UserServiceBundle\Form\Validation\InternationalMobileNumberValidator
+        tags:
+            - { name: validator.constraint_validator }
+
+    user_service.contains_unique_user_mobile_number_validator:
+        class: CommonServices\UserServiceBundle\Form\Validation\UniqueUserMobileNumberValidator
+        arguments: ["@service_container"]
+        tags:
+            - { name: validator.constraint_validator }
+
+    user_service.contains_unique_user_email_validator:
+        class: CommonServices\UserServiceBundle\Form\Validation\UniqueUserEmailValidator
+        arguments: ["@service_container"]
+        tags:
+            - { name: validator.constraint_validator }

@@ -1,7 +1,6 @@
 default:
     extensions:
         Behat\MinkExtension:
-            base_url: http://192.100.100.101/app_test.php/
             goutte: ~
         Behat\Symfony2Extension:
           kernel:
@@ -16,7 +15,7 @@ default:
                 - FeatureContext
                 - behatch:context:rest
                 - UserSetupContext:
-                      userManagerService: "@user_service.core"
+                      userManagerService: "@user_service.core_service"
                 - DefaultContext:
                       fixtures:
                           - %paths.base%/tests/Functional/Features/user.yml

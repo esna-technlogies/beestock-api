@@ -10,15 +10,16 @@ a number of the best practices of designing microservices and PHP standards but 
 
 This template or archetype can be used to quickly bootstrap a PHP project without a lot of infrastructure hassle, and it utilizes :
 
-* PHP 7.0
+* PHP 7.1.x
 * Symfony 3.2.x project 
 * Dockerized containers that are AWS ready
 * HATEOAS API  
 
-The microservice template comes with 2  separate yet dependent docker images :
+The microservice template comes with 3 separate yet dependent docker images :
     
 * nginx 
-* PHP7.0-fpm
+* PHP7.1.3-fpm
+* mongodb
 
 ## Project Structure   
     
@@ -76,25 +77,62 @@ To get your hands dirty with the code, please install  :
         
     add the following record :
         
-        192.100.100.100  sample-micro-service.dev 
+        192.100.100.101  user-service.dev 
         
-    You may change the vale of the IP address 192.168.99.100 any other value that doesn't conflict with other devices on your local network.
+    You may change the vale of the IP address 192.168.99.101 any other value that doesn't conflict with other devices on your local network.
      
     If you change it, you should also change the IP set for the vagrant box in the Vagrantfile (if you use Vagrant):
      
-        config.vm.network "private_network", ip: "192.100.100.100"
+        config.vm.network "private_network", ip: "192.100.100.101"
         
         
 -    Visit the domain name you specified in the previous line (in the /etc/hosts) to browse the micro-service you'e developing.  
 
 
+        
+
+## Registering the cron-jobs  
+
+- Add the cronjobs to your crontab :
+
+            vagrant ssh 
+            
+            ## create cron logs file 
+            touch  /home/ubuntu/cronrun
+        
+            ## Edit cron jobs 
+            crontab -e 
+            
+- at the end of the cron file add the following line :
+
+            * * * * * sudo docker exec -i user-service-php-cli /bin/bash -c "bin/console cron:run"  >> /home/ubuntu/cronrun 2>&1
+        
+- you can monitor the output of the crontab either through watching :
+
+            tail -f /home/ubuntu/cronrun
+            
+            // or 
+            
+            tail -f /var/log/syslog
+
+            
+            
 ## Installing dependencies 
+
+- Generate SSl certificates for the JWT authentication 
+
+            cd service/ssl-keys/jwt
+            
+            openssl genrsa -out private.pem -aes256 4096
+            
+            openssl rsa -pubout -in  private.pem -out  public.pem
+            
 
 -    Install composer dependencies :
      
             vagrant ssh 
             
-            docker exec -it symfony-php-fpm /bin/sh -c "cd /service/application && composer install --prefer-dist"
+            docker exec -it user-service-php-fpm /bin/sh -c "cd /service/application && composer install --prefer-dist"
 
 
 ## Testing the microservice   
@@ -103,13 +141,22 @@ To get your hands dirty with the code, please install  :
 
         vagrant ssh 
             
-        docker exec -it symfony-php-fpm /bin/sh -c "cd /var/www/html/application  && ./vendor/bin/simple-phpunit"
+        docker exec -it user-service-php-fpm /bin/sh -c "cd /var/www/html/application  && ./vendor/bin/simple-phpunit"
 
     This will run the unit tests in the ./application/tests directory.
     
     For further tweaks please check the [unit testing guide for symfony](http://symfony.com/doc/current/create_framework/unit_testing.html) and the tweaks of [running PHPunit tests with Symfony 3.2](http://symfony.com/blog/how-to-solve-phpunit-issues-in-symfony-3-2-applications) 
     
     
-- Functional testing: To be added.
+- Functional testing: 
+    
+                
+        docker exec -it user-service-php-fpm /bin/sh -c "cd /var/www/html/application  && ./vendor/bin/simple-phpunit"
 
-- Integration testing: To be added.
+
+Before you run the Behat tests, you should first set the environment variables from inside the PHP machine:
+
+        export BEHAT_PARAMS='{"extensions":{"Behat\\MinkExtension":{"base_url":"http://192.100.100.101/app_test.php/"}}}'
+
+Forgetting to set the base_ur of mink through environment variables, will definitely fail all the tests. 
+    

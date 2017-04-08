@@ -1,0 +1,6 @@
+services:
+    user_service.exception_handler:
+        class: CommonServices\UserServiceBundle\EventHandler\ApiExceptionHandler
+        arguments: ["@service_container", "@jms_serializer.serializer"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }

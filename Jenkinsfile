@@ -2,23 +2,29 @@ pipeline {
     agent any
 
     stages {
-        stage('Prepare for tests') {
+        stage('Prepare') {
             steps {
                 /** Preparing the docker machines for test **/
-                /** clean up of any previously running services **/
-                dir('infrastructure/development/docker') {
-                    sh 'figlet -f standard "Preparation Process"'
 
-                    sh 'sudo docker-compose down'
-                    sh 'sudo docker rm -f $(sudo docker ps -aq ) || true'
-                    sh 'sudo docker rmi -f $(sudo docker images -aq) || true'
-                    sh 'sudo docker-compose up --build -d'
+                dir('infrastructure/scripts/test') {
+                    /** clean up of any previously running services **/
+
+                    sh 'figlet -f standard "Preparation Process"'
+                    sh '/bin/sh ./cleanup-docker-machines.sh || true'
+                    sh '/bin/sh ./copy-code-to-docker.sh'
                 }
 
-                /** Installing dependencies of symfony-PHP-fpm docker container **/
-                dir('service/application') {
+                dir('infrastructure/test/docker') {
+                    /** Building new dockers **/
+
+                    sh 'docker-compose up --build -d'
+                }
+
+                dir('infrastructure/scripts/test') {
+                    /** Installing dependencies of user-service-php-fpm docker container **/
+
                     sh 'figlet -f standard "Installing dependencies"'
-                    sh 'sudo docker exec -i symfony-php-fpm /bin/sh -c "composer install --no-progress"'
+                    sh '/bin/sh ./install-service-dependencies.sh'
                 }
             }
         }
@@ -26,22 +32,17 @@ pipeline {
         stage('Test') {
             steps {
                 /** Running Tests **/
-                dir('service/application') {
+                dir('infrastructure/scripts/test') {
                     sh 'figlet -f standard "Running Tests"'
-                }
 
-                /** running the Unit tests **/
-                dir('service/application') {
+                    /** running the Unit tests **/
                     sh 'figlet -f bubble "Unit Tests"'
-                    sh 'sudo docker exec -i symfony-php-fpm /bin/sh -c "./vendor/bin/simple-phpunit"'
-                }
+                    sh '/bin/sh ./run-unit-tests.sh'
 
-                /** running the Functional tests **/
-                dir('service/application') {
+                    /** running the Functional tests **/
                     sh 'figlet -f bubble "Functional tests"'
-                    sh 'sudo docker exec -i symfony-php-fpm /bin/sh -c "./vendor/bin/behat"'
+                    sh '/bin/sh ./run-functional-tests.sh'
                 }
-
             }
         }
 
@@ -63,11 +64,16 @@ pipeline {
 
         stage('Clean up') {
             steps {
-                dir('infrastructure/development/docker') {
+                dir('infrastructure/test/docker') {
                     sh 'figlet -f standard "Cleaning Up ..."'
-                    sh 'sudo docker-compose down'
-                    sh 'sudo docker rm -f $(sudo docker ps -aq ) || true'
-                    sh 'sudo docker rmi -f $(sudo docker images -aq) || true'
+                    sh 'docker-compose down'
+                }
+
+                dir('infrastructure/scripts/test') {
+                    /** clean up of any previously running services **/
+
+                    sh '/bin/sh ./cleanup-docker-machines.sh || true'
+                    sh 'cowsay -f ghostbusters Well done buddy !'
                 }
             }
         }

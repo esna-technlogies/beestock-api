@@ -1,0 +1,80 @@
+## User resource
+user_service_list_users:
+    methods: [GET]
+    path:     /user
+    defaults: { _controller: UserServiceBundle:User/User:listUsers}
+
+user_service_get_user:
+    methods: [GET]
+    path:     /user/{uuid}
+    defaults: { _controller: UserServiceBundle:User/User:getUser }
+
+user_service_post_user:
+    methods: [POST]
+    path:     /user
+    defaults:
+      _controller: UserServiceBundle:User/User:newUser
+
+user_service_put_user:
+    methods: [PUT]
+    path:     /user/{uuid}
+    defaults: { _controller: UserServiceBundle:User/User:putUser }
+
+user_service_patch_user:
+    methods: [PATCH]
+    path:     /user/{uuid}
+    defaults: { _controller: UserServiceBundle:User/User:patchUser }
+
+user_service_delete_user:
+    methods: [DELETE]
+    path:     /user/{uuid}
+    defaults: { _controller: UserServiceBundle:User/User:deleteUser }
+
+user_service_suspend_user:
+    methods: [PATCH]
+    path:     /user/{uuid}/suspend
+    defaults: { _controller: UserServiceBundle:User/User:suspendUser }
+
+
+## Change Requests
+user_service_execute_change_request:
+    methods: [PATCH]
+    path:     /changeRequest/{uuid}
+    defaults: { _controller: UserServiceBundle:ChangeRequest/ChangeRequest:verifyRequest}
+
+
+
+## User security resources
+user_service_login_user:
+    methods: [POST]
+    path:     /security/login
+    defaults: { _controller: UserServiceBundle:Security/Login:loginUser }
+
+user_service_logout_user:
+    methods: [GET]
+    path:     /security/logout/user/{uuid}
+    defaults: { _controller: UserServiceBundle:Security/Logout:logoutUser }
+
+user_service_user_forgot_password:
+    methods: [POST]
+    path:     /security/forgotPassword
+    defaults: { _controller: UserServiceBundle:Security/ForgotPassword:forgotPassword }
+
+
+## User social accounts resources
+user_service_get_user_facebook_account:
+    methods: [GET]
+    path:     /user/{uuid}/facebookAccount
+    defaults: { _controller: UserServiceBundle:SocialAccount/UserFacebookAccount:getUserFacebookAccount }
+
+user_service_get_user_google_account:
+    methods: [GET]
+    path:     /user/{uuid}/googleAccount
+    defaults: { _controller: UserServiceBundle:SocialAccount/UserGoogleAccount:getUserGoogleAccount }
+
+
+## User account related resources
+user_service_get_user_phone_number:
+    methods: [GET]
+    path:     /user/{uuid}/mobileNumber
+    defaults: { _controller: UserServiceBundle:User/UserMobileNumber:getUserPhoneNumber }

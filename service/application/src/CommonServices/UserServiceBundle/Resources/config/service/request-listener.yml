@@ -1,0 +1,6 @@
+services:
+    ## Registered Listeners and subscribers
+    user_service.request_content_type_subscriber:
+        class: CommonServices\UserServiceBundle\EventListener\RequestSubscriber
+        tags:
+            - { name: kernel.event_subscriber }

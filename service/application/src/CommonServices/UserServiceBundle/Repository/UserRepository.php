@@ -2,12 +2,13 @@
 
 namespace CommonServices\UserServiceBundle\Repository;
 
-use CommonServices\UserServiceBundle\lib\Utility\Api\Pagination\DoctrineExtension\QueryPaginationHandler;
+use CommonServices\UserServiceBundle\Exception\NotFoundException;
+use CommonServices\UserServiceBundle\Utility\Api\Pagination\DoctrineExtension\QueryPaginationHandler;
+use CommonServices\UserServiceBundle\Utility\EmailFormatter;
+use CommonServices\UserServiceBundle\Utility\MobileNumberFormatter;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use CommonServices\UserServiceBundle\Document\User;
 use MongoDB\BSON\Regex;
-use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class UserRepository
@@ -16,18 +17,21 @@ use Symfony\Component\HttpFoundation\Response;
 class UserRepository extends DocumentRepository
 {
     /**
-     * @param QueryPaginationHandler $queryPaginationHandler
+     * @param int $startPage
+     * @param int $resultsPerPage
      * @return mixed
      */
-    public function findAllUsers(QueryPaginationHandler $queryPaginationHandler)
+    public function findAllUsers(int $startPage, int $resultsPerPage) : QueryPaginationHandler
     {
+        $queryPaginationHandler = new QueryPaginationHandler($startPage, $resultsPerPage);
+
         $query = $this->createQueryBuilder()
-                    ->sort('created', 'DESC')
-                    ->limit($queryPaginationHandler->getResultsPerPage())
-                    ->skip($queryPaginationHandler->getResultsToSkip())
-                    ->getQuery()
-                    ->execute()
-                    ;
+            ->sort('created', 'DESC')
+            ->limit($queryPaginationHandler->getResultsPerPage())
+            ->skip($queryPaginationHandler->getResultsToSkip())
+            ->getQuery()
+            ->execute()
+        ;
 
         $queryPaginationHandler->setCountOfTotalResults($query->count());
         $queryPaginationHandler->setQueryResults($query->toArray(true));
@@ -36,11 +40,20 @@ class UserRepository extends DocumentRepository
     }
 
     /**
+     * @param string $email
+     * @return object
+     */
+    public function findUserByEmail(string $email)
+    {
+        return $this->findOneBy(["email"=> $email]);
+    }
+
+    /**
      * @param $name
      * @param int $limit
      * @return mixed
      */
-    public function findAllByNameOrderedByName($name, $limit = 10)
+    public function findAllByName($name, $limit = 10)
     {
         return $this->createQueryBuilder()
             ->field('fullName')->equals(new Regex($name, 'i'))
@@ -52,8 +65,41 @@ class UserRepository extends DocumentRepository
     }
 
     /**
+     * Finds a user by mobile number
+     * @param string $number
+     * @return object
+     */
+    public function findOneByMobileNumber(string $number)
+    {
+        $query = $this->createQueryBuilder();
+        $query->addOr($query->expr()->field('mobileNumber.number')->equals($number));
+        $query->addOr($query->expr()->field('mobileNumber.nationalNumber')->equals($number));
+        $query->addOr($query->expr()->field('mobileNumber.internationalNumber')->equals($number));
+        $query->addOr($query->expr()->field('mobileNumber.internationalNumberForCalling')->equals($number));
+
+        return $query->limit(1)
+            ->getQuery()
+            ->getSingleResult();
+    }
+
+    /**
+     * Finds a user by mobile number
+     * @param string $number
+     * @return object
+     */
+    public function findOneByInternationalMobileNumber(string $number)
+    {
+        $query = $this->createQueryBuilder()->field('mobileNumber.internationalNumber')->equals($number);
+
+        return $query->limit(1)
+            ->getQuery()
+            ->getSingleResult();
+    }
+
+    /**
      * @param $name
      * @return null|object
+     * @throws NotFoundException
      */
     public function findOneByName($name)
     {
@@ -65,7 +111,7 @@ class UserRepository extends DocumentRepository
                 $name
             );
 
-            throw new Exception($errorMessage, Response::HTTP_NOT_FOUND);
+            throw new NotFoundException($errorMessage);
         }
         return $user;
     }
@@ -73,8 +119,9 @@ class UserRepository extends DocumentRepository
     /**
      * @param $uuid
      * @return null|object
+     * @throws NotFoundException
      */
-    public function findByUUID($uuid)
+    public function findByUuid($uuid)
     {
         $user = parent::findOneBy(['uuid' => $uuid]);
 
@@ -84,8 +131,37 @@ class UserRepository extends DocumentRepository
                 $uuid
             );
 
-            throw new Exception($errorMessage, Response::HTTP_NOT_FOUND);
+            throw new NotFoundException($errorMessage);
         }
+        return $user;
+    }
+
+    /**
+     * @param string $userName
+     *
+     * @throws NotFoundException
+     * @return object | null
+     */
+    public function findByUserName(string $userName)
+    {
+        $user = null;
+        // first try to login with email address
+        if(filter_var($userName, FILTER_VALIDATE_EMAIL))
+        {
+            $email = EmailFormatter::getCleansedEmailAddress($userName);
+            $user = $this->findUserByEmail($email);
+        }
+        // try to login with possible mobile number
+        else
+        {
+            $mobileNumber = MobileNumberFormatter::getCleansedMobileNumberAsPossibleUsername($userName);
+            $user = $this->findOneByMobileNumber($mobileNumber);
+        }
+
+        if(is_null($user)){
+            throw new NotFoundException('User not found');
+        }
+
         return $user;
     }
 
@@ -103,6 +179,15 @@ class UserRepository extends DocumentRepository
      * @param User $user
      */
     public function delete(User $user)
+    {
+        $this->dm->remove($user);
+        $this->dm->flush();
+    }
+
+    /**
+     * @param User $user
+     */
+    public function softDelete(User $user)
     {
         $this->dm->remove($user);
         $this->dm->flush();

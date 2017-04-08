@@ -2,7 +2,7 @@ version: '2.0'
 services:
   nginx-server:
       build: ./nginx/
-      container_name: nginx-server
+      container_name: user-service-nginx
       ports:
           - "80:80"
       volumes:
@@ -11,37 +11,42 @@ services:
       logging:
         driver: syslog
 
-
   mongodb:
       build: ./mongodb/
-      container_name: mongodb
+      container_name: user-service-mongodb
       ports:
           - "27017:27017"
       logging:
         driver: syslog
 
+  #rabbitmq:
+  #    build: ./rabbitmq/
+  #    container_name: user-service-rabbitmq
+
+  rabbitmq-management:
+      build: ./rabbitmq-management/
+      container_name: user-service-rabbitmq-management
+      ports:
+          - "15672:15672"
+      logging:
+        driver: syslog
 
   php-fpm:
       build: ./php-fpm/
       ports:
           - "9000:9000"
-      container_name: symfony-php-fpm
+      container_name: user-service-php-fpm
       mem_limit: 2048M
       volumes:
           - ../../../service:/service
       logging:
         driver: syslog
 
-#  gulp-watch:
-#      build: ./nodejs/gulp
-#      #volumes:
-#      #    - ./:/app
-#      #working_dir: /app
-#      command: gulp watch
-#
-#  gulp-build:
-#      build: ./nodejs/gulp
-#      #volumes:
-#      #    - ./:/app
-#      #working_dir: /app
-#      command: gulp build
+  php-cli:
+      build: ./php-cli/
+      container_name: user-service-php-cli
+      mem_limit: 2048M
+      volumes:
+          - ../../../service:/service
+      logging:
+        driver: syslog

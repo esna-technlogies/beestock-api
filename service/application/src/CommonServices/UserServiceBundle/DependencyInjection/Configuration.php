@@ -46,6 +46,18 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
+/*                ->arrayNode('security')
+                    ->children()
+                        ->arrayNode('jwt')->isRequired()
+                            ->children()
+                                ->scalarNode('ssl_public_key')->isRequired()->end()
+                                ->scalarNode('ssl_private_key')->isRequired()->end()
+                                ->scalarNode('ssl_key_pass_phrase')->isRequired()->end()
+                                ->scalarNode('jwt_token_ttl')->isRequired()->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()*/
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

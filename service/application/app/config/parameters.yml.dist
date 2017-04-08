@@ -19,7 +19,20 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    jwt_private_key_path: '%kernel.root_dir%/../../ssl-keys/jwt/private.pem' # ssh private key path
-    jwt_public_key_path:  '%kernel.root_dir%/../../ssl-keys/jwt/public.pem'  # ssh public key path
-    jwt_key_pass_phrase:  ''                                         # ssh key pass phrase
-    jwt_token_ttl:        3600
+    # cross origin settings
+    cors_allow_origin: 'http://user-service.dev'
+
+    # jwt settings
+    jwt_private_key_path: '%kernel.root_dir%/../../ssl-keys/jwt/private.pem'
+    jwt_public_key_path: '%kernel.root_dir%/../../ssl-keys/jwt/public.pem'
+    jwt_key_pass_phrase: '2571986'
+    jwt_token_ttl: 3600
+
+    # aws settings
+    aws_access_key: "aws_access_key"
+    aws_access_secret: "aws_access_secret"
+
+    # rabbit-mq settings
+    rabbitmq_host: 'rabbitmq-management'
+    rabbitmq_user: guest
+    rabbitmq_password: guest

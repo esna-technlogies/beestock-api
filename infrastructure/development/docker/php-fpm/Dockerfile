@@ -1,4 +1,4 @@
-FROM almasry/php-7.1-fpm:latest
+FROM almasry/php-fpm:7.1.3
 
 MAINTAINER Mohamed Almasry <almasry@almasry.ws>
 
@@ -7,6 +7,9 @@ RUN apt-get update && apt-get install && rm -rf /var/cache/apk/*
 
 ## Install xdebug extension
 RUN pecl install xdebug
+
+## add later to the standard php docker
+RUN  docker-php-ext-install sockets
 COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 ## Copy necessary PHP configuration
@@ -22,9 +25,14 @@ RUN echo user = $USERID >> /usr/local/etc/php-fpm.conf
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN curl -sS https://phar.phpunit.de/phpunit.phar | php -- --install-dir=/usr/local/bin --filename=phpunit
 
-RUN mkdir -p /service/application && chmod ug+rwx /service/application
-WORKDIR /service/application
 
+## setting behat / testing environment variables
+ENV APP_ENVIRONMENT='dev'
+ENV BEHAT_PARAMS='{"extensions":{"Behat\\MinkExtension":{"base_url":"http://nginx-server/app_test.php/"}}}'
+
+RUN mkdir -p /service/application && chmod ug+rwx /service/application
+
+WORKDIR /service/application
 EXPOSE 9000
 
 CMD ["php-fpm", "-F"]
