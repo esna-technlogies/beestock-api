@@ -29,8 +29,8 @@ parameters:
     jwt_token_ttl: 3600
 
     # aws settings
-    aws_access_key: zzzzzzzzzzz
-    aws_access_secret: zzzzzzzzzzz
+    aws_access_key: "aws_access_key"
+    aws_access_secret: "aws_access_secret"
 
     # rabbit-mq settings
     rabbitmq_host: 'rabbitmq-management'
