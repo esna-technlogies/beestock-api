@@ -97,25 +97,6 @@ jms_serializer:
             default_format: "c" # ISO8601
             default_timezone: "UTC" # defaults to whatever timezone set in php.ini or via date_default_ti
 
-## SSL Keys used for JWT authentication
-lexik_jwt_authentication:
-    private_key_path: '%jwt_private_key_path%'
-    public_key_path:  '%jwt_public_key_path%'
-    pass_phrase:      '%jwt_key_pass_phrase%'
-    token_ttl:        '%jwt_token_ttl%'
-    # token extraction settings
-    token_extractors:
-        authorization_header:      # look for a token as Authorization Header
-            enabled: true
-            prefix:  Bearer
-            name:    Authorization
-        cookie:                    # check token in a cookie
-            enabled: false
-            name:    BEARER
-        query_parameter:           # check token in query string parameter
-            enabled: false
-            name:    bearer
-
 # settings of the user service
 user_service:
     api_settings:
@@ -140,6 +121,10 @@ framework:
         engines: ['twig']
 
 
+## GeoIP package
+maxmind_geoip:
+  data_file_path: "%kernel.root_dir%/../data/GeoIPCity.dat"
+
 
 #oneup_flysystem:
 #    adapters:
@@ -149,6 +134,102 @@ framework:
 #    filesystems:
 #        my_filesystem:
 #            adapter: my_adapter
+
+
+lexik_jwt_authentication:
+    private_key_path: '%jwt_private_key_path%'
+    public_key_path:  '%jwt_public_key_path%'
+    pass_phrase:      '%jwt_key_pass_phrase%'
+    token_ttl:        '%jwt_token_ttl%'
+    user_identity_field: username
+
+nelmio_cors:
+    defaults:
+        allow_credentials: false
+        allow_origin: ["%cors_allow_origin%"]
+        allow_headers: []
+        allow_methods: ["*"]
+        expose_headers: []
+        max_age: 0
+        hosts: []
+        origin_regex: false
+        forced_allow_origin_value: ~
+    paths:
+        '^/api/':
+            allow_origin: ['*']
+            allow_headers: ["*"]
+            allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS']
+            max_age: 3600
+
+nelmio_api_doc:
+    sandbox:
+        request_format:
+            formats:
+                json: application/json
+            method: accept_header
+            default_format: json
+        enabled:  true
+        body_format:
+            formats: [ form, json ]             # array of enabled body formats,
+            default_format: form                # default is `form`, determines whether to send
+    cache:
+        enabled:              false
+        file:                 '%kernel.cache_dir%/api-doc.cache'
+
+jms_security_extra:
+    secure_all_services: false
+    enable_iddqd_attribute: false
+    expressions: true
+    voters:
+        disable_authenticated: false
+        disable_role:          false
+        disable_acl:           false
+    method_access_control: { }
+
+
+old_sound_rabbit_mq:
+    connections:
+        default:
+            host:     '%rabbitmq_host%' #'rabbitmq-management' ## in prod should be 'rabbitmq'
+            port:     5672
+            user:     '%rabbitmq_user%'
+            password: '%rabbitmq_password%'
+            vhost:    '/'
+            lazy:     false
+            connection_timeout: 3
+            read_write_timeout: 3
+            keepalive: true
+            heartbeat: 6
+            use_socket: true
+    producers:
+        user_account_change:
+            connection:       default
+            exchange_options: {name: 'user-account-exchange', type: direct}
+    consumers:
+        user_account_change:
+            connection:       default
+            exchange_options: {name: 'user-account-exchange', type: direct}
+            queue_options:
+                name: "user-account-exchange"
+                arguments: {'x-ha-policy': ['S', 'all']}
+            callback: user_service.amqb_consumer.user_account_change
+
+aws:
+    version: latest
+    region: us-west-2
+    credentials:
+        key: "%aws_access_key%"
+        secret: "%aws_access_secret%"
+    Sqs:
+        region: us-west-2
+        version: '2012-11-05'
+        debug: true
+        credentials: "@aws.credentials_provider"
+
+
+
+
+
 
 
 assetic:

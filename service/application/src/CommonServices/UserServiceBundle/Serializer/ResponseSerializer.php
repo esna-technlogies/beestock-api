@@ -39,6 +39,6 @@ class ResponseSerializer
      */
     public function serialize($data)
     {
-        return $this->serializer->serialize(['response' => $data], $this->serviceContainer->getParameter("api_format"));
+        return $this->serializer->serialize($data, $this->serviceContainer->getParameter("api_format"));
     }
 }

@@ -1,0 +1,32 @@
+version: '2.0'
+services:
+  nginx-server:
+      build: ./nginx/
+      container_name: user-service-nginx
+      ports:
+          - "80:80"
+      volumes:
+          - ../../../service:/service
+          - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
+      logging:
+        driver: syslog
+
+  mongodb:
+      build: ./mongodb/
+      container_name: user-service-mongodb
+      ports:
+          - "27017:27017"
+      logging:
+        driver: syslog
+
+
+  php-fpm:
+      build: ./php-fpm/
+      ports:
+          - "9000:9000"
+      container_name: user-service-php-fpm
+      mem_limit: 2048M
+      #volumes:
+      #    - ../../../service:/service
+      logging:
+        driver: syslog

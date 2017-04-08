@@ -1,0 +1,18 @@
+services:
+    ## Registered Listeners and subscribers
+    user_service.response_listener:
+        class: CommonServices\UserServiceBundle\EventListener\ResponseListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.response }
+
+    user_service.change_requests.action_listener:
+        class: CommonServices\UserServiceBundle\EventListener\ChangeRequestsIssuerListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
+    # Serializers and API utilities
+    user_service.response_serializer:
+        class: CommonServices\UserServiceBundle\Serializer\ResponseSerializer
+        arguments: ["@service_container", "@jms_serializer.serializer"]

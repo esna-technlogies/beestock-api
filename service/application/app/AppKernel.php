@@ -17,7 +17,6 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
-            new Nelmio\CorsBundle\NelmioCorsBundle(),
             new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
             new Aws\Symfony\AwsBundle(),
             new AppBundle\AppBundle(),
@@ -25,10 +24,15 @@ class AppKernel extends Kernel
             new CommonServices\UserServiceBundle\UserServiceBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-            new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
-            new Csa\Bundle\GuzzleBundle\CsaGuzzleBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            new Maxmind\Bundle\GeoipBundle\MaxmindGeoipBundle(),
+            new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
+            new Nelmio\CorsBundle\NelmioCorsBundle(),
+            new JMS\AopBundle\JMSAopBundle(),
+            new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
+            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
+            new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
         ];
 
@@ -37,6 +41,7 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            $bundles[] = new Csa\Bundle\GuzzleBundle\CsaGuzzleBundle();
         }
 
         return $bundles;
@@ -55,6 +60,11 @@ class AppKernel extends Kernel
     public function getLogDir()
     {
         return dirname(__DIR__).'/../logs/symfony';
+    }
+
+    public function getJwsSSLKeysDir()
+    {
+        return dirname(__DIR__).'/../ssl-keys/jwt';
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
