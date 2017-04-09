@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\UserServiceBundle\Utility;
+namespace CommonServices\UserServiceBundle\Utility\Formatter;
 
 use CommonServices\UserServiceBundle\Document\PhoneNumber;
 use CommonServices\UserServiceBundle\Exception\InvalidArgumentException;

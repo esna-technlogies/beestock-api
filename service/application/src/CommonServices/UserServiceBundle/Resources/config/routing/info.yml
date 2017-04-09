@@ -1,0 +1,5 @@
+## User resource
+user_service_api_info:
+    methods: [GET]
+    path:     /
+    defaults: { _controller: UserServiceBundle:MetaInfo/ApiRoutes:listAPiRoutes}

@@ -17,7 +17,7 @@ class UserAccountListener implements EventSubscriberInterface
     private $container;
 
     /**
-     * UserCreatedListener constructor.
+     * UserAccountListener constructor.
      * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
@@ -30,7 +30,17 @@ class UserAccountListener implements EventSubscriberInterface
      */
     public function onUserAccountCreated(Event $event)
     {
-        // Do something here ..
+        /** @var UserAccountSuccessfullyCreatedEvent $event */
+        $userDocument = $event->getUser();
+
+        $this->container->get('user_service.email_provider')->send(
+            $userDocument->getEmail(),
+            $userDocument->getFirstName().', '.'Welcome to Beestock !',
+            'Account:registration.welcome.html.twig',
+            [
+                'name' => $userDocument->getFirstName()
+            ]
+        );
     }
 
     /**

@@ -6,7 +6,7 @@ use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Exception\InvalidFormException;
 use CommonServices\UserServiceBundle\Form\Processor\UserBasicInfoProcessor;
 use CommonServices\UserServiceBundle\Repository\UserRepository;
-use CommonServices\UserServiceBundle\Utility\MobileNumberFormatter;
+use CommonServices\UserServiceBundle\Utility\Formatter\MobileNumberFormatter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

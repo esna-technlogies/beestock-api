@@ -37,6 +37,8 @@ class CronJobRunnerCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        print 'hello :)'.PHP_EOL;
+
         // attach SMS sender command
         $sendEmailCommand = $this->getContainer()->get('user_service.command.send_sms');
         $this->commandRunner->attachCommand($sendEmailCommand, CronTabCommandRunner::EVERY_1_MINUTE);

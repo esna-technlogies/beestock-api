@@ -4,7 +4,7 @@ namespace CommonServices\UserServiceBundle\Form\Validation;
 
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Form\Validation\Constraint\UniqueUserMobileNumber;
-use CommonServices\UserServiceBundle\Utility\MobileNumberFormatter;
+use CommonServices\UserServiceBundle\Utility\Formatter\MobileNumberFormatter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;

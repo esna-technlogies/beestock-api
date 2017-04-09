@@ -7,6 +7,7 @@ use CommonServices\UserServiceBundle\Event\User\Email\UserEmailAddedToAccountEve
 use CommonServices\UserServiceBundle\Event\User\Email\UserEmailChangedEvent;
 use CommonServices\UserServiceBundle\Event\User\Email\UserEmailChangeRequestedEvent;
 use CommonServices\UserServiceBundle\Domain\ChangeRequest\ChangeRequestDomain;
+use CommonServices\UserServiceBundle\Utility\Security\RandomCodeGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -78,6 +79,21 @@ class UserEmailListener implements EventSubscriberInterface
             $requestLifeTime,
             '',
             $event->getEmail()
+        );
+
+        $verificationCode = RandomCodeGenerator::generateRandomVerificationString(6);
+        $verificationUrl = $this->container->get('router')->generate('user_service_execute_verification_request',['uuid' => $verificationCode]);
+
+        $this->container->get('user_service.email_provider')->send(
+            $userDocument->getEmail(),
+            $userDocument->getFirstName().', '.' Here is how to activate your Beestock account ..',
+            'Account:email.verification.upon_registration.html.twig',
+            [
+                'name' => $userDocument->getFirstName(),
+                'emailAddress' => $event->getEmail(),
+                'verificationCode' => $verificationCode,
+                'verificationUrl' => $verificationUrl,
+            ]
         );
     }
 

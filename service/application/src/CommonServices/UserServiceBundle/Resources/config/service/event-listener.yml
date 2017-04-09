@@ -14,7 +14,9 @@ services:
 
     user_service.user_account_created_subscriber:
         class:   CommonServices\UserServiceBundle\EventHandler\User\UserAccountListener
-        arguments: ["@service_container"]
+        arguments:
+            - "@service_container"
+            - '@twig'
         tags:
             - { name: kernel.event_subscriber }
 

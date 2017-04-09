@@ -29,6 +29,13 @@ services:
 
     ## Configured event-bus
     user_service.event_bus_service:
-            class: CommonServices\UserServiceBundle\EventBus\RabbitMqEventBus
-            shared: false
-            arguments: ["@service_container"]
+        class: CommonServices\UserServiceBundle\EventBus\RabbitMqEventBus
+        shared: false
+        arguments: ["@service_container"]
+
+    user_service.email_provider:
+        class: CommonServices\UserServiceBundle\Utility\Email\SwiftMailSender
+        shared: false
+        arguments:
+          - "@service_container"
+          - "@twig"

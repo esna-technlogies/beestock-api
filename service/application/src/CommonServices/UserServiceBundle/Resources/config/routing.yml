@@ -1,7 +1,11 @@
-#user_service_api:
-#    resource: "@UserServiceBundle/Resources/config/routing/api.yml"
-#    prefix:   /api
+user_service_api_info:
+    resource: "@UserServiceBundle/Resources/config/routing/info.yml"
+    prefix:   /api/info
 
-#user_service_static_pages:
-#    resource: "@UserServiceBundle/Resources/config/routing/static-pages.yml"
-#    prefix:   /static
+user_service_api:
+    resource: "@UserServiceBundle/Resources/config/routing/api.yml"
+    prefix:   /api
+
+user_service_static_pages:
+    resource: "@UserServiceBundle/Resources/config/routing/static-pages.yml"
+    prefix:   /static

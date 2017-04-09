@@ -2,9 +2,6 @@ FROM almasry/php-cli:7.1.3
 
 MAINTAINER Mohamed Almasry <almasry@almasry.ws>
 
-## Cleaning after installing dependencies
-RUN apt-get update && apt-get install && rm -rf /var/cache/apk/*
-
 ## Install xdebug extension
 RUN pecl install xdebug
 COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
@@ -28,4 +25,10 @@ RUN mkdir -p /service/application && chmod ug+rwx /service/application
 
 WORKDIR /service/application
 
-CMD ["php", "-a"]
+ADD cronjobs  /etc/cron.d/cronjobs
+RUN chmod 0644 /etc/cron.d/cronjobs
+
+RUN env > /root/env.txt
+CMD cron &
+
+CMD ["cron", "-f"]

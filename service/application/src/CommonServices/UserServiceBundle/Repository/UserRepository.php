@@ -4,8 +4,8 @@ namespace CommonServices\UserServiceBundle\Repository;
 
 use CommonServices\UserServiceBundle\Exception\NotFoundException;
 use CommonServices\UserServiceBundle\Utility\Api\Pagination\DoctrineExtension\QueryPaginationHandler;
-use CommonServices\UserServiceBundle\Utility\EmailFormatter;
-use CommonServices\UserServiceBundle\Utility\MobileNumberFormatter;
+use CommonServices\UserServiceBundle\Utility\Formatter\EmailFormatter;
+use CommonServices\UserServiceBundle\Utility\Formatter\MobileNumberFormatter;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use CommonServices\UserServiceBundle\Document\User;
 use MongoDB\BSON\Regex;

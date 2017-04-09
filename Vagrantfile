@@ -3,6 +3,7 @@
 
 Vagrant.configure("2") do |config|
 
+
   config.vm.provider "virtualbox" do |v|
     v.name = "user_service"
     v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]

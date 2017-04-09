@@ -1,0 +1,3 @@
+
+
+* * * * * root while true; do /usr/local/bin/php /service/application/bin/console cron:run; sleep 3; done  >> /service/logs/php-cli/cron.log  2>&1

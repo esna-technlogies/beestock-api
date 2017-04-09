@@ -37,8 +37,13 @@ user_service_suspend_user:
 
 
 ## Change Requests
-user_service_execute_change_request:
+user_service_submit_verification_code_of_change_request:
     methods: [PATCH]
+    path:     /changeRequest/{uuid}
+    defaults: { _controller: UserServiceBundle:ChangeRequest/ChangeRequest:verifyRequest}
+
+user_service_execute_verification_request:
+    methods: [GET]
     path:     /changeRequest/{uuid}
     defaults: { _controller: UserServiceBundle:ChangeRequest/ChangeRequest:verifyRequest}
 

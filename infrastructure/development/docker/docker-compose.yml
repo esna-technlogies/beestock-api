@@ -38,14 +38,14 @@ services:
       logging:
         driver: syslog
 
-  #php-cli:
-  #    build: ./php-cli/
-  #    container_name: user-service-php-cli
-  #    mem_limit: 2048M
-  #    volumes:
-  #        - ../../../service:/service
-  #    logging:
-  #      driver: syslog
+  php-cli:
+      build: ./php-cli/
+      container_name: user-service-php-cli
+      mem_limit: 2048M
+      volumes:
+          - ../../../service:/service
+      logging:
+        driver: syslog
 
 
 
