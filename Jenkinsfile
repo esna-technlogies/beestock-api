@@ -6,7 +6,7 @@ pipeline {
             steps {
                 /** Preparing the docker machines for test **/
 
-                dir('infrastructure/scripts/test') {
+                dir('infrastructure/test/scripts/') {
                     /** clean up of any previously running services **/
 
                     sh 'figlet -f standard "Preparation Process"'
@@ -20,7 +20,7 @@ pipeline {
                     sh 'docker-compose up --build -d'
                 }
 
-                dir('infrastructure/scripts/test') {
+                dir('infrastructure/test/scripts') {
                     /** Installing dependencies of user-service-php-fpm docker container **/
 
                     sh 'figlet -f standard "Installing dependencies"'
@@ -32,7 +32,7 @@ pipeline {
         stage('Test') {
             steps {
                 /** Running Tests **/
-                dir('infrastructure/scripts/test') {
+                dir('infrastructure/test/scripts') {
                     sh 'figlet -f standard "Running Tests"'
 
                     /** running the Unit tests **/
@@ -69,7 +69,7 @@ pipeline {
                     sh 'docker-compose down'
                 }
 
-                dir('infrastructure/scripts/test') {
+                dir('infrastructure/test/scripts') {
                     /** clean up of any previously running services **/
 
                     sh '/bin/sh ./cleanup-docker-machines.sh || true'
