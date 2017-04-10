@@ -1,31 +1,57 @@
-CommonServices \ UserServiceBundle 
+CommonServices \ user microservice
 ==================================
    
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.0-8892BF.svg?style=flat)](https://php.net/)   [![Travis Build Status](https://travis-ci.org/almasry/user-microservice.svg?branch=master)](https://travis-ci.org/almasry/user-microservice)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg?style=flat)](https://php.net/)   [![Travis Build Status](https://travis-ci.org/almasry/user-microservice.svg?branch=master)](https://travis-ci.org/almasry/user-microservice)
 
 
 
 > This is a user microservice that can be used for running and building symfony-based stand-alone user management service. This project follows 
-a number of the best practices of designing microservices and PHP standards but is not a solution to all . 
+a number of the best practices of designing microservices and SOA standards. 
 
-This template or archetype can be used to quickly bootstrap a PHP project without a lot of infrastructure hassle, and it utilizes :
+
+## What this service is about   
+
+This microservice can be used to quickly bootstrap and build a user system without having to worry about the application design or architecture issues. 
+It offers a well refined user event system that puts usability first without compromising user security.
+
+The design of this service follows best practices of microservices and service oriented architecture. 
+
+The user-service is not an alternative to the typical [FOSUserBundle](https://github.com/FriendsOfSymfony/FOSUserBundle), it has a bigger scope and - in fact - it offers way more and better features than what FOSUserBundle does.
+
+The current version of the services is implemented using : 
 
 * PHP 7.1
 * Symfony 3.2.x application 
-* HATEOAS REST, well documented API  
+* HATEOAS REST API  
 * Dockerized development and testing infrastructure
 
 
+## What this service is not 
+
+This service is not a an alternative to any single sign-on protocol, although it uses stateless JET that could be used to authenticates users across multiple services and business domains.  
+
 The service utilizes 5 separate yet dependent docker images :
-    
+
 * nginx 
 * mongodb
 * rabbitmq
 * PHP-fpm (v. 7.1.x)
 * PHP-cli (v. 7.1.x)
 
-## Project Structure   
-    
+        
+Service design and architecture    
+===============================
+With a goal to reduce overall system complexity and increase interoperability with other services  
+
+* Strongly typed
+* Extensibility 
+* Interoperability
+
+Development road map     
+====================
+
+    work in progress 
+
     
 Development Environment  
 =========================
@@ -52,7 +78,7 @@ To get your hands dirty with the code, please install  :
     
 ## Setting up the service for development  
 
-- Provision, boot the machine and ssh into it:
+- Provision, boot and ssh into the machine:
         
         vagrant up && vagrant ssh
     
@@ -107,7 +133,7 @@ To get your hands dirty with the code, please install  :
     
     For further tweaks please check the [unit testing guide for symfony](http://symfony.com/doc/current/create_framework/unit_testing.html) and the tweaks of [running PHPunit tests with Symfony 3.2](http://symfony.com/blog/how-to-solve-phpunit-issues-in-symfony-3-2-applications) 
     
-    
+
 - Functional testing: 
     
                 
@@ -120,3 +146,6 @@ The bhat functional tests are using Mink - without selenium - the base_url value
 - Integration testing: 
     
     work in progress 
+
+
+## Continuous Integration / Deployment   
