@@ -116,3 +116,7 @@ To get your hands dirty with the code, please install  :
 
 The bhat functional tests are using Mink - without selenium - the base_url value is set through both the development and testing dockers (php-fpm) and the value is set by default to the http://user-service-nginx-server/app_test.php  since the tests are run internally across the docker machines.
     
+    
+- Integration testing: 
+    
+    work in progress 
