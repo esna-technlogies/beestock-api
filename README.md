@@ -30,8 +30,6 @@ The service utilizes 5 separate yet dependent docker images :
 Development Environment  
 =========================
 
-## Development prerequisite
-
 To get your hands dirty with the code, please install  :
 
 - VirtualBox (the current version is tested with VirtualBox 5.1) :  https://virtualbox.org 
