@@ -51,8 +51,13 @@ class ForgotPasswordController extends Controller
 
         $user = $userService->getUserRepository()->findByUserName($userName);
 
-        $userService->getUser($user)->getSecurity()->issueForgotPasswordRequest();
+        $changeRequest = $userService->getUser($user)->getSecurity()->issueForgotPasswordRequest();
 
-        return new Response("",Response::HTTP_NO_CONTENT);
+        return new Response(
+            $this->get('user_service.response_serializer')
+                ->serialize(['passwordForgotRequest' => $changeRequest]),
+            Response::HTTP_CREATED
+        );
+
     }
 }

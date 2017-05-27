@@ -24,12 +24,18 @@ class ChangeRequestRepository extends DocumentRepository
      * @param int $resultsPerPage
      * @return mixed
      */
-    public function findAllChangeRequests(string $action, int $startPage, int $resultsPerPage) : QueryPaginationHandler
+    public function findNewChangeRequests(string $action = "", int $startPage, int $resultsPerPage) : QueryPaginationHandler
     {
         $queryPaginationHandler = new QueryPaginationHandler($startPage, $resultsPerPage);
 
-        $query = $this->createQueryBuilder()
-            ->field('action')->equals($action)
+        $queryBuilder = $this->createQueryBuilder();
+
+
+        if ($action != ""){
+            $queryBuilder->field('changeProcessorName')->equals($action);
+        }
+
+        $query = $queryBuilder->field('userNotified')->equals(false)
             ->sort('created')
             ->limit($queryPaginationHandler->getResultsPerPage())
             ->skip($queryPaginationHandler->getResultsToSkip())

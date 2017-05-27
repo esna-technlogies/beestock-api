@@ -5,6 +5,7 @@ namespace CommonServices\UserServiceBundle\Factory;
 use CommonServices\UserServiceBundle\Document\ChangeRequest;
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Repository\ChangeRequestRepository;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -56,7 +57,8 @@ class ChangeRequestFactory
         $changeRequest->setEventFiringTime(time());
         $changeRequest->setEventLifeTime(time() + ($eventLifeTime));
         $changeRequest->setEventName($eventName);
-        $changeRequest->setUuid($user->getUuid());
+        $changeRequest->setUuid(Uuid::uuid4()->toString());
+        $changeRequest->setUser($user->getUuid());
         $changeRequest->setVerificationCode($verificationCode);
         $changeRequest->setOldValue($oldValue);
         $changeRequest->setNewValue($newValue);

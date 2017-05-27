@@ -29,6 +29,16 @@ class UserMobileNumberListener implements EventSubscriberInterface
      */
     public function onUserMobileNumberChanged(Event $event)
     {
+        /** @var UserMobileNumberChangedEvent $event */
+        $userDocument = $event->getUser();
+
+        $mobileNumberDocument = $userDocument->getMobileNumber();
+        $mobileNumber = $mobileNumberDocument->getNumber();
+        $countryCode = $mobileNumberDocument->getCountryCode();
+
+        $user = $this->container->get('user_service.user_domain')->getUser($userDocument);
+        $user->getSettings()->setMobileNumberAlternatives($mobileNumber, $countryCode);
+
         //TODO : do something here
     }
 

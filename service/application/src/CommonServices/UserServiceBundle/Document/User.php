@@ -38,6 +38,15 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(object === null)")
  * )
  *
+ * @Hateoas\Relation(
+ *     "accountActivation",
+ *      href = @Hateoas\Route(
+ *          "user_service_account_activation_submit_link",
+ *          parameters = { "uuid" = "expr(object.getUuid())" }
+ *     ),
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(object === null)")
+ * )
+ *
  * @MongoDB\Document(
  *     collection="users",
  *     repositoryClass="CommonServices\UserServiceBundle\Repository\UserRepository",

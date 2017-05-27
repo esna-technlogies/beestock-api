@@ -2,6 +2,7 @@
 
 namespace CommonServices\UserServiceBundle\EventHandler\User;
 
+use CommonServices\UserServiceBundle\Event\User\Account\UserAccountActivatedEvent;
 use CommonServices\UserServiceBundle\Event\User\Account\UserAccountSuccessfullyCreatedEvent;
 use CommonServices\UserServiceBundle\Event\User\Account\UserAccountInitializedEvent;
 use CommonServices\UserServiceBundle\Security\Roles\UserRolesManager;
@@ -28,18 +29,19 @@ class UserAccountListener implements EventSubscriberInterface
     /**
      * @param Event $event
      */
-    public function onUserAccountCreated(Event $event)
+    public function onUserAccountSuccessfullyCreated(Event $event)
     {
         /** @var UserAccountSuccessfullyCreatedEvent $event */
         $userDocument = $event->getUser();
 
-        $this->container->get('user_service.email_provider')->send(
-            $userDocument->getEmail(),
-            $userDocument->getFirstName().', '.'Welcome to Beestock !',
-            'Account:registration.welcome.html.twig',
-            [
-                'name' => $userDocument->getFirstName()
-            ]
+        $user = $this->container->get('user_service.user_domain')->getUser($userDocument);
+        /// issue a change request event
+        $requestLifeTime = 24 * 1 * 60 * 60;
+        $user->getAccount()->issueAccountChangeRequest(
+            UserAccountSuccessfullyCreatedEvent::NAME,
+            $requestLifeTime,
+            '',
+            $event->getUser()->getEmail()
         );
     }
 
@@ -55,16 +57,40 @@ class UserAccountListener implements EventSubscriberInterface
     }
 
     /**
+     * @param Event $event
+     */
+    public function onUserAccountActivated(Event $event)
+    {
+        /** @var UserAccountSuccessfullyCreatedEvent $event */
+        $userDocument = $event->getUser();
+        $userService = $this->container->get('user_service.user_domain');
+        $userService->getUser($userDocument)->getSecurity()->updateUserRoles(UserRolesManager::getStandardActiveUserRoles());
+        $userService->getUserRepository()->save($userDocument);
+
+        /// issue a change request event
+        $requestLifeTime = 1 * 60 * 60;
+        $userService->getUser($userDocument)->getAccount()->issueAccountChangeRequest(
+            UserAccountActivatedEvent::NAME,
+            $requestLifeTime,
+            '',
+            ''
+        );
+    }
+
+    /**
      * @inheritdoc
      */
     public static function getSubscribedEvents()
     {
         return array(
             UserAccountSuccessfullyCreatedEvent::NAME => array(
-                array('onUserAccountCreated', 1),
+                array('onUserAccountSuccessfullyCreated', 1),
             ),
             UserAccountInitializedEvent::NAME => array(
                 array('onUserAccountInitialized', 1),
+            ),
+            UserAccountActivatedEvent::NAME => array(
+                array('onUserAccountActivated', 1),
             ),
         );
     }

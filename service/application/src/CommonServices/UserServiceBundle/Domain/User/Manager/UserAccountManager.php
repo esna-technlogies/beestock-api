@@ -2,6 +2,7 @@
 
 namespace CommonServices\UserServiceBundle\Domain\User\Manager;
 
+use CommonServices\UserServiceBundle\Document\ChangeRequest;
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Repository\UserRepository;
 use CommonServices\UserServiceBundle\Utility\Security\RandomCodeGenerator;
@@ -38,8 +39,10 @@ class UserAccountManager
      * @param int $requestLifeTime
      * @param $oldValue
      * @param $newValue
+     *
+     * @return ChangeRequest
      */
-    public function issueAccountChangeRequest(string $eventName, int $requestLifeTime, $oldValue = null, $newValue = null)
+    public function issueAccountChangeRequest(string $eventName, int $requestLifeTime, $oldValue = null, $newValue = null) : ChangeRequest
     {
         $changeRequestService = $this->container->get('user_service.change_request_domain');
         $verificationCode = RandomCodeGenerator::generateRandomVerificationString(6);
@@ -55,6 +58,8 @@ class UserAccountManager
         );
 
         $this->container->get('user_service.user_domain')->getDomainService()->createPendingAccountsChange(clone $accountChange);
+
+        return $accountChange;
     }
 
     /**

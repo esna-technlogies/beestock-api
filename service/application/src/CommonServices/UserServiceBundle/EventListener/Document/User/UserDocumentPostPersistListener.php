@@ -5,6 +5,7 @@ namespace CommonServices\UserServiceBundle\EventListener\Document\User;
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Event\User\Account\UserAccountSuccessfullyCreatedEvent;
 use CommonServices\UserServiceBundle\Event\User\Email\UserEmailAddedToAccountEvent;
+use CommonServices\UserServiceBundle\Event\User\MobileNumber\UserMobileNumberChangedEvent;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -41,8 +42,12 @@ class UserDocumentPostPersistListener
             $userCreatedEvent = new UserAccountSuccessfullyCreatedEvent($document);
             $eventDispatcher->dispatch(UserAccountSuccessfullyCreatedEvent::NAME, $userCreatedEvent);
 
+            $mobileNumberChangedEvent = new UserMobileNumberChangedEvent($document);
+            $eventDispatcher->dispatch(UserMobileNumberChangedEvent::NAME, $mobileNumberChangedEvent);
+
             $emailAddedToAccountEvent = new UserEmailAddedToAccountEvent($document, $document->getEmail());
             $eventDispatcher->dispatch(UserEmailAddedToAccountEvent::NAME, $emailAddedToAccountEvent);
+
         }
     }
 }

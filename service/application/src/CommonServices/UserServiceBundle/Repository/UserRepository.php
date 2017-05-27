@@ -118,10 +118,11 @@ class UserRepository extends DocumentRepository
 
     /**
      * @param $uuid
-     * @return null|object
+     * @return null|User
      * @throws NotFoundException
+     * @return User
      */
-    public function findByUuid($uuid)
+    public function findByUuid($uuid) : User
     {
         $user = parent::findOneBy(['uuid' => $uuid]);
 
@@ -140,9 +141,9 @@ class UserRepository extends DocumentRepository
      * @param string $userName
      *
      * @throws NotFoundException
-     * @return object | null
+     * @return User
      */
-    public function findByUserName(string $userName)
+    public function findByUserName(string $userName) : User
     {
         $user = null;
         // first try to login with email address

@@ -39,7 +39,5 @@ class SmsSender
             'PhoneNumber' => $internationalPhoneNumber
         ];
         $sqsServiceClient->publish($request);
-
-        sleep(1);
     }
 }

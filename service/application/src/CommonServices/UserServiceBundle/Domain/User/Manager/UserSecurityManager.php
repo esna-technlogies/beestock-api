@@ -17,7 +17,7 @@ class UserSecurityManager
     /**
      * @var User
      */
-    private $user;
+    private $userDocument;
     /**
      * @var UserRepository
      */
@@ -29,7 +29,7 @@ class UserSecurityManager
 
     public function __construct(User $user, UserRepository $userRepository, ContainerInterface $container)
     {
-        $this->user = $user;
+        $this->userDocument = $user;
         $this->userRepository = $userRepository;
         $this->container = $container;
     }
@@ -39,19 +39,38 @@ class UserSecurityManager
      */
     public function issueForgotPasswordRequest()
     {
-        $userDocument = $this->user;
-
-        $lastTimePasswordChangeRequest = $userDocument->getAccessInfo()->getLastPasswordRetrievalRequest();
+        $lastTimePasswordChangeRequest = $this->userDocument->getAccessInfo()->getLastPasswordRetrievalRequest();
 
         // current time - 10800 (seconds in 3 hours)
         if ($lastTimePasswordChangeRequest >= (time() - 60)) {
-            throw new InvalidArgumentException("A password retrieval request has been issued less than a minute ago ..",
-                400);
+            throw new InvalidArgumentException(
+                "A password retrieval request has been issued less than a minute ago ..",
+                400
+            );
         }
-        $eventDispatcher = $this->container->get('event_dispatcher');
 
-        $passwordChaneRequestedEvent = new UserPasswordRetrievalRequestedEvent($userDocument);
+        $user = $this->container->get('user_service.user_domain')->getUser($this->userDocument);
+        $changeRequestService = $this->container->get('user_service.change_request_domain');
+
+        // delete all previous password retrieval requests .. only one should be valid !
+        $changeRequestService->getDomainService()->deleteAllPreviousSimilarRequests(
+            $this->userDocument->getUuid(),
+            UserPasswordRetrievalRequestedEvent::NAME
+        );
+
+
+        /// issue a new change request of user password
+        $requestLifeTime = 1 * 60 * 60;
+        $changeRequest =  $user->getAccount()->issueAccountChangeRequest(
+            UserPasswordRetrievalRequestedEvent::NAME,
+            $requestLifeTime
+        );
+
+        $eventDispatcher = $this->container->get('event_dispatcher');
+        $passwordChaneRequestedEvent = new UserPasswordRetrievalRequestedEvent($this->userDocument);
         $eventDispatcher->dispatch(UserPasswordRetrievalRequestedEvent::NAME, $passwordChaneRequestedEvent);
+
+        return $changeRequest;
     }
 
 
@@ -64,8 +83,8 @@ class UserSecurityManager
         {
             $time = time();
         }
-        $this->user->getAccessInfo()->setLastPasswordRetrievalRequest($time);
-        $this->userRepository->save($this->user);
+        $this->userDocument->getAccessInfo()->setLastPasswordRetrievalRequest($time);
+        $this->userRepository->save($this->userDocument);
     }
 
     /**
@@ -73,7 +92,7 @@ class UserSecurityManager
      */
     public function updateUserRoles(array $roles)
     {
-        $this->user->getAccessInfo()->setRoles($roles);
+        $this->userDocument->getAccessInfo()->setRoles($roles);
     }
 
 }

@@ -39,10 +39,20 @@ class ChangeRequestSearchManager
      * @param int $limit
      * @return array
      */
-    public function getMostRecentRequests(string $action, $startPage = 1, int $limit = 10) : array
+    public function findNotificationRequests(string $action="", $startPage = 1, int $limit = 100) : array
     {
-        $queryPaginationHandler = $this->changeRequestRepository->findAllChangeRequests($action, $startPage, $limit);
+        $queryPaginationHandler = $this->changeRequestRepository->findNewChangeRequests($action, $startPage, $limit);
 
         return $queryPaginationHandler->getQueryResults();
+    }
+
+    /**
+     * @param string $user
+     *
+     * @return ChangeRequest | object
+     */
+    public function findUserActivationRequest(string $user) : ChangeRequest
+    {
+        return $this->changeRequestRepository->findOneBy(['user' => $user]);
     }
 }

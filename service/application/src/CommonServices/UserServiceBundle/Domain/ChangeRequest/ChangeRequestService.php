@@ -83,7 +83,43 @@ class ChangeRequestService
         foreach ($pendingRequests as $changeRequest)
         {
             $this->changeRequestRepository->save($changeRequest);
-            $eventBusService->publish($changeRequest);
+            //$eventBusService->publish($changeRequest);
+        }
+    }
+
+    /**
+     * removeExpiredRequests
+     */
+    public function removeExpiredRequests()
+    {
+        $requests = $this->changeRequestRepository->findAll();
+
+        /** @var ChangeRequest $request */
+        foreach ($requests as $request)
+        {
+            $expiryDate = $request->getEventLifeTime();
+
+            if(time() > $expiryDate)
+            {
+                $this->changeRequestRepository->delete($request);
+            }
+        }
+    }
+
+    /**
+     * @param string $user
+     * @param string $event
+     *
+     * removeExpiredRequests
+     */
+    public function deleteAllPreviousSimilarRequests(string $user, string $event)
+    {
+        $requests = $this->changeRequestRepository->findBy(['user' => $user, 'eventName' => $event]);
+
+        /** @var ChangeRequest $request */
+        foreach ($requests as $request)
+        {
+             $this->changeRequestRepository->delete($request);
         }
     }
 }

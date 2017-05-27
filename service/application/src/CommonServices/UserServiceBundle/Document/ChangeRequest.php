@@ -6,13 +6,24 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Exclude as Exclude;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Hateoas\Configuration\Annotation as Hateoas;
+
 
 /**
  * @package UserServiceBundle\Document
  *
+ * @Hateoas\Relation(
+ *     "self",
+ *      href = @Hateoas\Route(
+ *          "user_service_submit_verification_code",
+ *          parameters = { "uuid" = "expr(object.getUuid())" }
+ *     )
+ * )
+ *
  * @MongoDB\Document(
  *     repositoryClass="CommonServices\UserServiceBundle\Repository\ChangeRequestRepository"
  * )
+ *
  */
 class ChangeRequest
 {
@@ -29,6 +40,12 @@ class ChangeRequest
      * @MongoDB\Field(type="string")
      */
     protected $uuid;
+
+    /**
+     * @MongoDB\Field(type="string")
+     * @Assert\NotBlank()
+     */
+    protected $user;
 
     /**
      * @var \DateTime $created
@@ -71,20 +88,34 @@ class ChangeRequest
     /**
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
+     *
+     * @Exclude
      */
     protected $oldValue;
 
     /**
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
+     *
+     * @Exclude
      */
     protected $newValue;
 
     /**
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
+     *
+     * @Exclude
      */
     protected $verificationCode;
+
+    /**
+     * @MongoDB\Field(type="bool")
+     * @Assert\NotBlank()
+     *
+     * @Exclude
+     */
+    protected $userNotified  = false;
 
     /**
      * @return mixed
@@ -272,5 +303,49 @@ class ChangeRequest
     public function getLastChange()
     {
         return $this->lastChange;
+    }
+
+    /**
+     * Set UserNotified
+     *
+     * @param boolean $userNotified
+     * @return $this
+     */
+    public function setUserNotified($userNotified)
+    {
+        $this->userNotified = $userNotified;
+        return $this;
+    }
+
+    /**
+     * Get UserNotified
+     *
+     * @return boolean $userNotified
+     */
+    public function getUserNotified()
+    {
+        return $this->userNotified;
+    }
+
+    /**
+     * Set setUser
+     *
+     * @param string $user
+     * @return $this
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * Get lastChange
+     *
+     * @return string $user
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

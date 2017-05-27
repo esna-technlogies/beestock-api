@@ -64,6 +64,7 @@ class UserDomainService
     public function processPendingAccountsChanges()
     {
         $changeRequestService = $this->container->get('user_service.change_request_domain');
+
         $changeRequestService->getDomainService()->processPendingRequests(static::$pendingAccountsChanges);
         static::$pendingAccountsChanges = [];
     }

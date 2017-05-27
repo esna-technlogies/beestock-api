@@ -1,21 +1,24 @@
-<h3>Please Verify your email address at Beestock</h3>
+<h3>Here is how to activate your Beestock account</h3>
 
 Hi {{ name }}!
 
 <br/><br/>
 
 You recently used  {{ emailAddress }}  email to create an account at Beestock.
-<br/>
-We need to verify your email in order to activate your account.
 
 <br/>
 <br/>
+We need to verify your email in order to send you future notifications .
 <br/>
-Please use the following code to verify your account:  <b> {{ verificationCode }} </b>
+<br/>
+Please use the following code to activate your account:  <b>{{ verificationCode }}</b>
 <br/>
 <br/>
-or directly follow this link to  <a href="{{ verificationUrl }}">activate your account</a>.
-
+or click the following link to  <b><a href="{{ verificationUrl }}">activate your account</a></b> or copy the url to your browser.
+<br/>
+<br/>
+Both activation link and activation code are only valid within 24 hours of creating your account.
+<br/>
 <br/>
 
 {% include '@UserService/Emails/email.signature.html.twig' %}

@@ -7,7 +7,9 @@ use CommonServices\UserServiceBundle\Domain\ChangeRequest\ChangeRequestDomain;
 use CommonServices\UserServiceBundle\Domain\User\UserDomain;
 use CommonServices\UserServiceBundle\Event\User\Password\UserPasswordChangedEvent;
 use CommonServices\UserServiceBundle\Event\User\Password\UserPasswordRetrievalRequestedEvent;
+use CommonServices\UserServiceBundle\Event\User\Password\UserRandomPasswordGeneratedEvent;
 use CommonServices\UserServiceBundle\Exception\InvalidArgumentException;
+use CommonServices\UserServiceBundle\Utility\Security\RandomCodeGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -53,14 +55,8 @@ class UserPasswordListener implements EventSubscriberInterface
     {
         /** @var UserPasswordRetrievalRequestedEvent $event */
         $userDocument = $event->getUserDocument();
-        $user = $this->userManagerService->getUser($userDocument);
 
-        /// issue a change request event
-        $requestLifeTime = 1 * 60 * 60;
-        $user->getAccount()->issueAccountChangeRequest(
-            UserPasswordRetrievalRequestedEvent::NAME,
-            $requestLifeTime
-        );
+        $user = $this->userManagerService->getUser($userDocument);
         $user->getSecurity()->updatePasswordRetrievalLimits(time());
     }
 
@@ -85,6 +81,34 @@ class UserPasswordListener implements EventSubscriberInterface
     }
 
     /**
+     * @param Event $event
+     *
+     * @throws InvalidArgumentException
+     */
+    public function onUserRandomPasswordGenerated(Event $event)
+    {
+        /** @var UserRandomPasswordGeneratedEvent $event */
+        $accessInfo = $event->getUserDocument()->getAccessInfo();
+
+        /** @var AccessInfo $accessInfo */
+        $userPassword = RandomCodeGenerator::generateRandomVerificationString(6);
+        $accessInfo->setPassword($userPassword);
+
+        $this->userManagerService->getUserRepository()->save($event->getUserDocument());
+
+        /// issue a change request event
+        $requestLifeTime = 1 * 60 * 60;
+
+        $userService = $this->container->get('user_service.user_domain');
+        $userService->getUser($event->getUserDocument())->getAccount()->issueAccountChangeRequest(
+            UserRandomPasswordGeneratedEvent::NAME,
+            $requestLifeTime,
+            'N/A',
+            $userPassword
+        );
+    }
+
+    /**
      * @inheritdoc
      */
     public static function getSubscribedEvents()
@@ -95,6 +119,9 @@ class UserPasswordListener implements EventSubscriberInterface
             ),
             UserPasswordChangedEvent::NAME => array(
                 array('onUserPasswordChanged', 1),
+            ),
+            UserRandomPasswordGeneratedEvent::NAME => array(
+                array('onUserRandomPasswordGenerated', 1),
             ),
         );
     }

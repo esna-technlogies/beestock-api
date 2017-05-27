@@ -3,6 +3,7 @@
 namespace CommonServices\UserServiceBundle\EventListener\Document\User;
 
 use CommonServices\UserServiceBundle\Document\User;
+use CommonServices\UserServiceBundle\Event\User\Email\UserEmailAddedToAccountEvent;
 use CommonServices\UserServiceBundle\Event\User\MobileNumber\UserMobileNumberChangeRequestedEvent;
 use CommonServices\UserServiceBundle\Event\User\Account\UserAccountInitializedEvent;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
@@ -45,9 +46,6 @@ class UserDocumentPrePersistListener
 
             $nameChangedEvent = new UserNameChangedEvent($document);
             $eventDispatcher->dispatch(UserNameChangedEvent::NAME, $nameChangedEvent);
-
-            $mobileNumberChangedEvent = new UserMobileNumberChangeRequestedEvent($document);
-            $eventDispatcher->dispatch(UserMobileNumberChangeRequestedEvent::NAME, $mobileNumberChangedEvent);
 
             $passwordChangedEvent = new UserPasswordChangedEvent($document->getAccessInfo());
             $eventDispatcher->dispatch(UserPasswordChangedEvent::NAME, $passwordChangedEvent);

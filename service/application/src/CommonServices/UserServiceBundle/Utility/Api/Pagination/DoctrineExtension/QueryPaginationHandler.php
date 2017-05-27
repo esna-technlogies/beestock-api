@@ -33,7 +33,7 @@ class QueryPaginationHandler
     /**
      * @var array
      */
-    protected $queryResults;
+    protected $queryResults = [];
 
     /**
      * @var integer

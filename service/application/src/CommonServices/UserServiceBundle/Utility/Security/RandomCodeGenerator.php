@@ -25,5 +25,4 @@ class RandomCodeGenerator
 
         return $randomString;
     }
-
 }

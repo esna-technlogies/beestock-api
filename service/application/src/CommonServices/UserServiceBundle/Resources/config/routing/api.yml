@@ -37,15 +37,20 @@ user_service_suspend_user:
 
 
 ## Change Requests
-user_service_submit_verification_code_of_change_request:
+user_service_submit_verification_code:
     methods: [PATCH]
-    path:     /changeRequest/{uuid}
+    path:     /changeRequest/{uuid}/verify
     defaults: { _controller: UserServiceBundle:ChangeRequest/ChangeRequest:verifyRequest}
 
-user_service_execute_verification_request:
+user_service_account_activation_submit_link:
+    methods: [PATCH]
+    path:     /changeRequest/{uuid}/activate-account
+    defaults: { _controller: UserServiceBundle:ChangeRequest/ChangeRequest:activateUserRequest}
+
+user_service_execute_verification_request_via_url:
     methods: [GET]
-    path:     /changeRequest/{uuid}
-    defaults: { _controller: UserServiceBundle:ChangeRequest/ChangeRequest:verifyRequest}
+    path:     /changeRequest/{uuid}/verificationCode/{code}
+    defaults: { _controller: UserServiceBundle:ChangeRequest/ChangeRequest:verifyLinkRequest}
 
 
 
@@ -83,3 +88,10 @@ user_service_get_user_phone_number:
     methods: [GET]
     path:     /user/{uuid}/mobileNumber
     defaults: { _controller: UserServiceBundle:User/UserMobileNumber:getUserPhoneNumber }
+
+
+## WebHook resources
+user_service_email_and_sms_sender:
+    methods: [GET]
+    path:     /webhook/send
+    defaults: { _controller: UserServiceBundle:WebHook/Publisher:send }
