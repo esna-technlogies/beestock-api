@@ -33,5 +33,6 @@ class ResponseListener
         }
 
         $event->getResponse()->headers->set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
+        $event->getResponse()->headers->set("Access-Control-Allow-Origin", "*");
     }
 }
