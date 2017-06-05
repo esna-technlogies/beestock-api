@@ -32,7 +32,7 @@ class ResponseListener
             $event->getResponse()->headers->set('Content-Type', 'application/'.$this->serviceContainer->getParameter("api_format"));
         }
 
-        $event->getResponse()->headers->set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
+        $event->getResponse()->headers->set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE");
         $event->getResponse()->headers->set("Access-Control-Allow-Origin", "*");
     }
 }
