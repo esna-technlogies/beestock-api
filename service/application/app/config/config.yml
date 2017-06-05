@@ -156,7 +156,7 @@ nelmio_cors:
         '^/':
             origin_regex: true
             allow_origin: ['^http://localhost:[0-9]+', '^http://beesstock.com:[0-9]+', 'http://beesstock.com']
-            allow_headers: ['Authorization', 'X-Requested-With', 'Content-Type', 'Accept', 'Origin', 'X-Custom-Auth']
+            allow_headers: ['*']
             allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS']
             max_age: 3600
 
