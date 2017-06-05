@@ -144,7 +144,7 @@ lexik_jwt_authentication:
 nelmio_cors:
     defaults:
         allow_credentials: true
-        allow_origin: ['localhost', 'beesstock.com']
+        allow_origin: ['^http://localhost:[0-9]+', '^http://beesstock.com:[0-9]+', 'http://beesstock.com']
         allow_headers: ['*']
         allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS']
         expose_headers: []
@@ -155,7 +155,7 @@ nelmio_cors:
     paths:
         '^/':
             origin_regex: true
-            allow_origin: ['^http://localhost:[0-9]+', 'beesstock.com']
+            allow_origin: ['^http://localhost:[0-9]+', '^http://beesstock.com:[0-9]+', 'http://beesstock.com']
             allow_headers: ['Authorization', 'X-Requested-With', 'Content-Type', 'Accept', 'Origin', 'X-Custom-Auth']
             allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS']
             max_age: 3600
