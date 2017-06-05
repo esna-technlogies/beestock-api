@@ -1,10 +1,14 @@
+photo:
+    resource: "@PhotoBundle/Resources/config/routing.yml"
+    prefix:   /api/photo-service/
+
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /documentation/
 
 user_service_api:
     resource: "@UserServiceBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /api/user-service/
 
 app:
     resource: "@AppBundle/Controller/"

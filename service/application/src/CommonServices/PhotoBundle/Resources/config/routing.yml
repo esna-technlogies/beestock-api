@@ -1,0 +1,4 @@
+user_service_api:
+    resource: "@PhotoBundle/Resources/config/routing/api.yml"
+    prefix:   /
+

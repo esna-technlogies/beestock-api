@@ -6,7 +6,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 /**
  * Class AbstractProcessor
- * @package CommonServices\UserServiceBundle\Processor
+ * @package CommonServices\UserServiceBundle\Form\Processor
  */
 class AbstractProcessor
 {

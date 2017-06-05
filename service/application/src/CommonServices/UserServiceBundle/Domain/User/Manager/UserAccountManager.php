@@ -3,9 +3,11 @@
 namespace CommonServices\UserServiceBundle\Domain\User\Manager;
 
 use CommonServices\UserServiceBundle\Document\ChangeRequest;
+use CommonServices\UserServiceBundle\Document\StorageBucket;
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Repository\UserRepository;
 use CommonServices\UserServiceBundle\Utility\Security\RandomCodeGenerator;
+use Jobby\Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -60,6 +62,43 @@ class UserAccountManager
         $this->container->get('user_service.user_domain')->getDomainService()->createPendingAccountsChange(clone $accountChange);
 
         return $accountChange;
+    }
+
+    /**
+     * Deletes user account
+     */
+    public function createUserBucket()
+    {
+        // create user storage bucket
+        $storage = $this->container->get('aws.s3.file_storage');
+        $bucketName = 'beestock-'.time().'-'.$this->user->getUuid();
+
+        try{
+
+            /** @var \Aws\Result $results */
+            $results = $storage->createBucket($bucketName);
+
+            $bucket = new StorageBucket();
+            $bucket->setBucketUrl($results->get('Location'));
+            $bucket->setBucketId($bucketName);
+
+            $this->user->setStorageBucket($bucket);
+            $this->userRepository->save($this->user);
+        }
+        catch (\Exception $e)
+        {
+            throw new \Exception("Couldn't create user bucket !", 500);
+        }
+    }
+
+    /**
+     * Creates a new file upload policy for the given user
+     */
+    public function newFileUploadPolicy()
+    {
+        $storage = $this->container->get('aws.s3.file_storage');
+
+        return $storage->getFileUploadPolicy($this->user->getStorageBucket()->getBucketId());
     }
 
     /**

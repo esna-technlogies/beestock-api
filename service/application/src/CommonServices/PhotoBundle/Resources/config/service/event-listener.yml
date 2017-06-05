@@ -1,0 +1,22 @@
+services:
+    ## business events
+#    photo_service.user_name_changed_subscriber:
+#        class:   CommonServices\PhotoBundle\EventHandler\User\UserNameChangedListener
+#        arguments: ["@service_container"]
+#        tags:
+#            - { name: kernel.event_subscriber }
+#
+#    photo_service.user_mobile_number_changed_subscriber:
+#        class:   CommonServices\PhotoBundle\EventHandler\User\UserMobileNumberListener
+#        arguments: ["@service_container"]
+#        tags:
+#            - { name: kernel.event_subscriber }
+#
+#    photo_service.user_account_created_subscriber:
+#        class:   CommonServices\PhotoBundle\EventHandler\User\UserAccountListener
+#        arguments:
+#            - "@service_container"
+#            - '@twig'
+#        tags:
+#            - { name: kernel.event_subscriber }
+

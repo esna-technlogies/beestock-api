@@ -23,14 +23,13 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
             new CommonServices\UserServiceBundle\UserServiceBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new Maxmind\Bundle\GeoipBundle\MaxmindGeoipBundle(),
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
-            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new CommonServices\PhotoBundle\PhotoBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
@@ -53,6 +52,16 @@ class AppKernel extends Kernel
     {
         return dirname(__DIR__).'/var/cache/'.$this->getEnvironment();
     }
+
+/*    public function getCacheDir()
+    {
+        if (in_array($this->getEnvironment(), ['test','dev'])) {
+            return '/tmp/sfcache/'.$this->getEnvironment();
+        }
+
+        return parent::getCacheDir();
+    }*/
+
 
     public function getLogDir()
     {

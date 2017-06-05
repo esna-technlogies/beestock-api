@@ -127,6 +127,11 @@ class User
     protected $language;
 
     /**
+     * @MongoDB\EmbedOne(targetDocument="CommonServices\UserServiceBundle\Document\StorageBucket")
+     */
+    protected $storageBucket;
+
+    /**
      * @MongoDB\EmbedOne(targetDocument="CommonServices\UserServiceBundle\Document\PhoneNumber")
      */
     protected $mobileNumber;
@@ -476,5 +481,21 @@ class User
     public function __construct()
     {
         $this->setUuid(Uuid::uuid4()->toString());
+    }
+
+    /**
+     * @return StorageBucket
+     */
+    public function getStorageBucket() : StorageBucket
+    {
+        return $this->storageBucket;
+    }
+
+    /**
+     * @param mixed $storageBucket
+     */
+    public function setStorageBucket($storageBucket)
+    {
+        $this->storageBucket = $storageBucket;
     }
 }

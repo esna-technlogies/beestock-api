@@ -1,0 +1,32 @@
+imports:
+    - { resource: service/document-listener.yml }
+    - { resource: service/event-listener.yml }
+    - { resource: service/exception.yml }
+    - { resource: service/factory.yml }
+    - { resource: service/parameter-converter.yml }
+    - { resource: service/processor.yml }
+    - { resource: service/provider.yml }
+    - { resource: service/rabbitmq.yml }
+    - { resource: service/request-listener.yml }
+    - { resource: service/response-listener.yml }
+    - { resource: service/validator.yml }
+
+services:
+    ## Core business domains
+    photo_service.photo_domain:
+        class: CommonServices\PhotoBundle\Domain\Photo\PhotoDomain
+        shared: false
+        arguments: ["@service_container",
+                    "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:Photo')"]
+
+    ## AWS S3 storage
+    photo_service.aws_s3.client:
+        class: Aws\S3\S3Client
+        factory: [Aws\S3\S3Client, 'factory']
+        arguments:
+            -
+                version: latest
+                region: %aws_region%
+                credentials:
+                    key: %aws_access_key%
+                    secret: %aws_access_secret%

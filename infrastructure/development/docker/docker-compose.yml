@@ -1,4 +1,4 @@
-version: '2.0'
+version: '3.0'
 services:
   nginx-server:
       build: ./nginx/
@@ -8,8 +8,8 @@ services:
       volumes:
           - ../../../service:/service
           - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
-      logging:
-        driver: syslog
+      #logging:
+      #  driver: syslog
 
   mongodb:
       build: ./mongodb/
@@ -24,21 +24,21 @@ services:
       ports:
           - "9000:9000"
       container_name: user-service-php-fpm
-      mem_limit: 2048M
+      environment:
+          XDEBUG_CONFIG: remote_host=192.168.178.139
       volumes:
           - ../../../service:/service
-      logging:
-        driver: syslog
+      #logging:
+      #  driver: syslog
 
-  php-cli:
-      build: ./php-cli/
-      container_name: user-service-php-cli
-      mem_limit: 2048M
-      volumes:
-          - ../../../service:/service
-      logging:
-        driver: syslog
-
+ # php-cli:
+ #     build: ./php-cli/
+ #     container_name: user-service-php-cli
+ #     mem_limit: 2048M
+ #     volumes:
+ #         - ../../../service:/service
+ #     logging:
+ #       driver: syslog
 
 
   #rabbitmq:

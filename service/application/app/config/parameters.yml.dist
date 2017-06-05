@@ -31,6 +31,7 @@ parameters:
     # aws settings
     aws_access_key: "aws_access_key"
     aws_access_secret: "aws_access_secret"
+    aws_region: us-west-2
 
     # rabbit-mq settings
     rabbitmq_host: 'rabbitmq-management'

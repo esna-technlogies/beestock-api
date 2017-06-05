@@ -1,0 +1,19 @@
+services:
+    ## Document prePersist, postPersist, preUpdate events
+    photo_service.photo_pre_persisit_listener:
+        class:   CommonServices\PhotoBundle\EventListener\Document\Photo\PhotoDocumentPrePersistListener
+        arguments: ["@service_container"]
+        tags:
+            -  { name: doctrine_mongodb.odm.event_listener, event: prePersist }
+
+    photo_service.photo_post_persisit_listener:
+        class:   CommonServices\PhotoBundle\EventListener\Document\Photo\PhotoDocumentPostPersistListener
+        arguments: ["@service_container"]
+        tags:
+            -  { name: doctrine_mongodb.odm.event_listener, event: postPersist }
+
+    photo_service.photo_per_update_listener:
+        class:   CommonServices\PhotoBundle\EventListener\Document\Photo\PhotoDocumentPreUpdateListener
+        arguments: ["@service_container"]
+        tags:
+            -  { name: doctrine_mongodb.odm.event_listener, event: preUpdate }

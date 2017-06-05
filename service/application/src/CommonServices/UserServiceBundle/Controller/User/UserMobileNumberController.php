@@ -30,7 +30,6 @@ class UserMobileNumberController extends Controller
      *    {
      *        "name"="Authorization",
      *        "description"="Bearer token",
-     *        "required"=true,
      *    }
      *  },
      *  requirements={

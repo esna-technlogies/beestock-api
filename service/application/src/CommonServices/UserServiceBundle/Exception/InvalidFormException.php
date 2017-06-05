@@ -2,11 +2,8 @@
 
 namespace CommonServices\UserServiceBundle\Exception;
 
-use Geocoder\Exception\HttpError;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormErrorIterator;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

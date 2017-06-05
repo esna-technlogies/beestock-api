@@ -15,14 +15,14 @@ security:
 
     firewalls:
         login:
-            pattern:  ^/api/security/login
+            pattern:  ^/api/user-service/security/login
             stateless: true
             anonymous: true
             provider: webservice
             form_login:
                 username_parameter: userName
                 password_parameter: password
-                check_path: /api/security/login
+                check_path: /api/user-service/security/login
                 require_previous_session: false
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
@@ -37,13 +37,14 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
     access_control:
-        - { path: ^/api/webhook/send,                     role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/changeRequest,                    role: IS_AUTHENTICATED_ANONYMOUSLY } ## login
-        - { path: ^/api/security/forgotPassword,          role: IS_AUTHENTICATED_ANONYMOUSLY } ## login
-        - { path: ^/api/security/login,                   role: IS_AUTHENTICATED_ANONYMOUSLY } ## login
-        - { path: ^/api/info,                             role: IS_AUTHENTICATED_ANONYMOUSLY } ## login
-        - { path: ^/api/user,                             role: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST] } ## login
-        - { path: ^/api/,                                 role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/photo-service/photo$,                          role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/user-service/webhook/send,                     role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/user-service/changeRequest,                    role: IS_AUTHENTICATED_ANONYMOUSLY } ## login
+        - { path: ^/api/user-service/security/forgotPassword,          role: IS_AUTHENTICATED_ANONYMOUSLY } ## login
+        - { path: ^/api/user-service/security/login,                   role: IS_AUTHENTICATED_ANONYMOUSLY } ## login
+        - { path: ^/api/user-service/info,                             role: IS_AUTHENTICATED_ANONYMOUSLY } ## login
+        - { path: ^/api/user-service/user,                             role: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST] } ## login
+        - { path: ^/api/,                                              role: IS_AUTHENTICATED_FULLY }
 
 
 

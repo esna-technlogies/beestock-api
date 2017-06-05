@@ -33,7 +33,6 @@ class UserController extends Controller
      *    {
      *        "name"="Authorization",
      *        "description"="Bearer token",
-     *        "required"=true,
      *    }
      *  },
      *  filters={
@@ -84,59 +83,68 @@ class UserController extends Controller
      *  section="User Account",
      *  description="Create a new user",
      *  output="Symfony\Component\HttpFoundation\Response",
-     *  requirements={
+     *  parameters={
      *      {
      *          "name"="firstName",
      *          "dataType"="string",
-     *          "requirement"="^[a-zA-Z]*$",
+     *          "required"=true,
+     *          "format"="^[a-zA-Z]*$",
      *          "description"="First name of the user"
      *      },
      *      {
      *          "name"="lastName",
      *          "dataType"="string",
-     *          "requirement"="^[a-zA-Z]*$",
+     *          "required"=true,
+     *          "format"="^[a-zA-Z]*$",
      *          "description"="Last name of the user"
      *      },
      *      {
      *          "name"="email",
      *          "dataType"="string",
-     *          "requirement"="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
+     *          "required"=true,
+     *          "format"="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
      *          "description"="a valid email address"
      *      },
      *      {
      *          "name"="language",
      *          "dataType"="string",
-     *          "requirement"="Unicode language identifier (e.g. ar or en_US )",
+     *          "required"=true,
+     *          "format"="Unicode language identifier (e.g. ar or en_US )",
      *          "description"="a Unicode language identifier (RFC 3066)"
      *      },
      *      {
      *          "name"="country",
      *          "dataType"="string",
-     *          "requirement"="^[A-Z]{2}$",
+     *          "required"=true,
+     *          "format"="^[A-Z]{2}$",
      *          "description"="ISO code of the country e.g.: US or GB"
      *      },
      *      {
      *          "name"="termsAccepted",
      *          "dataType"="boolean",
-     *          "requirement"="^a|^b",
+     *          "required"=true,
+     *          "format"="^a|^b",
      *          "description"="Accepted terms of the website, the value must be 1 for the request to be accepted"
      *      },
      *      {
      *          "name"="accessInfo[password]",
      *          "dataType"="string",
-     *          "requirement"="[.]{0,16}",
+     *          "required"=true,
+     *          "format"="[.]{0,16}",
      *          "description"="the password provided by the user, minimum of 6 digits, max 16 digits"
      *      },
      *      {
      *          "name"="mobileNumber[number]",
      *          "dataType"="string",
-     *          "requirement"="^(\+\d{1,3}[- ]?)?\d{10}$",
+     *          "required"=true,
+     *          "format"="^(\+\d{1,3}[- ]?)?\d{10}$",
      *          "description"="Mobile number of the user, must be a valid mobile number"
      *      },
      *      {
      *          "name"="mobileNumber[countryCode]",
      *          "dataType"="string",
-     *          "requirement"="^[A-Z]{2}$",
+     *          "required"=true,
+     *          "format"="^[A-Z]{2}$",
      *          "description"="ISO code of the mobile number eg.:  US or GB"
      *      }
      *  },
@@ -178,7 +186,6 @@ class UserController extends Controller
      *    {
      *        "name"="Authorization",
      *        "description"="Bearer token",
-     *        "required"=true,
      *    }
      *  },
      *  requirements={
@@ -229,7 +236,6 @@ class UserController extends Controller
      *    {
      *        "name"="Authorization",
      *        "description"="Bearer token",
-     *        "required"=true,
      *    }
      *  },
      *  requirements={
@@ -244,63 +250,64 @@ class UserController extends Controller
      *      {
      *          "name"="firstName",
      *          "dataType"="string",
-     *          "required"="true",
+     *          "requirement"="true",
+     *          "required"= true,
      *          "format"="^[a-zA-Z]*$",
      *          "description"="First name of the user"
      *      },
      *      {
      *          "name"="lastName",
      *          "dataType"="string",
-     *          "required"="true",
+     *          "required"= true,
      *          "format"="^[a-zA-Z]*$",
      *          "description"="Last name of the user"
      *      },
      *      {
      *          "name"="email",
      *          "dataType"="string",
-     *          "required"="true",
+     *          "required"= true,
      *          "format"="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
      *          "description"="a valid email address"
      *      },
      *      {
      *          "name"="language",
      *          "dataType"="string",
-     *          "required"="true",
+     *          "required"= true,
      *          "format"="Unicode language identifier (e.g. ar or en_US )",
      *          "description"="a Unicode language identifier (RFC 3066)"
      *      },
      *      {
      *          "name"="country",
      *          "dataType"="string",
-     *          "required"="true",
+     *          "required"= true,
      *          "format"="^[A-Z]{2}$",
      *          "description"="ISO code of the country e.g.: US or GB"
      *      },
      *      {
      *          "name"="termsAccepted",
      *          "dataType"="boolean",
-     *          "required"="true",
+     *          "required"= true,
      *          "format"="^a|^b",
      *          "description"="Accepted terms of the website, the value must be 1 for the request to be accepted"
      *      },
      *      {
      *          "name"="accessInfo[password]",
      *          "dataType"="string",
-     *          "required"="true",
+     *          "required"= true,
      *          "format"="[.]{0,16}",
      *          "description"="the password provided by the user, minimum of 6 digits, max 16 digits"
      *      },
      *      {
      *          "name"="mobileNumber[number]",
      *          "dataType"="string",
-     *          "required"="true",
+     *          "required"= true,
      *          "format"="^(\+\d{1,3}[- ]?)?\d{10}$",
      *          "description"="Mobile number of the user, must be a valid mobile number"
      *      },
      *      {
      *          "name"="mobileNumber[countryCode]",
      *          "dataType"="string",
-     *          "required"="true",
+     *          "required"= true,
      *          "format"="^[A-Z]{2}$",
      *          "description"="ISO code of the mobile number eg.:  US or GB"
      *      }
@@ -349,7 +356,6 @@ class UserController extends Controller
      *    {
      *        "name"="Authorization",
      *        "description"="Bearer token",
-     *        "required"=true,
      *    }
      *  },
      *  requirements={
@@ -364,63 +370,63 @@ class UserController extends Controller
      *      {
      *          "name"="firstName",
      *          "dataType"="string",
-     *          "required"="false",
+     *          "required"= true,
      *          "format"="^[a-zA-Z]*$",
      *          "description"="First name of the user"
      *      },
      *      {
      *          "name"="lastName",
      *          "dataType"="string",
-     *          "required"="false",
+     *          "required"= true,
      *          "format"="^[a-zA-Z]*$",
      *          "description"="Last name of the user"
      *      },
      *      {
      *          "name"="email",
      *          "dataType"="string",
-     *          "required"="false",
+     *          "required"= true,
      *          "format"="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
      *          "description"="a valid email address"
      *      },
      *      {
      *          "name"="language",
      *          "dataType"="string",
-     *          "required"="false",
+     *          "required"= true,
      *          "format"="Unicode language identifier (e.g. ar or en_US )",
      *          "description"="a Unicode language identifier (RFC 3066)"
      *      },
      *      {
      *          "name"="country",
      *          "dataType"="string",
-     *          "required"="false",
+     *          "required"= true,
      *          "format"="^[A-Z]{2}$",
      *          "description"="ISO code of the country e.g.: US or GB"
      *      },
      *      {
      *          "name"="termsAccepted",
      *          "dataType"="boolean",
-     *          "required"="false",
+     *          "required"= true,
      *          "format"="^a|^b",
      *          "description"="Accepted terms of the website, the value must be 1 for the request to be accepted"
      *      },
      *      {
      *          "name"="accessInfo[password]",
      *          "dataType"="string",
-     *          "required"="false",
+     *          "required"= true,
      *          "format"="[.]{0,16}",
      *          "description"="the password provided by the user, minimum of 6 digits, max 16 digits"
      *      },
      *      {
      *          "name"="mobileNumber[number]",
      *          "dataType"="string",
-     *          "required"="false",
+     *          "required"= true,
      *          "format"="^(\+\d{1,3}[- ]?)?\d{10}$",
      *          "description"="Mobile number of the user, must be a valid mobile number"
      *      },
      *      {
      *          "name"="mobileNumber[countryCode]",
      *          "dataType"="string",
-     *          "required"="false",
+     *          "required"= true,
      *          "format"="^[A-Z]{2}$",
      *          "description"="ISO code of the mobile number eg.:  US or GB"
      *      }
@@ -454,7 +460,6 @@ class UserController extends Controller
      *    {
      *        "name"="Authorization",
      *        "description"="Bearer token",
-     *        "required"=true,
      *    }
      *  },
      *  requirements={
@@ -502,7 +507,6 @@ class UserController extends Controller
      *    {
      *        "name"="Authorization",
      *        "description"="Bearer token",
-     *        "required"=true,
      *    }
      *  },
      *  requirements={

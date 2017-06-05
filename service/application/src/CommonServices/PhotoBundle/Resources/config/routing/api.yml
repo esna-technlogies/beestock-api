@@ -1,0 +1,73 @@
+
+## Photo resource
+photo_service_file_upload_policy:
+    methods: [GET]
+    path:     /file/{uuid}
+    defaults: { _controller: PhotoBundle:FileStorage:uploadPolicy }
+
+## Photo resource
+photo_service_post_photo:
+    methods: [POST]
+    path:     /photo
+    defaults: { _controller: PhotoBundle:Photo:newPhoto }
+
+photo_service_list_photos:
+    methods: [GET]
+    path:     /photo
+    defaults: { _controller: PhotoBundle:Photo:list}
+
+photo_service_get_photo:
+    methods: [GET]
+    path:     /photo/{uuid}
+    defaults: { _controller: PhotoBundle:Photo:list }
+
+photo_service_update_photo:
+    methods: [PUT]
+    path:     /photo/{uuid}
+    defaults:
+    defaults: { _controller: PhotoBundle:Photo:list }
+
+photo_service_patch_photo:
+    methods: [PATCH]
+    path:     /photo/{uuid}
+    defaults:
+    defaults: { _controller: PhotoBundle:Photo:list }
+
+
+
+
+## Photo categories
+photo_service_list_categories:
+    methods: [GET]
+    path:     /category
+    defaults: { _controller: PhotoBundle:Category:list}
+
+photo_service_get_category:
+    methods: [GET]
+    path:     /category/{uuid}
+    defaults: { _controller: PhotoBundle:Category:list }
+
+photo_service_post_category:
+    methods: [POST]
+    path:     /category
+    defaults:
+    defaults: { _controller: PhotoBundle:Category:list }
+
+
+
+## Photo Lightbox
+photo_service_list_lightboxes:
+    methods: [GET]
+    path:     /category
+    defaults: { _controller: PhotoBundle:Lightbox:list}
+
+photo_service_get_lightbox:
+    methods: [GET]
+    path:     /category/{uuid}
+    defaults: { _controller: PhotoBundle:Lightbox:list }
+
+photo_service_post_new_lightbox:
+    methods: [POST]
+    path:     /category
+    defaults:
+    defaults: { _controller: PhotoBundle:Lightbox:list }

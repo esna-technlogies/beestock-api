@@ -1,0 +1,5 @@
+services:
+    ## Factory Services
+    photo_service.factory.photo_factory:
+        class: CommonServices\PhotoBundle\Factory\PhotoFactory
+        arguments: ["@service_container" , "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:Photo')"]

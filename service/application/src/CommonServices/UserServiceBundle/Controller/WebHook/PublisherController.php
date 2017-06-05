@@ -137,6 +137,8 @@ class PublisherController extends Controller
 
             if(UserAccountSuccessfullyCreatedEvent::NAME === $eventName)
             {
+                $userService->getUser($user)->getAccount()->createUserBucket();
+
                 $message = 'Your account activation code is :'.PHP_EOL.$verificationCode;
                 $smsSender->send(
                     $message,
