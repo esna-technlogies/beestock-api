@@ -57,7 +57,7 @@ class FileStorageController extends Controller
 
         $userDomain   = $this->get('user_service.user_domain');
         $userManager  = $userDomain->getUser($user);
-        $uploadPolicy = $userManager->getAccount()->newFileUploadPolicy();
+        $uploadPolicy = $userManager->getAccount()->newFileUploadPolicy('uploads');
 
         $formAttributes = $uploadPolicy->getFormAttributes();
         $formInputs     = $uploadPolicy->getFormInputs();

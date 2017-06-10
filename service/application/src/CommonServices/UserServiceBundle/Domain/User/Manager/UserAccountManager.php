@@ -2,6 +2,7 @@
 
 namespace CommonServices\UserServiceBundle\Domain\User\Manager;
 
+use Aws\S3\PostObjectV4;
 use CommonServices\UserServiceBundle\Document\ChangeRequest;
 use CommonServices\UserServiceBundle\Document\StorageBucket;
 use CommonServices\UserServiceBundle\Document\User;
@@ -93,12 +94,14 @@ class UserAccountManager
 
     /**
      * Creates a new file upload policy for the given user
+     * @param string $directory
+     * @return PostObjectV4
      */
-    public function newFileUploadPolicy()
+    public function newFileUploadPolicy(string $directory) : PostObjectV4
     {
         $storage = $this->container->get('aws.s3.file_storage');
 
-        return $storage->getFileUploadPolicy($this->user->getStorageBucket()->getBucketId());
+        return $storage->getFileUploadPolicy($this->user->getStorageBucket()->getBucketId(), $directory);
     }
 
     /**
