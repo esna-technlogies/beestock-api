@@ -10,7 +10,9 @@ use CommonServices\UserServiceBundle\Event\User\Email\UserEmailAddedToAccountEve
 use CommonServices\UserServiceBundle\Event\User\MobileNumber\UserMobileNumberChangeRequestedEvent;
 use CommonServices\UserServiceBundle\Event\User\Password\UserPasswordRetrievalRequestedEvent;
 use CommonServices\UserServiceBundle\Event\User\Password\UserRandomPasswordGeneratedEvent;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -20,6 +22,20 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class PublisherController extends Controller
 {
+    /**
+     * This end point runs pending cron jobs (sends emails, SMSs, runs pending processes)
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *  section="Web Hooks",
+     *  description="This end point runs pending cron jobs (sends emails, SMSs, runs pending processes)",
+     *  output="Symfony\Component\HttpFoundation\Response",
+     *  tags={"stable"},
+     *  statusCodes={
+     *         201="Returned when the cron jobs have been run successfully",
+     *  }
+     * )
+     */
     public function sendAction()
     {
 
@@ -189,6 +205,20 @@ class PublisherController extends Controller
         return new Response("", Response::HTTP_ACCEPTED);
     }
 
+    /**
+     * Cleans and removes old and expired pending requests and user notifications
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *  section="Web Hooks",
+     *  description="Cleans and removes old and expired pending requests and user notifications",
+     *  output="Symfony\Component\HttpFoundation\Response",
+     *  tags={"stable"},
+     *  statusCodes={
+     *         201="Returned when the cron jobs have been run successfully",
+     *  }
+     * )
+     */
 
     public function cleanAction()
     {

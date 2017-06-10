@@ -87,7 +87,7 @@ class UserAccountManager
         }
         catch (\Exception $e)
         {
-            throw new \Exception("Couldn't create user bucket !", 500);
+            throw new \Exception(date("Y-M-D  h:i:sa   ")."Couldn't create user bucket !".$e->getMessage(), 500);
         }
     }
 

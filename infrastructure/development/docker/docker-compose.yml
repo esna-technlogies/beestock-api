@@ -28,6 +28,7 @@ services:
           XDEBUG_CONFIG: remote_host=192.168.178.139
       volumes:
           - ../../../service:/service
+
       #logging:
       #  driver: syslog
 

@@ -95,3 +95,8 @@ user_service_email_and_sms_sender:
     methods: [GET]
     path:     /webhook/send
     defaults: { _controller: UserServiceBundle:WebHook/Publisher:send }
+
+user_service_clean_pending_requests:
+    methods: [GET]
+    path:     /webhook/clean
+    defaults: { _controller: UserServiceBundle:WebHook/Publisher:clean }

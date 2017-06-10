@@ -26,6 +26,11 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN curl -sS https://phar.phpunit.de/phpunit.phar | php -- --install-dir=/usr/local/bin --filename=phpunit
 
 
+## setting timezone
+ENV TZ="Europe/Berlin"
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN dpkg-reconfigure -f noninteractive tzdata
+
 ## setting behat / testing environment variables
 ENV APP_ENVIRONMENT='dev'
 ENV BEHAT_PARAMS='{"extensions":{"Behat\\MinkExtension":{"base_url":"http://nginx-server/app_test.php/"}}}'
