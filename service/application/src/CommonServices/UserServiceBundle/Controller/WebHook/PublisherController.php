@@ -7,6 +7,7 @@ use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Event\User\Account\UserAccountActivatedEvent;
 use CommonServices\UserServiceBundle\Event\User\Account\UserAccountSuccessfullyCreatedEvent;
 use CommonServices\UserServiceBundle\Event\User\Email\UserEmailAddedToAccountEvent;
+use CommonServices\UserServiceBundle\Event\User\Email\UserEmailChangeRequestedEvent;
 use CommonServices\UserServiceBundle\Event\User\MobileNumber\UserMobileNumberChangeRequestedEvent;
 use CommonServices\UserServiceBundle\Event\User\Password\UserPasswordRetrievalRequestedEvent;
 use CommonServices\UserServiceBundle\Event\User\Password\UserRandomPasswordGeneratedEvent;
@@ -124,7 +125,7 @@ class PublisherController extends Controller
 
 
 
-            // change email address
+            // email added to account (first time)
 
             if(UserEmailAddedToAccountEvent::NAME === $eventName)
             {
@@ -142,6 +143,30 @@ class PublisherController extends Controller
                         'name' => $user->getFirstName(),
                         'emailAddress' => $user->getEmail(),
                         'verificationCode' => $verificationCode,
+                        'verificationUrl' => $verificationUrl,
+                    ]
+                );
+            }
+
+
+            // change email address
+
+            if(UserEmailChangeRequestedEvent::NAME === $eventName)
+            {
+                $verificationUrl = $this->generateUrl(
+                    'user_service_execute_verification_request_via_url',
+                    ['uuid' => $request->getUuid(), 'code'=>$verificationCode],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                );
+
+                $emailSender->send(
+                    $user->getEmail(),
+                    $user->getFirstName().', '.' Please verify the change of your email address at Beestock ..',
+                    'Account:email.verification.email_change_requested.html.twig',
+                    [
+                        'name' => $user->getFirstName(),
+                        'newEmailAddress' => $request->getNewValue(),
+                        'oldEmailAddress' => $request->getOldValue(),
                         'verificationUrl' => $verificationUrl,
                     ]
                 );

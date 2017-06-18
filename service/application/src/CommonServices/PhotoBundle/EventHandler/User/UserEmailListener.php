@@ -67,18 +67,8 @@ class UserEmailListener implements EventSubscriberInterface
      */
     public function onUserEmailAddedToAccount(Event $event)
     {
-        /** @var UserEmailAddedToAccountEvent $event */
-//        $userDocument = $event->getUser();
-//        $user = $this->userManagerService->getUser($userDocument);
-//
-//        /// issue a change request event
-//        $requestLifeTime = 1 * 60 * 60;
-//        $user->getAccount()->issueAccountChangeRequest(
-//            UserEmailAddedToAccountEvent::NAME,
-//            $requestLifeTime,
-//            '',
-//            $event->getEmail()
-//        );
+        // Do something ..
+        $event->stopPropagation();
     }
 
     /**
@@ -86,8 +76,21 @@ class UserEmailListener implements EventSubscriberInterface
      */
     public function onUserEmailChanged(Event $event)
     {
-        // Do something ..
-        $event->stopPropagation();
+        /** @var UserEmailChangedEvent $event */
+        $userDocument = $event->getUser();
+        $userDocument->setEmail($event->getNewValue());
+        $this->userManagerService->getUserRepository()->save($userDocument);
+
+        $user = $this->userManagerService->getUser($userDocument);
+
+        /// issue a change request event
+        $requestLifeTime = 1 * 60 * 60;
+        $user->getAccount()->issueAccountChangeRequest(
+            UserEmailChangedEvent::NAME,
+            $requestLifeTime,
+            $event->getOldValue(),
+            $event->getNewValue()
+        );
     }
 
     /**
@@ -103,7 +106,7 @@ class UserEmailListener implements EventSubscriberInterface
                 array('onUserEmailChangeRequested', 1),
             ),
             UserEmailChangedEvent::NAME => array(
-                array('onUserEmailChangeRequested', 1),
+                array('onUserEmailChanged', 1),
             ),
         );
     }

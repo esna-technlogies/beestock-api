@@ -110,8 +110,9 @@ class PhotoRepository extends DocumentRepository
      * @throws NotFoundException
      * @return null|Photo
      */
-    public function findByUuid($uuid) : Photo
+    public function findByUuid($uuid) : ?Photo
     {
+        /** @var Photo $photo */
         $photo = parent::findOneBy(['uuid' => $uuid]);
 
         if(is_null($photo)){

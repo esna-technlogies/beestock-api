@@ -51,7 +51,7 @@ class UserGoogleAccountController extends Controller
     public function getUserGoogleAccountAction(User $user)
     {
         return new Response(
-            $this->get('user_service.response_serializer')
+            $this->get('app_engine.response_serializer')
                 ->serialize(['userPhone' => $user->getMobileNumber()]),
             Response::HTTP_OK
         );

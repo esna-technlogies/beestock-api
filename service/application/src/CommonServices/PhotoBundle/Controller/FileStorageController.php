@@ -50,7 +50,6 @@ class FileStorageController extends Controller
      */
     public function uploadPolicyAction(User $user = null)
     {
-
         if (is_null($user)) {
             throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
         }
@@ -63,7 +62,7 @@ class FileStorageController extends Controller
         $formInputs     = $uploadPolicy->getFormInputs();
 
         return new Response(
-            $this->get('user_service.response_serializer')
+            $this->get('app_engine.response_serializer')
                 ->serialize([
                     'fileUploadPolicy' =>[
                         'formAttributes' => $formAttributes,

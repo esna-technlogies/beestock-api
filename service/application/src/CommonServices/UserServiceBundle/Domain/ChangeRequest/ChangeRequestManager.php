@@ -7,6 +7,8 @@ use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Event\User\Account\UserAccountActivatedEvent;
 use CommonServices\UserServiceBundle\Event\User\Account\UserAccountSuccessfullyCreatedEvent;
 use CommonServices\UserServiceBundle\Event\User\Email\UserEmailAddedToAccountEvent;
+use CommonServices\UserServiceBundle\Event\User\Email\UserEmailChangedEvent;
+use CommonServices\UserServiceBundle\Event\User\Email\UserEmailChangeRequestedEvent;
 use CommonServices\UserServiceBundle\Event\User\MobileNumber\UserMobileNumberChangeRequestedEvent;
 use CommonServices\UserServiceBundle\Event\User\Password\UserPasswordChangedEvent;
 use CommonServices\UserServiceBundle\Event\User\Password\UserPasswordRetrievalRequestedEvent;
@@ -14,6 +16,7 @@ use CommonServices\UserServiceBundle\Event\User\Password\UserRandomPasswordGener
 use CommonServices\UserServiceBundle\Exception\NotFoundException;
 use CommonServices\UserServiceBundle\Repository\ChangeRequestRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class ChangeRequestManager
@@ -108,6 +111,14 @@ class ChangeRequestManager
             $eventDispatcher->dispatch(UserAccountActivatedEvent::NAME, $userActivatedEvent);
         }
 
+        // change email address
+
+        if(UserEmailChangeRequestedEvent::NAME === $eventName)
+        {
+            // fire activate account, add user to the activated group
+            $userActivatedEvent = new UserEmailChangedEvent($user, $this->changeRequest->getNewValue(), $this->changeRequest->getOldValue());
+            $eventDispatcher->dispatch(UserEmailChangedEvent::NAME, $userActivatedEvent);
+        }
 
 
         // Change mobile number

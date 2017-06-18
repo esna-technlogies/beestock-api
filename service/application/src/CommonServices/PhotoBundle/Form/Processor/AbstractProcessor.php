@@ -27,5 +27,4 @@ class AbstractProcessor
         $this->formFactory = $formFactory;
     }
 
-
 }

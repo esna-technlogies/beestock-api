@@ -1,9 +1,24 @@
 
-## Photo resource
+## File Storage resource
 photo_service_file_upload_policy:
     methods: [GET]
-    path:     /file/{uuid}
+    path:     /file/storage/user/{uuid}
     defaults: { _controller: PhotoBundle:FileStorage:uploadPolicy }
+
+
+
+## File Analysis resource
+photo_service_file_analysis:
+    methods: [POST]
+    path:     /file/analysis
+    defaults: { _controller: PhotoBundle:FileAnalysis:info}
+
+photo_service_get_file_info:
+    methods: [GET]
+    path:     /file/{uuid}
+    defaults: { _controller: PhotoBundle:FileAnalysis:get}
+
+
 
 ## Photo resource
 photo_service_post_photo:
@@ -24,13 +39,11 @@ photo_service_get_photo:
 photo_service_update_photo:
     methods: [PUT]
     path:     /photo/{uuid}
-    defaults:
     defaults: { _controller: PhotoBundle:Photo:list }
 
 photo_service_patch_photo:
     methods: [PATCH]
     path:     /photo/{uuid}
-    defaults:
     defaults: { _controller: PhotoBundle:Photo:list }
 
 
@@ -42,32 +55,66 @@ photo_service_list_categories:
     path:     /category
     defaults: { _controller: PhotoBundle:Category:list}
 
-photo_service_get_category:
-    methods: [GET]
-    path:     /category/{uuid}
-    defaults: { _controller: PhotoBundle:Category:list }
-
 photo_service_post_category:
     methods: [POST]
     path:     /category
-    defaults:
-    defaults: { _controller: PhotoBundle:Category:list }
+    defaults: { _controller: PhotoBundle:Category:newCategory }
+
+photo_service_get_category:
+    methods: [GET]
+    path:     /category/{uuid}
+    defaults: { _controller: PhotoBundle:Category:get }
+
+photo_service_delete_category:
+    methods: [DELETE]
+    path:     /category/{uuid}
+    defaults: { _controller: PhotoBundle:Category:delete }
+
+photo_service_update_category:
+    methods: [PATCh]
+    path:     /category/{uuid}
+    defaults: { _controller: PhotoBundle:Category:update }
+
 
 
 
 ## Photo Lightbox
 photo_service_list_lightboxes:
     methods: [GET]
-    path:     /category
+    path:     /lightbox
     defaults: { _controller: PhotoBundle:Lightbox:list}
+
+photo_service_get_user_lightbox_collection:
+    methods: [GET]
+    path:     /lightbox/user/{uuid}
+    defaults: { _controller: PhotoBundle:Lightbox:getUserLightBoxes }
 
 photo_service_get_lightbox:
     methods: [GET]
-    path:     /category/{uuid}
-    defaults: { _controller: PhotoBundle:Lightbox:list }
+    path:     /lightbox/{uuid}
+    defaults: { _controller: PhotoBundle:Lightbox:get }
 
-photo_service_post_new_lightbox:
+photo_service_create_new_lightbox:
     methods: [POST]
-    path:     /category
-    defaults:
-    defaults: { _controller: PhotoBundle:Lightbox:list }
+    path:     /lightbox/
+    defaults: { _controller: PhotoBundle:Lightbox:newLightBox }
+
+photo_service_delete_lightbox:
+    methods: [DELETE]
+    path:     /lightbox/{uuid}
+    defaults: { _controller: PhotoBundle:Lightbox:delete }
+
+photo_service_update_lightbox:
+    methods: [PUT]
+    path:     /lightbox/{uuid}
+    defaults: { _controller: PhotoBundle:Lightbox:update }
+
+photo_service_add_item_to_lightbox:
+    methods: [PATCH]
+    path:     /lightbox/{uuid}/item/{item}
+    defaults: { _controller: PhotoBundle:Lightbox:addItem }
+
+photo_service_delete_item_from_lightbox:
+    methods: [DELETE]
+    path:     /lightbox/{uuid}/item/{item}
+    defaults: { _controller: PhotoBundle:Lightbox:deleteItem }

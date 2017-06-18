@@ -13,6 +13,6 @@ services:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
     # Serializers and API utilities
-    user_service.response_serializer:
+    app_engine.response_serializer:
         class: CommonServices\UserServiceBundle\Serializer\ResponseSerializer
         arguments: ["@service_container", "@jms_serializer.serializer"]

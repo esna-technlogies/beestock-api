@@ -69,7 +69,7 @@ class UserController extends Controller
         $results = $resultsPaginator->getHateoasFriendlyResults('users');
 
         return new Response(
-            $this->get('user_service.response_serializer')->serialize($results),
+            $this->get('app_engine.response_serializer')->serialize($results),
             Response::HTTP_OK
         );
     }
@@ -165,7 +165,7 @@ class UserController extends Controller
         $user = $userDomain->getDomainService()->createUserAccount($basicAccountInformation);
 
         return new Response(
-            $this->get('user_service.response_serializer')
+            $this->get('app_engine.response_serializer')
                 ->serialize(['user' => $user]),
             Response::HTTP_CREATED
         );
@@ -213,7 +213,7 @@ class UserController extends Controller
         }
 
         return new Response(
-            $this->get('user_service.response_serializer')
+            $this->get('app_engine.response_serializer')
                 ->serialize(['user' => $user]),
             Response::HTTP_OK
         );
@@ -333,7 +333,7 @@ class UserController extends Controller
         $userManager->getSettings()->updateAccountBasicSettings($basicUserInformation);
 
         return new Response(
-            $this->get('user_service.response_serializer')
+            $this->get('app_engine.response_serializer')
                 ->serialize(['user' => $user]),
             Response::HTTP_OK
         );

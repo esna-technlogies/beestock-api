@@ -16,8 +16,11 @@ services:
     photo_service.photo_domain:
         class: CommonServices\PhotoBundle\Domain\Photo\PhotoDomain
         shared: false
-        arguments: ["@service_container",
-                    "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:Photo')"]
+        arguments:
+            - "@service_container"
+            - "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:Photo')"
+            - "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:Category')"
+            - "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:File')"
 
     ## AWS S3 storage
     photo_service.aws_s3.client:

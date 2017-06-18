@@ -2,9 +2,9 @@
 
 namespace CommonServices\PhotoBundle\Domain\Photo;
 
+use CommonServices\PhotoBundle\Document\Category;
 use CommonServices\PhotoBundle\Document\Photo;
 use CommonServices\PhotoBundle\Repository\PhotoRepository;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use CommonServices\UserServiceBundle\Exception\InvalidFormException;
 
@@ -38,24 +38,38 @@ class PhotoDomainService
     }
 
     /**
-     * @param array $basicAccountInformation
+     * @param array $photoInfo
      * @throws InvalidFormException
      *
      * @return Photo
      */
-    public function createPhoto(array $basicAccountInformation) : Photo
+    public function createPhoto(array $photoInfo) : Photo
     {
-        $storage = $this->container->get('aws.s3.file_storage');
-
-        $result = $storage->createBucket(Uuid::uuid4()->toString());
-
-        var_dump($result);
-
-        exit;
+        return new Photo($photoInfo);
+    }
 
 
-        //$userFactory = $this->container->get('photo_service.factory.photo_factory');
+    /**
+     * @param array $categoryInfo
+     * @throws InvalidFormException
+     *
+     * @return Category
+     */
+    public function createCategory(array $categoryInfo) : Category
+    {
+        $categoryFactory = $this->container->get('photo_service.factory.category_factory');
 
-        return null;//$userFactory->createPhotoFromUploadInfo($basicAccountInformation);
+        return $categoryFactory->createCategoryFromBasicInfo($categoryInfo);
+
+    }
+
+    /**
+     * @param string $url
+     * @param string $category
+     */
+    public function analyzeFile(string $url, string $category)
+    {
+
+
     }
 }

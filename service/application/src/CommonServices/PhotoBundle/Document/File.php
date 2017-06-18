@@ -2,12 +2,12 @@
 
 namespace CommonServices\PhotoBundle\Document;
 
-use Hateoas\Configuration\Annotation as Hateoas;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use JMS\Serializer\Annotation\Exclude;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation\Exclude as Exclude;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * @package PhotoBundle\Document
@@ -15,20 +15,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @Hateoas\Relation(
  *     "self",
  *      href = @Hateoas\Route(
- *          "photo_service_get_category",
+ *          "photo_service_get_file_info",
  *          parameters = { "uuid" = "expr(object.getUuid())" }
  *     )
  * )
  *
  * @MongoDB\Document(
- *     collection="categories",
- *     repositoryClass="CommonServices\PhotoBundle\Repository\CategoryRepository",
+ *     collection="files",
+ *     repositoryClass="CommonServices\PhotoBundle\Repository\FileRepository",
  *     indexes={
  *         @MongoDB\Index(keys={"title":"asc"})
  *     }
  * )
  */
-class Category
+class File
 {
     /**
      * @MongoDB\Id(strategy="AUTO", type="string")
@@ -72,9 +72,21 @@ class Category
 
     /**
      * @MongoDB\Field(type="string")
+     */
+    protected $user;
+
+    /**
+     * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
      */
-    protected $photoFile;
+    protected $category;
+
+    /**
+     * @MongoDB\Field(type="collection")
+     * @Assert\NotBlank()
+     */
+    protected $keywords = [];
+
 
     /**
      * @return mixed
@@ -109,49 +121,33 @@ class Category
     }
 
     /**
-     * @return mixed
+     * @return \DateTime
      */
-    public function getPhotoFile()
-    {
-        return $this->photoFile;
-    }
-
-    /**
-     * @param mixed $photoFile
-     */
-    public function setPhotoFile($photoFile)
-    {
-        $this->photoFile = $photoFile;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCreated()
+    public function getCreated(): \DateTime
     {
         return $this->created;
     }
 
     /**
-     * @param mixed $created
+     * @param \DateTime $created
      */
-    public function setCreated($created)
+    public function setCreated(\DateTime $created)
     {
         $this->created = $created;
     }
 
     /**
-     * @return mixed
+     * @return \DateTime
      */
-    public function getLastChange()
+    public function getLastChange(): \DateTime
     {
         return $this->lastChange;
     }
 
     /**
-     * @param mixed $lastChange
+     * @param \DateTime $lastChange
      */
-    public function setLastChange($lastChange)
+    public function setLastChange(\DateTime $lastChange)
     {
         $this->lastChange = $lastChange;
     }
@@ -189,11 +185,58 @@ class Category
     }
 
     /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getKeywords()
+    {
+        return $this->keywords;
+    }
+
+    /**
+     * @param mixed $keywords
+     */
+    public function setKeywords($keywords)
+    {
+        $this->keywords = $keywords;
+    }
+
+    /**
      * Photo constructor.
      */
     public function __construct()
     {
         $this->setUuid(Uuid::uuid4()->toString());
     }
-
 }

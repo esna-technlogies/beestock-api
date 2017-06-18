@@ -3,3 +3,11 @@ services:
     photo_service.factory.photo_factory:
         class: CommonServices\PhotoBundle\Factory\PhotoFactory
         arguments: ["@service_container" , "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:Photo')"]
+
+    photo_service.factory.category_factory:
+        class: CommonServices\PhotoBundle\Factory\CategoryFactory
+        arguments: ["@service_container" , "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:Category')"]
+
+    photo_service.factory.file_factory:
+        class: CommonServices\PhotoBundle\Factory\FileFactory
+        arguments: ["@service_container" , "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:File')"]

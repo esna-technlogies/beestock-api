@@ -37,3 +37,5 @@ parameters:
     rabbitmq_host: 'rabbitmq-management'
     rabbitmq_user: guest
     rabbitmq_password: guest
+
+    temp_uploads_directory: '%kernel.root_dir%/web/uploads/'
