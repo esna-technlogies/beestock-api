@@ -2,20 +2,24 @@
 <html>
 <body>
 
-<form action="https://beestock-1497116494-e23335d0-b8c0-4da1-afb8-4b1fe58f1555.s3-us-west-2.amazonaws.com" method="POST" enctype="multipart/form-data">
+<form action="https://beestock-1503879735-a55e00dc-4ed6-4edb-b0f1-65dfaf01b659.s3-us-west-2.amazonaws.com" method="POST" enctype="multipart/form-data">
     Select image to upload:
 
+    <br/> <br/> key: <input type="text"  name="key" value="uploads/${filename}" /><br />
 
+    <br/> <br/> acl: <input type="text" name="acl" value="public-read" /><br />
 
-    <input type="input"  name="key" value="uploads/${filename}" /><br />
-    <input type="hidden" name="acl" value="public-read" /><br />
-    <input type="hidden" name="X-Amz-Credential" value="AKIAJUDUQ4IYJWPQXZ7A/20170610/us-west-2/s3/aws4_request"><br />
-    <input type="text" name="X-Amz-Algorithm"  value="AWS4-HMAC-SHA256"><br />
-    <input type="text"   name="X-Amz-Date" value="20170610T210456Z"><br />
+    <br/> <br/> X-Amz-Credential: <input type="text" name="X-Amz-Credential" value="AKIAJUDUQ4IYJWPQXZ7A/20170828/us-west-2/s3/aws4_request"><br />
 
+    <br/> <br/> X-Amz-Algorithm: <input type="text" name="X-Amz-Algorithm"  value="AWS4-HMAC-SHA256"><br />
+
+    <br/> <br/> X-Amz-Date: <input type="text"   name="X-Amz-Date" value="20170828T005255Z"><br />
+    <br/> <br/>
     Tags for File:
-    <input type="hidden" name="Policy" value="eyJleHBpcmF0aW9uIjoiMjAxNy0wNi0xMFQyMzowNDo1NloiLCJjb25kaXRpb25zIjpbeyJhY2wiOiJwdWJsaWMtcmVhZCJ9LHsiYnVja2V0IjoiYmVlc3RvY2stMTQ5NzExNjQ5NC1lMjMzMzVkMC1iOGMwLTRkYTEtYWZiOC00YjFmZTU4ZjE1NTUifSxbInN0YXJ0cy13aXRoIiwiJGtleSIsInVwbG9hZHNcLyJdLHsiWC1BbXotRGF0ZSI6IjIwMTcwNjEwVDIxMDQ1NloifSx7IlgtQW16LUNyZWRlbnRpYWwiOiJBS0lBSlVEVVE0SVlKV1BRWFo3QVwvMjAxNzA2MTBcL3VzLXdlc3QtMlwvczNcL2F3czRfcmVxdWVzdCJ9LHsiWC1BbXotQWxnb3JpdGhtIjoiQVdTNC1ITUFDLVNIQTI1NiJ9XX0="><br />
-    <input type="hidden" name="X-Amz-Signature" value="e541af982b7fd777c95fac379294a4161614b262b4b2cd3b50f3e00487cf4d73"><br />
+    <br/> <br/> Policy: <input type="hidden" name="Policy" value="eyJleHBpcmF0aW9uIjoiMjAxNy0wOC0yOFQwMjo1Mjo1NVoiLCJjb25kaXRpb25zIjpbeyJhY2wiOiJwdWJsaWMtcmVhZCJ9LHsiYnVja2V0IjoiYmVlc3RvY2stMTUwMzg3OTczNS1hNTVlMDBkYy00ZWQ2LTRlZGItYjBmMS02NWRmYWYwMWI2NTkifSxbInN0YXJ0cy13aXRoIiwiJGtleSIsInVwbG9hZHNcLyJdLHsiWC1BbXotRGF0ZSI6IjIwMTcwODI4VDAwNTI1NVoifSx7IlgtQW16LUNyZWRlbnRpYWwiOiJBS0lBSlVEVVE0SVlKV1BRWFo3QVwvMjAxNzA4MjhcL3VzLXdlc3QtMlwvczNcL2F3czRfcmVxdWVzdCJ9LHsiWC1BbXotQWxnb3JpdGhtIjoiQVdTNC1ITUFDLVNIQTI1NiJ9XX0="><br />
+
+    <br/> <br/> X-Amz-Signature: <input type="hidden" name="X-Amz-Signature" value="5f4d6b05a0c01049737677e622663fb6ff84dd8a66d5c0855a9d84a98fa1fe49"><br />
+
     File:
     <input type="file"   name="file" /> <br />
     <!-- The elements after this will be ignored -->
