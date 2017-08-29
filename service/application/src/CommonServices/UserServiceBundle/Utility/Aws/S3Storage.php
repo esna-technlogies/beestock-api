@@ -87,7 +87,7 @@ class S3Storage
         ];
 
         // Optional: configure expiration time string
-        $expires = '+2 hours';
+        $expires = '+5 minutes';  //+2 hours
 
         $postObject = new PostObjectV4(
             $this->s3Client,
