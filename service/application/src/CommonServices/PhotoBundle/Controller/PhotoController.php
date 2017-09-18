@@ -2,6 +2,8 @@
 
 namespace CommonServices\PhotoBundle\Controller;
 
+use CommonServices\PhotoBundle\Document\Photo;
+use CommonServices\UserServiceBundle\Utility\Api\Pagination\ApiCollectionPagination;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use CommonServices\UserServiceBundle\Exception\NotFoundException;
@@ -13,8 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PhotoController extends Controller
 {
+    const PHOTO_COLLECTION_LISTING_RESULTS_PER_PAGE = 2;
+
     /**
-     * Lists all photos in a specific category or with a specific filter criteria
+     * Lists all photos in the system
      *
      * @ParamConverter()
      *
@@ -22,28 +26,23 @@ class PhotoController extends Controller
      *
      * @ApiDoc(
      *  section="Photo",
-     *  description="lists all photos that match a specific criteria",
+     *  description="lists all photos in the system",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"stable"},
-     *  requirements={
-     *      {
-     *          "name"="uuid",
-     *          "dataType"="string",
-     *          "requirement"="V5 UUID",
-     *          "description"="Change Request uuid "
-     *      },
-     *      {
-     *          "name"="code",
-     *          "dataType"="string",
-     *          "requirement"="A string of minimum of 6 digits",
-     *          "description"="Verification code received by email or phone"
-     *      },
+     *  headers={
+     *    {
+     *        "name"="Authorization",
+     *        "description"="Bearer token",
+     *    }
+     *  },
+     *  filters={
+     *      {"name"="page", "dataType"="integer"},
+     *      {"name"="limit", "dataType"="integer"}
      *  },
      *  statusCodes={
-     *         204="Returned when successful, request is verified and change has been made",
+     *         200="Returned when successful, all photos are listed",
      *         400="Bad request: The system is unable to process the request",
-     *         404={"No user with the provided UUID was found"},
-     *         500="The system is unable to create the user due to a server side error"
+     *         404="No photos were found"
      *  }
      * )
      *
@@ -51,7 +50,29 @@ class PhotoController extends Controller
      */
     public function listAction()
     {
-        return $this->render('PhotoBundle:Default:index.html.twig');
+        $startPage      = abs(filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options'=>['default' => 1 ]]));
+        $resultsPerPage = abs(filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT,
+            ['options'=>['default' => self::PHOTO_COLLECTION_LISTING_RESULTS_PER_PAGE ]]
+        ));
+
+        $resultsHandler =  $this->get('photo_service.photo_domain')->getPhotoRepository()->findAllPhotos($startPage, $resultsPerPage);
+
+        $resultsPaginator = new ApiCollectionPagination(
+            $resultsHandler,
+            $this->get('router'),
+            'photo_service_list_photos'
+        );
+
+        if (!$resultsPaginator->getResultCollection()) {
+            throw $this->createNotFoundException('No photos found in the system.');
+        }
+
+        $results = $resultsPaginator->getHateoasFriendlyResults('photos');
+
+        return new Response(
+            $this->get('user_service.response_serializer')->serialize($results),
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -100,11 +121,11 @@ class PhotoController extends Controller
      *          "description"="The keywords used to describe the photo"
      *      },
      *      {
-     *          "name"="file",
-     *          "dataType"="file",
+     *          "name"="s3File",
+     *          "dataType"="string",
      *          "required"= true,
      *          "requirement"="*.*",
-     *          "description"="The file of the photo to be uploaded"
+     *          "description"="A valid url to the file uploaded to amazon S3"
      *      },
      *      {
      *          "name"="suggestedPrice",
@@ -136,4 +157,143 @@ class PhotoController extends Controller
             Response::HTTP_CREATED
         );
     }
+
+
+    /**
+     * Get a Photo by Unique Identifier (UUID)
+     * @param Photo $photo
+     *
+     * @ParamConverter()
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *  section="Photo",
+     *  description="Get a category by UUID",
+     *  output="Symfony\Component\HttpFoundation\Response",
+     *  tags={"stable"},
+     *  headers={
+     *    {
+     *        "name"="Authorization",
+     *        "description"="Bearer token",
+     *    }
+     *  },
+     *  requirements={
+     *      {
+     *          "name"="uuid",
+     *          "dataType"="string",
+     *          "requirement"="V5 UUID",
+     *          "description"="Unique identifier of the photo"
+     *      }
+     *  },
+     *  statusCodes={
+     *         200="Returned when successful, photo details are retrieved ",
+     *         400="Bad request: The system is unable to process the request",
+     *         404={"No photo with the provided UUID was found"},
+     *         500="The system is unable to get the photo details due to a server side error"
+     *  }
+     * )
+     *
+     * @throws NotFoundException
+     */
+    public function getAction(Photo $photo = null)
+    {
+        if (is_null($photo)) {
+            throw new NotFoundException("Photo not found", Response::HTTP_NOT_FOUND);
+        }
+
+        return new Response(
+            $this->get('user_service.response_serializer')
+                ->serialize(['photo' => $photo]),
+            Response::HTTP_OK
+        );
+    }
+
+
+    /**
+     * This end point can be used to get a list of suggested keywords of a given photo
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *  section="Photo",
+     *  description="Get Photo suggested keywords",
+     *  output="Symfony\Component\HttpFoundation\Response",
+     *  parameters={
+     *      {
+     *          "name"="s3file",
+     *          "dataType"="string",
+     *          "required"= true,
+     *          "requirement"="^[a-zA-Z]*$",
+     *          "description"="Title of the photo"
+     *      },
+     *  },
+     *  tags={"stable"},
+     *  statusCodes={
+     *         201="Returned when the photo keywords are successfully generated",
+     *         400="Bad request: The system is unable to process the request due to the following errors",
+     *         500="The system is unable to extract or suggest keywords based on the given photo due to a server side error"
+     *  }
+     * )
+     */
+    public function keywordsAction(Request $request)
+    {
+
+        $list =[
+            'boy',
+            'man', 'colleague professor',
+            'child',
+            'laughing',
+            'blond',
+            'woman', 'Berlin wall',
+            'car',
+            'mercedes',
+            'hot', 'cute baby', 'cub cake !',
+            'cool',
+            'nice colors',
+            'Las Vegas!',
+            'smiling',
+            'carpet', 'house wife',
+            'engineer',
+            'school',
+            'bracelet',
+            'nuclease',
+            'book',
+            'pen', 'bonny tail',
+            'pencil',
+            'flower',
+            'rose', 'parking dog',
+            'jasmine',
+            'volcano',
+            'hack', 'oceanic 815',
+            'addictive',
+            'mindless',
+            'pig','TV Show',
+            'chalk',
+            'mixer', 'sexless', 'angry', 'old', 'amazing', 'human', 'long hair'
+        ];
+
+
+        $r = rand(1, sizeof($list)-1);
+
+        $result = array();
+        foreach( array_rand($list, $r) as $k ) {
+            $result[] = $list[$k];
+        }
+
+
+        $r2 = rand(1, sizeof($result)-1);
+
+        $keywords = [];
+        foreach( array_rand($result, $r2) as $k ) {
+            $keywords[] = $result[$k];
+        }
+
+
+        return new Response(
+            $this->get('user_service.response_serializer')
+                ->serialize(['keywords' => $keywords]),
+            Response::HTTP_CREATED
+        );
+    }
+
 }

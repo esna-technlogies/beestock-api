@@ -70,11 +70,6 @@ class Category
      */
     protected $description;
 
-    /**
-     * @MongoDB\Field(type="string")
-     * @Assert\NotBlank()
-     */
-    protected $photoFile;
 
     /**
      * @return mixed
@@ -106,22 +101,6 @@ class Category
     public function setUuid($uuid)
     {
         $this->uuid = $uuid;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPhotoFile()
-    {
-        return $this->photoFile;
-    }
-
-    /**
-     * @param mixed $photoFile
-     */
-    public function setPhotoFile($photoFile)
-    {
-        $this->photoFile = $photoFile;
     }
 
     /**

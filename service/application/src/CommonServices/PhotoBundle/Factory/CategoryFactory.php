@@ -30,11 +30,14 @@ class CategoryFactory
 
     public function createCategoryFromBasicInfo(array $categoryInfo) : Category
     {
+
+        $photosDirectory = $this->container->getParameter('temp_uploads_directory');
+
         $categoryEntity = new Category();
 
         $categoryInfoProcessor = new CategoryInfoProcessor($this->container->get('form.factory'));
 
-        $category = $categoryInfoProcessor->processForm($categoryEntity, $categoryInfo, true);
+        $category = $categoryInfoProcessor->processForm($categoryEntity, $categoryInfo, true, $photosDirectory);
 
         $this->categoryRepository->save($category);
 

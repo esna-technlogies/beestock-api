@@ -3,6 +3,7 @@
 namespace CommonServices\PhotoBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -86,6 +87,28 @@ class Photo
      * @Assert\NotBlank()
      */
     protected $keywords = [];
+
+    /**
+     * @MongoDB\Field(type="string")
+     * @Assert\NotBlank()
+     */
+    protected $s3File;
+
+    /**
+     * @return mixed
+     */
+    public function getS3File()
+    {
+        return $this->s3File;
+    }
+
+    /**
+     * @param mixed $s3File
+     */
+    public function setS3File($s3File)
+    {
+        $this->s3File = $s3File;
+    }
 
 
     /**
@@ -229,7 +252,7 @@ class Photo
      */
     public function setKeywords($keywords)
     {
-        $this->keywords = $keywords;
+        $this->keywords = explode(",", $keywords);
     }
 
     /**

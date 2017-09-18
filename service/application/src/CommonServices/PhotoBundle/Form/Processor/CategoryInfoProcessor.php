@@ -20,16 +20,17 @@ final class CategoryInfoProcessor extends AbstractProcessor
      * @param array $parameters
      * @param boolean $clearMissingInfo
      *
+     * @param string $photosDirectory
      * @return Category
      * @throws InvalidFormException
      * @internal param Photo $photo
      */
-    public function processForm(Category $category, array $parameters, $clearMissingInfo = true) : Category
+    public function processForm(Category $category, array $parameters, $clearMissingInfo = true, string $photosDirectory) : Category
     {
         $uuid = is_null($category->getUuid())? '' : $category->getUuid();
 
         $form =  $this->formFactory
-                        ->createBuilder(CategoryType::class, $category, ['uuid' => $uuid])
+                        ->createBuilder(CategoryType::class, $category, ['uuid' => $uuid, 'photos_directory' => $photosDirectory])
                         ->getForm();
         $form->submit($parameters, $clearMissingInfo);
 

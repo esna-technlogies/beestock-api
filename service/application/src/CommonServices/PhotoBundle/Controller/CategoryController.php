@@ -3,6 +3,7 @@
 namespace CommonServices\PhotoBundle\Controller;
 
 use CommonServices\PhotoBundle\Document\Category;
+use CommonServices\UserServiceBundle\Utility\Api\Pagination\ApiCollectionPagination;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CommonServices\UserServiceBundle\Exception\NotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -13,8 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
+    const CATEGORY_COLLECTION_LISTING_RESULTS_PER_PAGE = 2;
+
     /**
-     * Lists all photos in a specific category or with a specific filter criteria
+     * Lists all categories
      *
      * @ParamConverter()
      *
@@ -22,30 +25,23 @@ class CategoryController extends Controller
      *
      * @ApiDoc(
      *  section="Photo Category",
-     *  description="lists all photos that match a specific criteria",
+     *  description="lists all photo categories in the system",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"stable"},
-     *  requirements={
-     *      {
-     *          "name"="uuid",
-     *          "dataType"="string",
-     *          "requirement"="V5 UUID",
-     *          "required"= true,
-     *          "description"="Change Request uuid "
-     *      },
-     *      {
-     *          "name"="code",
-     *          "dataType"="string",
-     *          "required"= true,
-     *          "requirement"="A string of minimum of 6 digits",
-     *          "description"="Verification code received by email or phone"
-     *      },
+     *  headers={
+     *    {
+     *        "name"="Authorization",
+     *        "description"="Bearer token",
+     *    }
+     *  },
+     *  filters={
+     *      {"name"="page", "dataType"="integer"},
+     *      {"name"="limit", "dataType"="integer"}
      *  },
      *  statusCodes={
-     *         204="Returned when successful, request is verified and change has been made",
+     *         200="Returned when successful, all categories are listed",
      *         400="Bad request: The system is unable to process the request",
-     *         404={"No category with the provided UUID was found"},
-     *         500="The system is unable to list the categories due to a server side error"
+     *         404="No categories were found"
      *  }
      * )
      *
@@ -53,7 +49,29 @@ class CategoryController extends Controller
      */
     public function listAction()
     {
-        return $this->render('PhotoBundle:Default:index.html.twig');
+        $startPage      = abs(filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options'=>['default' => 1 ]]));
+        $resultsPerPage = abs(filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT,
+            ['options'=>['default' => self::CATEGORY_COLLECTION_LISTING_RESULTS_PER_PAGE ]]
+        ));
+
+        $resultsHandler =  $this->get('photo_service.photo_domain')->getCategoryRepository()->findAllCategories($startPage, $resultsPerPage);
+
+        $resultsPaginator = new ApiCollectionPagination(
+            $resultsHandler,
+            $this->get('router'),
+            'photo_service_list_categories'
+        );
+
+        if (!$resultsPaginator->getResultCollection()) {
+            throw $this->createNotFoundException('No categories found in the system.');
+        }
+
+        $results = $resultsPaginator->getHateoasFriendlyResults('categories');
+
+        return new Response(
+            $this->get('user_service.response_serializer')->serialize($results),
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -249,7 +267,7 @@ class CategoryController extends Controller
      *      },
      *      {
      *          "name"="file",
-     *          "dataType"="file",
+     *          "dataType"="photoFile",
      *          "required"=true,
      *          "description"="photo file"
      *      }

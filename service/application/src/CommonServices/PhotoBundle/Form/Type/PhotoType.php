@@ -6,6 +6,7 @@ use CommonServices\PhotoBundle\Document\Photo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -65,7 +66,7 @@ class PhotoType extends AbstractType
             ]
         );
 
-        $builder->add('keywords', FileType::class,
+        $builder->add('keywords', TextType::class,
             [
                 'constraints' =>
                     [
@@ -74,19 +75,11 @@ class PhotoType extends AbstractType
             ]
         );
 
-        $builder->add('file', FileType::class,
+        $builder->add('s3File', UrlType::class,
             [
                 'constraints' =>
                     [
-                        new NotNull(),
-                    ]
-            ]
-        );
-
-        $builder->add('suggestedPrice', FileType::class,
-            [
-                'constraints' =>
-                    [
+                        new Length(['min' => 3, 'max'=> 100]),
                         new NotNull(),
                     ]
             ]
@@ -97,13 +90,21 @@ class PhotoType extends AbstractType
         {
             $photo = $event->getData();
 
-//            if(isset($user['email'])) $user['email'] = strtolower($user['email']);
-//
-//            if(isset($user['country'])) $user['country'] = strtoupper($user['country']);
-//
-//            if(isset($user['mobileNumber']['countryCode'])) {
-//                $user['mobileNumber']['countryCode'] = strtoupper($user['mobileNumber']['countryCode']);
-//            }
+            if(isset($photo['keywords'])) {
+
+                $keywords =  explode(",", $photo['keywords']);
+
+                foreach($keywords as $key => $value)
+                {
+                    if(trim($value) === '')
+                    {
+                        unset($keywords[$key]);
+                    }
+                }
+
+
+                $photo['keywords'] =  implode(",", $keywords);
+            }
 
             $event->setData($photo);
         });

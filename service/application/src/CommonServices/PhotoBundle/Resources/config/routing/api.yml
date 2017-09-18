@@ -26,6 +26,11 @@ photo_service_post_photo:
     path:     /photo
     defaults: { _controller: PhotoBundle:Photo:newPhoto }
 
+photo_service_generate_photo_keywords:
+    methods: [POST]
+    path:     /photo/keywords
+    defaults: { _controller: PhotoBundle:Photo:keywords }
+
 photo_service_list_photos:
     methods: [GET]
     path:     /photo
@@ -34,18 +39,26 @@ photo_service_list_photos:
 photo_service_get_photo:
     methods: [GET]
     path:     /photo/{uuid}
-    defaults: { _controller: PhotoBundle:Photo:list }
+    defaults: { _controller: PhotoBundle:Photo:get }
 
-photo_service_update_photo:
-    methods: [PUT]
-    path:     /photo/{uuid}
-    defaults: { _controller: PhotoBundle:Photo:list }
 
-photo_service_patch_photo:
-    methods: [PATCH]
-    path:     /photo/{uuid}
-    defaults: { _controller: PhotoBundle:Photo:list }
 
+
+## Thumbnail resource
+photo_service_get_thumbnails:
+    methods: [GET]
+    path:     /thumbnail/photo/{uuid}
+    defaults: { _controller: PhotoBundle:Thumbnail:getThumbnails}
+
+photo_service_regenerate_thumbnails:
+    methods: [GET]
+    path:     /thumbnail/regenerate/photo/{uuid}
+    defaults: { _controller: PhotoBundle:Thumbnail:regenerate}
+
+photo_service_custom_ratio_thumbnails:
+    methods: [GET]
+    path:     /thumbnail/custom/photo/{uuid}
+    defaults: { _controller: PhotoBundle:Thumbnail:getCustomRatio}
 
 
 

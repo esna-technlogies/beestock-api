@@ -3,7 +3,6 @@
 namespace CommonServices\PhotoBundle\Form\Type;
 
 use CommonServices\PhotoBundle\Document\Category;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,24 +21,17 @@ use Symfony\Component\Validator\Constraints\NotNull;
 class CategoryType extends AbstractType
 {
     /**
-     * @var ContainerInterface
+     * @var array
      */
-    private $container;
-
-    /**
-     * CategoryType constructor.
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
+    private $options;
 
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->options = $options;
+
         $builder->add('title', TextType::class,
             [
                 'constraints' =>
@@ -60,34 +52,34 @@ class CategoryType extends AbstractType
             ]
         );
 
-        $builder->add('file', FileType::class,
+/*        $builder->add('photoFile', FileType::class,
             [
                 'constraints' =>
                     [
                         new NotNull(),
                     ]
             ]
-        );
+        );*/
 
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event)
         {
             /** @var Category $category */
-            $category = $event->getData();
+/*            $category = $event->getData();*/
 
             /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
-            $file = $category->getPhotoFile();
+/*            $file = $category->getPhotoFile();
 
-            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            $fileName = md5(uniqid().$file->getFilename()).'.'.$file->guessExtension();
 
             $file->move(
-                $this->container->getParameter('temp_uploads_directory'),
-                $fileName
+               $this->options['photos_directory'],
+               $fileName
             );
 
             $category->setPhotoFile($fileName);
 
-            $event->setData($category);
+            $event->setData($category);*/
         });
 
     }
@@ -102,6 +94,7 @@ class CategoryType extends AbstractType
             'data_class' => Category::class,
             'csrf_protection' => false,
             'uuid' => '',
+            'photos_directory' => '',
         ));
     }
 }

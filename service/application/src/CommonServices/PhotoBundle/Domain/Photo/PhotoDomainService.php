@@ -45,7 +45,10 @@ class PhotoDomainService
      */
     public function createPhoto(array $photoInfo) : Photo
     {
-        return new Photo($photoInfo);
+        $photoFactory = $this->container->get('photo_service.factory.photo_factory');
+
+        return $photoFactory->createPhotoFromUploadInfo($photoInfo);
+
     }
 
 
