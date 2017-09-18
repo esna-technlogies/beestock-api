@@ -69,7 +69,7 @@ class FileAnalysisController extends Controller
 
 
         return new Response(
-            $this->get('app_engine.response_serializer')
+            $this->get('user_service.response_serializer')
                 ->serialize(['fileAnalysis' => $analysis ]),
             Response::HTTP_OK
         );
@@ -118,7 +118,7 @@ class FileAnalysisController extends Controller
         }
 
         return new Response(
-            $this->get('app_engine.response_serializer')
+            $this->get('user_service.response_serializer')
                 ->serialize(['file' => $file ]),
             Response::HTTP_OK
         );

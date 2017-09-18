@@ -62,7 +62,7 @@ class FileStorageController extends Controller
         $formInputs     = $uploadPolicy->getFormInputs();
 
         return new Response(
-            $this->get('app_engine.response_serializer')
+            $this->get('user_service.response_serializer')
                 ->serialize([
                     'fileUploadPolicy' =>[
                         'formAttributes' => $formAttributes,

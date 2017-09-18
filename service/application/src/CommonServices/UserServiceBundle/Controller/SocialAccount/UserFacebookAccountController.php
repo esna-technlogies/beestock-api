@@ -51,7 +51,7 @@ class UserFacebookAccountController extends Controller
     public function getUserFacebookAccountAction(User $user)
     {
         return new Response(
-            $this->get('app_engine.response_serializer')
+            $this->get('user_service.response_serializer')
                 ->serialize(['userPhone' => $user->getMobileNumber()]),
             Response::HTTP_OK
         );

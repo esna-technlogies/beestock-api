@@ -99,7 +99,7 @@ class CategoryController extends Controller
         }
 
         return new Response(
-            $this->get('app_engine.response_serializer')
+            $this->get('user_service.response_serializer')
                 ->serialize(['category' => $category]),
             Response::HTTP_OK
         );
@@ -159,7 +159,7 @@ class CategoryController extends Controller
         $category = $photoDomain->getDomainService()->createCategory($categoryInfo);
 
         return new Response(
-            $this->get('app_engine.response_serializer')
+            $this->get('user_service.response_serializer')
                 ->serialize(['category' => $category]),
             Response::HTTP_CREATED
         );
@@ -273,7 +273,7 @@ class CategoryController extends Controller
         $userManager = $photoDomain->getUser($category);
 
         return new Response(
-            $this->get('app_engine.response_serializer')
+            $this->get('user_service.response_serializer')
                 ->serialize(['category' => $category]),
             Response::HTTP_OK
         );
