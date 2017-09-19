@@ -21,5 +21,5 @@ csa_guzzle:
     clients:
         local_api_test:
             config: # you can specify the options as in http://docs.guzzlephp.org/en/latest/quickstart.html
-                base_uri: "http://user-service.dev/app_test.php/"
+                base_uri: "http://api.beesstock.com/app_test.php/"
                 timeout: 60

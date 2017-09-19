@@ -20,7 +20,7 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     # cross origin settings
-    cors_allow_origin: 'http://user-service.dev'
+    cors_allow_origin: 'http://api.beesstock.com'
 
     # jwt settings
     jwt_private_key_path: '%kernel.root_dir%/../../ssl-keys/jwt/private.pem'
