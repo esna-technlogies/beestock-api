@@ -2,7 +2,9 @@
 
 namespace Doctrine\MongoDB\Tests\Aggregation;
 
-class BuilderTest extends \PHPUnit_Framework_TestCase
+use Doctrine\MongoDB\Tests\TestCase;
+
+class BuilderTest extends TestCase
 {
     use AggregationTestCase;
 
@@ -32,7 +34,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
                     'group' => ['$in' => ['a', 'b']]
                 ]
             ],
-            ['$sample' => 10],
+            ['$sample' => ['size' => 10]],
             ['$lookup' =>
                 [
                     'from' => 'orders',

@@ -5,13 +5,32 @@ namespace CommonServices\Photobundle\Form\Processor;
 use CommonServices\PhotoBundle\Document\Category;
 use CommonServices\PhotoBundle\Form\Type\CategoryType;
 use CommonServices\UserServiceBundle\Exception\InvalidFormException;
+use Symfony\Component\Form\FormFactoryInterface;
 
 /**
  * Class CategoryInfoProcessor
  * @package CommonServices\Photobundle\Form\Processor
  */
-final class CategoryInfoProcessor extends AbstractProcessor
+final class CategoryInfoProcessor
 {
+
+    const MSG_INVALID_SUBMITTED_DATA = 'Invalid submitted data';
+    const MSG_INVALID_ARGUMENT_METHOD = 'Invalid argument $method.';
+
+    /**
+     * @var FormFactoryInterface
+     */
+    protected $formFactory;
+
+    /**
+     * AbstractProcessor constructor.
+     * @param FormFactoryInterface $formFactory
+     */
+    public function __construct(FormFactoryInterface $formFactory)
+    {
+        $this->formFactory = $formFactory;
+    }
+
     /**
      * Process Category Form
      * it validate the parameters and fill the Item entity with the form parameters

@@ -1,5 +1,18 @@
 # Ramsey\Uuid\Doctrine Changelog
 
+## 1.4.1
+
+_Released: 2017-07-18_
+
+* Use global `UuidFactory` in `UuidOrderedTimeGenerator`; this provides the ability to configure the factory used ([#36](https://github.com/ramsey/uuid-doctrine/issues/36), [#37](https://github.com/ramsey/uuid-doctrine/pull/37))
+
+## 1.4.0
+
+_Released: 2017-07-05_
+
+* Add generator for time-optimized UUIDs ([#33](https://github.com/ramsey/uuid-doctrine/pull/33))
+* Remove HHVM testing on Travis CI
+
 ## 1.3.0
 
 _Released: 2017-04-13_

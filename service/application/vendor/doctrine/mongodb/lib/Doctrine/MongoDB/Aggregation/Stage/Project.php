@@ -48,7 +48,7 @@ class Project extends Operator
      * @see Expr::avg
      * @param mixed|Expr $expression1
      * @param mixed|Expr $expression2, ... Additional expressions
-     * @return Operator
+     * @return $this
      *
      * @since 1.3
      */
@@ -61,11 +61,15 @@ class Project extends Operator
 
     /**
      * Shorthand method to exclude the _id field.
+     *
+     * @deprecated Deprecated in 1.5, please use {@link excludeFields()}.
      * @param bool $exclude
      * @return $this
      */
     public function excludeIdField($exclude = true)
     {
+        @trigger_error(__METHOD__ . ' has been deprecated in favor of excludeFields.', E_USER_DEPRECATED);
+
         return $this->field('_id')->expression( ! $exclude);
     }
 
@@ -85,6 +89,25 @@ class Project extends Operator
     }
 
     /**
+     * Shorthand method to define which fields to be excluded.
+     *
+     * If you specify the exclusion of a field other than _id, you cannot employ
+     * any other $project specification forms.
+     *
+     * @since 1.5
+     * @param array $fields
+     * @return $this
+     */
+    public function excludeFields(array $fields)
+    {
+        foreach ($fields as $fieldName) {
+            $this->field($fieldName)->expression(false);
+        }
+
+        return $this;
+    }
+
+    /**
      * Returns the highest value that results from applying an expression to
      * each document in a group of documents that share the same group by key.
      *
@@ -92,7 +115,7 @@ class Project extends Operator
      * @see Expr::max
      * @param mixed|Expr $expression1
      * @param mixed|Expr $expression2, ... Additional expressions
-     * @return Operator
+     * @return $this
      *
      * @since 1.3
      */
@@ -111,7 +134,7 @@ class Project extends Operator
      * @see Expr::min
      * @param mixed|Expr $expression1
      * @param mixed|Expr $expression2, ... Additional expressions
-     * @return Operator
+     * @return $this
      *
      * @since 1.3
      */
@@ -171,7 +194,7 @@ class Project extends Operator
      * @see Expr::sum
      * @param mixed|Expr $expression1
      * @param mixed|Expr $expression2, ... Additional expressions
-     * @return Operator
+     * @return $this
      *
      * @since 1.3
      */

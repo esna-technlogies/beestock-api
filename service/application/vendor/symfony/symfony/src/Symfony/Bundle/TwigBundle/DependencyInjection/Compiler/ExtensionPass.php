@@ -65,10 +65,7 @@ class ExtensionPass implements CompilerPassInterface
             $container->getDefinition('twig.extension.httpkernel')->addTag('twig.extension');
 
             // inject Twig in the hinclude service if Twig is the only registered templating engine
-            if (
-                !$container->hasParameter('templating.engines')
-                || array('twig') == $container->getParameter('templating.engines')
-            ) {
+            if ((!$container->hasParameter('templating.engines') || array('twig') == $container->getParameter('templating.engines')) && $container->hasDefinition('fragment.renderer.hinclude')) {
                 $container->getDefinition('fragment.renderer.hinclude')
                     ->addTag('kernel.fragment_renderer', array('alias' => 'hinclude'))
                     ->replaceArgument(0, new Reference('twig'))
@@ -96,6 +93,7 @@ class ExtensionPass implements CompilerPassInterface
         } else {
             $twigLoader->replaceArgument(1, $composerRootDir);
             $container->setAlias('twig.loader.filesystem', new Alias('twig.loader.native_filesystem', false));
+            $container->removeDefinition('templating.engine.twig');
         }
 
         if ($container->has('assets.packages')) {

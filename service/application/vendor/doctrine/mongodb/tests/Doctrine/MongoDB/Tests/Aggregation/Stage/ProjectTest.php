@@ -5,8 +5,9 @@ namespace Doctrine\MongoDB\Tests\Aggregation\Stage;
 use Doctrine\MongoDB\Aggregation\Expr;
 use Doctrine\MongoDB\Aggregation\Stage\Project;
 use Doctrine\MongoDB\Tests\Aggregation\AggregationTestCase;
+use Doctrine\MongoDB\Tests\TestCase;
 
-class ProjectTest extends \PHPUnit_Framework_TestCase
+class ProjectTest extends TestCase
 {
     use AggregationTestCase;
 
@@ -14,7 +15,7 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
     {
         $projectStage = new Project($this->getTestAggregationBuilder());
         $projectStage
-            ->excludeIdField()
+            ->excludeFields(['_id'])
             ->includeFields(['$field', '$otherField'])
             ->field('product')
             ->multiply('$field', 5);
@@ -27,7 +28,7 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
         $builder = $this->getTestAggregationBuilder();
         $builder
             ->project()
-            ->excludeIdField()
+            ->excludeFields(['_id'])
             ->includeFields(['$field', '$otherField'])
             ->field('product')
             ->multiply('$field', 5);
