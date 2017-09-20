@@ -1,0 +1,19 @@
+# Services
+services:
+    maxmind.geoip:
+        class:      Maxmind\Bundle\GeoipBundle\Service\GeoipManager
+        arguments:  [ "%maxmind_geoip_data_file_path%" ]
+
+    maxmind.geoip.twig_extension:
+        class:      Maxmind\Bundle\GeoipBundle\Twig\GeoipExtension
+        public:     false
+        arguments:  [ "@maxmind.geoip" ]
+        tags:
+            - { name: twig.extension }
+
+    maxmind_bundle_geoip.command.load_data_command:
+        class: Maxmind\Bundle\GeoipBundle\Command\LoadDataCommand
+        calls:
+            - [ setDataFilePath, ['%maxmind_geoip_data_file_path%'] ]
+        tags:
+            - { name: console.command }
