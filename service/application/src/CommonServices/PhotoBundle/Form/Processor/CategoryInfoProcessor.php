@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\Photobundle\Form\Processor;
+namespace CommonServices\Photobundle\Form\PhotoProcessor;
 
 use CommonServices\PhotoBundle\Document\Category;
 use CommonServices\PhotoBundle\Form\Type\CategoryType;
@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormFactoryInterface;
  * Class CategoryInfoProcessor
  * @package CommonServices\Photobundle\Form\Processor
  */
-final class CategoryInfoProcessor
+class CategoryInfoProcessor
 {
 
     const MSG_INVALID_SUBMITTED_DATA = 'Invalid submitted data';

@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\Photobundle\Form\Processor;
+namespace CommonServices\Photobundle\Form\PhotoProcessor;
 
 use CommonServices\PhotoBundle\Document\Photo;
 use CommonServices\PhotoBundle\Form\Type\PhotoType;
@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormFactoryInterface;
  * Class UserProcessor
  * @package CommonServices\Photobundle\Processor
  */
-final class PhotoInfoProcessor
+class PhotoInfoProcessor
 {
     const MSG_INVALID_SUBMITTED_DATA = 'Invalid submitted data';
     const MSG_INVALID_ARGUMENT_METHOD = 'Invalid argument $method.';
