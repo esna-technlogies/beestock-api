@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\Photobundle\Form\PhotoProcessor;
+namespace CommonServices\PhotoBundle\Form\Processor;
 
 use CommonServices\PhotoBundle\Document\Photo;
 use CommonServices\PhotoBundle\Form\Type\PhotoType;
@@ -22,7 +22,7 @@ class PhotoInfoProcessor
     protected $formFactory;
 
     /**
-     * AbstractProcessor constructor.
+     * PhotoInfoProcessor constructor.
      * @param FormFactoryInterface $formFactory
      */
     public function __construct(FormFactoryInterface $formFactory)

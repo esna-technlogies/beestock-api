@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\Photobundle\Form\PhotoProcessor;
+namespace CommonServices\PhotoBundle\Form\Processor;
 
 use CommonServices\PhotoBundle\Document\File;
 use CommonServices\PhotoBundle\Form\Type\FileType;

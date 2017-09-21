@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonServices\Photobundle\Form\PhotoProcessor;
+namespace CommonServices\PhotoBundle\Form\Processor;
 
 use CommonServices\PhotoBundle\Document\Category;
 use CommonServices\PhotoBundle\Form\Type\CategoryType;
