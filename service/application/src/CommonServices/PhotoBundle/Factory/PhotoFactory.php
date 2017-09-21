@@ -3,7 +3,7 @@
 namespace CommonServices\PhotoBundle\Factory;
 
 use CommonServices\PhotoBundle\Document\Photo;
-use CommonServices\Photobundle\Form\Processor\PhotoInfoProcessor;
+use CommonServices\PhotoBundle\Form\Processor\PhotoInfoProcessor;
 use CommonServices\PhotoBundle\Repository\PhotoRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
