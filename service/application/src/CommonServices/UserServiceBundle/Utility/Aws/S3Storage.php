@@ -44,6 +44,17 @@ class S3Storage
         $request =[
             'Bucket' => $bucketName,
             'LocationConstraint' => $this->serviceContainer->getParameter('aws_region'),
+            'CORSConfiguration' => [ 
+                'CORSRules' => [
+                    [
+                        'AllowedHeaders' => ['Authorization'],
+                        'AllowedMethods' => ['POST', 'GET', 'PUT', 'DELETE', 'OPTIONS'], // REQUIRED
+                        'AllowedOrigins' => ['*'], // REQUIRED
+                        'ExposeHeaders'  => ['Location', 'x-amz-request-id'],
+                        'MaxAgeSeconds'  => 3000
+                    ],
+                ],
+            ],
         ];
 
         return $this->s3Client->createBucket($request);
