@@ -79,7 +79,7 @@ class PhotoType extends AbstractType
             [
                 'constraints' =>
                     [
-                        new Length(['min' => 3, 'max'=> 100]),
+                        new Length(['min' => 3, 'max'=> 255]),
                         new NotNull(),
                     ]
             ]
