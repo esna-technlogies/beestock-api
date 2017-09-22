@@ -44,7 +44,7 @@ class S3Storage
         $request =[
             'Bucket' => $bucketName,
             'LocationConstraint' => $this->serviceContainer->getParameter('aws_region'),
-            'CORSConfiguration' => [ 
+            'CORSConfiguration' => [
                 'CORSRules' => [
                     [
                         'AllowedHeaders' => ['Authorization'],
