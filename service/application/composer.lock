@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f17f908980610950ea32542a8378bdac",
+    "content-hash": "9c5173095a3cb19aadaaae561577eb63",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -1947,7 +1947,7 @@
             ],
             "authors": [
                 {
-                    "name": "Friedrich Gro??e",
+                    "name": "Friedrich Große",
                     "email": "friedrich.grosse@gmail.com",
                     "homepage": "https://github.com/FGrosse",
                     "role": "Author"
@@ -2958,7 +2958,7 @@
                     "email": "igor@wiedler.ch"
                 },
                 {
-                    "name": "Robert Sch??nthal",
+                    "name": "Robert Schönthal",
                     "email": "seroscho@googlemail.com"
                 }
             ],
@@ -3148,7 +3148,7 @@
             ],
             "authors": [
                 {
-                    "name": "S??bastien Roch",
+                    "name": "Sébastien Roch",
                     "role": "Developer"
                 },
                 {
@@ -5091,6 +5091,55 @@
             "time": "2017-05-01T15:54:03+00:00"
         },
         {
+            "name": "symfony/filesystem",
+            "version": "v3.3.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/filesystem.git",
+                "reference": "b32a0e5f928d0fa3d1dd03c78d020777e50c10cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/b32a0e5f928d0fa3d1dd03c78d020777e50c10cb",
+                "reference": "b32a0e5f928d0fa3d1dd03c78d020777e50c10cb",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Filesystem Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-07-29T21:54:42+00:00"
+        },
+        {
             "name": "symfony/monolog-bundle",
             "version": "v3.1.0",
             "source": {
@@ -6655,7 +6704,7 @@
                     "email": "shelburt02@gmail.com"
                 },
                 {
-                    "name": "Th??o FIDRY",
+                    "name": "Théo FIDRY",
                     "email": "theo.fidry@gmail.com"
                 }
             ],

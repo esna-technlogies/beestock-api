@@ -3,6 +3,7 @@
 namespace CommonServices\PhotoBundle\Domain\Photo;
 
 use CommonServices\PhotoBundle\Document\Category;
+use CommonServices\PhotoBundle\Document\File;
 use CommonServices\PhotoBundle\Document\Photo;
 use CommonServices\PhotoBundle\Repository\PhotoRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -67,12 +68,26 @@ class PhotoDomainService
     }
 
     /**
-     * @param string $url
-     * @param string $category
+     * @param array $fileInfo
+     * @return File
      */
-    public function analyzeFile(string $url, string $category)
+    public function analyzeFile(array $fileInfo) : File
     {
+        $fileAnalyzer = $this->container->get('photo_service.factory.file_factory');
 
+        return $fileAnalyzer->processFileMetadata($fileInfo);
+
+    }
+
+    /**
+     * @param array $fileInfo
+     * @return array
+     */
+    public function generateKeywords(array $fileInfo) : array
+    {
+        $fileAnalyzer = $this->container->get('photo_service.factory.file_factory');
+
+        return $fileAnalyzer->getFileKeywords($fileInfo);
 
     }
 }

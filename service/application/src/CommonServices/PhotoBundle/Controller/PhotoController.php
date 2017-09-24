@@ -224,7 +224,7 @@ class PhotoController extends Controller
      *          "dataType"="string",
      *          "required"= true,
      *          "requirement"="^[a-zA-Z]*$",
-     *          "description"="Title of the photo"
+     *          "description"="Url of the S3 file (only JPG or PNG photos)"
      *      },
      *  },
      *  tags={"stable"},
@@ -238,61 +238,16 @@ class PhotoController extends Controller
     public function keywordsAction(Request $request)
     {
 
-        $list =[
-            'boy',
-            'man', 'colleague professor',
-            'child',
-            'laughing',
-            'blond',
-            'woman', 'Berlin wall',
-            'car',
-            'mercedes',
-            'hot', 'cute baby', 'cub cake !',
-            'cool',
-            'nice colors',
-            'Las Vegas!',
-            'smiling',
-            'carpet', 'house wife',
-            'engineer',
-            'school',
-            'bracelet',
-            'nuclease',
-            'book',
-            'pen', 'bonny tail',
-            'pencil',
-            'flower',
-            'rose', 'parking dog',
-            'jasmine',
-            'volcano',
-            'hack', 'oceanic 815',
-            'addictive',
-            'mindless',
-            'pig','TV Show',
-            'chalk',
-            'mixer', 'sexless', 'angry', 'old', 'amazing', 'human', 'long hair'
-        ];
+        $fileInfo = $request->request->all();
 
+        $photoServiceDomain = $this->get('photo_service.photo_domain');
 
-        $r = rand(1, sizeof($list)-1);
-
-        $result = array();
-        foreach( array_rand($list, $r) as $k ) {
-            $result[] = $list[$k];
-        }
-
-
-        $r2 = rand(1, sizeof($result)-1);
-
-        $keywords = [];
-        foreach( array_rand($result, $r2) as $k ) {
-            $keywords[] = $result[$k];
-        }
-
+        $fileKeywords = $photoServiceDomain->getDomainService()->generateKeywords($fileInfo);
 
         return new Response(
             $this->get('user_service.response_serializer')
-                ->serialize(['keywords' => $keywords]),
-            Response::HTTP_CREATED
+                ->serialize(['keywords' => $fileKeywords]),
+            Response::HTTP_OK
         );
     }
 

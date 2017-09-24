@@ -56,7 +56,7 @@ class FileStorageController extends Controller
 
         $userDomain   = $this->get('user_service.user_domain');
         $userManager  = $userDomain->getUser($user);
-        $uploadPolicy = $userManager->getAccount()->newFileUploadPolicy('uploads');
+        $uploadPolicy = $userManager->getAccount()->newFileUploadPolicy($this->getParameter('aws_s3_users_uploads_bucket'));
 
         $formAttributes = $uploadPolicy->getFormAttributes();
         $formInputs     = $uploadPolicy->getFormInputs();

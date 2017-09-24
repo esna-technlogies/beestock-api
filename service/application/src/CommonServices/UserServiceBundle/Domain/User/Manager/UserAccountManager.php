@@ -72,36 +72,38 @@ class UserAccountManager
     {
         // create user storage bucket
         $storage = $this->container->get('aws.s3.file_storage');
-        $bucketName = 'beestock-'.time().'-'.$this->user->getUuid();
+        $userDirectoryName = $this->user->getUuid();
 
         try{
 
             /** @var \Aws\Result $results */
-            $results = $storage->createBucket($bucketName);
+            $storage->createUserBucket($userDirectoryName);
+
+            $bucketUrl = $userDirectoryName;
 
             $bucket = new StorageBucket();
-            $bucket->setBucketUrl($results->get('Location'));
-            $bucket->setBucketId($bucketName);
+            $bucket->setBucketUrl($bucketUrl);
+            $bucket->setBucketId($userDirectoryName);
 
             $this->user->setStorageBucket($bucket);
             $this->userRepository->save($this->user);
         }
         catch (\Exception $e)
         {
-            throw new \Exception(date("Y-M-D  h:i:sa   ")."Couldn't create user bucket !".$e->getMessage(), 500);
+            throw new \Exception(date("Y-M-D  h:i:sa  ")." Couldn't create user bucket ! ".$e->getMessage(), 500);
         }
     }
 
     /**
      * Creates a new file upload policy for the given user
-     * @param string $directory
+     * @param string $usersBucket
      * @return PostObjectV4
      */
-    public function newFileUploadPolicy(string $directory) : PostObjectV4
+    public function newFileUploadPolicy(string $usersBucket) : PostObjectV4
     {
         $storage = $this->container->get('aws.s3.file_storage');
 
-        return $storage->getFileUploadPolicy($this->user->getStorageBucket()->getBucketId(), $directory);
+        return $storage->getFileUploadPolicy($usersBucket, $this->user->getStorageBucket()->getBucketId());
     }
 
     /**

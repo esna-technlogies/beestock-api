@@ -22,6 +22,11 @@ class PhotoFactory
      */
     private $container;
 
+    /**
+     * PhotoFactory constructor.
+     * @param ContainerInterface $container
+     * @param PhotoRepository $photoRepository
+     */
     public function __construct(ContainerInterface $container, PhotoRepository $photoRepository)
     {
         $this->photoRepository = $photoRepository;
@@ -40,4 +45,5 @@ class PhotoFactory
 
         return $photo;
     }
+
 }

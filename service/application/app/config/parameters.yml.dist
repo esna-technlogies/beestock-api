@@ -29,8 +29,8 @@ parameters:
     jwt_token_ttl: 3600
 
     # aws settings
-    aws_access_key: AKIAIGEBK7THLXCTEY3Q
-    aws_access_secret: 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
+    aws_access_key: AKIAI435SNOPSVJNU6MA
+    aws_access_secret: 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
     aws_region: us-west-2
 
     # rabbit-mq settings
@@ -38,4 +38,16 @@ parameters:
     rabbitmq_user: guest
     rabbitmq_password: guest
 
-    temp_uploads_directory: '%kernel.root_dir%/web/uploads/'
+
+    temp_uploads_directory: '%kernel.root_dir%/../web/uploads/'
+    default_user_directory: '%kernel.root_dir%/../web/user/'
+
+    aws_s3_users_bucket:   'beestock-users'
+    aws_s3_foorage_bucket: 'beestock-footage'
+    aws_s3_photos_bucket:  'beestock-photos'
+    aws_s3_vector_bucket:  'beestock-vector'
+    aws_s3_users_uploads_bucket: 'beestock-users-uploads'
+    aws_s3_transcoder_input_bucket:  'beestock-transcoder-input'
+    aws_s3_transcoder_output_bucket: 'beestock-transcoder-output'
+
+    aws_s3_standard_user_directory: 'standard-user'
