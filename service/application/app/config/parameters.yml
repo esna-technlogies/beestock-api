@@ -16,8 +16,8 @@ parameters:
     jwt_public_key_path: '%kernel.root_dir%/../../ssl-keys/jwt/public.pem'
     jwt_key_pass_phrase: 2571986
     jwt_token_ttl: 3600
-    aws_access_key: AKIAI435SNOPSVJNU6MA
-    aws_access_secret: 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
+    aws_access_key: AKIAJCKUF7RGHO7W3V3A
+    aws_access_secret: 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
     aws_region: us-west-2
     rabbitmq_host: rabbitmq-management
     rabbitmq_user: guest
