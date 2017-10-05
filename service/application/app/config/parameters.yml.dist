@@ -29,8 +29,8 @@ parameters:
     jwt_token_ttl: 3600
 
     # aws settings
-    aws_access_key: AKIAI435SNOPSVJNU6MA
-    aws_access_secret: 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
+    aws_access_key: AKIAJCKUF7RGHO7W3V3A
+    aws_access_secret: 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
     aws_region: us-west-2
 
     # rabbit-mq settings
