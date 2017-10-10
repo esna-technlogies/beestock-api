@@ -51,3 +51,5 @@ parameters:
     aws_s3_transcoder_output_bucket: 'beesstock-transcoder-output'
 
     aws_s3_standard_user_directory: 'standard-user'
+
+    aws_s3_sns_user_arn: 'arn:aws:sns:us-west-2:014519795457:user-account'

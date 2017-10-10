@@ -32,3 +32,9 @@ services:
         arguments:
             - "@service_container"
             - "@aws.rekognition"
+
+    aws.user.sns:
+        class: CommonServices\UserServiceBundle\Utility\Aws\Sns
+        arguments:
+            - "@service_container"
+            - "@aws.sns"

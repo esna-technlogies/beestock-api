@@ -39,14 +39,15 @@ class UserDocumentPostPersistListener
 
         if ($document instanceof User)
         {
-            $userCreatedEvent = new UserAccountSuccessfullyCreatedEvent($document);
-            $eventDispatcher->dispatch(UserAccountSuccessfullyCreatedEvent::NAME, $userCreatedEvent);
 
             $mobileNumberChangedEvent = new UserMobileNumberChangedEvent($document);
             $eventDispatcher->dispatch(UserMobileNumberChangedEvent::NAME, $mobileNumberChangedEvent);
 
             $emailAddedToAccountEvent = new UserEmailAddedToAccountEvent($document, $document->getEmail());
             $eventDispatcher->dispatch(UserEmailAddedToAccountEvent::NAME, $emailAddedToAccountEvent);
+
+            $userCreatedEvent = new UserAccountSuccessfullyCreatedEvent($document);
+            $eventDispatcher->dispatch(UserAccountSuccessfullyCreatedEvent::NAME, $userCreatedEvent);
 
         }
     }

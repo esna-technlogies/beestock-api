@@ -43,6 +43,9 @@ class UserAccountListener implements EventSubscriberInterface
             '',
             $event->getUser()->getEmail()
         );
+
+        $this->container->get('aws.user.sns')->publishUserEvent($userDocument->getUuid(), UserAccountSuccessfullyCreatedEvent::NAME);
+
     }
 
     /**
@@ -75,6 +78,8 @@ class UserAccountListener implements EventSubscriberInterface
             '',
             ''
         );
+
+        $this->container->get('aws.user.sns')->publishUserEvent($userDocument->getUuid(), UserAccountActivatedEvent::NAME);
     }
 
     /**
