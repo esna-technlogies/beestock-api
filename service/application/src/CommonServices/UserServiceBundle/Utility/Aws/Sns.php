@@ -43,7 +43,6 @@ class Sns
 
         $this->snsClient->publish(array(
             'TopicArn' => $userArn,
-            'TargetArn' => $userArn,
             'Message' => $user.'___'.$eventName,
             'Subject' => $eventName,
             )
