@@ -2,7 +2,9 @@
 
 cd infrastructure/development/docker/
 
-docker-compose up --build -d 
+docker-compose up --build -d
+
+cd ../../../
 
 rm -R ./service/application/var/cache/*
 
