@@ -2,7 +2,7 @@ version: '2.0'
 services:
   nginx-server:
       build: ./nginx/
-      container_name: user-service-nginx
+      container_name: beesstock-nginx
       ports:
           - "80:80"
       volumes:
@@ -11,9 +11,15 @@ services:
       logging:
         driver: syslog
 
+  image-magick:
+      build: ./image-magick/
+      container_name: beesstock-image-magick
+      logging:
+        driver: syslog
+
   mongodb:
       build: ./mongodb/
-      container_name: user-service-mongodb
+      container_name: beesstock-mongodb
       ports:
           - "27017:27017"
       logging:
@@ -23,7 +29,7 @@ services:
       build: ./php-fpm/
       ports:
           - "9000:9000"
-      container_name: user-service-php-fpm
+      container_name: beesstock-php-fpm
       environment:
           XDEBUG_CONFIG: remote_host=192.168.178.139
       volumes:
