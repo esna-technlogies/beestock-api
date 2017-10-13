@@ -138,8 +138,6 @@ class User
 
     /**
      * @MongoDB\EmbedOne(targetDocument="CommonServices\UserServiceBundle\Document\AccessInfo")
-     *
-     * @Exclude
      */
     protected $accessInfo;
 

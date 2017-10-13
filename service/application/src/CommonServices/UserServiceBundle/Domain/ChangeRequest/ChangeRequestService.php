@@ -83,7 +83,6 @@ class ChangeRequestService
         foreach ($pendingRequests as $changeRequest)
         {
             $this->changeRequestRepository->save($changeRequest);
-            //$eventBusService->publish($changeRequest);
         }
     }
 

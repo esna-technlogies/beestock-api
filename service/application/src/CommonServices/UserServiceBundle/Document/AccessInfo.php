@@ -6,6 +6,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation\Exclude as Exclude;
 
 /**
  * @package UserServiceBundle\Document
@@ -14,12 +15,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class AccessInfo implements UserInterface
 {
     /**
+     * @Exclude
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
      */
     protected $password;
 
     /**
+     * @Exclude
      * @var \DateTime $created
      * @MongoDB\Timestamp
      * @Gedmo\Timestampable(on="change", field={"password"})
@@ -27,6 +30,7 @@ class AccessInfo implements UserInterface
     protected $lastChange;
 
     /**
+     * @Exclude
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
      */
@@ -39,11 +43,13 @@ class AccessInfo implements UserInterface
     protected $roles;
 
     /**
+     * @Exclude
      * @var string
      */
     protected $userName;
 
     /**
+     * @Exclude
      * @MongoDB\Field(type="integer")
      * @Assert\NotBlank()
      *

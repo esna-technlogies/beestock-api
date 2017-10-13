@@ -3,6 +3,7 @@
 namespace CommonServices\UserServiceBundle\Domain\ChangeRequest;
 
 use CommonServices\UserServiceBundle\Document\ChangeRequest;
+use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Repository\ChangeRequestRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -44,6 +45,16 @@ class ChangeRequestSearchManager
         $queryPaginationHandler = $this->changeRequestRepository->findNewChangeRequests($action, $startPage, $limit);
 
         return $queryPaginationHandler->getQueryResults();
+    }
+
+    /**
+     * @param string $user
+     *
+     * @return ChangeRequest | object
+     */
+    public function findPendingRequestsOfUser(string $user) : ?ChangeRequest
+    {
+        return $this->changeRequestRepository->findOneBy(['user' => $user, 'eventName' => 'user_account.created']);
     }
 
     /**

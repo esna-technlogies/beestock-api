@@ -164,6 +164,16 @@ class UserController extends Controller
 
         $user = $userDomain->getDomainService()->createUserAccount($basicAccountInformation);
 
+        $pendingRequests = $this->get('user_service.change_request_domain')->getSearch()->findPendingRequestsOfUser($user->getUuid());
+        if ($pendingRequests != null){
+
+            return new Response(
+                $this->get('user_service.response_serializer')
+                    ->serialize(['user' => $user , 'pending_verification_requests' => $pendingRequests]),
+                Response::HTTP_OK
+            );
+        }
+
         return new Response(
             $this->get('user_service.response_serializer')
                 ->serialize(['user' => $user]),
@@ -210,6 +220,17 @@ class UserController extends Controller
     {
         if (is_null($user)) {
             throw new NotFoundException("User not found", Response::HTTP_NOT_FOUND);
+        }
+
+        $pendingRequests = $this->get('user_service.change_request_domain')->getSearch()->findPendingRequestsOfUser($user->getUuid());
+
+        if ($pendingRequests != null){
+
+            return new Response(
+                $this->get('user_service.response_serializer')
+                    ->serialize(['user' => $user , 'pending_verification_requests' => $pendingRequests]),
+                Response::HTTP_OK
+            );
         }
 
         return new Response(

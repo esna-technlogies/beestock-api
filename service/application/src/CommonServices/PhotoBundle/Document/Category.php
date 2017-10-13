@@ -48,6 +48,8 @@ class Category
      * @var \DateTime $created
      * @MongoDB\Timestamp
      * @Gedmo\Timestampable(on="create")
+     *
+     * @Exclude
      */
     protected $created;
 
@@ -55,6 +57,8 @@ class Category
      * @var \DateTime $lastChange
      * @MongoDB\Timestamp
      * @Gedmo\Timestampable(on="update")
+     *
+     * @Exclude
      */
     protected $lastChange;
 
@@ -73,6 +77,8 @@ class Category
 
     /**
      * @return mixed
+     *
+     * @Exclude
      */
     public function getId()
     {

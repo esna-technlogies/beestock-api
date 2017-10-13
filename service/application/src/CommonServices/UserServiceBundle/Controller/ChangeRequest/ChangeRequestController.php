@@ -167,7 +167,6 @@ class ChangeRequestController extends Controller
 
         $changeRequest = $changeRequestService->getSearch()->findUserActivationRequest($user->getUuid());
 
-
         if (is_null($changeRequest)) {
             throw new NotFoundException("User activation request not found", Response::HTTP_NOT_FOUND);
         }

@@ -177,6 +177,15 @@ class UserRepository extends DocumentRepository
     }
 
     /**
+     * @return void
+     */
+    public function deleteAll()
+    {
+        $collection = $this->dm->getDocumentCollection('CommonServices\UserServiceBundle\Document\User');
+        $collection->drop();
+    }
+
+    /**
      * @param User $user
      */
     public function delete(User $user)

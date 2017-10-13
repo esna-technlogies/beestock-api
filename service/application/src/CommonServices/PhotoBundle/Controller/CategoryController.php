@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
-    const CATEGORY_COLLECTION_LISTING_RESULTS_PER_PAGE = 2;
+    const CATEGORY_COLLECTION_LISTING_RESULTS_PER_PAGE = 30;
 
     /**
      * Lists all categories

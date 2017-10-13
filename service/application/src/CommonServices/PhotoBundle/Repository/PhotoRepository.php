@@ -146,6 +146,15 @@ class PhotoRepository extends DocumentRepository
     }
 
     /**
+     * @return void
+     */
+    public function deleteAll()
+    {
+        $collection = $this->dm->getDocumentCollection('CommonServices\PhotoBundle\Document\Photo');
+        $collection->drop();
+    }
+
+    /**
      * @param Photo $photo
      */
     public function softDelete(Photo $photo)

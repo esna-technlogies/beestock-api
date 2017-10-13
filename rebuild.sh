@@ -2,7 +2,15 @@
 
 cd infrastructure/development/docker/
 
-docker-compose up --build -d
+docker-compose down
+
+docker stop $(docker ps -aq)
+
+docker rm $(docker ps -aq)
+
+docker rmi $(docker images -aq)
+
+docker-compose up --build -d 
 
 cd ../../../
 

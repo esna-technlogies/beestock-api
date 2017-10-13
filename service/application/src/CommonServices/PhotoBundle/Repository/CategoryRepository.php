@@ -77,6 +77,15 @@ class CategoryRepository extends DocumentRepository
     }
 
     /**
+     * @return void
+     */
+    public function deleteAll()
+    {
+        $collection = $this->dm->getDocumentCollection('CommonServices\PhotoBundle\Document\Category');
+        $collection->drop();
+    }
+
+    /**
      * @param Category $category
      */
     public function softDelete(Category $category)

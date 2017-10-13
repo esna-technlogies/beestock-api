@@ -12,14 +12,6 @@ use Hateoas\Configuration\Annotation as Hateoas;
 /**
  * @package UserServiceBundle\Document
  *
- * @Hateoas\Relation(
- *     "self",
- *      href = @Hateoas\Route(
- *          "user_service_submit_verification_code",
- *          parameters = { "uuid" = "expr(object.getUuid())" }
- *     )
- * )
- *
  * @MongoDB\Document(
  *     repositoryClass="CommonServices\UserServiceBundle\Repository\ChangeRequestRepository"
  * )
@@ -42,12 +34,16 @@ class ChangeRequest
     protected $uuid;
 
     /**
+     * @Exclude
+     *
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
      */
     protected $user;
 
     /**
+     * @Exclude
+     *
      * @var \DateTime $created
      * @MongoDB\Timestamp
      * @Gedmo\Timestampable(on="create")
@@ -55,6 +51,8 @@ class ChangeRequest
     protected $created;
 
     /**
+     * @Exclude
+     *
      * @var \DateTime $lastChange
      * @MongoDB\Timestamp
      * @Gedmo\Timestampable(on="update")
@@ -64,22 +62,30 @@ class ChangeRequest
     /**
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
+     *
+     * @Exclude
      */
     protected $changeProcessorName;
 
     /**
+     * @Exclude
+     *
      * @MongoDB\Field(type="integer")
      * @Assert\NotBlank()
      */
     protected $eventFiringTime;
 
     /**
+     * @Exclude
+     *
      * @MongoDB\Field(type="integer")
      * @Assert\NotBlank()
      */
     protected $eventLifeTime;
 
     /**
+     * @Exclude
+     *
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
      */
