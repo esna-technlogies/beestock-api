@@ -256,7 +256,7 @@ class InitializerController extends Controller
 
             foreach ($usersIDs as $uIndex => $uid){
 
-                for ($i=0; $i <10; $i++){
+                for ($i=0; $i <3; $i++){
 
                     $rand = mt_rand(1, 794);
 
