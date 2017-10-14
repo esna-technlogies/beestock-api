@@ -165,7 +165,7 @@ class S3Storage
      */
     public function copyS3Object(array $object)
     {
-        return $this->s3Client->copyObjectAsync(
+        return $this->s3Client->copyObject(
             [
                 'Bucket'     => $object['to']['bucket'],
                 'Key'        => $object['to']['key'],
