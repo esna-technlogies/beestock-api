@@ -96,7 +96,6 @@ class Photo
 
     /**
      * @MongoDB\Field(type="collection")
-     * @Assert\NotBlank()
      */
     protected $thumbnails = [];
 

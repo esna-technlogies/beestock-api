@@ -3,6 +3,7 @@
 namespace CommonServices\UserServiceBundle\Controller\WebHook;
 
 use const HTTP_MSG_RESPONSE;
+use function implode;
 use function mt_rand;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use function print_r;
@@ -370,21 +371,21 @@ class InitializerController extends Controller
                            strtolower(strrev($photoTitles[rand(0,sizeof($photoTitles)-1)]))." ".
                            strtolower(strrev($photoTitles[rand(0,sizeof($photoTitles)-1)]))." ..";
 
-            $description = substr($description, 0, 140);
+            $keywords = [
+                $photoTitles[rand(0,sizeof($photoTitles)-1)],
+                $photoTitles[rand(0,sizeof($photoTitles)-1)],
+                $photoTitles[rand(0,sizeof($photoTitles)-1)],
+                $photoTitles[rand(0,sizeof($photoTitles)-1)],
+                $photoTitles[rand(0,sizeof($photoTitles)-1)],
+                $photoTitles[rand(0,sizeof($photoTitles)-1)],
+            ];
 
             $photoInfo = [
-                'title'         => $title,
-                'description'   => $description,
-                'user'          => $object['uid'],
-                'category'      => $object['cid'],
-                'keywords'      => [
-                    $photoTitles[rand(0,sizeof($photoTitles)-1)],
-                    $photoTitles[rand(0,sizeof($photoTitles)-1)],
-                    $photoTitles[rand(0,sizeof($photoTitles)-1)],
-                    $photoTitles[rand(0,sizeof($photoTitles)-1)],
-                    $photoTitles[rand(0,sizeof($photoTitles)-1)],
-                    $photoTitles[rand(0,sizeof($photoTitles)-1)],
-                ],
+                'title'          => $title,
+                'description'    => $description,
+                'user'           => $object['uid'],
+                'category'       => $object['cid'],
+                'keywords'       => implode(",", $keywords),
                 'originalFile'   => 'https://s3-us-west-2.amazonaws.com/'.$object['to']['bucket'].'/'.$object['to']['key'],
                 'suggestedPrice' => rand(100, 999),
             ];
