@@ -267,7 +267,7 @@ class InitializerController extends Controller
                         ],
                         'to' =>[
                             'bucket' => $this->getParameter('aws_s3_users_uploads_bucket'),
-                            'key'    => $uid.'/'.time().'_'.$rand.'.jpg',
+                            'key'    => $uid.'/'.time().($rand*$i*mt_rand(1, 99999)).'_'.$rand.'.jpg',
                         ],
                     ];
                 }
