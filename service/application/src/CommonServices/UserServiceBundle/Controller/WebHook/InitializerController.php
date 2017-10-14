@@ -256,26 +256,23 @@ class InitializerController extends Controller
 
             foreach ($usersIDs as $uIndex => $uid){
 
-                for ($i=0; $i <3; $i++){
+                $rand = mt_rand(1, 794);
 
-                    $rand = mt_rand(1, 794);
-
-                    $copiedObjects[] = [
-                        'from' =>[
-                            'bucket' => 'beesstock-test-data',
-                            'key'    => 'photos/sample-'.$rand.'.jpg',
-                        ],
-                        'to' =>[
-                            'bucket' => $this->getParameter('aws_s3_users_uploads_bucket'),
-                            'key'    => $uid.'/'.time().($rand*$i*mt_rand(1, 99999)).'_'.$rand.'.jpg',
-                        ],
-                    ];
-                }
+                $copiedObjects[] = [
+                    'from' =>[
+                        'bucket' => 'beesstock-test-data',
+                        'key'    => 'photos/sample-'.$rand.'.jpg',
+                    ],
+                    'to' =>[
+                        'bucket' => $this->getParameter('aws_s3_users_uploads_bucket'),
+                        'key'    => $uid.'/'.time().($rand*mt_rand(1, 100)*mt_rand(1, 100)*mt_rand(1, 100)).'_'.$rand.'.jpg',
+                    ],
+                ];
             }
         }
 
         foreach ($copiedObjects as $object){
-            $s3Service->copyS3Objects($object);
+            $s3Service->copyS3Object($object);
         }
 
         return new Response('Perfect !', Response::HTTP_ACCEPTED);
