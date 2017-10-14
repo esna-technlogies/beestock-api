@@ -2,6 +2,7 @@
 
 namespace CommonServices\UserServiceBundle\Controller\WebHook;
 
+use CommonServices\UserServiceBundle\Event\User\Account\UserAccountSuccessfullyCreatedEvent;
 use function implode;
 use function mt_rand;
 use function sizeof;
@@ -391,6 +392,8 @@ class InitializerController extends Controller
         }
 
 
+
+        $this->get('aws.user.sns')->publishUserEvent('test-users', UserAccountSuccessfullyCreatedEvent::NAME);
 
         return new Response('Perfect !', Response::HTTP_ACCEPTED);
     }
