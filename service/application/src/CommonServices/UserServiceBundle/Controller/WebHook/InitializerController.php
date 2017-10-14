@@ -2,17 +2,14 @@
 
 namespace CommonServices\UserServiceBundle\Controller\WebHook;
 
-use const HTTP_MSG_RESPONSE;
 use function implode;
 use function mt_rand;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use function print_r;
 use function sizeof;
-use function strlen;
 use function strrev;
+use function time;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use function time;
 
 /**
  * Class InitializerController

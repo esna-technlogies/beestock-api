@@ -15,20 +15,20 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @Hateoas\Relation(
  *     "self",
  *      href = @Hateoas\Route(
- *          "photo_service_get_file_info",
+ *          "photo_service_create_new_storage_file",
  *          parameters = { "uuid" = "expr(object.getUuid())" }
  *     )
  * )
  *
  * @MongoDB\Document(
- *     collection="files",
- *     repositoryClass="CommonServices\PhotoBundle\Repository\FileRepository",
+ *     collection="fileStorage",
+ *     repositoryClass="CommonServices\PhotoBundle\Repository\FileStorageRepository",
  *     indexes={
- *         @MongoDB\Index(keys={"title":"asc"})
+ *         @MongoDB\Index(keys={"fileId":"asc"})
  *     }
  * )
  */
-class File
+class FileStorage
 {
     /**
      * @MongoDB\Id(strategy="AUTO", type="string")
@@ -62,13 +62,19 @@ class File
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
      */
-    protected $title;
+    protected $fileId;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @MongoDB\Field(type="collection")
      * @Assert\NotBlank()
      */
-    protected $description;
+    protected $extensions = [];
+
+    /**
+     * @MongoDB\Field(type="collection")
+     * @Assert\NotBlank()
+     */
+    protected $sizes = [];
 
     /**
      * @MongoDB\Field(type="string")
@@ -79,13 +85,13 @@ class File
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
      */
-    protected $category;
+    protected $originalFile;
 
     /**
-     * @MongoDB\Field(type="collection")
+     * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
      */
-    protected $keywords = [];
+    protected $bucket;
 
 
     /**
@@ -155,33 +161,49 @@ class File
     /**
      * @return mixed
      */
-    public function getTitle()
+    public function getFileId()
     {
-        return $this->title;
+        return $this->fileId;
     }
 
     /**
-     * @param mixed $title
+     * @param mixed $fileId
      */
-    public function setTitle($title)
+    public function setFileId($fileId)
     {
-        $this->title = $title;
+        $this->fileId = $fileId;
     }
 
     /**
      * @return mixed
      */
-    public function getDescription()
+    public function getSizes()
     {
-        return $this->description;
+        return $this->sizes;
     }
 
     /**
-     * @param mixed $description
+     * @return mixed
      */
-    public function setDescription($description)
+    public function getExtensions()
     {
-        $this->description = $description;
+        return $this->extensions;
+    }
+
+    /**
+     * @param mixed $extensions
+     */
+    public function setExtensions($extensions)
+    {
+        $this->extensions = explode(",", $extensions);
+    }
+
+    /**
+     * @param mixed $sizes
+     */
+    public function setSizes($sizes)
+    {
+        $this->sizes = explode(",", $sizes);
     }
 
     /**
@@ -203,33 +225,33 @@ class File
     /**
      * @return mixed
      */
-    public function getCategory()
+    public function getOriginalFile()
     {
-        return $this->category;
+        return $this->originalFile;
     }
 
     /**
-     * @param mixed $category
+     * @param mixed $originalFile
      */
-    public function setCategory($category)
+    public function setOriginalFile($originalFile)
     {
-        $this->category = $category;
+        $this->originalFile = $originalFile;
     }
 
     /**
      * @return mixed
      */
-    public function getKeywords()
+    public function getBucket()
     {
-        return $this->keywords;
+        return $this->bucket;
     }
 
     /**
-     * @param mixed $keywords
+     * @param mixed $bucket
      */
-    public function setKeywords($keywords)
+    public function setBucket($bucket)
     {
-        $this->keywords = $keywords;
+        $this->bucket = $bucket;
     }
 
     /**

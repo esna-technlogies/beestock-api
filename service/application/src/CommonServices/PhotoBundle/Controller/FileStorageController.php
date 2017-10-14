@@ -2,7 +2,7 @@
 
 namespace CommonServices\PhotoBundle\Controller;
 
-use CommonServices\PhotoBundle\Document\File;
+use CommonServices\PhotoBundle\Document\FileStorage;
 use CommonServices\UserServiceBundle\Document\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -23,7 +23,7 @@ class FileStorageController extends Controller
      *
      * @ApiDoc(
      *  section="File Storage",
-     *  description="Create a new photo",
+     *  description="Create a new storage file",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  parameters={
      *      {
@@ -34,18 +34,11 @@ class FileStorageController extends Controller
      *          "description"="File ID"
      *      },
      *      {
-     *          "name"="fileExtension",
+     *          "name"="extensions",
      *          "dataType"="string",
      *          "required"= true,
-     *          "requirement"="^[a-zA-Z]*$",
-     *          "description"="File Extension"
-     *      },
-     *      {
-     *          "name"="user",
-     *          "dataType"="string",
-     *          "required"= true,
-     *          "requirement"="V5 UUID",
-     *          "description"="UUID of the user who owns the file"
+     *          "requirement"="comma separated strings",
+     *          "description"="imploded string of file extensions"
      *      },
      *      {
      *          "name"="sizes",
@@ -55,18 +48,25 @@ class FileStorageController extends Controller
      *          "description"="imploded string of file sizes"
      *      },
      *      {
+     *          "name"="user",
+     *          "dataType"="string",
+     *          "required"= true,
+     *          "requirement"="V5 UUID",
+     *          "description"="UUID of the user who owns the file"
+     *      },
+     *      {
      *          "name"="originalFile",
      *          "dataType"="string",
      *          "required"= true,
-     *          "requirement"="*.*",
+     *          "requirement"="http://url/bucket/file-id.extension",
      *          "description"="A valid url to the file uploaded to amazon S3"
      *      },
      *      {
      *          "name"="bucket",
      *          "dataType"="string",
      *          "required"= true,
-     *          "requirement"="[.]{0,16}",
-     *          "description"="the price the owner of the photo suggests"
+     *          "requirement"="^[a-zA-Z]*$",
+     *          "description"="the bucket name"
      *      }
      *  },
      *  tags={"stable"},
@@ -81,9 +81,9 @@ class FileStorageController extends Controller
     {
         $fileInfo = $request->request->all();
 
-        $photoServiceDomain = $this->get('photo_service.photo_domain');
+        $photoServiceDomain = $this->get('photo_service.file_storage_domain');
 
-        $photo = $photoServiceDomain->getDomainService()->createPhoto($fileInfo);
+        $photo = $photoServiceDomain->getDomainService()->createFile($fileInfo);
 
         return new Response(
             $this->get('user_service.response_serializer')
@@ -95,7 +95,7 @@ class FileStorageController extends Controller
 
     /**
      * Get a file by Unique Identifier (UUID)
-     * @param File $file
+     * @param FileStorage $file
      *
      * @ParamConverter()
      * @return \Symfony\Component\HttpFoundation\Response
@@ -129,7 +129,7 @@ class FileStorageController extends Controller
      *
      * @throws NotFoundException
      */
-    public function getAction(File $file = null)
+    public function getAction(FileStorage $file = null)
     {
         if (is_null($file)) {
             throw new NotFoundException("Photo not found", Response::HTTP_NOT_FOUND);

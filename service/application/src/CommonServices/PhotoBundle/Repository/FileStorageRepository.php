@@ -2,23 +2,23 @@
 
 namespace CommonServices\PhotoBundle\Repository;
 
-use CommonServices\PhotoBundle\Document\File;
+use CommonServices\PhotoBundle\Document\FileStorage;
 use CommonServices\UserServiceBundle\Exception\NotFoundException;
 use CommonServices\UserServiceBundle\Utility\Api\Pagination\DoctrineExtension\QueryPaginationHandler;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 
 /**
- * Class FileRepository
+ * Class FileStorageRepository
  * @package PhotoBundle\Repository
 */
-class FileRepository extends DocumentRepository
+class FileStorageRepository extends DocumentRepository
 {
     /**
      * @param int $startPage
      * @param int $resultsPerPage
      * @return mixed
      */
-    public function findAllCategories(int $startPage, int $resultsPerPage) : QueryPaginationHandler
+    public function findAllFiles(int $startPage, int $resultsPerPage) : QueryPaginationHandler
     {
         $queryPaginationHandler = new QueryPaginationHandler($startPage, $resultsPerPage);
 
@@ -39,11 +39,11 @@ class FileRepository extends DocumentRepository
     /**
      * @param $uuid
      * @throws NotFoundException
-     * @return File
+     * @return FileStorage
      */
-    public function findByUuid($uuid) : ?File
+    public function findByUuid($uuid) : ?FileStorage
     {
-        /** @var File $file */
+        /** @var FileStorage $file */
         $file = parent::findOneBy(['uuid' => $uuid]);
 
         if(is_null($file)){
@@ -58,19 +58,19 @@ class FileRepository extends DocumentRepository
     }
 
     /**
-     * @param File $file
+     * @param FileStorage $file
      * @return void
      */
-    public function save(File $file)
+    public function save(FileStorage $file)
     {
         $this->dm->persist($file);
         $this->dm->flush();
     }
 
     /**
-     * @param File $file
+     * @param FileStorage $file
      */
-    public function delete(File $file)
+    public function delete(FileStorage $file)
     {
         $this->dm->remove($file);
         $this->dm->flush();
@@ -81,14 +81,14 @@ class FileRepository extends DocumentRepository
      */
     public function deleteAll()
     {
-        $collection = $this->dm->getDocumentCollection('CommonServices\PhotoBundle\Document\File');
+        $collection = $this->dm->getDocumentCollection('CommonServices\PhotoBundle\Document\FileStorage');
         $collection->drop();
     }
 
     /**
-     * @param File $file
+     * @param FileStorage $file
      */
-    public function softDelete(File $file)
+    public function softDelete(FileStorage $file)
     {
         $this->dm->remove($file);
         $this->dm->flush();

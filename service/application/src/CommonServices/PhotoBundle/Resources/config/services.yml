@@ -20,7 +20,14 @@ services:
             - "@service_container"
             - "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:Photo')"
             - "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:Category')"
-            - "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:File')"
+
+    ## Core business domains
+    photo_service.file_storage_domain:
+        class: CommonServices\PhotoBundle\Domain\File\FileStorageDomain
+        shared: false
+        arguments:
+            - "@service_container"
+            - "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:FileStorage')"
 
     ## AWS S3 storage
     photo_service.aws_s3.client:

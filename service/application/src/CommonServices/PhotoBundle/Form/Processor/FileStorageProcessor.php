@@ -2,16 +2,16 @@
 
 namespace CommonServices\PhotoBundle\Form\Processor;
 
-use CommonServices\PhotoBundle\Document\File;
-use CommonServices\PhotoBundle\Form\Type\FileType;
+use CommonServices\PhotoBundle\Document\FileStorage;
+use CommonServices\PhotoBundle\Form\Type\FileStorageType;
 use CommonServices\UserServiceBundle\Exception\InvalidFormException;
 use Symfony\Component\Form\FormFactoryInterface;
 
 /**
- * Class FileInfoProcessor
+ * Class UserProcessor
  * @package CommonServices\Photobundle\Processor
  */
-class FileInfoProcessor
+class FileStorageProcessor
 {
     const MSG_INVALID_SUBMITTED_DATA = 'Invalid submitted data';
     const MSG_INVALID_ARGUMENT_METHOD = 'Invalid argument $method.';
@@ -22,7 +22,7 @@ class FileInfoProcessor
     protected $formFactory;
 
     /**
-     * AbstractProcessor constructor.
+     * PhotoInfoProcessor constructor.
      * @param FormFactoryInterface $formFactory
      */
     public function __construct(FormFactoryInterface $formFactory)
@@ -31,23 +31,23 @@ class FileInfoProcessor
     }
 
     /**
-     * Process File information from storage
+     * Process File info
      * it validate the parameters and fill the Item entity with the form parameters
      *
-     * @param File $file
+     * @param FileStorage $file
      * @param array $parameters
      * @param boolean $clearMissingInfo
      *
-     * @return File
+     * @return FileStorage
      * @throws InvalidFormException
      */
-    public function processForm(File $file, array $parameters, $clearMissingInfo = true) : File
+    public function processForm(FileStorage $file, array $parameters, $clearMissingInfo = true) : FileStorage
     {
         $uuid = is_null($file->getUuid())? '' : $file->getUuid();
 
         $form =  $this->formFactory
-                        ->createBuilder(FileType::class, $file, ['uuid' => $uuid])
-                        ->getForm();
+            ->createBuilder(FileStorageType::class, $file, ['uuid' => $uuid])
+            ->getForm();
         $form->submit($parameters, $clearMissingInfo);
 
         if(false === $form->isValid()){

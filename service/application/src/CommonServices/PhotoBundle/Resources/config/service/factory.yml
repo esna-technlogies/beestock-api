@@ -8,6 +8,6 @@ services:
         class: CommonServices\PhotoBundle\Factory\CategoryFactory
         arguments: ["@service_container" , "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:Category')"]
 
-    photo_service.factory.file_factory:
-        class: CommonServices\PhotoBundle\Factory\FileFactory
-        arguments: ["@service_container" , "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:File')"]
+    photo_service.factory.file_storage_factory:
+        class: CommonServices\PhotoBundle\Factory\FileStorageFactory
+        arguments: ["@service_container" , "@=service('doctrine_mongodb').getManager().getRepository('PhotoBundle:FileStorage')"]

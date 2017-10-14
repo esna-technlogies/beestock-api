@@ -1,16 +1,16 @@
 
 ## File Analysis resource
-photo_service_file_upload_policy:
+photo_service_new_file_upload_policy:
     methods: [GET]
     path:     /file/storage/user/{uuid}
     defaults: { _controller: PhotoBundle:FileStorage:uploadPolicy}
 
-photo_service_get_file_info:
+photo_service_get_storage_file_info:
     methods: [GET]
     path:     /file/storage/file/{uuid}
     defaults: { _controller: PhotoBundle:FileStorage:get}
 
-photo_service_file_analysis:
+photo_service_create_new_storage_file:
     methods: [POST]
     path:     /file/storage/file
     defaults: { _controller: PhotoBundle:FileStorage:newFile}
