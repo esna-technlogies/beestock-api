@@ -37,7 +37,7 @@ class FileFactory
     public function processFileMetadata(array $fileInfo) : File
     {
         // Download file
-        $file = $this->downloadFile($fileInfo['s3File']);
+        $file = $this->downloadFile($fileInfo['originalFile']);
 
         // check file, make sure it' a valid jog or footage or icon
 

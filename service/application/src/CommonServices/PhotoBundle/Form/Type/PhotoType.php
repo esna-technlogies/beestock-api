@@ -75,7 +75,7 @@ class PhotoType extends AbstractType
             ]
         );
 
-        $builder->add('s3File', UrlType::class,
+        $builder->add('originalFile', UrlType::class,
             [
                 'constraints' =>
                     [

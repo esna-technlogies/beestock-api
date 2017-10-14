@@ -92,22 +92,44 @@ class Photo
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank()
      */
-    protected $s3File;
+    protected $originalFile;
+
+    /**
+     * @MongoDB\Field(type="collection")
+     * @Assert\NotBlank()
+     */
+    protected $thumbnails = [];
 
     /**
      * @return mixed
      */
-    public function getS3File()
+    public function getThumbnails()
     {
-        return $this->s3File;
+        return $this->thumbnails;
     }
 
     /**
-     * @param mixed $s3File
+     * @param mixed $thumbnails
      */
-    public function setS3File($s3File)
+    public function setThumbnails($thumbnails)
     {
-        $this->s3File = $s3File;
+        $this->thumbnails = $thumbnails;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOriginalFile()
+    {
+        return $this->originalFile;
+    }
+
+    /**
+     * @param mixed $originalFile
+     */
+    public function setOriginalFile($originalFile)
+    {
+        $this->originalFile = $originalFile;
     }
 
 

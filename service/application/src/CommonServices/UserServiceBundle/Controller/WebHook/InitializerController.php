@@ -6,6 +6,9 @@ use const HTTP_MSG_RESPONSE;
 use function mt_rand;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use function print_r;
+use function sizeof;
+use function strlen;
+use function strrev;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use function time;
@@ -267,13 +270,129 @@ class InitializerController extends Controller
                         'bucket' => $this->getParameter('aws_s3_users_uploads_bucket'),
                         'key'    => $uid.'/'.time().($rand*mt_rand(1, 100)*mt_rand(1, 100)*mt_rand(1, 100)).'_'.$rand.'.jpg',
                     ],
+                    'uid'  => $uid,
+                    'cid'  => $cid,
                 ];
             }
         }
 
+
+        $photoTitles = [
+            'accurate',
+            'flood',
+            'precede',
+            'curtain',
+            'truculent',
+            'tall',
+            'superficial',
+            'spoon',
+            'kneel',
+            'lyrical',
+            'corn',
+            'theory',
+            'proud',
+            'Button',
+            'Cappuccino',
+            'Car',
+            'Car-race',
+            'Carpet',
+            'Carrot',
+            'Cave',
+            'wall',
+            'windy',
+            'crack',
+            'hope',
+            'step',
+            'ball',
+            'Comet',
+            'Compact Disc',
+            'Compass',
+            'Computer',
+            'instrument',
+            'smash',
+            'cub',
+            'roomy',
+            'aboard',
+            'dry',
+            'soda',
+            'plate',
+            'soda',
+            'cats',
+            'jobless',
+            'complete',
+            'Boy',
+            'Brain',
+            'Bridge',
+            'Butterfly',
+            'Chair',
+            'Chess Board',
+            'Chief',
+            'Child',
+            'Chisel',
+            'Chocolates',
+            'Church',
+            'Circle',
+            'Circus',
+            'Clock',
+            'Clown',
+            'Coffee',
+            'Coffee-shop',
+            'Crystal',
+            'Cup',
+            'Cycle',
+            'Data Base',
+            'Desk',
+            'Diamond',
+            'Dress',
+            'Drill',
+            'Drink',
+            'Drum',
+            'Dung',
+            'Ears',
+            'Earth',
+            'Egg',
+            'Electricity',
+            'Elephant',
+            'Eraser',
+            'Explosive',
+        ];
+
         foreach ($copiedObjects as $object){
+
             $s3Service->copyS3Object($object);
+
+            $title = ucwords($photoTitles[rand(0,sizeof($photoTitles)-1)])." ".strtolower(strrev($photoTitles[rand(0,sizeof($photoTitles)-1)]));
+
+            $description = ucwords($photoTitles[rand(0,sizeof($photoTitles)-1)])." ".
+                           strtolower(strrev($photoTitles[rand(0,sizeof($photoTitles)-1)]))." ".
+                           strtolower(strrev($photoTitles[rand(0,sizeof($photoTitles)-1)]))." ".
+                           strtolower(strrev($photoTitles[rand(0,sizeof($photoTitles)-1)]))." ".
+                           strtolower(strrev($photoTitles[rand(0,sizeof($photoTitles)-1)]))." ".
+                           strtolower(strrev($photoTitles[rand(0,sizeof($photoTitles)-1)]))." ..";
+
+            $description = substr($description, 0, 140);
+
+            $photoInfo = [
+                'title'         => $title,
+                'description'   => $description,
+                'user'          => $object['uid'],
+                'category'      => $object['cid'],
+                'keywords'      => [
+                    $photoTitles[rand(0,sizeof($photoTitles)-1)],
+                    $photoTitles[rand(0,sizeof($photoTitles)-1)],
+                    $photoTitles[rand(0,sizeof($photoTitles)-1)],
+                    $photoTitles[rand(0,sizeof($photoTitles)-1)],
+                    $photoTitles[rand(0,sizeof($photoTitles)-1)],
+                    $photoTitles[rand(0,sizeof($photoTitles)-1)],
+                ],
+                'originalFile'   => 'https://s3-us-west-2.amazonaws.com/'.$object['to']['bucket'].'/'.$object['to']['key'],
+                'suggestedPrice' => rand(100, 999),
+            ];
+
+            $this->get('photo_service.photo_domain')->getDomainService()->createPhoto($photoInfo);
         }
+
+
 
         return new Response('Perfect !', Response::HTTP_ACCEPTED);
     }

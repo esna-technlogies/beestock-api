@@ -122,7 +122,7 @@ class PhotoController extends Controller
      *          "description"="The keywords used to describe the photo"
      *      },
      *      {
-     *          "name"="s3File",
+     *          "name"="originalFile",
      *          "dataType"="string",
      *          "required"= true,
      *          "requirement"="*.*",
