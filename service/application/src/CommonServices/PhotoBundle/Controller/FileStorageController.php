@@ -27,39 +27,32 @@ class FileStorageController extends Controller
      *  output="Symfony\Component\HttpFoundation\Response",
      *  parameters={
      *      {
-     *          "name"="title",
+     *          "name"="fileId",
      *          "dataType"="string",
      *          "required"= true,
      *          "requirement"="^[a-zA-Z]*$",
-     *          "description"="Title of the photo"
+     *          "description"="File ID"
      *      },
      *      {
-     *          "name"="description",
+     *          "name"="fileExtension",
      *          "dataType"="string",
      *          "required"= true,
      *          "requirement"="^[a-zA-Z]*$",
-     *          "description"="Description og the photo"
+     *          "description"="File Extension"
      *      },
      *      {
      *          "name"="user",
      *          "dataType"="string",
      *          "required"= true,
      *          "requirement"="V5 UUID",
-     *          "description"="UUID of the user who submitted the photo"
+     *          "description"="UUID of the user who owns the file"
      *      },
      *      {
-     *          "name"="category",
+     *          "name"="sizes",
      *          "dataType"="string",
      *          "required"= true,
-     *          "requirement"="V5 UUID",
-     *          "description"="UUID of the category that the photo belongs to"
-     *      },
-     *      {
-     *          "name"="keywords",
-     *          "dataType"="string",
-     *          "required"= true,
-     *          "requirement"="A comma separated imploded keywords (children, kid, laughing)",
-     *          "description"="The keywords used to describe the photo"
+     *          "requirement"="comma separated strings",
+     *          "description"="imploded string of file sizes"
      *      },
      *      {
      *          "name"="originalFile",
@@ -69,7 +62,7 @@ class FileStorageController extends Controller
      *          "description"="A valid url to the file uploaded to amazon S3"
      *      },
      *      {
-     *          "name"="suggestedPrice",
+     *          "name"="bucket",
      *          "dataType"="string",
      *          "required"= true,
      *          "requirement"="[.]{0,16}",

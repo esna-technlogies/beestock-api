@@ -16,7 +16,6 @@ photo_service_file_analysis:
     defaults: { _controller: PhotoBundle:FileStorage:newFile}
 
 
-
 ## Photo resource
 photo_service_post_photo:
     methods: [POST]
