@@ -36,6 +36,22 @@ class PhotoRepository extends DocumentRepository
 
         return $queryPaginationHandler;
     }
+    /**
+     * @param string $categoryUuid
+     * @return mixed
+     */
+    public function findRandomPhoto(string $categoryUuid) : ?Photo
+    {
+        $qb = $this->getDocumentManager()
+                   ->createQueryBuilder()
+                   ->field('category')->equals($categoryUuid)
+        ;
+        $count =  $qb->getQuery()->count();
+        $skip_count = random_int(0, $count);
+        $qb->skip($skip_count);
+
+        return $qb->getQuery()->getSingleResult();
+    }
 
     /**
      * @param $name

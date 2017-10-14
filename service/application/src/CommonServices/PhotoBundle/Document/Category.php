@@ -20,6 +20,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     )
  * )
  *
+ * @Hateoas\Relation(
+ *     "random_photo",
+ *      href = @Hateoas\Route(
+ *          "photo_service_get_random_photo",
+ *          parameters = { "uuid" = "expr(object.getUuid())" }
+ *     ),
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(object.getUuid() === null)")
+ * )
+ *
  * @MongoDB\Document(
  *     collection="categories",
  *     repositoryClass="CommonServices\PhotoBundle\Repository\CategoryRepository",

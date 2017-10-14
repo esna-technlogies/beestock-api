@@ -99,7 +99,7 @@ user_service_email_and_sms_sender:
 user_service_initializer:
     methods: [GET]
     path:     /webhook/initialize
-    defaults: { _controller: UserServiceBundle:WebHook\Initializer:reset }
+    defaults: { _controller: UserServiceBundle:WebHook\Initializer:createBasicData }
 
 user_service_clean_pending_requests:
     methods: [GET]

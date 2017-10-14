@@ -2,6 +2,7 @@
 
 namespace CommonServices\PhotoBundle\Controller;
 
+use CommonServices\PhotoBundle\Document\Category;
 use CommonServices\PhotoBundle\Document\Photo;
 use CommonServices\UserServiceBundle\Utility\Api\Pagination\ApiCollectionPagination;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -207,7 +208,6 @@ class PhotoController extends Controller
             Response::HTTP_OK
         );
     }
-
 
     /**
      * This end point can be used to get a list of suggested keywords of a given photo

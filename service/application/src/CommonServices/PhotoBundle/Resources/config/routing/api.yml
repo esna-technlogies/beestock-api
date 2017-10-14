@@ -42,8 +42,6 @@ photo_service_get_photo:
     defaults: { _controller: PhotoBundle:Photo:get }
 
 
-
-
 ## Thumbnail resource
 photo_service_get_thumbnails:
     methods: [GET]
@@ -87,6 +85,11 @@ photo_service_update_category:
     methods: [PATCh]
     path:     /category/{uuid}
     defaults: { _controller: PhotoBundle:Category:update }
+
+photo_service_get_random_photo:
+    methods: [GET]
+    path:     /category/random/category/{uuid}
+    defaults: { _controller: PhotoBundle:Category:getRandomPhoto }
 
 
 

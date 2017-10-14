@@ -75,6 +75,58 @@ class CategoryController extends Controller
     }
 
     /**
+     * Get a random photo in a given category (UUID)
+     * @param Category $category
+     *
+     * @ParamConverter()
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *  section="Photo",
+     *  description="Get a random photo in a given category",
+     *  output="Symfony\Component\HttpFoundation\Response",
+     *  tags={"stable"},
+     *  headers={
+     *    {
+     *        "name"="Authorization",
+     *        "description"="Bearer token",
+     *    }
+     *  },
+     *  requirements={
+     *      {
+     *          "name"="uuid",
+     *          "dataType"="string",
+     *          "requirement"="V5 UUID",
+     *          "description"="Unique identifier of the category"
+     *      }
+     *  },
+     *  statusCodes={
+     *         200="Returned when successful, photo details are retrieved ",
+     *         400="Bad request: The system is unable to process the request",
+     *         404={"No photo with the provided UUID was found"},
+     *         500="The system is unable to get the photo details due to a server side error"
+     *  }
+     * )
+     *
+     * @throws NotFoundException
+     */
+    public function getRandomPhotoAction(Category $category = null)
+    {
+        if (is_null($category)) {
+            throw new NotFoundException("Category not found", Response::HTTP_NOT_FOUND);
+        }
+
+        $photo = $this->get('photo_service.photo_domain')->getPhotoRepository()->findRandomPhoto($category);
+
+        return new Response(
+            $this->get('user_service.response_serializer')
+                ->serialize(['photo' => $photo]),
+            Response::HTTP_OK
+        );
+    }
+
+
+    /**
      * Get Category by Unique Identifier (UUID)
      * @param Category $category
      *

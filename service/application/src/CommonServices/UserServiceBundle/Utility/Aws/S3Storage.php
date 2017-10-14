@@ -144,6 +144,37 @@ class S3Storage
     }
 
     /**
+     * @return object
+     */
+    public function emptyUploadsBucket()
+    {
+        $request =[
+            'Bucket' => $this->serviceContainer->getParameter('aws_s3_users_uploads_bucket'),
+        ];
+
+        $this->s3Client->deleteBucket($request);
+
+        // Wait until the bucket is not accessible
+        return $this->s3Client->waitUntil('BucketNotExists', $request);
+    }
+
+    /**
+     * @param array $object
+     *
+     * @return object
+     */
+    public function copyS3Objects(array $object)
+    {
+        return $this->s3Client->copyObject(
+            [
+                'Bucket'     => $object['to']['bucket'],
+                'Key'        => $object['to']['key'],
+                'CopySource' => "{$object['from']['bucket']}/{$object['from']['key']}",
+            ]
+        );
+    }
+
+    /**
      * @param string $bucketName
      * @param string $userDirectory
      *
