@@ -256,7 +256,7 @@ class InitializerController extends Controller
 
             foreach ($usersIDs as $uIndex => $uid){
 
-                $rand = mt_rand(1, 794);
+                $rand = mt_rand(1, 635);
 
                 $copiedObjects[] = [
                     'from' =>[
