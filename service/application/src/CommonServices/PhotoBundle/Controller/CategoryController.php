@@ -275,10 +275,6 @@ class CategoryController extends Controller
             throw new NotFoundException("Category not found", Response::HTTP_NOT_FOUND);
         }
 
-        $category = $this->get('photo_service.photo_domain')->getCategory($category);
-
-        // implement delete category
-
         return new Response("", Response::HTTP_NO_CONTENT);
     }
 
@@ -286,7 +282,6 @@ class CategoryController extends Controller
     /**
      * Completely replace an existing user with another user object
      * @param Category $category
-     * @param Request $request
      * @ParamConverter()
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -334,13 +329,11 @@ class CategoryController extends Controller
      *
      * @throws NotFoundException
      */
-    public function updateAction(Category $category, Request $request)
+    public function updateAction(Category $category)
     {
-        $categoryInfo = $request->request->all();
-
         $photoDomain = $this->get('photo_service.photo_domain');
 
-        $userManager = $photoDomain->getUser($category);
+        $photoDomain->getUser($category);
 
         return new Response(
             $this->get('user_service.response_serializer')

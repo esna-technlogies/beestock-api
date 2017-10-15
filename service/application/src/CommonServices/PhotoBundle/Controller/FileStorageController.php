@@ -4,6 +4,7 @@ namespace CommonServices\PhotoBundle\Controller;
 
 use CommonServices\PhotoBundle\Document\FileStorage;
 use CommonServices\UserServiceBundle\Document\User;
+use CommonServices\UserServiceBundle\Utility\Api\Pagination\ApiCollectionPagination;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use CommonServices\UserServiceBundle\Exception\NotFoundException;
@@ -15,6 +16,66 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FileStorageController extends Controller
 {
+    const FILES_COLLECTION_LISTING_RESULTS_PER_PAGE = 2;
+
+    /**
+     * Lists all storage files in the system
+     *
+     * @ParamConverter()
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *  section="File Storage",
+     *  description="lists all storage files in the system",
+     *  output="Symfony\Component\HttpFoundation\Response",
+     *  tags={"stable"},
+     *  headers={
+     *    {
+     *        "name"="Authorization",
+     *        "description"="Bearer token",
+     *    }
+     *  },
+     *  filters={
+     *      {"name"="page", "dataType"="integer"},
+     *      {"name"="limit", "dataType"="integer"}
+     *  },
+     *  statusCodes={
+     *         200="Returned when successful, all photos are listed",
+     *         400="Bad request: The system is unable to process the request",
+     *         404="No photos were found"
+     *  }
+     * )
+     *
+     * @throws NotFoundException
+     */
+    public function listAction()
+    {
+        $startPage      = abs(filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options'=>['default' => 1 ]]));
+        $resultsPerPage = abs(filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT,
+            ['options'=>['default' => self::FILES_COLLECTION_LISTING_RESULTS_PER_PAGE ]]
+        ));
+
+        $resultsHandler =  $this->get('photo_service.file_storage_domain')->getFileStorageRepository()->findAllFiles($startPage, $resultsPerPage);
+
+        $resultsPaginator = new ApiCollectionPagination(
+            $resultsHandler,
+            $this->get('router'),
+            'photo_service_list_files_uploaded'
+        );
+
+        if (!$resultsPaginator->getResultCollection()) {
+            throw $this->createNotFoundException('No files found in the system.');
+        }
+
+        $results = $resultsPaginator->getHateoasFriendlyResults('files');
+
+        return new Response(
+            $this->get('user_service.response_serializer')->serialize($results),
+            Response::HTTP_OK
+        );
+    }
+
 
     /**
      * This end point creates a new photo

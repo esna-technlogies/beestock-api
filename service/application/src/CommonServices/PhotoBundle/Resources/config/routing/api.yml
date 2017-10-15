@@ -15,6 +15,10 @@ photo_service_create_new_storage_file:
     path:     /file/storage/file
     defaults: { _controller: PhotoBundle:FileStorage:newFile}
 
+photo_service_list_files_uploaded:
+    methods: [GET]
+    path:     /file/storage/file
+    defaults: { _controller: PhotoBundle:FileStorage:list}
 
 ## Photo resource
 photo_service_post_photo:
