@@ -60,12 +60,12 @@ class ChangeRequestController extends Controller
         $changeRequestService = $this->get('user_service.change_request_domain');
 
         if (is_null($changeRequest)) {
-            return $this->redirect($this->getParameter('cors_allow_origin'),'/?redirect_message=ACCOUNT_ACTIVATION_FAILED');
+            return $this->redirect($this->getParameter('cors_allow_origin').'/?redirect_message=ACCOUNT_ACTIVATION_FAILED', 302);
         }
 
         $changeRequestService->getChangeRequest($changeRequest)->executeChange($request->get('code', ''));
 
-        return $this->redirect($this->getParameter('cors_allow_origin'),'/?redirect_message=ACCOUNT_SUCCESSFULLY_ACTIVATED');
+        return $this->redirect($this->getParameter('cors_allow_origin').'/?redirect_message=ACCOUNT_SUCCESSFULLY_ACTIVATED', 302);
     }
 
 /**
