@@ -7,7 +7,7 @@ photo_service_new_file_upload_policy:
 
 photo_service_get_storage_file_info:
     methods: [GET]
-    path:     /file/storage/file/{uuid}
+    path:     /file/storage/file/{fileId}
     defaults: { _controller: PhotoBundle:FileStorage:get}
 
 photo_service_create_new_storage_file:

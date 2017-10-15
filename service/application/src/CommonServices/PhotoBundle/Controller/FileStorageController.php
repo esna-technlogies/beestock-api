@@ -5,6 +5,7 @@ namespace CommonServices\PhotoBundle\Controller;
 use CommonServices\PhotoBundle\Document\FileStorage;
 use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Utility\Api\Pagination\ApiCollectionPagination;
+use function isEmpty;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use CommonServices\UserServiceBundle\Exception\NotFoundException;
@@ -12,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function var_dump;
 
 
 class FileStorageController extends Controller
@@ -157,8 +159,6 @@ class FileStorageController extends Controller
     /**
      * Get a file by Unique Identifier (UUID)
      * @param FileStorage $file
-     *
-     * @ParamConverter()
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
@@ -174,26 +174,27 @@ class FileStorageController extends Controller
      *  },
      *  requirements={
      *      {
-     *          "name"="uuid",
+     *          "name"="fileId",
      *          "dataType"="string",
-     *          "requirement"="V5 UUID",
-     *          "description"="Unique identifier of the photo"
+     *          "requirement"="string fileId",
+     *          "description"="identifier of the file"
      *      }
      *  },
      *  statusCodes={
-     *         200="Returned when successful, photo details are retrieved ",
+     *         200="Returned when successful, file details are retrieved ",
      *         400="Bad request: The system is unable to process the request",
-     *         404={"No photo with the provided UUID was found"},
+     *         404={"No file with the provided fileId was found"},
      *         500="The system is unable to get the photo details due to a server side error"
      *  }
      * )
      *
      * @throws NotFoundException
      */
-    public function getAction(FileStorage $file = null)
+    public function getAction(FileStorage $file)
     {
-        if (is_null($file)) {
-            throw new NotFoundException("Photo not found", Response::HTTP_NOT_FOUND);
+
+        if ($file == null) {
+            throw new NotFoundException("File not found", Response::HTTP_NOT_FOUND);
         }
 
         return new Response(
