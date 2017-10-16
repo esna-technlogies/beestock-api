@@ -152,6 +152,23 @@ class PhotoController extends Controller
 
         $photo = $photoServiceDomain->getDomainService()->createPhoto($photoInfo);
 
+        $fileService = $this->get('photo_service.file_storage_domain');
+
+        $storageFile = $fileService->getFileStorageRepository()->findBy(
+            [
+                'fileId' => $photoServiceDomain->getDomainService()->extractFileId($photo['originalFile']),
+                'user'   => $photo['user'],
+            ]
+        );
+
+        if ($storageFile !=  null){
+            return new Response(
+                $this->get('user_service.response_serializer')
+                    ->serialize(['photo' => $photo, 'file' => $storageFile ]),
+                Response::HTTP_CREATED
+            );
+        }
+
         return new Response(
             $this->get('user_service.response_serializer')
                 ->serialize(['photo' => $photo]),
@@ -237,7 +254,6 @@ class PhotoController extends Controller
      */
     public function keywordsAction(Request $request)
     {
-
         $fileInfo = $request->request->all();
 
         $photoServiceDomain = $this->get('photo_service.photo_domain');

@@ -51,6 +51,19 @@ class PhotoDomainService
 
     }
 
+    /**
+     * @param string $fileUrl
+     * @throws InvalidFormException
+     *
+     * @return string
+     */
+    public function extractFileId(string $fileUrl) : string
+    {
+        $fileService = $this->container->get('photo_service.factory.file_storage_factory');
+
+        return $fileService->getFileId($fileUrl);
+    }
+
 
     /**
      * @param array $categoryInfo
@@ -72,9 +85,8 @@ class PhotoDomainService
      */
     public function generateKeywords(array $fileInfo) : array
     {
-        $fileAnalyzer = $this->container->get('photo_service.factory.file_storage_factory');
+        $fileService = $this->container->get('photo_service.factory.file_storage_factory');
 
-        return $fileAnalyzer->getFileKeywords($fileInfo);
-
+        return $fileService->getFileKeywords($fileInfo);
     }
 }

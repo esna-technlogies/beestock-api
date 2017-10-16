@@ -82,7 +82,7 @@ class CategoryController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
-     *  section="Photo",
+     *  section="Photo Category",
      *  description="Get a random photo in a given category",
      *  output="Symfony\Component\HttpFoundation\Response",
      *  tags={"stable"},

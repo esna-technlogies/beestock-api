@@ -6,6 +6,7 @@ use CommonServices\PhotoBundle\Document\FileStorage;
 use CommonServices\PhotoBundle\Form\Processor\FileStorageProcessor;
 use CommonServices\PhotoBundle\Repository\FileStorageRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 /**
  * Class PhotoFactory
@@ -33,20 +34,47 @@ class FileStorageFactory
         $this->container = $container;
     }
 
-    /***
+
+    /**
      * @param array $fileInfo
-     * @return FileStorage
+     * @return array
      */
-    public function createFileFromStorageInfo(array $fileInfo) : FileStorage
+    public function getFileKeywords(array $fileInfo) : array
     {
-        $fileEntity = new FileStorage();
+        // cleansing url
+        $count = 1;
+        $fileInfo['originalFile'] = str_replace('https://', '',$fileInfo['originalFile'], $count);
+        $info = explode('.s3-us-west-2.amazonaws.com/', $fileInfo['originalFile']);
 
-        $fileInfoProcessor = new FileStorageProcessor($this->container->get('form.factory'));
+        $info[1] = urldecode($info[1]);
 
-        $file = $fileInfoProcessor->processForm($fileEntity, $fileInfo, true);
 
-        $this->fileStorageRepository->save($file);
+        $rekognitionService = $this->container->get('aws.files.rekognition');
+        $lables = $rekognitionService->generatePhotoKeywords($info[1], $info[0]);
+        $keywords = [];
 
-        return $file;
+        foreach ($lables as $key => $value){
+            $keywords[] = $value["Name"];
+        }
+
+        return $keywords;
+    }
+
+    /**
+     * @param string $fileUrl
+     * @return string
+     */
+    public function getFileId(string $fileUrl) : string
+    {
+        // cleansing url
+        $count = 1;
+        $fileUrl = str_replace('https://', '',$fileUrl, $count);
+        $info = explode('.s3-us-west-2.amazonaws.com/', $fileUrl);
+
+        $fileName = urldecode($info[1]);
+
+        $fileId = explode('.', $fileName)[1];
+
+        return $fileId;
     }
 }
