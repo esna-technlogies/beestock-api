@@ -156,8 +156,8 @@ class PhotoController extends Controller
 
         $storageFile = $fileService->getFileStorageRepository()->findBy(
             [
-                'fileId' => $photoServiceDomain->getDomainService()->extractFileId($photo['originalFile']),
-                'user'   => $photo['user'],
+                'fileId' => $photoServiceDomain->getDomainService()->extractFileId($photo->getOriginalFile()),
+                'user'   => $photo->getUser(),
             ]
         );
 
