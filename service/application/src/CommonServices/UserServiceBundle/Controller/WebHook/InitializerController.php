@@ -354,9 +354,9 @@ class InitializerController extends Controller
             'Explosive',
         ];
 
-        foreach ($copiedObjects as $object){
+        $s3Service = $this->get('aws.s3.file_storage');
 
-            $s3Service = $this->get('aws.s3.file_storage');
+        foreach ($copiedObjects as $object){
 
             $s3Service->copyS3Object($object);
 
