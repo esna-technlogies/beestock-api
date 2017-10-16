@@ -237,7 +237,7 @@ class PhotoController extends Controller
      *  output="Symfony\Component\HttpFoundation\Response",
      *  parameters={
      *      {
-     *          "name"="s3file",
+     *          "name"="originalFile",
      *          "dataType"="string",
      *          "required"= true,
      *          "requirement"="^[a-zA-Z]*$",
