@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PhotoController extends Controller
 {
-    const PHOTO_COLLECTION_LISTING_RESULTS_PER_PAGE = 2;
+    const PHOTO_COLLECTION_LISTING_RESULTS_PER_PAGE = 30;
 
     /**
      * Lists all photos in the system
@@ -219,7 +219,6 @@ class PhotoController extends Controller
         }
 
         $photoServiceDomain = $this->get('photo_service.photo_domain');
-
 
         $fileService = $this->get('photo_service.file_storage_domain');
 

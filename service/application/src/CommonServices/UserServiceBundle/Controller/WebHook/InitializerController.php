@@ -57,7 +57,7 @@ class InitializerController extends Controller
             ],
             'user2' => [
                 'firstName'                 => 'Mohamed',
-                'lastName'                  => 'Almasry',
+                'lastName'                  => 'Elshawadfy',
                 'email'                     => 'eng.mg2011@gmail.com',
                 'language'                  => 'EN',
                 'country'                   => 'DE',
@@ -97,7 +97,7 @@ class InitializerController extends Controller
             'user5' => [
                 'firstName'                 => 'Jatzek',
                 'lastName'                  => 'McLane',
-                'email'                     => 'jj.mcLane@almasry.ws',
+                'email'                     => 'jj.mcLane@gmail.com',
                 'language'                  => 'EN',
                 'country'                   => 'DE',
                 'termsAccepted'             => true,
@@ -384,7 +384,7 @@ class InitializerController extends Controller
                 'user'           => $object['uid'],
                 'category'       => $object['cid'],
                 'keywords'       => implode(",", $keywords),
-                'originalFile'   => 'https://s3-us-west-2.amazonaws.com/'.$object['to']['bucket'].'/'.$object['to']['key'],
+                'originalFile'   => 'https://'.$object['to']['bucket'].'.s3-us-west-2.amazonaws.com/'.$object['to']['key'],
                 'suggestedPrice' => rand(100, 999),
             ];
 

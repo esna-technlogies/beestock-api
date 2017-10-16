@@ -18,7 +18,7 @@ use function var_dump;
 
 class FileStorageController extends Controller
 {
-    const FILES_COLLECTION_LISTING_RESULTS_PER_PAGE = 2;
+    const FILES_COLLECTION_LISTING_RESULTS_PER_PAGE = 30;
 
     /**
      * Lists all storage files in the system
