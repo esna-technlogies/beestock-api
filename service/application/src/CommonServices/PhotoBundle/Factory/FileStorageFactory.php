@@ -34,8 +34,7 @@ class FileStorageFactory
         $this->container = $container;
     }
 
-
-    /**
+    /***
      * @param array $fileInfo
      * @return array
      */
@@ -76,5 +75,22 @@ class FileStorageFactory
         $fileId = explode('.', $fileName)[1];
 
         return $fileId;
+    }
+
+    /***
+     * @param array $fileInfo
+     * @return FileStorage
+     */
+    public function createFileFromStorageInfo(array $fileInfo) : FileStorage
+    {
+        $fileEntity = new FileStorage();
+
+        $fileInfoProcessor = new FileStorageProcessor($this->container->get('form.factory'));
+
+        $file = $fileInfoProcessor->processForm($fileEntity, $fileInfo, true);
+
+        $this->fileStorageRepository->save($file);
+
+        return $file;
     }
 }
