@@ -47,7 +47,7 @@ class PhotoRepository extends DocumentRepository
                    ->field('category')->equals($categoryUuid)
         ;
         $count =  $qb->getQuery()->count();
-        $skip_count = random_int(0, $count);
+        $skip_count = random_int(1, $count-1);
         $qb->skip($skip_count);
 
         return $qb->getQuery()->getSingleResult();
