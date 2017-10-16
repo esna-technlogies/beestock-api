@@ -391,7 +391,7 @@ class InitializerController extends Controller
             $this->get('photo_service.photo_domain')->getDomainService()->createPhoto($photoInfo);
 
 
-            sleep(5);
+            sleep(1);
         }
 
 
