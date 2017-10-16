@@ -2,7 +2,6 @@
 
 namespace CommonServices\PhotoBundle\Controller;
 
-use CommonServices\PhotoBundle\Document\Category;
 use CommonServices\PhotoBundle\Document\Photo;
 use CommonServices\UserServiceBundle\Utility\Api\Pagination\ApiCollectionPagination;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -217,6 +216,26 @@ class PhotoController extends Controller
     {
         if (is_null($photo)) {
             throw new NotFoundException("Photo not found", Response::HTTP_NOT_FOUND);
+        }
+
+        $photoServiceDomain = $this->get('photo_service.photo_domain');
+
+
+        $fileService = $this->get('photo_service.file_storage_domain');
+
+        $storageFile = $fileService->getFileStorageRepository()->findBy(
+            [
+                'fileId' => $photoServiceDomain->getDomainService()->extractFileId($photo->getOriginalFile()),
+                'user'   => $photo->getUser(),
+            ]
+        );
+
+        if ($storageFile !=  null){
+            return new Response(
+                $this->get('user_service.response_serializer')
+                    ->serialize(['photo' => $photo, 'file' => $storageFile ]),
+                Response::HTTP_CREATED
+            );
         }
 
         return new Response(
