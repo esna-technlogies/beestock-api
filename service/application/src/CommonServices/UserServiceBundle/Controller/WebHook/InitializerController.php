@@ -248,8 +248,6 @@ class InitializerController extends Controller
 
         // Emptying current uploads bucket 
 
-        $s3Service = $this->get('aws.s3.file_storage');
-
         // preparing users sample photos
 
         $copiedObjects = [];
@@ -357,6 +355,8 @@ class InitializerController extends Controller
         ];
 
         foreach ($copiedObjects as $object){
+
+            $s3Service = $this->get('aws.s3.file_storage');
 
             $s3Service->copyS3Object($object);
 
