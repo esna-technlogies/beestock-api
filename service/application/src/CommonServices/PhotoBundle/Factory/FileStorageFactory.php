@@ -61,20 +61,33 @@ class FileStorageFactory
 
     /**
      * @param string $fileUrl
-     * @return string
+     * @return array
      */
-    public function getFileId(string $fileUrl) : string
+    public function getFileStorageParameters(string $fileUrl) : array
     {
         // cleansing url
         $count = 1;
         $fileUrl = str_replace('https://', '',$fileUrl, $count);
         $info = explode('.s3-us-west-2.amazonaws.com/', $fileUrl);
 
-        $fileName = urldecode($info[1]);
+        $bucketName = urldecode($info[0]);
+        $fileKey = urldecode($info[1]);
 
-        $fileId = explode('.', $fileName)[1];
+        $userId = explode('/', $fileKey)[0];
+        $fileNameWithExtension = explode('/', $fileKey)[1];
 
-        return $fileId;
+        $fileName = explode('.', $fileNameWithExtension)[0];
+        $fileId   = explode('_', $fileName)[0];
+        $fileExtension   = explode('.', $fileNameWithExtension)[1];
+
+        return [
+            'fileExtension'         => $fileExtension,
+            'fileId'                => $fileId,
+            'fileNameWithExtension' => $fileNameWithExtension,
+            'fileName'              => $fileName,
+            'bucketName'            => $bucketName,
+            'userId'                => $userId,
+        ];
     }
 
     /***

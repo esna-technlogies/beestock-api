@@ -358,7 +358,8 @@ class InitializerController extends Controller
 
         foreach ($copiedObjects as $object){
 
-            $s3Service->copyS3Object($object);
+            /** @var  $copyResult */
+            $copyResult = $s3Service->copyS3Object($object);
 
             $title = ucwords($photoTitles[rand(0,sizeof($photoTitles)-1)])." ".strtolower(strrev($photoTitles[rand(0,sizeof($photoTitles)-1)]));
 
@@ -384,14 +385,12 @@ class InitializerController extends Controller
                 'user'           => $object['uid'],
                 'category'       => $object['cid'],
                 'keywords'       => implode(",", $keywords),
-                'originalFile'   => 'https://'.$object['to']['bucket'].'.s3-us-west-2.amazonaws.com/'.$object['to']['key'],
+                'originalFile'   => $copyResult->get('@metadata')['effectiveUri'],
                 'suggestedPrice' => rand(100, 999),
             ];
 
             $this->get('photo_service.photo_domain')->getDomainService()->createPhoto($photoInfo);
         }
-
-
 
         $this->get('aws.user.sns')->publishUserEvent('test-users', UserAccountSuccessfullyCreatedEvent::NAME);
 

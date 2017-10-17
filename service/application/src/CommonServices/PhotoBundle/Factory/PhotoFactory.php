@@ -33,13 +33,13 @@ class PhotoFactory
         $this->container = $container;
     }
 
-    public function createPhotoFromUploadInfo(array $photoInfo) : Photo
+    public function createPhotoFromUploadInfo(array $photoInfo, array $fileStorage) : Photo
     {
         $photoEntity = new Photo();
 
         $photoInfoProcessor = new PhotoInfoProcessor($this->container->get('form.factory'));
 
-        $photo = $photoInfoProcessor->processForm($photoEntity, $photoInfo, true);
+        $photo = $photoInfoProcessor->processForm($photoEntity, $photoInfo, $fileStorage, true);
 
         $this->photoRepository->save($photo);
 

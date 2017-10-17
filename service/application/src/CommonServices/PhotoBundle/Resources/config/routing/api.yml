@@ -41,25 +41,6 @@ photo_service_get_photo:
     path:     /photo/{uuid}
     defaults: { _controller: PhotoBundle:Photo:get }
 
-
-## Thumbnail resource
-photo_service_get_thumbnails:
-    methods: [GET]
-    path:     /thumbnail/photo/{uuid}
-    defaults: { _controller: PhotoBundle:Thumbnail:getThumbnails}
-
-photo_service_regenerate_thumbnails:
-    methods: [GET]
-    path:     /thumbnail/regenerate/photo/{uuid}
-    defaults: { _controller: PhotoBundle:Thumbnail:regenerate}
-
-photo_service_custom_ratio_thumbnails:
-    methods: [GET]
-    path:     /thumbnail/custom/photo/{uuid}
-    defaults: { _controller: PhotoBundle:Thumbnail:getCustomRatio}
-
-
-
 ## Photo categories
 photo_service_list_categories:
     methods: [GET]

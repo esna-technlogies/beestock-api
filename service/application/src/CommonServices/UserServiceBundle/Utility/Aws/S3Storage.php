@@ -1,6 +1,7 @@
 <?php
 
 namespace CommonServices\UserServiceBundle\Utility\Aws;
+use Aws\Result;
 use Aws\S3\PostObjectV4;
 use Aws\S3\S3Client;
 use RecursiveDirectoryIterator;
@@ -161,10 +162,11 @@ class S3Storage
     /**
      * @param array $object
      *
-     * @return object
+     * @return Result
      */
-    public function copyS3Object(array $object)
+    public function copyS3Object(array $object) : Result
     {
+        /** @var Result $x */
         return $this->s3Client->copyObject(
             [
                 'Bucket'     => $object['to']['bucket'],

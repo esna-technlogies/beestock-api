@@ -94,25 +94,18 @@ class Photo
     protected $originalFile;
 
     /**
-     * @MongoDB\Field(type="collection")
+     * @MongoDB\Field(type="boolean")
      */
-    protected $thumbnails = [];
+    protected $approved  = false;
+    /**
+     * @MongoDB\Field(type="string")
+     */
+    protected $adminComment;
 
     /**
-     * @return mixed
+     * @MongoDB\EmbedOne(targetDocument="CommonServices\PhotoBundle\Document\Storage")
      */
-    public function getThumbnails()
-    {
-        return $this->thumbnails;
-    }
-
-    /**
-     * @param mixed $thumbnails
-     */
-    public function setThumbnails($thumbnails)
-    {
-        $this->thumbnails = $thumbnails;
-    }
+    protected $fileStorage;
 
     /**
      * @return string
@@ -162,6 +155,39 @@ class Photo
     {
         $this->uuid = $uuid;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getApproved() : bool
+    {
+        return $this->approved;
+    }
+
+    /**
+     * @param mixed $approved
+     */
+    public function setApproved($approved)
+    {
+        $this->approved = $approved;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdminComment() : string
+    {
+        return $this->adminComment;
+    }
+
+    /**
+     * @param mixed $adminComment
+     */
+    public function setAdminComment($adminComment)
+    {
+        $this->adminComment = $adminComment;
+    }
+
 
     /**
      * @return \DateTime
@@ -273,6 +299,22 @@ class Photo
     public function setKeywords($keywords)
     {
         $this->keywords = explode(",", $keywords);
+    }
+
+    /**
+     * @return Storage
+     */
+    public function getFileStorage() : Storage
+    {
+        return $this->fileStorage;
+    }
+
+    /**
+     * @param mixed $fileStorage
+     */
+    public function setFileStorage(Storage $fileStorage)
+    {
+        $this->fileStorage = $fileStorage;
     }
 
     /**

@@ -5,6 +5,7 @@ namespace CommonServices\PhotoBundle\Domain\Photo;
 use CommonServices\PhotoBundle\Document\Category;
 use CommonServices\PhotoBundle\Document\Photo;
 use CommonServices\PhotoBundle\Repository\PhotoRepository;
+use function print_r;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use CommonServices\UserServiceBundle\Exception\InvalidFormException;
 
@@ -47,7 +48,11 @@ class PhotoDomainService
     {
         $photoFactory = $this->container->get('photo_service.factory.photo_factory');
 
-        return $photoFactory->createPhotoFromUploadInfo($photoInfo);
+        $fileService = $this->container->get('photo_service.factory.file_storage_factory');
+
+        $fileStorage = $fileService->getFileStorageParameters($photoInfo['originalFile']);
+
+        return $photoFactory->createPhotoFromUploadInfo($photoInfo, $fileStorage);
 
     }
 
@@ -61,7 +66,7 @@ class PhotoDomainService
     {
         $fileService = $this->container->get('photo_service.factory.file_storage_factory');
 
-        return $fileService->getFileId($fileUrl);
+        return $fileService->getFileStorageParameters($fileUrl)['fileId'];
     }
 
 

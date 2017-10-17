@@ -36,17 +36,18 @@ class PhotoInfoProcessor
      *
      * @param Photo $photo
      * @param array $parameters
+     * @param array $fileStorage
      * @param boolean $clearMissingInfo
      *
      * @return Photo
      * @throws InvalidFormException
      */
-    public function processForm(Photo $photo, array $parameters, $clearMissingInfo = true) : Photo
+    public function processForm(Photo $photo, array $parameters, array $fileStorage, $clearMissingInfo = true) : Photo
     {
         $uuid = is_null($photo->getUuid())? '' : $photo->getUuid();
 
         $form =  $this->formFactory
-                        ->createBuilder(PhotoType::class, $photo, ['uuid' => $uuid])
+                        ->createBuilder(PhotoType::class, $photo, ['uuid' => $uuid, 'fileStorage' => $fileStorage])
                         ->getForm();
         $form->submit($parameters, $clearMissingInfo);
 

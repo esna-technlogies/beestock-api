@@ -1,2 +1,6 @@
 services:
-    # Mobile number validator
+    photo_service.type.storage_type:
+        class: CommonServices\PhotoBundle\Form\Type\StorageType
+        arguments: ["@=service('doctrine_mongodb').getManager()"]
+        tags:
+            - { name: form.type }

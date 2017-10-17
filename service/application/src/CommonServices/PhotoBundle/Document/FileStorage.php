@@ -183,22 +183,6 @@ class FileStorage
     }
 
     /**
-     * @return mixed
-     */
-    public function getExtensions()
-    {
-        return $this->extensions;
-    }
-
-    /**
-     * @param mixed $extensions
-     */
-    public function setExtensions($extensions)
-    {
-        $this->extensions = explode(",", $extensions);
-    }
-
-    /**
      * @param mixed $sizes
      */
     public function setSizes($sizes)
