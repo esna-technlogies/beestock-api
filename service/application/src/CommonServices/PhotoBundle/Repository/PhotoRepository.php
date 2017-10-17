@@ -36,21 +36,59 @@ class PhotoRepository extends DocumentRepository
 
         return $queryPaginationHandler;
     }
+
+    /**
+     * @param int $startPage
+     * @param int $resultsPerPage
+     * @param string $user
+     * @param string $category
+     * @return QueryPaginationHandler
+     */
+    public function findAllPhotosByFilter(int $startPage, int $resultsPerPage, string $user ='', string $category ='') : QueryPaginationHandler
+    {
+        $queryPaginationHandler = new QueryPaginationHandler($startPage, $resultsPerPage);
+
+        $query = $this->createQueryBuilder()
+            ->sort('created', 'DESC')
+            ->limit($queryPaginationHandler->getResultsPerPage());
+
+        if ($user != ''){
+            $query = $query->field('user')->equals($user);
+        }
+
+        if ($category != ''){
+            $query = $query->field('category')->equals($category);
+        }
+
+        $query = $query->skip($queryPaginationHandler->getResultsToSkip())
+                ->getQuery()
+                ->execute()
+        ;
+
+        $queryPaginationHandler->setCountOfTotalResults($query->count());
+        $queryPaginationHandler->setQueryResults($query->toArray(true));
+
+        return $queryPaginationHandler;
+    }
+
     /**
      * @param string $categoryUuid
      * @return mixed
      */
-    public function findRandomPhoto(string $categoryUuid) : ?Photo
+    public function findRandomPhoto(string $categoryUuid) : Photo
     {
-        $qb = $this->getDocumentManager()
-                   ->createQueryBuilder()
+        $qb = $this->createQueryBuilder()
                    ->field('category')->equals($categoryUuid)
         ;
         $count =  $qb->getQuery()->count();
-        $skip_count = random_int(1, $count-1);
-        $qb->skip($skip_count);
 
-        return $qb->getQuery()->getSingleResult();
+        if ($count > 1){
+            $skip_count = random_int(0, $count-1);
+            $qb->skip($skip_count);
+            return  $qb->getQuery()->getSingleResult();
+        }
+
+        return  $qb->getQuery()->getSingleResult();
     }
 
     /**

@@ -119,7 +119,7 @@ class User
      * @MongoDB\Field(type="boolean")
      * @Assert\NotBlank()
      */
-    protected $termsAccepted;
+    protected $termsAccepted = false;
 
     /**
      * @MongoDB\Field(type="string")
@@ -334,11 +334,11 @@ class User
     /**
      * Get created
      *
-     * @return \DateTime $created
+     * @return int $created
      */
     public function getCreated()
     {
-        return $this->created;
+        return $this->created->getTimestamp();
     }
 
     /**
@@ -356,11 +356,11 @@ class User
     /**
      * Get lastChange
      *
-     * @return \DateTime $lastChange
+     * @return int $lastChange
      */
     public function getLastChange()
     {
-        return $this->lastChange;
+        return $this->lastChange->getTimestamp();
     }
 
     /**

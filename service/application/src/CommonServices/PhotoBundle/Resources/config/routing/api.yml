@@ -36,6 +36,16 @@ photo_service_list_photos:
     path:     /photo
     defaults: { _controller: PhotoBundle:Photo:list}
 
+photo_service_list_photos_with_filters_by_user:
+    methods: [GET]
+    path:     /photo/filter-by/user/{uuid}
+    defaults: { _controller: PhotoBundle:Photo:filterByUser}
+
+photo_service_list_photos_with_filters_by_category:
+    methods: [GET]
+    path:     /photo/filter-by/category/{uuid}
+    defaults: { _controller: PhotoBundle:Photo:filterByCategory}
+
 photo_service_get_photo:
     methods: [GET]
     path:     /photo/{uuid}

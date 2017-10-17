@@ -2,7 +2,9 @@
 
 namespace CommonServices\PhotoBundle\Controller;
 
+use CommonServices\PhotoBundle\Document\Category;
 use CommonServices\PhotoBundle\Document\Photo;
+use CommonServices\UserServiceBundle\Document\User;
 use CommonServices\UserServiceBundle\Utility\Api\Pagination\ApiCollectionPagination;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -56,6 +58,124 @@ class PhotoController extends Controller
         ));
 
         $resultsHandler =  $this->get('photo_service.photo_domain')->getPhotoRepository()->findAllPhotos($startPage, $resultsPerPage);
+
+        $resultsPaginator = new ApiCollectionPagination(
+            $resultsHandler,
+            $this->get('router'),
+            'photo_service_list_photos'
+        );
+
+        if (!$resultsPaginator->getResultCollection()) {
+            throw $this->createNotFoundException('No photos found in the system.');
+        }
+
+        $results = $resultsPaginator->getHateoasFriendlyResults('photos');
+
+        return new Response(
+            $this->get('user_service.response_serializer')->serialize($results),
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Lists all photos in the system filtered by user
+     *
+     * @ParamConverter()
+     *
+     * @param User $user
+     *
+     * @return Response
+     * @ApiDoc(
+     *  section="Photo",
+     *  description="Lists all photos in the system filtered by user",
+     *  output="Symfony\Component\HttpFoundation\Response",
+     *  tags={"stable"},
+     *  headers={
+     *    {
+     *        "name"="Authorization",
+     *        "description"="Bearer token",
+     *    }
+     *  },
+     *  filters={
+     *      {"name"="page", "dataType"="integer"},
+     *      {"name"="limit", "dataType"="integer"}
+     *  },
+     *  statusCodes={
+     *         200="Returned when successful, all photos are listed",
+     *         400="Bad request: The system is unable to process the request",
+     *         404="No photos were found"
+     *  }
+     * )
+     *
+     */
+    public function filterByUserAction(User $user)
+    {
+        $startPage      = abs(filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options'=>['default' => 1 ]]));
+        $resultsPerPage = abs(filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT,
+            ['options'=>['default' => self::PHOTO_COLLECTION_LISTING_RESULTS_PER_PAGE ]]
+        ));
+
+
+        $resultsHandler =  $this->get('photo_service.photo_domain')->getPhotoRepository()->findAllPhotosByFilter($startPage, $resultsPerPage, $user->getUuid());
+
+        $resultsPaginator = new ApiCollectionPagination(
+            $resultsHandler,
+            $this->get('router'),
+            'photo_service_list_photos'
+        );
+
+        if (!$resultsPaginator->getResultCollection()) {
+            throw $this->createNotFoundException('No photos found in the system.');
+        }
+
+        $results = $resultsPaginator->getHateoasFriendlyResults('photos');
+
+        return new Response(
+            $this->get('user_service.response_serializer')->serialize($results),
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Lists all photos in the system filtered by category
+     *
+     * @ParamConverter()
+     *
+     * @param Category $category
+     *
+     * @return Response
+     * @ApiDoc(
+     *  section="Photo",
+     *  description="Lists all photos in the system filtered by category",
+     *  output="Symfony\Component\HttpFoundation\Response",
+     *  tags={"stable"},
+     *  headers={
+     *    {
+     *        "name"="Authorization",
+     *        "description"="Bearer token",
+     *    }
+     *  },
+     *  filters={
+     *      {"name"="page", "dataType"="integer"},
+     *      {"name"="limit", "dataType"="integer"}
+     *  },
+     *  statusCodes={
+     *         200="Returned when successful, all photos are listed",
+     *         400="Bad request: The system is unable to process the request",
+     *         404="No photos were found"
+     *  }
+     * )
+     *
+     */
+    public function filterByCategoryAction(Category $category)
+    {
+        $startPage      = abs(filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options'=>['default' => 1 ]]));
+        $resultsPerPage = abs(filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT,
+            ['options'=>['default' => self::PHOTO_COLLECTION_LISTING_RESULTS_PER_PAGE ]]
+        ));
+
+
+        $resultsHandler =  $this->get('photo_service.photo_domain')->getPhotoRepository()->findAllPhotosByFilter($startPage, $resultsPerPage, '', $category->getUuid());
 
         $resultsPaginator = new ApiCollectionPagination(
             $resultsHandler,
@@ -151,23 +271,6 @@ class PhotoController extends Controller
 
         $photo = $photoServiceDomain->getDomainService()->createPhoto($photoInfo);
 
-        $fileService = $this->get('photo_service.file_storage_domain');
-
-        $storageFile = $fileService->getFileStorageRepository()->findBy(
-            [
-                'fileId' => $photoServiceDomain->getDomainService()->extractFileId($photo->getOriginalFile()),
-                'user'   => $photo->getUser(),
-            ]
-        );
-
-        if ($storageFile !=  null){
-            return new Response(
-                $this->get('user_service.response_serializer')
-                    ->serialize(['photo' => $photo, 'file' => $storageFile ]),
-                Response::HTTP_CREATED
-            );
-        }
-
         return new Response(
             $this->get('user_service.response_serializer')
                 ->serialize(['photo' => $photo]),
@@ -216,25 +319,6 @@ class PhotoController extends Controller
     {
         if (is_null($photo)) {
             throw new NotFoundException("Photo not found", Response::HTTP_NOT_FOUND);
-        }
-
-        $photoServiceDomain = $this->get('photo_service.photo_domain');
-
-        $fileService = $this->get('photo_service.file_storage_domain');
-
-        $storageFile = $fileService->getFileStorageRepository()->findBy(
-            [
-                'fileId' => $photoServiceDomain->getDomainService()->extractFileId($photo->getOriginalFile()),
-                'user'   => $photo->getUser(),
-            ]
-        );
-
-        if ($storageFile !=  null){
-            return new Response(
-                $this->get('user_service.response_serializer')
-                    ->serialize(['photo' => $photo, 'file' => $storageFile ]),
-                Response::HTTP_CREATED
-            );
         }
 
         return new Response(

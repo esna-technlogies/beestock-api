@@ -116,7 +116,7 @@ class CategoryController extends Controller
             throw new NotFoundException("Category not found", Response::HTTP_NOT_FOUND);
         }
 
-        $photo = $this->get('photo_service.photo_domain')->getPhotoRepository()->findRandomPhoto($category);
+        $photo = $this->get('photo_service.photo_domain')->getPhotoRepository()->findRandomPhoto($category->getUuid());
 
         return new Response(
             $this->get('user_service.response_serializer')

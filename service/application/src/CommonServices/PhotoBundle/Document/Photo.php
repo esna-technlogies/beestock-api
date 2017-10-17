@@ -190,11 +190,11 @@ class Photo
 
 
     /**
-     * @return \DateTime
+     * @return int
      */
-    public function getCreated(): \DateTime
+    public function getCreated(): int
     {
-        return $this->created;
+        return $this->created->getTimestamp();
     }
 
     /**
@@ -206,11 +206,11 @@ class Photo
     }
 
     /**
-     * @return \DateTime
+     * @return int
      */
-    public function getLastChange(): \DateTime
+    public function getLastChange(): int
     {
-        return $this->lastChange;
+        return $this->lastChange->getTimestamp();
     }
 
     /**
