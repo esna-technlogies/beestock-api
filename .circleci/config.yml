@@ -1,0 +1,78 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2  # This indicates a circleci version
+jobs:
+  build:
+    working_directory: ~/app
+
+    # The docker image used which is built with docker engine v18.03.0-ce
+    docker:
+      - image: docker:18.03.0-ce-git
+
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      # This prepares required dependencies for the whole deployment process (ex: pip, awscli, etc...)
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --no-cache py-pip
+            pip install awscli
+            pip install docker-compose
+
+      # This builds docker images using docker-compose.yml under ./infrastructure/development/docker/ directory
+      - run:
+          name: Build Docker Images Using Docker Compose
+          command: docker-compose build
+          working_directory: ./infrastructure/development/docker
+
+      - run:
+          name: List Docker Images
+          command: docker images
+
+      # This will start the process of deployment on AWS ECS as following:
+      # NOTES:
+      # - $AWS_ACCOUNT_ID is an Environment variable configured on project settings on CircleCI itself
+      #   This should be set to continue.
+      # - All environment variables such $CLUSTER, $TASK, $FAMILY, $SERVICE, $CONTAINER_NAME, $DOCKER_IMAGE
+      #   should match the same configuration done by terraform for building the infrastructure
+      # - As configured by Terraform, this will deploy a container image with port 8080 exposed as 8081
+#      - deploy:
+#          name: Push Docker Image to AWS ECR
+#          command: |
+#            AWS_REGION='us-west-2'
+#            CLUSTER='dev-beestock'
+#            TASK='dev-webapp'
+#            FAMILY='dev-webapp'
+#            SERVICE='webapp-service'
+#            CONTAINER_NAME='dev-webapp'
+#            DOCKER_IMAGE='dev-beestock-webapp'
+#            aws configure set region $AWS_REGION
+#            $(aws ecr get-login --no-include-email --region $AWS_REGION)
+#            docker tag $DOCKER_IMAGE $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$DOCKER_IMAGE:latest
+#            docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$DOCKER_IMAGE:latest
+#            docker tag $DOCKER_IMAGE $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$DOCKER_IMAGE:$CIRCLE_SHA1
+#            docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$DOCKER_IMAGE:$CIRCLE_SHA1
+#            task_template='[
+#              {
+#                "name": "%s",
+#                "image": "%s.dkr.ecr.%s.amazonaws.com/%s:latest",
+#                "essential": true,
+#                "cpu": 10,
+#                "memory": 300,
+#                "portMappings": [
+#                  {
+#                    "containerPort": 8080,
+#                    "hostPort": 8080
+#                  }
+#                ]
+#              }
+#            ]'
+#            task_def=$(printf "$task_template" $CONTAINER_NAME $AWS_ACCOUNT_ID $AWS_REGION $DOCKER_IMAGE)
+#            json=$(aws ecs register-task-definition --container-definitions "$task_def" --family "$FAMILY")
+#            revision=$(echo "$json" | grep -o '"revision": [0-9]*' | grep -Eo '[0-9]+')
+#            aws ecs update-service --force-new-deployment --cluster "$CLUSTER" --service "$SERVICE" --task-definition "$TASK":"$revision"
+#            return 0
