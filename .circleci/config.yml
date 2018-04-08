@@ -87,7 +87,6 @@ jobs:
                  "image": "%s.dkr.ecr.%s.amazonaws.com/%s:latest",
                  "memory": 128,
                  "essential": true,
-                 "expanded": true,
                  "portMappings": [
                    {
                      "hostPort": 80,
