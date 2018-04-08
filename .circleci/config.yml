@@ -25,7 +25,7 @@ jobs:
             pip install docker-compose
             pip install curl
 
-            curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
+            wget -O /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
             chmod +x /usr/local/bin/ecs-cli
 
             ecs-cli configure profile --profile-name devops --access-key $AWS_ACCESS_KEY_ID --secret-key $AWS_SECRET_ACCESS_KEY
