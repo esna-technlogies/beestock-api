@@ -171,22 +171,6 @@ jobs:
              ]'
 
 
-            '[
-              {
-                "name": "%s",
-                "image": "%s.dkr.ecr.%s.amazonaws.com/%s:latest",
-                "essential": true,
-                "cpu": 10,
-                "memory": 300,
-                "portMappings": [
-                  {
-                    "containerPort": 8080,
-                    "hostPort": 8080
-                  }
-                ]
-              }
-            ]'
-
             task_def=$(printf "$task_template" $CONTAINER_NAME $AWS_ACCOUNT_ID $AWS_REGION $NGINX_DOCKER_IMAGE $AWS_ACCOUNT_ID $AWS_REGION $PHP_FPM_DOCKER_IMAGE $AWS_ACCOUNT_ID $AWS_REGION $IMAGE_MAGICK $AWS_ACCOUNT_ID $AWS_REGION $MONGODB_DOCKER_IMAGE)
 
             json=$(aws ecs register-task-definition --container-definitions "$task_def" --family "$FAMILY")
