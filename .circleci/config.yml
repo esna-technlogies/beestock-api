@@ -51,6 +51,7 @@ jobs:
       # - As configured by Terraform, this will deploy a container image with port 8080 exposed as 8081
       - deploy:
           name: Push Docker Images to AWS ECR
+          working_directory: ./infrastructure/development/docker
           command: |
             AWS_REGION='us-east-2'
             CLUSTER='dev-beestock'
