@@ -29,6 +29,7 @@ jobs:
           command: docker-compose build
           working_directory: ./infrastructure/development/docker
 
+
       - run:
           name: List Docker Images
           command: docker images
