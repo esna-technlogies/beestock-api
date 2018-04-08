@@ -50,7 +50,7 @@ jobs:
       #   should match the same configuration done by terraform for building the infrastructure
       # - As configured by Terraform, this will deploy a container image with port 8080 exposed as 8081
       - deploy:
-          name: Push Docker Image to AWS ECR
+          name: Push Docker Images to AWS ECR
           command: |
             AWS_REGION='us-east-2'
             CLUSTER='dev-beestock'
@@ -81,100 +81,102 @@ jobs:
             docker tag $PHP_FPM_DOCKER_IMAGE $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PHP_FPM_DOCKER_IMAGE:$CIRCLE_SHA1
             docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PHP_FPM_DOCKER_IMAGE:$CIRCLE_SHA1
 
-            task_template='[
-               {
-                 "name": "%s",
-                 "image": "%s.dkr.ecr.%s.amazonaws.com/%s:latest",
-                 "memory": 128,
-                 "essential": true,
-                 "portMappings": [
-                   {
-                     "hostPort": 80,
-                     "protocol": "tcp",
-                     "containerPort": 80
-                   }
-                 ],
-                 "mountPoints": [
-                   {
-                     "readOnly": false,
-                     "containerPath": "/service",
-                     "sourceVolume": "volume-0"
-                   },
-                   {
-                     "readOnly": false,
-                     "containerPath": "/etc/nginx/conf.d/default.conf",
-                     "sourceVolume": "volume-1"
-                   }
-                 ],
-                 "logConfiguration": {
-                   "logDriver": "syslog",
-                   "options": {}
-                 }
-               },
-               {
-                 "name": "php-fpm",
-                 "image": "%s.dkr.ecr.%s.amazonaws.com/%s:latest",
-                 "memory": 128,
-                 "essential": true,
-                 "portMappings": [
-                   {
-                     "hostPort": 9000,
-                     "protocol": "tcp",
-                     "containerPort": 9000
-                   }
-                 ],
-                 "environment": [
-                   {
-                     "name": "XDEBUG_CONFIG",
-                     "value": "remote_host=192.168.178.139"
-                   }
-                 ],
-                 "mountPoints": [
-                   {
-                     "readOnly": false,
-                     "containerPath": "/service",
-                     "sourceVolume": "volume-0"
-                   }
-                 ],
-                 "logConfiguration": {
-                   "logDriver": "syslog",
-                   "options": {}
-                 }
-               },
-               {
-                 "name": "image-magick",
-                 "image": "%s.dkr.ecr.%s.amazonaws.com/%s:latest",
-                 "memory": 128,
-                 "essential": true,
-                 "logConfiguration": {
-                   "logDriver": "syslog",
-                   "options": {}
-                 }
-               },
-               {
-                 "name": "mongodb",
-                 "image": "%s.dkr.ecr.%s.amazonaws.com/%s:latest",
-                 "memory": 128,
-                 "portMappings": [
-                   {
-                     "hostPort": 27017,
-                     "protocol": "tcp",
-                     "containerPort": 27017
-                   }
-                 ],
-                 "logConfiguration": {
-                   "logDriver": "syslog",
-                   "options": {}
-                 }
-               }
-             ]'
+            ecs-cli compose --file "ecs-docker-compose.yml" --cluster "$CLUSTER" --region "$AWS_REGION" --project-name $TASK up
 
-
-            task_def=$(printf "$task_template" $CONTAINER_NAME $AWS_ACCOUNT_ID $AWS_REGION $NGINX_DOCKER_IMAGE $AWS_ACCOUNT_ID $AWS_REGION $PHP_FPM_DOCKER_IMAGE $AWS_ACCOUNT_ID $AWS_REGION $IMAGE_MAGICK $AWS_ACCOUNT_ID $AWS_REGION $MONGODB_DOCKER_IMAGE)
-
-            json=$(aws ecs register-task-definition --container-definitions "$task_def" --family "$FAMILY")
-
-            revision=$(echo "$json" | grep -o '"revision": [0-9]*' | grep -Eo '[0-9]+')
-
-            aws ecs update-service --force-new-deployment --cluster "$CLUSTER" --service "$SERVICE" --task-definition "$TASK":"$revision"
+            aws ecs update-service --force-new-deployment --cluster "$CLUSTER" --service "$SERVICE"
             return 0
+
+#task_template='[
+#   {
+#     "name": "%s",
+#     "image": "%s.dkr.ecr.%s.amazonaws.com/%s:latest",
+#     "memory": 128,
+#     "essential": true,
+#     "portMappings": [
+#       {
+#         "hostPort": 80,
+#         "protocol": "tcp",
+#         "containerPort": 80
+#       }
+#     ],
+#     "mountPoints": [
+#       {
+#         "readOnly": false,
+#         "containerPath": "/service",
+#         "sourceVolume": "volume-0"
+#       },
+#       {
+#         "readOnly": false,
+#         "containerPath": "/etc/nginx/conf.d/default.conf",
+#         "sourceVolume": "volume-1"
+#       }
+#     ],
+#     "logConfiguration": {
+#       "logDriver": "syslog",
+#       "options": {}
+#     }
+#   },
+#   {
+#     "name": "php-fpm",
+#     "image": "%s.dkr.ecr.%s.amazonaws.com/%s:latest",
+#     "memory": 128,
+#     "essential": true,
+#     "portMappings": [
+#       {
+#         "hostPort": 9000,
+#         "protocol": "tcp",
+#         "containerPort": 9000
+#       }
+#     ],
+#     "environment": [
+#       {
+#         "name": "XDEBUG_CONFIG",
+#         "value": "remote_host=192.168.178.139"
+#       }
+#     ],
+#     "mountPoints": [
+#       {
+#         "readOnly": false,
+#         "containerPath": "/service",
+#         "sourceVolume": "volume-0"
+#       }
+#     ],
+#     "logConfiguration": {
+#       "logDriver": "syslog",
+#       "options": {}
+#     }
+#   },
+#   {
+#     "name": "image-magick",
+#     "image": "%s.dkr.ecr.%s.amazonaws.com/%s:latest",
+#     "memory": 128,
+#     "essential": true,
+#     "logConfiguration": {
+#       "logDriver": "syslog",
+#       "options": {}
+#     }
+#   },
+#   {
+#     "name": "mongodb",
+#     "image": "%s.dkr.ecr.%s.amazonaws.com/%s:latest",
+#     "memory": 128,
+#     "portMappings": [
+#       {
+#         "hostPort": 27017,
+#         "protocol": "tcp",
+#         "containerPort": 27017
+#       }
+#     ],
+#     "logConfiguration": {
+#       "logDriver": "syslog",
+#       "options": {}
+#     }
+#   }
+# ]'
+#
+#
+#task_def=$(printf "$task_template" $CONTAINER_NAME $AWS_ACCOUNT_ID $AWS_REGION $NGINX_DOCKER_IMAGE $AWS_ACCOUNT_ID $AWS_REGION $PHP_FPM_DOCKER_IMAGE $AWS_ACCOUNT_ID $AWS_REGION $IMAGE_MAGICK $AWS_ACCOUNT_ID $AWS_REGION $MONGODB_DOCKER_IMAGE)
+#
+#json=$(aws ecs register-task-definition --container-definitions "$task_def" --family "$FAMILY")
+#
+#revision=$(echo "$json" | grep -o '"revision": [0-9]*' | grep -Eo '[0-9]+')
