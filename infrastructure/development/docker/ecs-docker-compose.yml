@@ -2,7 +2,7 @@ version: '2'
 services:
   nginx-server:
       image: 014519795457.dkr.ecr.us-east-2.amazonaws.com/docker_nginx-server:latest
-      mem_limit: 134217728
+      mem_limit: 1073741824
       ports:
           - "80:80"
 #      volumes:
@@ -13,13 +13,13 @@ services:
 
   image-magick:
       image: 014519795457.dkr.ecr.us-east-2.amazonaws.com/docker_image-magick:latest
-      mem_limit: 134217728
+      mem_limit: 536870912
       logging:
         driver: syslog
 
   mongodb:
       image: 014519795457.dkr.ecr.us-east-2.amazonaws.com/docker_mongodb:latest
-      mem_limit: 134217728
+      mem_limit: 1073741824
       ports:
           - "27017:27017"
       logging:
@@ -27,7 +27,7 @@ services:
 
   php-fpm:
       image: 014519795457.dkr.ecr.us-east-2.amazonaws.com/docker_php-fpm:latest
-      mem_limit: 402653184
+      mem_limit: 1342177280
       ports:
           - "9000:9000"
       environment:
