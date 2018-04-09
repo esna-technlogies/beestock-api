@@ -19,7 +19,7 @@ services:
 
   mongodb:
       image: 014519795457.dkr.ecr.us-east-2.amazonaws.com/docker_mongodb:latest
-      mem_limit: 134217728
+      mem_limit: 402653184
       ports:
           - "27017:27017"
       logging:
@@ -27,7 +27,7 @@ services:
 
   php-fpm:
       image: 014519795457.dkr.ecr.us-east-2.amazonaws.com/docker_php-fpm:latest
-      mem_limit: 134217728
+      mem_limit: 402653184
       ports:
           - "9000:9000"
       environment:
