@@ -19,7 +19,7 @@ services:
 
   mongodb:
       image: 014519795457.dkr.ecr.us-east-2.amazonaws.com/docker_mongodb:latest
-      mem_limit: 402653184
+      mem_limit: 134217728
       ports:
           - "27017:27017"
       logging:
