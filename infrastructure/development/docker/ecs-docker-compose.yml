@@ -5,9 +5,9 @@ services:
       mem_limit: 134217728
       ports:
           - "80:80"
-      volumes:
-          - ../../../service:/service
-          - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
+#      volumes:
+#          - ../../../service:/service
+#          - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
       logging:
         driver: syslog
 
@@ -32,7 +32,7 @@ services:
           - "9000:9000"
       environment:
           XDEBUG_CONFIG: remote_host=192.168.178.139
-      volumes:
-          - ../../../service:/service
+#      volumes:
+#          - ../../../service:/services
       logging:
         driver: syslog

@@ -83,7 +83,7 @@ jobs:
 
             ecs-cli compose --file "ecs-docker-compose.yml" --cluster "$CLUSTER" --region "$AWS_REGION" --project-name $TASK up
 
-            aws ecs update-service --force-new-deployment --cluster "$CLUSTER" --service "$SERVICE"
+            aws ecs update-service --force-new-deployment --cluster "$CLUSTER" --service "$SERVICE" --task-definition "$TASK":"$revision"
             return 0
           working_directory: ./infrastructure/development/docker
 
