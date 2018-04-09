@@ -1,0 +1,38 @@
+version: '2'
+services:
+  nginx-server:
+      image: 014519795457.dkr.ecr.us-east-2.amazonaws.com/docker_nginx-server:latest
+      mem_limit: 134217728
+      ports:
+          - "80:80"
+      volumes:
+          - ../../../service:/service
+          - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
+      logging:
+        driver: syslog
+
+  image-magick:
+      image: 014519795457.dkr.ecr.us-east-2.amazonaws.com/docker_image-magick:latest
+      mem_limit: 134217728
+      logging:
+        driver: syslog
+
+  mongodb:
+      image: 014519795457.dkr.ecr.us-east-2.amazonaws.com/docker_mongodb:latest
+      mem_limit: 134217728
+      ports:
+          - "27017:27017"
+      logging:
+        driver: syslog
+
+  php-fpm:
+      image: 014519795457.dkr.ecr.us-east-2.amazonaws.com/docker_php-fpm:latest
+      mem_limit: 134217728
+      ports:
+          - "9000:9000"
+      environment:
+          XDEBUG_CONFIG: remote_host=192.168.178.139
+      volumes:
+          - ../../../service:/service
+      logging:
+        driver: syslog
