@@ -145,5 +145,3 @@ The bhat functional tests are using Mink - without selenium - the base_url value
     
     work in progress 
 
-
-## Continuous Integration / Deployment   
