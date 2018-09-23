@@ -1,4 +1,4 @@
-CommonServices \ user microservice
+User Account Microservice
 ==================================
    
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E=7.1-8892BF.svg?style=flat)](https://php.net/)   [![Travis](https://img.shields.io/travis/rust-lang/rust.svg)](https://github.com/almasry/user-service) [![CocoaPods](https://img.shields.io/cocoapods/metrics/doc-percent/AFNetworking.svg)]() 
